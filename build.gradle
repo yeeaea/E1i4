@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.1.4'
+    id 'io.spring.dependency-management' version '1.1.3'
+}
+
+group = 'org.online.lms'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // jpa
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // MVC 환경 개발에 필요한 필수 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    // thymeleaf security ver.6
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    // 타임리프를 뷰템플릿으로 사용
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // 유효성 검사
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
+
+    // 개발할때 소스자동생성 실행시 필요한 라이브러리
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // 실행시 필요한 데이터베이스 jdbc 드라이버
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
