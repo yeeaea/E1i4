@@ -10,13 +10,16 @@
     <header th:replace="fragments/header :: header"></header>
     <!-- header end -->
 
-    <!-- nav start -->
-    <nav th:replace="fragments/sidebar :: sidebar"></nav>
-    <!-- nav end -->
-
-    <!-- content start -->
-    <section layout:fragment="content"></section>
-    <!-- content end -->
+    <div class="container-fluid p-0 m-0 d-flex justify-content-start">
+        <!-- nav start -->
+        <nav th:replace="fragments/sidebar_user :: sidebar_user" style="width: 30%;"></nav>
+        <!-- nav end -->
+        <div class="d-flex flex-column justify-content-center align-items-center" style="width: 70%;">
+            <!-- content start -->
+            <section layout:fragment="content"></section>
+            <!-- content end -->
+        </div>
+    </div>
 
     <!-- footer start -->
     <footer th:replace="fragments/footer :: footer"></footer>
