@@ -14,6 +14,7 @@ spring:
         format-sql: true
         hbm2ddl:
           auto: update
+        dialect: org.hibernate.dialect.MariaDBDialect
     defer-datasource-initialization: true
 
   # MariaDB 데이터베이스 사용 설정
