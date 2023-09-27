@@ -26,6 +26,8 @@ dependencies {
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
     // 타임리프를 뷰템플릿으로 사용
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // 타임리프 레이아웃
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     // 유효성 검사
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
 
