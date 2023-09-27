@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout.html}">
+<head>
+    <title>Content page</title>
+</head>
+    <!-- page 고유 css -->
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{css/css.css}">
+    </th:block>
+
+    <!-- page 고유 javascript -->
+    <th:block layout:fragment="script">
+        <script th:src="@{js/js.js}"></script>
+    </th:block>
+
+    <!-- content start -->
+    <section layout:fragment="content">
+        <p>This is a paragraph from the content page</p>
+    </section>
+    <!-- content end -->
+</html>
