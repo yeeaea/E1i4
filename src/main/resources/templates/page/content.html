@@ -2,7 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout_user.html}">
+      layout:decorate="~{layouts/layout_mem.html}">
 <head>
     <title>Content page</title>
 </head>
@@ -17,8 +17,10 @@
     </th:block>
 
     <!-- content start -->
-    <section layout:fragment="content" style="height: ">
-        <p>This is a paragraph from the content page</p>
+    <section layout:fragment="content">
+        <div class="container">
+            <p>This is a paragraph from the content page</p>
+        </div>
     </section>
     <!-- content end -->
 </html>
