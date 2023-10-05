@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <title>Content page</title>
+</head>
+    <!-- page 고유 css -->
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{css/css.css}">
+    </th:block>
+
+    <!-- page 고유 javascript -->
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/add-lecture.js}"></script>
+    </th:block>
+
+    <!-- content start -->
+    <section layout:fragment="content">
+        <div class="container">
+            <h3>개설 강의 목록</h3>
+            <table class = "table table-hover">
+                <thead>
+                <tr>
+                    <th>강의년도</th>
+                    <th>강의 과정</th>
+                    <th>강의명</th>
+                    <th>강의 설명</th>
+                    <th>강의 시작일</th>
+                    <th>강의 종료일</th>
+
+                </tr>
+                </thead>
+
+                <tbody class="row-6" th:each="lecture : ${lectureInfo}">
+                <tr>
+                    <div>
+                        <td th:text="${lecture.lectureYear}"></td>
+                        <td th:text="${lecture.lectureCourse}"></td>
+                        <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
+                               th:text="${lecture.lectureTitle}"></a></td>
+                        <td th:text="${lecture.lectureDesc}"></td>
+                        <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+                        <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+
+            <h3>강의 추가</h3>
+            <form th:action="@{/admin/api/lectures/add}" id="addLectureForm" method="post" th:object="${lectureInfoRequest}">
+                <div>
+                    <label for="lectureYear">강의 년도:</label>
+                    <input type="text" id="lectureYear" name="lectureYear" th:field="*{lectureYear}" />
+                </div>
+                <div>
+                    <label for="lectureCourse">강의 과정:</label>
+                    <input type="text" id="lectureCourse" name="lectureCourse" th:field="*{lectureCourse}" />
+                </div>
+                <div>
+                    <label for="lectureTitle">강의 제목:</label>
+                    <input type="text" id="lectureTitle" name="lectureTitle" th:field="*{lectureTitle}" />
+                </div>
+                <div>
+                    <label for="lectureDesc">강의 설명:</label>
+                    <textarea id="lectureDesc" name="lectureDesc" th:field="*{lectureDesc}" rows="4"></textarea>
+                </div>
+                <div>
+                    <label for="lectureStartAt">강의 시작일:</label>
+                    <input type="datetime-local" id="lectureStartAt" name="lectureStartAt" th:field="*{lectureStartAt}" />
+                </div>
+                <div>
+                    <label for="lectureEndAt">강의 종료일:</label>
+                    <input type="datetime-local" id="lectureEndAt" name="lectureEndAt" th:field="*{lectureEndAt}" />
+                </div>
+                <button type="submit">추가</button>
+            </form>
+        </div>
+    </section>
+    <!-- content end -->
+</html>

@@ -14,13 +14,13 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/lms")
+@RequestMapping("/lms/online")
 public class LectureInfoViewController {
 
     private final LectureInfoService lectureInfoService;
 
-    // 개설 강의 목록
-    @GetMapping("/online/lecture-all")
+    // 회원 : 개설 강의 목록
+    @GetMapping("/lecture-all")
     public String lectureInfoList(Model model) {
         List<LectureInfoViewResponse> lectureInfo = lectureInfoService.findAll().stream()
                 .map(LectureInfoViewResponse::new)
@@ -30,12 +30,14 @@ public class LectureInfoViewController {
         return "page/lectureInfoList"; // lectureInfoList.html 뷰 조회999
     }
 
-    // 강의 계획서 조회
-    @GetMapping("/online/lecture-info/{lectureNo}")
+    // 회원 : 강의 계획서 조회
+    @GetMapping("/lecture-info/{lectureNo}")
     public String lectureInfo(@PathVariable Long lectureNo, Model model) {
         LectureInfo lectureInfo = lectureInfoService.findById(lectureNo);
         model.addAttribute("lectureInfo", new LectureInfoViewResponse(lectureInfo));
 
         return "page/lectureInfo";
     }
+
+
 }

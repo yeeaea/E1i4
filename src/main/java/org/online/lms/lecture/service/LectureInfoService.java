@@ -17,8 +17,9 @@ public class LectureInfoService {
     private final LectureInfoRepository lectureInfoRepository;
 
     // 강의 추가 메소드
-    public LectureInfo save(AddLectureInfoRequest request) {
-        return lectureInfoRepository.save(request.toEntity());
+    public LectureInfo addLecture(AddLectureInfoRequest request) {
+        LectureInfo lectureInfo = request.toEntity();
+        return lectureInfoRepository.save(lectureInfo);
     }
 
     // 강의 목록 조회

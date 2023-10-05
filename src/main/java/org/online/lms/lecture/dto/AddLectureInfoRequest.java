@@ -3,6 +3,7 @@ package org.online.lms.lecture.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.online.lms.lecture.domain.LectureInfo;
 
 import java.sql.Timestamp;
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor // 기본 생성자 추가
 @AllArgsConstructor // 모든 필드 값을 파라미터로 받는 생성자 추가
 @Getter
+@Setter
 public class AddLectureInfoRequest {
 
     private String lectureYear; // 강의년도
