@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 로그인 form -->
+<div class="container">
+    <form class="form-signin" method="post" action="/login-process">
+        <p class="text-center">
+            <img src="/images/nahwasa-profile.png" class="img-thumbnail" style="width: 200px;" alt="이 글이 보인다면 시큐리티 설정 잘못한거임!">
+        </p>
+        <h2 class="form-signin-heading text-center mb-5">nahwasa.com</h2>
+        <!-- 회원 Id 및 비밀번호 입력 필드 -->
+        <p>
+            <label for="username" class="sr-only">아이디</label>
+            <input type="text" id="username" name="loginId" class="form-control" placeholder="ID" required="" autofocus="">
+        </p>
+        <p>
+            <label for="password" class="sr-only">비밀번호</label>
+            <input type="password" id="password" name="loginPw" class="form-control" placeholder="PASSWORD" required="">
+        </p>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="login_btn">로그인</button>
+    </form>
+
+    <!-- 아이디, 비밀번호 찾기, 회원가입 버튼(폼으로 이동) -->
+    <div class="">
+        <a href="/lms/find-id">아이디 찾기</a>
+        <span>|</span>
+        <a href="/lms/find-pw">비밀번호 찾기</a>
+        <span>|</span>
+        <a href="/lms/signup">회원가입</a>
+    </div>
+    <!--
+    <form class="form-signin" method="get" action="/lms/signup">
+        <button class="btn btn-lg btn-warning btn-block" type="submit">회원가입</button>
+    </form>
+    -->
+</div>
+</body>
+</html>
