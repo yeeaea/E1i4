@@ -1,4 +1,4 @@
-package org.online.lms.member.lecture.domain;
+package org.online.lms.lecture.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
+
 
 @Table(name="lecture_info")
 @Entity
