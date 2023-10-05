@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+
+<head>
+    <title>Content page</title>
+
+
+    <!-- Icon Font Stylesheet -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+            rel="stylesheet">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+            rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3eb7b16202.js"
+            crossorigin="anonymous"></script>
+</head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</th:block>
+
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{js/index.js}"></script>
+</th:block>
+
+<!-- content start -->
+<section layout:fragment="content">
+    <div class="container">
+
+        <h2>게시글 목록</h2>
+        <a href="/lms/new-question">게시글 작성하기</a>
+        <table>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>게시판 유형</th>
+                    <th>게시글 제목</th>
+                    <th>등록시간</th>
+                    <th>작성자</th>
+                    <th>조회수</th>
+                    <th>댓글수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 게시글 목록을 반복해서 출력 -->
+                <tr th:each="post : ${questions}">
+                    <td th:text="${post.postNo}"></td>
+
+                    <td><a
+                            th:href="@{/lms/questions/{postNo}(postNo=${post.postNo})}"
+                            th:text="${post.postTitle}"></a></td>
+
+                    <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td>id</td>
+                    <td th:text="${post.postView}"></td>
+                    <td>댓글수</td>
+
+                </tr>
+                </tbody>
+            </table>
+
+    </div>
+</section>
+<!-- content end -->
+</html>

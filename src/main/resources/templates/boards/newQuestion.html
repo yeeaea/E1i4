@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <title>Content page</title>
+</head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</th:block>
+
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/board.js}"></script>
+</th:block>
+
+<!-- content start -->
+<section layout:fragment="content">
+    <div class="container">
+        <h1>게시글 등록</h1>
+
+            <input type="hidden" id="question-id" th:value="${question.postNo}">
+
+            <header class="mb-4">
+                <label for="title">제목:</label>
+                <input type="text" id="postTitle" th:value="${question.postTitle}" class="form-control" required>
+            </header>
+
+            <section class="mb-5">
+                <label for="content">내용:</label>
+                <textarea id="postContent" rows="10" th:text="${question.postContent}" class="form-control" required></textarea>
+            </section>
+
+            <button th:if="${question.postNo} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm">수정</button>
+            <button th:if="${question.postNo} == null" type="button" id="create-btn" class="btn btn-primary btn-sm">등록</button>
+
+    </div>
+</section>
+
+</html>
