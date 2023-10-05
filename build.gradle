@@ -23,7 +23,7 @@ dependencies {
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     // thymeleaf security ver.6
-    // implementation 'org.thymeleaf.extras:thymeleaf-extras-spring security6'
+    //implementation 'org.thymeleaf.extras:thymeleaf-extras-spring security6'
     // 타임리프를 뷰템플릿으로 사용
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     // 타임리프 레이아웃
