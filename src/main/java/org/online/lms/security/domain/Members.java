@@ -14,7 +14,7 @@ public class Members { // 회원 정보 테이블
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_no", updatable = false)
-    private Long memberNo; // 회원 번호
+    private long memberNo; // 회원 번호
 
     @Column(name = "login_id", nullable = false)
     private String loginId; // 로그인 id
