@@ -2,8 +2,7 @@ package org.online.lms.admin.video.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.online.lms.admin.video.domain.Content;
-import org.online.lms.lecture.domain.LectureInfo;
+import org.online.lms.video.domain.Content;
 
 @Getter
 @Setter

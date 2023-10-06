@@ -1,12 +1,10 @@
 package org.online.lms.admin.video.controller;
 
-import org.online.lms.admin.video.domain.Content;
 import org.online.lms.admin.video.dto.VideoInfoRequest;
 import org.online.lms.admin.video.service.VideoInfoService;
-import org.online.lms.lecture.domain.LectureInfo;
+import org.online.lms.video.domain.Content;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +27,5 @@ public class AdminVideoApiController {
 
         return ResponseEntity.ok(contentRegister);
     }
-
-
 
 }
