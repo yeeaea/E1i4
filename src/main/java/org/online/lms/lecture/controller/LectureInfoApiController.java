@@ -5,14 +5,12 @@ import org.online.lms.lecture.dto.AddLectureInfoRequest;
 import org.online.lms.lecture.service.LectureInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/api/lectures")
@@ -25,6 +23,7 @@ public class LectureInfoApiController {
         this.lectureInfoService = lectureInfoService;
     }
 
+    // 관리자 : 강의 추가
     @PostMapping("/add")
     public ResponseEntity<LectureInfo> addLecture(@RequestBody AddLectureInfoRequest request) {
         // 강의 시작일과 종료일을 LocalDateTime 형식으로 파싱
@@ -47,5 +46,16 @@ public class LectureInfoApiController {
         LectureInfo addedLecture = lectureInfoService.addLecture(request);
 
         return ResponseEntity.ok(addedLecture);
+    }
+
+    // 관리자 : 강의 삭제
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteLectures(@RequestParam("lectureNos") List<Long> lectureNos) {
+        // 선택한 강의들을 삭제하는 로직을 서비스 메서드를 통해 구현합니다.
+        for (Long lectureNo : lectureNos) {
+            lectureInfoService.deleteLectureByLectureNo(lectureNo);
+        }
+
+        return ResponseEntity.ok("선택한 강의가 삭제되었습니다.");
     }
 }
