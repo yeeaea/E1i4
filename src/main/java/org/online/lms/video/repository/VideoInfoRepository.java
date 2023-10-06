@@ -1,13 +1,8 @@
-package org.online.lms.admin.video.repository;
+package org.online.lms.video.repository;
 
-import org.online.lms.admin.video.dto.VideoInfoViewResponse;
 import org.online.lms.admin.video.domain.Content;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface VideoInfoRepository extends JpaRepository<Content, Long>{
