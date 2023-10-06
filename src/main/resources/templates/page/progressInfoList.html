@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <title>Content page</title>
+</head>
+    <!-- page 고유 css -->
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{css/css.css}">
+    </th:block>
+
+    <!-- page 고유 javascript -->
+    <th:block layout:fragment="script">
+        <script th:src="@{js/js.js}"></script>
+    </th:block>
+
+    <!-- content start -->
+    <section layout:fragment="content">
+        <div class="container">
+            <h1>Progress Info List</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>강의명</th>
+                    <th>강의 차시번호</th>
+                    <th>강의 차시명</th>
+                    <th>콘텐츠 차시학습시간</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="progressInfo : ${progressInfoList}">
+                    <td th:text="${progressInfo.lectureNo.lectureTitle}"></td>
+                    <td th:text="${progressInfo.nthNo}"></td>
+                    <td th:text="${progressInfo.nthName}"></td>
+                    <td th:text="${progressInfo.getContentNo.runTm}"></td>
+                    <td><a th:href="@{'/lms/online/progress-info/' + ${progressInfo.nthNo}}">View Progress Info</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- content end -->
+</html>
