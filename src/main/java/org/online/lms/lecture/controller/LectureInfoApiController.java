@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/api/lectures")
@@ -47,15 +48,14 @@ public class LectureInfoApiController {
         return ResponseEntity.ok(addedLecture);
     }
 
-    // 관리자 : 개설 강의 목록에서 강의 클릭했을 때, 해당 강의 정보가 input창에 기본값으로 들어가는기능
-    @GetMapping("/{lectureNo}")
-    public ResponseEntity<LectureInfo> getLectureInfo(@PathVariable Long lectureNo) {
-        // lectureNo를 사용하여 강의 정보를 데이터베이스에서 가져옴 (예: JPA 또는 JDBC 사용)
-        LectureInfo lectureInfo = lectureInfoService.findById(lectureNo);
-        if (lectureInfo != null) {
-            return ResponseEntity.ok(lectureInfo);
-        } else {
-            return ResponseEntity.notFound().build();
+    // 관리자 : 강의 삭제
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteLectures(@RequestParam("lectureNos") List<Long> lectureNos) {
+        // 선택한 강의들을 삭제하는 로직을 서비스 메서드를 통해 구현합니다.
+        for (Long lectureNo : lectureNos) {
+            lectureInfoService.deleteLectureByLectureNo(lectureNo);
         }
+
+        return ResponseEntity.ok("선택한 강의가 삭제되었습니다.");
     }
 }

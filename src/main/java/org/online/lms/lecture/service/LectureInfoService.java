@@ -62,5 +62,8 @@ public class LectureInfoService {
         }
     }
 
-
+    // 강의 삭제
+    public void deleteLectureByLectureNo(Long lectureNo) {
+        lectureInfoRepository.deleteById(lectureNo);
+    }
 }

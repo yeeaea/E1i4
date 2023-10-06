@@ -77,35 +77,32 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 강의 수정 기능
-// 강의 목록에서 각 행을 클릭할 때 해당 강의 정보를 입력 폼에 채우는 함수
-function fillEditForm(lectureNo) {
-    // 이 부분에서 lectureNo를 사용하여 해당 강의 정보를 가져오는 비동기 작업을 수행
-    // 서버 API 호출
-
-    // Ajax 또는 fetch를 사용하여 서버에서 해당 강의 정보 가져옴
-    fetch(`/admin/api/lectures/${lectureNo}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("서버 응답 오류");
-            }
-            return response.json();
-        })
-        .then(lecture => {
-            // 가져온 강의 정보를 사용하여 입력 폼 채움
-            document.getElementById("lectureYear").value = lecture.lectureYear;
-            document.getElementById("lectureCourse").value = lecture.lectureCourse;
-            document.getElementById("lectureTitle").value = lecture.lectureTitle;
-            document.getElementById("lectureDesc").value = lecture.lectureDesc;
-            document.getElementById("lectureStartAt").value = lecture.lectureStartAt;
-            document.getElementById("lectureEndAt").value = lecture.lectureEndAt;
-        })
-        .catch(error => {
-            console.error("에러 발생: " + error);
-        });
-}
-
-
-
-
 
 // 강의 삭제 기능
+// 삭제 버튼 클릭 시 실행될 함수
+document.getElementById('deleteSelected').addEventListener('click', function () {
+    const selectedCheckboxes = document.querySelectorAll('.lecture-checkbox:checked');
+    const lectureNos = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+
+    if (lectureNos.length === 0) {
+        alert('선택된 강의가 없습니다.');
+        return;
+    }
+
+    // 선택한 강의의 lectureNo 배열을 서버로 전송
+    fetch('/admin/api/lectures/delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ lectureNos }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert(data); // 서버에서 반환한 메시지를 표시
+            location.reload(); // 페이지 새로 고침
+        })
+        .catch(error => {
+            console.error('삭제 요청 중 오류 발생:', error);
+        });
+});
