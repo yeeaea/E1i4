@@ -1,11 +1,8 @@
 package org.online.lms.admin.video.service;
 
-import org.online.lms.admin.video.domain.Content;
+import org.online.lms.video.domain.Content;
 import org.online.lms.admin.video.dto.VideoInfoRequest;
-import org.online.lms.admin.video.dto.VideoInfoViewResponse;
 import org.online.lms.admin.video.repository.VideoInfoRepository;
-import org.online.lms.lecture.domain.LectureInfo;
-import org.online.lms.lecture.dto.AddLectureInfoRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
