@@ -1,6 +1,6 @@
-package org.online.lms.video.repository;
+package org.online.lms.admin.video.repository;
 
-import org.online.lms.admin.video.domain.Content;
+import org.online.lms.video.domain.Content;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
