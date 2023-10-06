@@ -1,9 +1,9 @@
-package org.online.lms.admin.video.controller;
+package org.online.lms.video.controller;
 
 
 import org.online.lms.video.domain.Content;
-import org.online.lms.admin.video.dto.VideoInfoRequest;
-import org.online.lms.admin.video.service.VideoInfoService;
+import org.online.lms.video.dto.VideoInfoRequest;
+import org.online.lms.video.service.VideoInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

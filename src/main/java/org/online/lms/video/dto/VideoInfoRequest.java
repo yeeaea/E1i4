@@ -1,4 +1,4 @@
-package org.online.lms.admin.video.dto;
+package org.online.lms.video.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
