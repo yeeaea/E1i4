@@ -19,20 +19,24 @@
 <!-- content start -->
 <section layout:fragment="content">
     <div class="container">
+        <input type="hidden" id="question-postNo"
+               th:value="${question.postNo}">
         <h2 th:text="${question.postTitle}">게시글 제목</h2>
         <p th:text="|작성자: , 작성일자: ${#temporals.format(question.postRtm, 'yyyy-MM-dd HH:mm')}"></p>
         <hr>
         <p>내용:</p>
         <p th:text="${question.postContent}">게시글 내용</p>
     </div>
+    <div>
+        <button type="button" id="modify-btn"
+                th:onclick="|location.href='@{/lms/new-question?postNo={postNo}(postNo=${question.postNo})}'|"
+                class="btn btn-primary btn-sm" style="margin-right: 10px;">수정
+        </button>
 
-    <button type="button" id="modify-btn"
-            th:onclick="|location.href='@{/lms/new-question?postNo={postNo}(postNo=${question.postNo})}'|"
-            class="btn btn-primary btn-sm" style="margin-right: 10px;">수정</button>
-
-    <button type="button" id="delete-btn"
-            class="btn btn-secondary btn-sm" style="margin-right: 10px;">삭제</button>
-
+        <button type="button" id="delete-btn"
+                class="btn btn-secondary btn-sm" style="margin-right: 10px;">삭제
+        </button>
+    </div>
     <!-- 게시글 목록으로 돌아가는 버튼 -->
     <div class="back-button">
         <a th:href="@{/lms/questions}">게시글 목록으로 돌아가기</a>
