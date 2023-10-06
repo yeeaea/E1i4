@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>과정관리</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+
+    <!-- 전체 강의 리스트 -->
+    <div class="container">
+        <h3>콘텐츠 관리</h3>
+
+        <table class = "table table-hover">
+            <thead>
+            <tr>
+                <th>콘텐츠 관리 번호</th>
+                <th>콘텐츠 명</th>
+                <th>콘텐츠 설명</th>
+                <th>콘텐츠 파일번호</th>
+                <th>Youtube 연동번호</th>
+                <th>콘텐츠 호출 URL</th>
+                <th>차시학습시간</th>
+            </tr>
+            </thead>
+
+            <tbody class="row-7" th:each="content : ${contentInfo}">
+            <tr>
+                <!-- 콘텐츠 리스트 출력 -->
+                <td th:text="${content.contentNo}"></td>
+                <td th:text="${content.contentName}"></td>
+                <td th:text="${content.contentDesc}"></td>
+                <td th:text="${content.contentFileNo}"></td>
+                <td th:text="${content.ytbUrl}"></td>
+                <td th:text="${content.contentUrl}"></td>
+                <td th:text="${content.runTm}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</th:block>
+</body>
+</html>
