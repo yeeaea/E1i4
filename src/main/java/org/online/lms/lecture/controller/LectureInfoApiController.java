@@ -5,10 +5,7 @@ import org.online.lms.lecture.dto.AddLectureInfoRequest;
 import org.online.lms.lecture.service.LectureInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -25,6 +22,7 @@ public class LectureInfoApiController {
         this.lectureInfoService = lectureInfoService;
     }
 
+    // 관리자 : 강의 추가
     @PostMapping("/add")
     public ResponseEntity<LectureInfo> addLecture(@RequestBody AddLectureInfoRequest request) {
         // 강의 시작일과 종료일을 LocalDateTime 형식으로 파싱
@@ -47,5 +45,17 @@ public class LectureInfoApiController {
         LectureInfo addedLecture = lectureInfoService.addLecture(request);
 
         return ResponseEntity.ok(addedLecture);
+    }
+
+    // 관리자 : 개설 강의 목록에서 강의 클릭했을 때, 해당 강의 정보가 input창에 기본값으로 들어가는기능
+    @GetMapping("/{lectureNo}")
+    public ResponseEntity<LectureInfo> getLectureInfo(@PathVariable Long lectureNo) {
+        // lectureNo를 사용하여 강의 정보를 데이터베이스에서 가져옴 (예: JPA 또는 JDBC 사용)
+        LectureInfo lectureInfo = lectureInfoService.findById(lectureNo);
+        if (lectureInfo != null) {
+            return ResponseEntity.ok(lectureInfo);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
