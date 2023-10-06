@@ -1,4 +1,4 @@
-package org.online.lms.admin.video.repository;
+package org.online.lms.video.repository;
 
 import org.online.lms.video.domain.Content;
 import org.springframework.data.jpa.repository.JpaRepository;
