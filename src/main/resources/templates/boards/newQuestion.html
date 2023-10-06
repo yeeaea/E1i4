@@ -30,7 +30,12 @@
 
             <section class="mb-5">
                 <label for="content">내용:</label>
-                <textarea id="postContent" rows="10" th:text="${question.postContent}" class="form-control" required></textarea>
+                <div class="count">
+                    <span id="counterWord">0/1000자</span>
+                </div>
+                <textarea id="postContent" rows="10" th:text="${question.postContent}" class="form-control" required
+                          onkeyup="countingLength('postContent', 'counterWord');"
+                ></textarea>
             </section>
 
             <button th:if="${question.postNo} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm">수정</button>

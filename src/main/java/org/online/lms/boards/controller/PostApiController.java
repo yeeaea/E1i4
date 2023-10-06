@@ -32,7 +32,7 @@ public class PostApiController {
     // 글 목록 조회
     @GetMapping("/api/post")
     public ResponseEntity<List<PostResponse>> findAllPost() {
-        List<PostResponse> post = postService.findAll()
+        List<PostResponse> post = postService.findAll(null)
                 .stream()
                 .map(PostResponse::new)
                 .toList();

@@ -25,7 +25,7 @@
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-    <script th:src="@{js/index.js}"></script>
+    <script th:src="@{/js/board.js}"></script>
 </th:block>
 
 <!-- content start -->
@@ -34,36 +34,84 @@
 
         <h2>게시글 목록</h2>
         <a href="/lms/new-question">게시글 작성하기</a>
-        <table>
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>게시판 유형</th>
-                    <th>게시글 제목</th>
-                    <th>등록시간</th>
-                    <th>작성자</th>
-                    <th>조회수</th>
-                    <th>댓글수</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- 게시글 목록을 반복해서 출력 -->
-                <tr th:each="post : ${questions}">
-                    <td th:text="${post.postNo}"></td>
 
-                    <td><a
-                            th:href="@{/lms/questions/{postNo}(postNo=${post.postNo})}"
-                            th:text="${post.postTitle}"></a></td>
+        <!-- 최신순과 조회순 버튼 추가 -->
+        <form id="sortByForm" method="get">
+            <input type="hidden" name="sortBy" id="sortByInput" th:value="${sortBy}"/>
+        </form>
 
-                    <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td>id</td>
-                    <td th:text="${post.postView}"></td>
-                    <td>댓글수</td>
+        <!-- 최신순 정렬 버튼 -->
+        <button type="button" onclick="changeSort('latest')">최신순</button>
 
-                </tr>
-                </tbody>
-            </table>
+        <!-- 조회순 정렬 버튼 -->
+        <button type="button" onclick="changeSort('most-visited')">조회순</button>
 
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>게시판 유형</th>
+                <th>게시글 제목</th>
+                <th>등록시간</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>댓글수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 게시글 목록을 반복해서 출력 -->
+            <tr th:each="post : ${questions}">
+                <td th:text="${post.postNo}"></td>
+
+                <td><a
+                        th:href="@{/lms/questions/{postNo}(postNo=${post.postNo})}"
+                        th:text="${post.postTitle}"></a></td>
+
+                <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>id</td>
+                <td th:text="${post.postView}"></td>
+                <td>댓글수</td>
+
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${noResults}" class="text-center mt-3">
+            <p>검색 결과가 없습니다.</p>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 페이지 링크 -->
+                <li class="page-item" th:if="${startPage != 1}">
+                    <a class="page-link"
+                       th:href="@{/lms/questions(page=${questions.pageable.pageNumber - 1}, sortBy=${sortBy})}"
+                       tabindex="-1"> < </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item" th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                    th:if="${questions.totalElements > 0}">
+                    <a class="page-link"
+                       th:href="@{/lms/questions(page=${num-1}, sortBy=${sortBy})}"
+                       th:text="${num}"
+                       th:classappend="${num == (questions.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li class="page-item" th:if="${endPage < questions.totalPages}">
+                    <a class="page-link"
+                       th:href="@{/lms/questions(page=${questions.pageable.pageNumber + 1}, sortBy=${sortBy})}">
+                        > </a>
+                </li>
+            </ul>
+        </nav>
+
+
+        <form class="my-5 pagination justify-content-center" action="/lms/questions" method="GET">
+            <label for="keyword" hidden>검색어</label>
+            <input id="keyword" type="search" placeholder="검색어를 입력해주세요" name="keyword" th:value="${param.keyword}">
+            <button type="submit">검색</button>
+        </form>
     </div>
 </section>
 <!-- content end -->
