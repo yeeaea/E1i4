@@ -17,7 +17,7 @@ public class SpringSecurityConfig {
     @Bean
     PasswordEncoder passwordEncoder() {
         // BCryptPasswordEncoder : 비밀번호 암호화 후, 서버에 저장
-        return new SimplePasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

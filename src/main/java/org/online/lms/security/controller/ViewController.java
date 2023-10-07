@@ -42,24 +42,24 @@ public class ViewController {
     @PostMapping("/lms/signup")        // 회원가입 처리
     public String processSignup(@Valid MemberSignupDTO dto, Errors errors, Model model){
         // @Valid가 적용된 MemberSignupDTO 객체 유효성 검증 -> 실패 시, 에러 정보가 Errors 객체에 저장됨
-        log.info("dto : {}, errors : {}", dto, errors);
-        if(errors.hasErrors()){
-            // 회원가입 실패 시, 입력 데이터 값 그대로 유지
-            model.addAttribute("signupDTO", dto);
-            // 유효성 검증 실패한 필드와 메시지 핸들링
-            Map<String, String> validatorResult = memberService.validateHandling(errors);
-            // validatorResult.keySet() : Map의 key를 가진 Set 객체 반환
-            // ( Set : Map의 키를 담아두는 컬렉션 )
-            for(String key : validatorResult.keySet()){
-                // 각 key에 해당하는 값을 model에 추가 -> 뷰에서 오류 메시지 표시 목적
-                model.addAttribute(key, validatorResult.get(key));
-            }
-            // 회원가입 페이지로 다시 이동
-            return "/lms/signup";
-        }
+//        log.info("dto : {}, errors : {}", dto, errors);
+//        if(errors.hasErrors()){
+//            // 회원가입 실패 시, 입력 데이터 값 그대로 유지
+//            model.addAttribute("signupDTO", dto);
+//            // 유효성 검증 실패한 필드와 메시지 핸들링
+//            Map<String, String> validatorResult = memberService.validateHandling(errors);
+//            // validatorResult.keySet() : Map의 key를 가진 Set 객체 반환
+//            // ( Set : Map의 키를 담아두는 컬렉션 )
+//            for(String key : validatorResult.keySet()){
+//                // 각 key에 해당하는 값을 model에 추가 -> 뷰에서 오류 메시지 표시 목적
+//                model.addAttribute(key, validatorResult.get(key));
+//            }
+//            // 회원가입 페이지로 다시 이동
+//            return "/lms/signup";
+//        }
         memberService.registerMember(dto);
         // 회원가입이 완료된 이후에 로그인 페이지로 이동
-        return "redirect:/";
+        return "redirect:/?success=true";
     }
 
     @GetMapping("/signup/checkId")      // 회원가입 시, 아이디 중복체크 ( Ajax 요청 포함 )
