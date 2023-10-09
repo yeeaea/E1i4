@@ -1,45 +1,40 @@
 // 게시물 생성
 document.addEventListener('DOMContentLoaded', function () {
-
-    const createButton = document.getElementById('create-btn');
-
+    const createButton = document.getElementById("create-btn");
     if (createButton) {
-        createButton.addEventListener('click', event => {
+        createButton.addEventListener("click", (event) => {
             event.preventDefault();
 
-            const postTitle = document.getElementById('postTitle').value;
-            const postContent = document.getElementById('postContent').value;
+            const formData = new FormData();
+            formData.append("postTitle", document.getElementById("postTitle").value);
+            formData.append("postContent", document.getElementById("postContent").value);
 
-            let title = document.getElementById('postTitle').value;
-            let content = document.getElementById('postContent').value;
+            // 파일 업로드 input 요소에서 각각의 파일을 가져와 FormData에 추가
+            formData.append("file1", document.getElementById("file1").files[0]);
+            formData.append("file2", document.getElementById("file2").files[0]);
+            formData.append("file3", document.getElementById("file3").files[0]);
 
-            if (title === "" && content === "") {
-                alert("제목과 내용을 입력해주세요!");
-            } else if (content === "") {
+            let title = document.getElementById("postTitle").value;
+            let content = document.getElementById("postContent").value;
+
+            if (title == "" && content == "") {
+                alert("제목과 내용을 입력해주세요!")
+            } else if (content == "") {
                 alert("내용을 입력해주세요!");
-            } else if (title === "") {
-                alert("제목을 입력해주세요!");
+            } else if (title == "") {
+                alert("제목을 입력해주세요!")
             } else {
-                const requestData = {
-                    postTitle: postTitle,
-                    postContent: postContent
-                };
-
                 fetch("/api/post", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(requestData),
+                    body: formData,
+                }).then((response) => {
+                    if (response.status === 201) {
+                        alert("등록이 완료되었습니다.");
+                        location.replace('/lms/questions');
+                    } else {
+                        alert("등록을 실패했습니다.");
+                    }
                 })
-                    .then((response) => {
-                        if (response.status === 201) {
-                            alert("등록이 완료되었습니다.");
-                            location.replace("/lms/questions");
-                        } else {
-                            alert("등록을 실패했습니다.");
-                        }
-                    })
                     .catch((error) => {
                         console.error("Error: ", error);
                         alert("등록을 실패했습니다.");
@@ -48,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
 
 // 게시물 삭제
 document.addEventListener('DOMContentLoaded', function () {
@@ -148,3 +144,28 @@ function countingLength(inputElementId, counterElementId) {
 
     wordCounter.innerText = wordInputElement.value.length + '/1000자';
 }
+
+// 파일 업로드 목록 확인
+
+const fileInput = document.getElementById('files');
+const fileList = document.getElementById('file-list');
+
+// 파일이 선택되면 목록에 추가
+document.addEventListener('DOMContentLoaded', function () {
+    // 파일 선택 input 요소
+    const fileInput = document.getElementById('files');
+    // 파일 목록을 표시할 ul 요소
+    const fileList = document.getElementById('file-list');
+
+    // 파일이 선택되면 목록에 추가
+    fileInput.addEventListener('change', (event) => {
+        const selectedFiles = event.target.files;
+
+        // 선택한 파일들을 목록에 추가
+        for (const file of selectedFiles) {
+            const listItem = document.createElement('li');
+            listItem.textContent = file.name;
+            fileList.appendChild(listItem);
+        }
+    });
+});

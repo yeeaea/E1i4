@@ -1,3 +1,4 @@
+
 package org.online.lms.boards.domain;
 
 import jakarta.persistence.*;
@@ -39,6 +40,14 @@ public class Post {
     @Column(name = "post_view", columnDefinition = "INT DEFAULT 0")
     private int postView;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "file_no")
+    private FileUpload file;
+
+//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<FileUpload> files;
+
+
     /*
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
@@ -46,10 +55,6 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "board_no")
     private Board board;
-
-    @ManyToOne
-    @JoinColumn(name = "file_no")
-    private File file;
 
     @Column(name = "login_id")
     private String loginId;
@@ -62,7 +67,6 @@ public class Post {
         this.postTitle = postTitle;
         this.postContent = postContent;
     }
-
     // 수정 메서드
     public void update(String postTitle, String postContent) {
         this.postTitle = postTitle;
@@ -70,5 +74,3 @@ public class Post {
     }
 
 }
-
-

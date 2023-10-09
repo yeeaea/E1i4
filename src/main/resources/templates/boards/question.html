@@ -26,6 +26,15 @@
         <hr>
         <p>내용:</p>
         <p th:text="${question.postContent}">게시글 내용</p>
+        <!-- 첨부 파일 정보 표시 -->
+        <p th:if="${question.orgFileName != null}">
+            첨부 파일:
+            <a th:href="@{'/' + question.filePath}" th:download="${question.orgFileName}" th:text="${question.orgFileName}">다운로드</a>
+        </p>
+        <p th:unless="${question.orgFileName != null}">
+            첨부 파일이 없습니다.
+        </p>
+
     </div>
     <div>
         <button type="button" id="modify-btn"

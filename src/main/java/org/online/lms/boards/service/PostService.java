@@ -13,23 +13,68 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-
+import java.util.UUID;
+import java.io.File;
 
 import jakarta.transaction.Transactional;
-
+import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Service
 public class PostService {
 
     private final PostRepository postRepository;
+    int fileSeq = 1; // 파일 일련번호 초기화
 
-    // 글 등록 (첨부파일 추가예정)
-    public Post save(PostRequest dto) {
+    // 글 등록
+    public Post save(PostRequest dto, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws Exception {
+        String projectPath =
+                System.getProperty("user.dir") + "/src/main/resources/static/files";
+
+        // 파일1 처리
+        if (file1 != null && !file1.isEmpty()) {
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_" + file1.getOriginalFilename();
+            File saveFile = new File(projectPath, fileName);
+            file1.transferTo(saveFile);
+
+            dto.setFileSeq((long) fileSeq++);
+            dto.setOrgFileName(file1.getOriginalFilename());
+            dto.setSaveFileName(fileName);
+            dto.setFilePath("/files/" + fileName);
+            dto.setFileSize(file1.getSize());
+        }
+
+        // 파일2 처리
+        if (file2 != null && !file2.isEmpty()) {
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_" + file2.getOriginalFilename();
+            File saveFile = new File(projectPath, fileName);
+            file2.transferTo(saveFile);
+
+            dto.setFileSeq((long) fileSeq++);
+            dto.setOrgFileName(file2.getOriginalFilename());
+            dto.setSaveFileName(fileName);
+            dto.setFilePath("/files/" + fileName);
+            dto.setFileSize(file2.getSize());
+        }
+
+        // 파일3 처리
+        if (file3 != null && !file3.isEmpty()) {
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_" + file3.getOriginalFilename();
+            File saveFile = new File(projectPath, fileName);
+            file3.transferTo(saveFile);
+
+            dto.setFileSeq((long) fileSeq++);
+            dto.setOrgFileName(file3.getOriginalFilename());
+            dto.setSaveFileName(fileName);
+            dto.setFilePath("/files/" + fileName);
+            dto.setFileSize(file3.getSize());
+        }
+
         return postRepository.save(dto.toEntity());
     }
-
     // 글 목록 조회
     public Page<Post> findAll(Pageable pageable) {
         Pageable Pageable =
