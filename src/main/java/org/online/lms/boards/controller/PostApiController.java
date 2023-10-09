@@ -10,10 +10,10 @@ import org.online.lms.boards.dto.UpdatePostRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
-
-
 @RequiredArgsConstructor
 @RestController
 public class PostApiController {
@@ -21,13 +21,24 @@ public class PostApiController {
     private final PostService postService;
 
     // 글 등록
+
     @PostMapping("/api/post")
-    public ResponseEntity<Post> addArticle(@RequestBody PostRequest request) {
-        Post savedPost = postService.save(request);
+    public ResponseEntity<Post> addArticle(@RequestParam("postTitle") String postTitle,
+                                           @RequestParam("postContent") String postContent,
+                                           @RequestParam(value = "file1", required = false) MultipartFile file1,
+                                           @RequestParam(value = "file2", required = false) MultipartFile file2,
+                                           @RequestParam(value = "file3", required = false) MultipartFile file3) throws Exception {
+        PostRequest dto = new PostRequest();
+        dto.setPostTitle(postTitle);
+        dto.setPostContent(postContent);
+
+        Post savedPost = postService.save(dto, file1, file2, file3);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedPost);
     }
+
+
 
     // 글 목록 조회
     @GetMapping("/api/post")
