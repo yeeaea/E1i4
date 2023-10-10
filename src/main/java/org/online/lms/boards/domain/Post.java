@@ -44,6 +44,11 @@ public class Post {
     @JoinColumn(name = "file_no")
     private FileUpload file;
 
+//    // 파일 목록 관리
+//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<FileUpload> files;
+//
+
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private List<FileUpload> files;
 
@@ -73,4 +78,18 @@ public class Post {
         this.postContent = postContent;
     }
 
+    public void setFileSeq(long fileSeq) {
+    }
+
+    public void setOrgFileName(String orgFilename) {
+    }
+
+    public void setSaveFileName(String saveFileName) {
+    }
+
+    public void setFilePath(String filePath) {
+    }
+
+    public void setFileSize(long size) {
+    }
 }

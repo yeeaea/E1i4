@@ -3,7 +3,7 @@ package org.online.lms.boards.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "file")
+@Table(name = "file_board")
 @Entity
 @Getter
 @Setter

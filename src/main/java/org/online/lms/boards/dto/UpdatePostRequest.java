@@ -12,9 +12,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class UpdatePostRequest {
-    private String postTitle;
-    private String postContent;
+    //    private String postTitle;
+//    private String postContent;
     private LocalDateTime postRtm;
     private LocalDateTime postUtm;
-    private FileUpload file;
+    private Long fileSeq;
+    private String orgFileName;
+    private String saveFileName;
+    private String filePath;
+    private Long fileSize;
+
 }
