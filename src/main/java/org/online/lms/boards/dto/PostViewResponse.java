@@ -14,6 +14,7 @@ public class PostViewResponse {
     private String postContent;
     private LocalDateTime postRtm;
     private String orgFileName;
+    private String saveFileName;
     private String filePath;
     // 파일 , 닉네임 추가예정
 
@@ -25,6 +26,7 @@ public class PostViewResponse {
 
         if (file != null) {
             this.orgFileName = file.getOrgFileName();
+            this.saveFileName = file.getSaveFileName();
             this.filePath = file.getFilePath();
         }
     }
