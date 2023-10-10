@@ -1,0 +1,4 @@
+/* 아이디 버튼 클릭 전까지는 모달 창 숨기기 */
+#staticBackdrop {
+    display: none;
+}
