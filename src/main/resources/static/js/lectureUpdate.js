@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (endDate < startDate) {
             alert("강의 종료일은 강의 시작일 이후여야 합니다.");
             lectureEndInput.value = ""; // 종료일 초기화
-            return;
+            return; // 함수 종료
         }
 
         // 강의 주차 계산 및 선택 옵션 업데이트
@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 강의 종료일 입력 필드에 이벤트 리스너 추가
     lectureEndInput.addEventListener("change", validateEndDate);
+
 
 
 
