@@ -34,8 +34,8 @@
 
         <div>
             <label class="fs-5" >비밀번호 확인</label>
-            <input type="password" name="comfirmPw" class="form-control"
-                   th:value="${dto != null}? ${dto.getComfirmPw()} : ''" >
+            <input type="password" name="confirmPw" class="form-control"
+                   th:value="${dto != null}? ${dto.getConfirmPw()} : ''" >
             <!-- 유효성 검사
             <span th:if="${valid_comfirmPw}" id="valid"  th:text="${valid_comfirmPw}"></span> -->
         </div>
@@ -95,8 +95,8 @@
             <th:block th:if="${differentPassword == null}">
                 <div class="form-floating mb-3">
                     <label class="fs-5">비밀번호 확인</label>
-                    <input type="password" name="comfirmPw" class="form-control"
-                           th:value="${dto != null}? ${dto.getComfirmPw()} : ''">
+                    <input type="password" name="confirmPw" class="form-control"
+                           th:value="${dto != null}? ${dto.getConfirmPw()} : ''">
                     <!-- 유효성 검사
                     <span
                             th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
@@ -107,9 +107,9 @@
             <th:block th:unless="${differentPassword == null}">
                 <div class="form-floating mb-3 has-danger">
                     <label class="fs-5">비밀번호 확인</label>
-                    <input type="password" name="comfirmPw"
+                    <input type="password" name="confirmPw"
                            class="form-control is-invalid"
-                           th:value="${dto != null}? ${dto.getComfirmPw()} : ''" >
+                           th:value="${dto != null}? ${dto.getConfirmPw()} : ''" >
                     <!-- 유효성 검사
                     <span
                             th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"

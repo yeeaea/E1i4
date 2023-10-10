@@ -156,7 +156,7 @@ public class ViewController {
             return "/page/security/changePw";   // 오류 메시지를 보여줄 HTML 페이지로 리다이렉트
         }
         // ② 새로 입력한 비밀번호와 비교
-        if (!Objects.equals(dto.getNewPw(), dto.getComfirmPw())) {
+        if (!Objects.equals(dto.getNewPw(), dto.getConfirmPw())) {
             model.addAttribute("dto", dto);
             model.addAttribute("differentPassword", "새로 입력하신 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
             return "/page/security/changePw";   // 오류 메시지를 보여줄 HTML 페이지로 리다이렉트
