@@ -24,7 +24,7 @@ public class ProgressInfoViewController {
     public String allProgressInfo(Model model) {
         List<ProgressInfo> progressInfoList = progressInfoService.getAllProgressInfo();
         model.addAttribute("progressInfoList", progressInfoList);
-        return "page/progressInfoList";
+        return "page/progress/progressInfoList";
     }
 
     @GetMapping("/progress-info/{nthNo}")
@@ -37,6 +37,6 @@ public class ProgressInfoViewController {
             model.addAttribute("content", progressInfoService.getContentById(progressInfo));
         }
 
-        return "page/progressInfo"; // Thymeleaf 템플릿 이름
+        return "page/progress/progressInfo";
     }
 }
