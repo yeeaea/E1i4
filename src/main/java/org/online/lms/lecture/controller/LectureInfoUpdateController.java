@@ -31,6 +31,6 @@ public class LectureInfoUpdateController {
         model.addAttribute("lectureInfoRequest", new AddLectureInfoRequest());
         model.addAttribute("updateLectureRequest", new UpdateLectureInfoRequest()); // 수정 섹션에 사용할 객체 추가
 
-        return "/page/lectureUpdate";
+        return "/page/lecture/lectureUpdate";
     }
 }

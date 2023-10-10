@@ -49,7 +49,8 @@ public class LectureInfo { // 개설 강의 정보 테이블
                        String lectureDesc,
                        Timestamp lectureStartAt,
                        Timestamp lectureEndAt,
-                       String lectureCourse) {
+                       String lectureCourse,
+                       int lectureDuration) {
         this.lectureNo = lectureNo;
         this.lectureYear = lectureYear;
         this.lectureTitle = lectureTitle;
@@ -57,5 +58,6 @@ public class LectureInfo { // 개설 강의 정보 테이블
         this.lectureStartAt = lectureStartAt;
         this.lectureEndAt = lectureEndAt;
         this.lectureCourse = lectureCourse;
+        this.lectureDuration = lectureDuration;
     }
 }

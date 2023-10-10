@@ -24,7 +24,7 @@
 <section layout:fragment="content">
     <h3>개설 강의 목록</h3>
     <button class="btn btn-primary" id="lectureAdd">등록</button>
-    <button class="btn btn-warning">저장</button>
+    <button class="btn btn-warning" id="lectureEdit">수정</button>
     <button class="btn btn-danger" id="deleteSelected">삭제</button>
     <div style="display: flex;">
         <table class="table table-hover">
@@ -43,7 +43,7 @@
             </thead>
 
             <tbody class="row-6" th:each="lecture : ${lectureInfo}" th:attr="data-lecture-no=${lecture.lectureNo}">
-            <tr>
+            <tr onclick="populateFormFields(this)" th:attr="data-lecture-no=${lecture.lectureNo}">
                 <!-- 체크박스 추가 -->
                 <td>
                     <input type="checkbox" th:attr="value=${lecture.lectureNo}" class="lecture-checkbox" />
@@ -61,7 +61,7 @@
 
         <!-- 강의 등록 section -->
         <div>
-            <form th:action="@{/admin/api/lectures/add}" id="addLectureForm" method="post" th:object="${lectureInfoRequest}">
+            <form id="LectureForm" th:object="${lectureInfoRequest}">
                 <div>
                     <label for="lectureYear">강의 년도:</label>
                     <select id="lectureYear" name="lectureYear" th:field="*{lectureYear}">
@@ -109,7 +109,6 @@
                 </select>
             </form>
         </div>
-
     </div>
 </section>
 <!-- content end -->

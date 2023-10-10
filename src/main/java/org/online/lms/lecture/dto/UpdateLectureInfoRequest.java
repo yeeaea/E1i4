@@ -17,4 +17,5 @@ public class UpdateLectureInfoRequest {
     private Timestamp lectureStartAt; // 강의 시작일
     private Timestamp lectureEndAt; // 강의 종료일
     private String lectureCourse; // 강의 과정
+    private int lectureDuration; // 총 주차 수
 }

@@ -20,6 +20,7 @@ public class AddLectureInfoRequest {
     private Timestamp lectureStartAt; // 강의 시작일
     private Timestamp lectureEndAt; // 강의 종료일
     private String lectureCourse; // 강의 과정
+    private int lectureDuration; // 총 주차 수
 
     public LectureInfo toEntity() { // 생성자를 사용해 객체 생성
         return LectureInfo.builder()
@@ -29,6 +30,7 @@ public class AddLectureInfoRequest {
                 .lectureStartAt(lectureStartAt)
                 .lectureEndAt(lectureEndAt)
                 .lectureCourse(lectureCourse)
+                .lectureDuration(lectureDuration)
                 .build();
     }
 }
