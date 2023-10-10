@@ -1,32 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 강의 등록 버튼 클릭 시 토글 처리
-    const addLectureButton = document.getElementById("addLectureButton");
-    const addSection = document.querySelector(".add-section");
-
-    addLectureButton.addEventListener("click", function () {
-        if (addSection.style.display === "none" || addSection.style.display === "") {
-            addSection.style.display = "block";
-        } else {
-            addSection.style.display = "none";
-        }
-    });
-
-    // 강의 수정 버튼 클릭 시 토글 처리
-    const editLectureButton = document.getElementById("editLectureButton");
-
-    editLectureButton.addEventListener("click", function() {
-        const lectureNo = editLectureButton.getAttribute("data-lecture-no");
-        const editSection = document.getElementById("editSection" + lectureNo);
-        const addSection = document.querySelector(".add-section");
-
-        if (editSection.style.display === "none" || editSection.style.display === "") {
-            editSection.style.display = "block";
-            addSection.style.display = "none"; // 강의 수정을 보여주면 강의 등록을 숨깁니다.
-        } else {
-            editSection.style.display = "none";
-        }
-    });
-
     // 강의 등록 폼 제출 기능
     const addLectureForm = document.querySelector("#addLectureForm");
 
@@ -77,7 +49,15 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // 강의 수정 기능
+function fillEditForm(row) {
+    let lectureNo = row.getAttribute("data-lecture-no");
+    let form = document.getElementById("addLectureForm");
 
+    // lectureInfo는 강의 객체를 포함하는 배열
+    let lecture = lectureInfo.find(function (item) {
+        return item.lectureNo === lectureNo;
+    })
+}
 // 강의 삭제 기능
 // 삭제 버튼 클릭 시 실행될 함수
 document.getElementById('deleteSelected').addEventListener('click', function () {

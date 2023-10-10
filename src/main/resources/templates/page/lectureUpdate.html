@@ -38,7 +38,7 @@
                 </thead>
 
                 <tbody class="row-6" th:each="lecture : ${lectureInfo}" th:attr="data-lecture-no=${lecture.lectureNo}">
-                <tr onclick="fillEditForm(${lecture.lectureNo})">
+                <tr onclick="fillEditForm(this)">
                     <div>
                         <!-- 체크박스 추가 -->
                         <td>
