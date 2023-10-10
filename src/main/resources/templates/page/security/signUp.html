@@ -6,25 +6,29 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-    <!-- page 고유 css -->
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{css/css.css}">
-    </th:block>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{css/css.css}">
+</th:block>
 
-    <!-- page 고유 javascript -->
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/signUp.js}"></script>
-    </th:block>
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/signUp.js}"></script>
+</th:block>
 <body>
 <!-- 회원가입 폼 -->
 <div class="container">
     <form class="form-signup" action="/lms/signup" method="post">
         <h2 class="form-signin-heading text-center mb-5">회원가입</h2>
+        <!-- 필수 입력항목 표시문구 -->
+        <div>
+            <span>* </span>는 필수 입력 항목입니다.
+        </div>
         <!-- 아이디 입력 필드 -->
         <div>
             <!-- 아이디 입력 -->
             <div>
-                <label for="duplicateId" class="" id="checkId">아이디</label>
+                <label for="duplicateId" class="" id="checkId">아이디<span> *</span></label>
                 <!-- 처음 회원가입 페이지에 빈 양식 보여주기(삼항연산자 이용)-->
                 <input type="text" id="duplicateId" name="loginId" class="form-control" placeholder="Id"
                        th:value="${signupDTO != null} ? ${signDTO.loginId} : ''">
@@ -33,30 +37,44 @@
             <div>
                 <input type="button" id="checkLoginIdBtn" value="중복체크">
                 <!-- 중복된 아이디일 경우, 색상 변경-->
-                <span
-                    th:if="${valid_loginId}" id="valid" th:text="${valid_loginId}"
-                    th:style="${valid_loginId != null ? 'color:#F96666;' : ''} "></span>
+                <!--                <span-->
+                <!--                    th:if="${valid_loginId}" id="valid" th:text="${valid_loginId}"-->
+                <!--                    th:style="${valid_loginId != null ? 'color:#F96666;' : ''} "></span>-->
             </div>
             <div id="result"></div>
         </div>
+
         <!-- 비밀번호 입력 필드 -->
         <p>
-            <label for="loginPw" class="sr-only">비밀번호</label>
-            <input type="password" id="loginPw" name="loginPw" class="form-control" placeholder="Password" >
+            <label for="loginPw" class="sr-only">비밀번호<span> *</span></label>
+            <input type="password" id="loginPw" name="loginPw" class="form-control" placeholder="Password"
+                   th:value="${signupDTO != null} ? ${signDTO.loginPw} : ''">
+            <!-- 유효성 검사 -->
+            <!--            <span-->
+            <!--                th:if="${valid_loginPw}" id="valid" th:text="${valid_loginPw}"-->
+            <!--                th:style="${valid_loginPw != null ? 'color:#F966666;' : ''}"></span>-->
         </p>
         <!-- 이름 입력 필드 -->
         <p>
-            <label for="" class="sr-only">이름</label>
+            <label for="memberName" class="sr-only">이름<span> *</span></label>
             <input type="text" id="memberName" name="memberName" class="form-control" placeholder="Name" autofocus="">
+            <!-- 유효성 검사 -->
+            <!--            <span-->
+            <!--                th:if="${valid_memberName}" id="valid" th:text="${valid_memberName}"-->
+            <!--                th:style="${valid_memberName != null ? 'color::#F966666;' : ''}"></span>-->
         </p>
         <!-- 이메일 입력 필드 -->
         <p>
-            <label for="" class="sr-only">이메일</label>
+            <label for="memberEmail" class="sr-only">이메일<span> *</span></label>
             <input type="text" id="memberEmail" name="memberEmail" class="form-control" placeholder="Email"  autofocus="">
+            <!-- 유효성 검사 -->
+            <!--            <span-->
+            <!--                    th:if="${valid_memberEmail}" id="valid" th:text="${valid_memberEmail}"-->
+            <!--                    th:style="${valid_memberEmail != null ? 'color::#F966666;' : ''}"></span>-->
         </p>
         <!-- 전화번호 입력 필드 -->
         <p>
-            <label for="" class="sr-only">전화번호</label>
+            <label for="memberTel" class="sr-only">전화번호</label>
             <input type="text" id="memberTel" name="memberTel" class="form-control" placeholder="PhoneNumber"  autofocus="">
         </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">회원가입</button>

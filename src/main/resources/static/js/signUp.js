@@ -1,16 +1,16 @@
 <!-- 아이디 중복 체크 : Ajax -->
 document.addEventListener("DOMContentLoaded", function(){
     // 중복 체크 버튼, 입력된 아이디, 결과
-    var checkLoginIdBtn = document.getElementById("checkLoginIdBtn");
-    var loginIdInput = document.getElementById("duplicateId");
-    var resultElement = document.getElementById("result");
+    let checkLoginIdBtn = document.getElementById("checkLoginIdBtn");
+    let loginIdInput = document.getElementById("duplicateId");
+    let resultElement = document.getElementById("result");
 
     checkLoginIdBtn.addEventListener("click", function(){
         // 사용자가 입력한 아이디 값을 가져와 memberId 변수에 저장
-        var loginId = loginIdInput.value;
+        let loginId = loginIdInput.value;
         //alert("로그인 아이디 " + loginId);
         // XMLHttpRequest ajax 객체 생성
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
 
         // 요청 설정
         xhr.open("GET", '/signup/checkId?LoginId=' + loginId, true);

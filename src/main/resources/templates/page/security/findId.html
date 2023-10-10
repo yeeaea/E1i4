@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/findId.css}">
+</th:block>
+
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/findId.js}"></script>
+</th:block>
 <body>
 아이디 찾기
+<H5>이름과 이메일 주소를 입력하세요.</H5>
+<form action="/lms/find-id" method="post">
+    <!-- 이름 입력 필드 -->
+    <div>
+        <label for="memberName">가입한 이름</label>
+        <input type="text" id="memberName" name="memberName">
+    </div>
+    <!-- 이메일 입력 필드 -->
+    <div>
+        <label for="memberEmail">가입한 이메일 주소</label>
+        <input type="text" id="memberEmail" name="memberEmail">
+    </div>
+    <br>
+    <!-- 아이디 찾기 버튼 -->
+    <button type="button" id="findIdBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">아이디 찾기</button>
+</form>
+
+<!-- 아이디 조회 결과 : 모달창에 보이도록! -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+     data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">아이디 찾기 결과</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="findIdResult">
+            </div>
+            <div class="modal-footer">
+                <form action="/" method="get">
+                    <button type="submit" id="ok" class="btn btn-primary">로그인 화면으로 이동</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

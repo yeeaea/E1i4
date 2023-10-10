@@ -29,7 +29,7 @@ public class SpringSecurityConfig {
                         .anyRequest().authenticated() // 어떠한 요청이라도 인증 필요
                 )
                 .formLogin(login -> login
-                        .loginPage("/login")                    // 커스텀 로그인 페이지 지정
+                        .loginPage("/page/security/login")                    // 커스텀 로그인 페이지 지정
                         .loginProcessingUrl("/login-process")   // submit받을 URL
                         .usernameParameter("loginId")           // submit할 아이디
                         .passwordParameter("loginPw")           // submit할 비밀번호

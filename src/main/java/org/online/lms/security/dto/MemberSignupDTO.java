@@ -33,8 +33,6 @@ public class MemberSignupDTO {
     *      (?=.*\\W) : 적어도 하나의 특수문자(특수기호 또는 기타 비알파벳 문자)가 포함되어야 함
     *      (?=\\S+$) : 문자열은 공백을 포함하지 않아야 함
     *      .{8,16} : 문자열의 총 길이는 8에서 16자 사이여야 함
-    *   @Email : 해당 필드의 값이 이메일 주소의 형식을 따르는지 여부 확인
-    *            -> 적어도 하나의 '@'를 포함해야 함
     * */
     @NotBlank(message = "아이디를 입력해주세요.")
     @Size(min = 6, max = 15, message = "아이디는 6~15자 내에서 입력해주세요.")
@@ -52,7 +50,10 @@ public class MemberSignupDTO {
     private String memberTel; // 전화번호
 
     @NotBlank(message = "이메일을 입력해주세요.")
-    @Email(message = "올바른 이메일 형식으로 입력해주세요.")
+    @Pattern(regexp = "^(?:\\w+\\.?)*\\w+@(?:\\w+\\.)+\\w+$", message = "이메일 형식이 올바르지 않습니다.")
+    // 로컬 파트 : 알파벳 문자나 숫자로 시작, 마침표로 구분
+    // @ : 로컬 파트와 도메인 파트 구분
+    // 도메인 파트 : 최소한 한 글자 이상의 알파벳 문자나 숫자로 시작, 마침표로 구분된 문자열로 구성
     private String memberEmail; // 이메일
 
 
