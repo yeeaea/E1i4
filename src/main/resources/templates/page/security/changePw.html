@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/changePw.css}">
+</th:block>
 <body>
     비밀번호 변경하기
     <h6>비밀번호 변경에 성공하시면, 로그아웃 후 로그인 페이지로 이동합니다.
@@ -13,24 +19,23 @@
           th:if="${dto == null}">
         <!-- 기존 비밀번호 입력란 -->
         <div>
+            <label for="currentPw">기존 비밀번호</label>
             <input type="password" name="currentPw" id="currentPw"
                    th:value="${dto != null}? ${dto.getCurrentPw()} : ''" >
-            <label for="currentPw">기존 비밀번호</label>
         </div>
         <!-- 새로운 비밀번호 입력란 -->
         <div>
-            <input type="password" name="newPw" id="newPw"
+            <label>새로운 비밀번호</label>
+            <input type="password" name="newPw"
                    th:value="${dto != null}? ${dto.getNewPw()} : ''" >
-            <label for="newPw">새로운 비밀번호</label>
             <!-- 유효성 검사
             <span th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"></span> -->
         </div>
 
         <div>
+            <label class="fs-5" >비밀번호 확인</label>
             <input type="password" name="comfirmPw" class="form-control"
-                   id="comfirmPw"
-                   th:value="${dto != null}? ${dto.getComfirmPw()} : ''" required>
-            <label class="fs-5" for="comfirmPw">비밀번호 확인</label>
+                   th:value="${dto != null}? ${dto.getComfirmPw()} : ''" >
             <!-- 유효성 검사
             <span th:if="${valid_comfirmPw}" id="valid"  th:text="${valid_comfirmPw}"></span> -->
         </div>
@@ -52,9 +57,9 @@
 
             <th:block th:if="${wrongPassword == null}">
                 <div class="form-floating mb-3">
-                    <input type="password" name="currentPw" class="form-control" id="currentPw"
-                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''" required>
                     <label class="fs-5" for="currentPw">기존 비밀번호</label>
+                    <input type="password" name="currentPw" class="form-control"
+                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''">
                     <!-- 유효성 검사
                     <span
                             th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
@@ -64,10 +69,10 @@
 
             <th:block th:unless="${wrongPassword == null}">
                 <div class="form-floating mb-3 has-danger">
-                    <input type="password" name="currentPwd"
-                           class="form-control is-invalid" id="currentPw"
-                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''" required>
                     <label class="fs-5" for="currentPw">기존 비밀번호</label>
+                    <input type="password" name="currentPwd"
+                           class="form-control is-invalid"
+                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''" >
                     <!-- 유효성 검사
                     <span
                             th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
@@ -77,10 +82,10 @@
             </th:block>
 
             <div class="form-floating mb-3">
+                <label class="fs-5">새로운 비밀번호</label>
                 <input type="password" name="newPw" class="form-control"
-                       id="newPw" th:value="${dto != null}? ${dto.getNewPw()} : ''"
+                       th:value="${dto != null}? ${dto.getNewPw()} : ''"
                        required>
-                <label class="fs-5" for="newPw">새로운 비밀번호</label>
                 <!-- 유효성 검사
                 <span
                         th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"
@@ -89,23 +94,22 @@
 
             <th:block th:if="${differentPassword == null}">
                 <div class="form-floating mb-3">
+                    <label class="fs-5">비밀번호 확인</label>
                     <input type="password" name="comfirmPw" class="form-control"
-                           id="comfirmPw"
-                           th:value="${dto != null}? ${dto.getComfirmPw()} : ''" required>
-                    <label class="fs-5" for="comfirmPw">비밀번호 확인</label>
+                           th:value="${dto != null}? ${dto.getComfirmPw()} : ''">
                     <!-- 유효성 검사
                     <span
                             th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
                             th:style="${valid_comfirmPw !=null? 'color:#F96666;' : ''}"></span> -->
                 </div>
-
             </th:block>
+
             <th:block th:unless="${differentPassword == null}">
                 <div class="form-floating mb-3 has-danger">
+                    <label class="fs-5">비밀번호 확인</label>
                     <input type="password" name="comfirmPw"
-                           class="form-control is-invalid" id="comfirmPw"
-                           th:value="${dto != null}? ${dto.getComfirmPw()} : ''" required>
-                    <label class="fs-5" for="comfirmPw">비밀번호 확인</label>
+                           class="form-control is-invalid"
+                           th:value="${dto != null}? ${dto.getComfirmPw()} : ''" >
                     <!-- 유효성 검사
                     <span
                             th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
