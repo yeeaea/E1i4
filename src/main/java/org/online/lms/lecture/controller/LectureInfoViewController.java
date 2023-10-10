@@ -27,7 +27,7 @@ public class LectureInfoViewController {
                 .toList();
         model.addAttribute("lectureInfo", lectureInfo); // 강의 목록 리스트 저장
         
-        return "page/lectureInfoList"; // lectureInfoList.html 뷰 조회999
+        return "page/lecture/lectureInfoList"; // lectureInfoList.html 뷰 조회999
     }
 
     // 회원 : 강의 계획서 조회
@@ -36,7 +36,7 @@ public class LectureInfoViewController {
         LectureInfo lectureInfo = lectureInfoService.findById(lectureNo);
         model.addAttribute("lectureInfo", new LectureInfoViewResponse(lectureInfo));
 
-        return "page/lectureInfo";
+        return "page/lecture/lectureInfo";
     }
 
 

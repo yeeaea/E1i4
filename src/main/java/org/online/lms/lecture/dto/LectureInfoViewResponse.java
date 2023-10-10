@@ -18,6 +18,7 @@ public class LectureInfoViewResponse {
     private Timestamp lectureStartAt; // 강의 시작일
     private Timestamp lectureEndAt; // 강의 종료일
     private String lectureCourse; // 강의 과정
+    private int lectureDuration; // 총 주차 수
 
     public LectureInfoViewResponse(LectureInfo lectureInfo) {
         this.lectureNo = lectureInfo.getLectureNo();
@@ -27,5 +28,6 @@ public class LectureInfoViewResponse {
         this.lectureStartAt = lectureInfo.getLectureStartAt();
         this.lectureEndAt = lectureInfo.getLectureEndAt();
         this.lectureCourse = lectureInfo.getLectureCourse();
+        this.lectureDuration = lectureInfo.getLectureDuration();
     }
 }

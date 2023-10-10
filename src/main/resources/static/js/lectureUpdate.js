@@ -1,108 +1,232 @@
+// 페이지가 로드될 때 실행할 함수
 document.addEventListener("DOMContentLoaded", function () {
-    // 강의 등록 버튼 클릭 시 토글 처리
-    const addLectureButton = document.getElementById("addLectureButton");
-    const addSection = document.querySelector(".add-section");
+    // ******** 강의 추가 기능 ********
+    // 등록 버튼 클릭 시 실행
+    document.getElementById("lectureAdd").addEventListener("click", function () {
+        // 필수 입력 필드 목록
+        const requiredFields = ["lectureCourse", "lectureTitle", "lectureDesc", "lectureStartAt", "lectureEndAt", "lectureDuration"];
+        let hasEmptyField = false;
+        let emptyFieldNames = [];
 
-    addLectureButton.addEventListener("click", function () {
-        if (addSection.style.display === "none" || addSection.style.display === "") {
-            addSection.style.display = "block";
-        } else {
-            addSection.style.display = "none";
+        // 필수 입력 필드를 확인하고 빈 필드가 있는지 검사
+        for (const fieldName of requiredFields) {
+            const field = document.getElementById(fieldName);
+            if (!field.value) {
+                hasEmptyField = true;
+                emptyFieldNames.push(fieldName);
+            }
         }
-    });
 
-    // 강의 수정 버튼 클릭 시 토글 처리
-    const editLectureButton = document.getElementById("editLectureButton");
-
-    editLectureButton.addEventListener("click", function() {
-        const lectureNo = editLectureButton.getAttribute("data-lecture-no");
-        const editSection = document.getElementById("editSection" + lectureNo);
-        const addSection = document.querySelector(".add-section");
-
-        if (editSection.style.display === "none" || editSection.style.display === "") {
-            editSection.style.display = "block";
-            addSection.style.display = "none"; // 강의 수정을 보여주면 강의 등록을 숨깁니다.
+        if (hasEmptyField) {
+            const emptyFieldNamesString = emptyFieldNames.join(", ");
+            alert(`${emptyFieldNamesString}는 필수 입력값입니다.`);
         } else {
-            editSection.style.display = "none";
-        }
-    });
+            // 폼 데이터를 가져오기
+            const lectureForm = document.getElementById("LectureForm");
+            const formData = new FormData(lectureForm);
 
-    // 강의 등록 폼 제출 기능
-    const addLectureForm = document.querySelector("#addLectureForm");
-
-    addLectureForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        // 각 입력 필드에서 데이터 수집
-        const lectureYear = document.querySelector("#lectureYear").value;
-        const lectureCourse = document.querySelector("#lectureCourse").value;
-        const lectureTitle = document.querySelector("#lectureTitle").value;
-        const lectureDesc = document.querySelector("#lectureDesc").value;
-        const lectureStartAt = document.querySelector("#lectureStartAt").value;
-        const lectureEndAt = document.querySelector("#lectureEndAt").value;
-
-        // 수집한 데이터를 객체로 만듦
-        const formData = {
-            lectureYear: lectureYear,
-            lectureCourse: lectureCourse,
-            lectureTitle: lectureTitle,
-            lectureDesc: lectureDesc,
-            lectureStartAt: lectureStartAt,
-            lectureEndAt: lectureEndAt
-        };
-
-        // 서버로 데이터를 JSON 형식으로 전송
-        fetch("/admin/api/lectures/add", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("서버 응답 오류");
-                }
-                // POST 요청 후 서버에서 리다이렉션을 수행하면 이 코드는 실행되지 않음
-                return response.json();
-            })
-            .then(data => {
-                // 성공 시 강의 목록 페이지로 리다이렉션
-                window.location.href = "/admin/online/lecture-all";
-            })
-            .catch(error => {
-                console.error("에러 발생: " + error);
+            // FormData를 JSON으로 변환
+            const jsonObject = {};
+            formData.forEach((value, key) => {
+                jsonObject[key] = value;
             });
+
+            // JSON 데이터를 서버로 전송
+            fetch("/admin/api/lectures/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(jsonObject)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 추가 실패 시 필요한 동작 수행
+                        alert("강의 추가 실패");
+                    } else {
+                        // 추가 성공 시 필요한 동작 수행
+                        alert("강의 추가 완료");
+                        // 페이지 리로딩
+                        location.reload();
+                    }
+                });
+        }
+    });
+
+    // 강의 시작일과 종료일 입력 필드 가져오기
+    const lectureStartInput = document.getElementById("lectureStartAt");
+    const lectureEndInput = document.getElementById("lectureEndAt");
+    const lectureDurationSelect = document.getElementById("lectureDuration");
+
+    // 강의 종료일 검증 함수
+    function validateEndDate() {
+        const startDate = new Date(lectureStartInput.value);
+        const endDate = new Date(lectureEndInput.value);
+
+        if (endDate < startDate) {
+            alert("강의 종료일은 강의 시작일 이후여야 합니다.");
+            lectureEndInput.value = ""; // 종료일 초기화
+            return; // 함수 종료
+        }
+
+        // 강의 주차 계산 및 선택 옵션 업데이트
+        const duration = Math.ceil((endDate - startDate) / (7 * 24 * 60 * 60 * 1000)); // 일주일은 7일
+
+        // 강의 주차가 15주를 넘어가면 알림 표시하고 종료일 초기화
+        if (duration > 15) {
+            alert("강의 주차는 최대 15주까지 가능합니다.");
+            lectureEndInput.value = ""; // 종료일 초기화
+        } else {
+            // 주차 선택 옵션 업데이트
+            lectureDurationSelect.value = duration.toString();
+        }
+    }
+
+    // 강의 종료일 입력 필드에 이벤트 리스너 추가
+    lectureEndInput.addEventListener("change", validateEndDate);
+
+    // ******** 강의 수정 기능 ********
+    // 테이블의 모든 행에 클릭 이벤트 핸들러 추가
+    const tableRows = document.querySelectorAll('tbody tr');
+    tableRows.forEach(function (row) {
+        row.addEventListener('click', function () {
+            // 다른 행의 선택 상태를 초기화
+            tableRows.forEach(function (r) {
+                r.classList.remove('selected');
+            });
+
+            // 클릭한 행을 선택 상태로 변경
+            row.classList.add('selected');
+
+            // 강의 정보를 폼에 채우는 함수 호출
+            populateFormFields(row);
+        });
+    });
+
+    // 이벤트 핸들러 함수: 테이블 행 클릭 시 실행됨
+    function populateFormFields(row) {
+        // 클릭한 행에서 강의 정보를 가져오기
+        const lectureYear = row.cells[1].textContent;
+        const lectureCourse = row.cells[2].textContent;
+        const lectureTitle = row.cells[3].textContent;
+        const lectureDesc = row.cells[4].textContent;
+        const lectureStartAtText = row.cells[5].textContent;
+        const lectureEndAtText = row.cells[6].textContent;
+        const lectureDuration = row.cells[7].textContent;
+
+        // TIMESTAMP 문자열을 JavaScript Date 객체로 변환
+        const lectureStartAtDate = new Date(lectureStartAtText);
+        const lectureEndAtDate = new Date(lectureEndAtText);
+
+        // 날짜 객체를 원하는 형식으로 포맷팅
+        const formattedStartDate = lectureStartAtDate.toLocaleDateString();
+        const formattedEndDate = lectureEndAtDate.toLocaleDateString();
+
+        // 강의 등록 섹션의 입력 필드에 정보 설정
+        document.getElementById('lectureYear').value = lectureYear;
+        document.getElementById('lectureCourse').value = lectureCourse;
+        document.getElementById('lectureTitle').value = lectureTitle;
+        document.getElementById('lectureDesc').value = lectureDesc;
+        document.getElementById('lectureStartAt').value = formattedStartDate;
+        document.getElementById('lectureEndAt').value = formattedEndDate;
+        document.getElementById('lectureDuration').value = lectureDuration;
+    }
+
+    // 수정 버튼 클릭 시 실행
+    document.getElementById('lectureEdit').addEventListener('click', function () {
+        const lectureForm = document.getElementById('LectureForm');
+        const formData = new FormData(lectureForm);
+
+        // 클릭한 행의 강의 번호를 가져오기
+        const lectureNoElement = document.querySelector('tr[data-lecture-no]');
+        const lectureNo = lectureNoElement ? lectureNoElement.getAttribute('data-lecture-no') : null;
+
+        if (lectureNo) {
+            // 강의 수정 요청 객체 생성
+            const updateRequest = {
+                lectureYear: formData.get('lectureYear'),
+                lectureCourse: formData.get('lectureCourse'),
+                lectureTitle: formData.get('lectureTitle'),
+                lectureDesc: formData.get('lectureDesc'),
+                lectureStartAt: formData.get('lectureStartAt'),
+                lectureEndAt: formData.get('lectureEndAt'),
+                lectureDuration: formData.get('lectureDuration')
+            };
+
+            fetch(`/lectures/update/${lectureNo}`, {
+                method: "PUT", // PUT 메서드 사용
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(updateRequest)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data) {
+                        alert("강의 수정 완료");
+                        location.reload();
+                    } else {
+                        alert("강의 수정 실패");
+                    }
+                });
+        } else {
+            alert("강의를 선택하세요.");
+        }
+    });
+
+    // ******** 강의 삭제 기능 ********
+    // 삭제 버튼 클릭 시 실행
+    document.getElementById('deleteSelected').addEventListener('click', function () {
+        console.log("Delete button clicked."); // 디버깅 메시지
+        let selectedLectures = document.querySelectorAll('.lecture-checkbox:checked');
+        if (selectedLectures.length === 0) {
+            alert("선택된 강의가 없습니다.");
+            return;
+        }
+
+        // 선택된 강의를 삭제할지 확인하는 팝업을 표시합니다.
+        if (confirm("선택한 강의를 삭제하시겠습니까?")) {
+            // 선택된 강의를 삭제하는 AJAX 요청을 보냅니다.
+            let lectureNos = Array.from(selectedLectures).map(function(checkbox) {
+                return parseInt(checkbox.value);
+            });
+
+            // 서버로 선택된 강의 번호 목록을 JSON 형식으로 변환하여 전송합니다.
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "/admin/api/lectures/delete", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // 삭제가 성공한 경우, 화면에서 선택한 강의를 제거합니다.
+                        selectedLectures.forEach(function(checkbox) {
+                            checkbox.closest("tr").remove();
+                        });
+                        alert("강의가 삭제되었습니다.");
+                        location.reload();
+                    } else {
+                        alert("강의 삭제 중 오류가 발생했습니다.");
+                    }
+                }
+            };
+
+            // 선택된 강의 번호 목록을 JSON 형식으로 변환하여 전송합니다.
+            xhr.send(JSON.stringify(lectureNos));
+        }
     });
 });
 
-// 강의 수정 기능
+// 날짜 선택할 때 달력에서 선택하는 기능
+$(document).ready(function() {
+    $('#lectureStartAt').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
 
-// 강의 삭제 기능
-// 삭제 버튼 클릭 시 실행될 함수
-document.getElementById('deleteSelected').addEventListener('click', function () {
-    const selectedCheckboxes = document.querySelectorAll('.lecture-checkbox:checked');
-    const lectureNos = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
-
-    if (lectureNos.length === 0) {
-        alert('선택된 강의가 없습니다.');
-        return;
-    }
-
-    // 선택한 강의의 lectureNo 배열을 서버로 전송
-    fetch('/admin/api/lectures/delete', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ lectureNos }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert(data); // 서버에서 반환한 메시지를 표시
-            location.reload(); // 페이지 새로 고침
-        })
-        .catch(error => {
-            console.error('삭제 요청 중 오류 발생:', error);
-        });
+    $('#lectureEndAt').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
 });
