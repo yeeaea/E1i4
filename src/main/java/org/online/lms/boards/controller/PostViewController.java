@@ -1,6 +1,7 @@
 package org.online.lms.boards.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.online.lms.boards.domain.FileUpload;
 import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.dto.PostViewResponse;
 import org.online.lms.boards.service.PostService;
@@ -68,8 +69,10 @@ public class PostViewController {
 
         // 글 정보 가져오기
         Post question = postService.getQues(postNo, session);
+        FileUpload file = question.getFile();
 
-        model.addAttribute("question", question);
+        PostViewResponse questionResponse = new PostViewResponse(question, file);
+        model.addAttribute("question", questionResponse);
 
 
         return "boards/question.html";
@@ -82,7 +85,11 @@ public class PostViewController {
             model.addAttribute("question", new PostViewResponse());
         } else {
             Post post = postService.findById(postNo);
-            model.addAttribute("question", new PostViewResponse(post));
+            FileUpload file = post != null ? post.getFile() : null; // 게시물과 연결된 파일 가져오기 (File 객체로 가정)
+
+            // File 객체를 사용하여 PostViewResponse 객체 생성
+            PostViewResponse questionResponse = new PostViewResponse(post, file);
+            model.addAttribute("question", questionResponse);
         }
 
         return "boards/newQuestion.html";

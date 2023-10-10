@@ -28,11 +28,12 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // * 회원가입 로직 ( 유효성 검사 포함 )
+    // * 회원가입 로직 ( 유효성 검사는 일단 나중에..! )
     // 1) Member 엔티티 저장
-    public Members saveMember(Members members){
-        return memberRepository.save(members);
+    public Members saveMember(Members member){
+        return memberRepository.save(member);
     }
+
 
     // 2) 비밀번호 암호화 후, DTO에서 받아온 데이터를 기반으로 회원정보 생성하고 저장
     public String registerMember(MemberSignupDTO dto) {
