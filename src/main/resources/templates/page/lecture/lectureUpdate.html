@@ -2,90 +2,115 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout_mem.html}">
+      layout:decorate="~{layouts/layout_admin.html}">
 <head>
     <title>Content page</title>
 </head>
-    <!-- page 고유 css -->
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/lectureUpdate.css}">
-    </th:block>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/lectureUpdate.css}">
+    <!-- Bootstrap Datepicker CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+</th:block>
 
-    <!-- page 고유 javascript -->
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/lectureUpdate.js}"></script>
-    </th:block>
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/lectureUpdate.js}"></script>
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+</th:block>
 
-    <!-- content start -->
-    <section layout:fragment="content">
-        <h3>개설 강의 목록</h3>
-        <button class="btn btn-primary">등록</button>
-        <button class="btn btn-warning">수정</button>
-        <button class="btn btn-danger" id="deleteSelected">삭제</button>
-        <div style="display: flex;">
-            <table class = "table table-hover" >
-                <thead>
-                <tr>
-                    <!-- 체크박스 열 추가 -->
-                    <th></th>
-                    <th>강의년도</th>
-                    <th>강의 과정</th>
-                    <th>강의명</th>
-                    <th>강의 설명</th>
-                    <th>강의 시작일</th>
-                    <th>강의 종료일</th>
-                </tr>
-                </thead>
+<!-- content start -->
+<section layout:fragment="content">
+    <h3>개설 강의 목록</h3>
+    <button class="btn btn-primary" id="lectureAdd">등록</button>
+    <button class="btn btn-warning">저장</button>
+    <button class="btn btn-danger" id="deleteSelected">삭제</button>
+    <div style="display: flex;">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <!-- 체크박스 열 추가 -->
+                <th></th>
+                <th>강의년도</th>
+                <th>강의 과정</th>
+                <th>강의명</th>
+                <th>강의 설명</th>
+                <th>강의 시작일</th>
+                <th>강의 종료일</th>
+                <th>강의주차</th>
+            </tr>
+            </thead>
 
-                <tbody class="row-6" th:each="lecture : ${lectureInfo}" th:attr="data-lecture-no=${lecture.lectureNo}">
-                <tr onclick="fillEditForm(this)">
-                    <div>
-                        <!-- 체크박스 추가 -->
-                        <td>
-                            <input type="checkbox" th:attr="value=${lecture.lectureNo}" class="lecture-checkbox" />
-                        </td>
-                        <td th:text="${lecture.lectureYear}"></td>
-                        <td th:text="${lecture.lectureCourse}"></td>
-                        <td th:text="${lecture.lectureTitle}"></td>
-                        <td th:text="${lecture.lectureDesc}"></td>
-                        <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-                        <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-                    </div>
-                </tr>
-                </tbody>
-            </table>
+            <tbody class="row-6" th:each="lecture : ${lectureInfo}" th:attr="data-lecture-no=${lecture.lectureNo}">
+            <tr>
+                <!-- 체크박스 추가 -->
+                <td>
+                    <input type="checkbox" th:attr="value=${lecture.lectureNo}" class="lecture-checkbox" />
+                </td>
+                <td th:text="${lecture.lectureYear}"></td>
+                <td th:text="${lecture.lectureCourse}"></td>
+                <td th:text="${lecture.lectureTitle}"></td>
+                <td th:text="${lecture.lectureDesc}"></td>
+                <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+                <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                <td th:text="${lecture.lectureDuration}"></td>
+            </tr>
+            </tbody>
+        </table>
 
-            <!-- 강의 등록 section -->
-            <div>
-                <form th:action="@{/admin/api/lectures/add}" id="addLectureForm" method="post" th:object="${lectureInfoRequest}">
-                    <div>
-                        <label for="lectureYear">강의 년도:</label>
-                        <input type="text" id="lectureYear" name="lectureYear" th:field="*{lectureYear}" />
-                    </div>
-                    <div>
-                        <label for="lectureCourse">강의 과정:</label>
-                        <input type="text" id="lectureCourse" name="lectureCourse" th:field="*{lectureCourse}" />
-                    </div>
-                    <div>
-                        <label for="lectureTitle">강의 제목:</label>
-                        <input type="text" id="lectureTitle" name="lectureTitle" th:field="*{lectureTitle}" />
-                    </div>
-                    <div>
-                        <label for="lectureDesc">강의 설명:</label>
-                        <textarea id="lectureDesc" name="lectureDesc" th:field="*{lectureDesc}" rows="4"></textarea>
-                    </div>
-                    <div>
-                        <label for="lectureStartAt">강의 시작일:</label>
-                        <input type="datetime-local" id="lectureStartAt" name="lectureStartAt" th:field="*{lectureStartAt}" />
-                    </div>
-                    <div>
-                        <label for="lectureEndAt">강의 종료일:</label>
-                        <input type="datetime-local" id="lectureEndAt" name="lectureEndAt" th:field="*{lectureEndAt}" />
-                    </div>
-                </form>
-            </div>
-
+        <!-- 강의 등록 section -->
+        <div>
+            <form th:action="@{/admin/api/lectures/add}" id="addLectureForm" method="post" th:object="${lectureInfoRequest}">
+                <div>
+                    <label for="lectureYear">강의 년도:</label>
+                    <select id="lectureYear" name="lectureYear" th:field="*{lectureYear}">
+                        <option value="2023">2023년</option>
+                        <option value="2022">2024년</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="lectureCourse">강의 과정:</label>
+                    <input type="text" id="lectureCourse" name="lectureCourse" th:field="*{lectureCourse}" />
+                </div>
+                <div>
+                    <label for="lectureTitle">강의 제목:</label>
+                    <input type="text" id="lectureTitle" name="lectureTitle" th:field="*{lectureTitle}" />
+                </div>
+                <div>
+                    <label for="lectureDesc">강의 설명:</label>
+                    <textarea id="lectureDesc" name="lectureDesc" th:field="*{lectureDesc}" rows="4"></textarea>
+                </div>
+                <div>
+                    <label for="lectureStartAt">강의 시작일:</label>
+                    <input type="date" id="lectureStartAt" name="lectureStartAt" th:field="*{lectureStartAt}" />
+                </div>
+                <div>
+                    <label for="lectureEndAt">강의 종료일:</label>
+                    <input type="date" id="lectureEndAt" name="lectureEndAt" th:field="*{lectureEndAt}" />
+                </div>
+                <label for="lectureDuration">강의주차:</label>
+                <select id="lectureDuration" name="lectureDuration" th:field="*{lectureDuration}">
+                    <option value="1">1주차</option>
+                    <option value="2">2주차</option>
+                    <option value="3">3주차</option>
+                    <option value="4">4주차</option>
+                    <option value="5">5주차</option>
+                    <option value="6">6주차</option>
+                    <option value="7">7주차</option>
+                    <option value="8">8주차</option>
+                    <option value="9">9주차</option>
+                    <option value="10">10주차</option>
+                    <option value="11">11주차</option>
+                    <option value="12">12주차</option>
+                    <option value="13">13주차</option>
+                    <option value="14">14주차</option>
+                    <option value="15">15주차</option>
+                </select>
+            </form>
         </div>
-    </section>
-    <!-- content end -->
+
+    </div>
+</section>
+<!-- content end -->
 </html>
