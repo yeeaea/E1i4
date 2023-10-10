@@ -27,7 +27,7 @@ public class PostService {
     int fileSeq = 1; // 파일 일련번호 초기화
 
     // 글 등록
-    public Post save(PostRequest dto, MultipartFile file1, MultipartFile file2, MultipartFile file3) throws Exception {
+    public Post save(PostRequest dto, MultipartFile file1) throws Exception {
         String projectPath =
                 System.getProperty("user.dir") + "/src/main/resources/static/files";
 
@@ -43,34 +43,6 @@ public class PostService {
             dto.setSaveFileName(fileName);
             dto.setFilePath("/files/" + fileName);
             dto.setFileSize(file1.getSize());
-        }
-
-        // 파일2 처리
-        if (file2 != null && !file2.isEmpty()) {
-            UUID uuid = UUID.randomUUID();
-            String fileName = uuid + "_" + file2.getOriginalFilename();
-            File saveFile = new File(projectPath, fileName);
-            file2.transferTo(saveFile);
-
-            dto.setFileSeq((long) fileSeq++);
-            dto.setOrgFileName(file2.getOriginalFilename());
-            dto.setSaveFileName(fileName);
-            dto.setFilePath("/files/" + fileName);
-            dto.setFileSize(file2.getSize());
-        }
-
-        // 파일3 처리
-        if (file3 != null && !file3.isEmpty()) {
-            UUID uuid = UUID.randomUUID();
-            String fileName = uuid + "_" + file3.getOriginalFilename();
-            File saveFile = new File(projectPath, fileName);
-            file3.transferTo(saveFile);
-
-            dto.setFileSeq((long) fileSeq++);
-            dto.setOrgFileName(file3.getOriginalFilename());
-            dto.setSaveFileName(fileName);
-            dto.setFilePath("/files/" + fileName);
-            dto.setFileSize(file3.getSize());
         }
 
         return postRepository.save(dto.toEntity());
@@ -99,16 +71,34 @@ public class PostService {
 
     // 글 수정 (파일 추가 예정)
     @Transactional
-    public Post update(Long postNo, UpdatePostRequest request) {
+    public Post update(Long postNo, String postTitle, String postContent, MultipartFile file1) throws Exception {
         Post post = postRepository.findById(postNo)
                 .orElseThrow(() ->
                         new IllegalArgumentException(postNo + "번 글이 존재하지 않습니다."));
 
         post.setPostRtm(LocalDateTime.now());
-        post.update(request.getPostTitle(), request.getPostContent());
+        post.update(postTitle, postContent);
+
+        String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/files";
+
+        // 파일1 처리
+        if (file1 != null && !file1.isEmpty()) {
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_" + file1.getOriginalFilename();
+            File saveFile = new File(projectPath, fileName);
+            file1.transferTo(saveFile);
+
+            // 파일 관련 정보를 데이터베이스에 저장 또는 업데이트
+            post.setFileSeq((long) fileSeq++);  // 파일 시퀀스
+            post.setOrgFileName(file1.getOriginalFilename()); // 원본 파일 이름
+            post.setSaveFileName(fileName); // 저장된 파일 이름
+            post.setFilePath("/files/" + fileName); // 파일 경로
+            post.setFileSize(file1.getSize()); // 파일 크기
+        }
 
         return post;
     }
+
 
     // 키워드 검색
     public Page<Post> boardSearchList(String keyword, Pageable pageable) {

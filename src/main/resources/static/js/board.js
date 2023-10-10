@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 파일 업로드 input 요소에서 각각의 파일을 가져와 FormData에 추가
             formData.append("file1", document.getElementById("file1").files[0]);
-            formData.append("file2", document.getElementById("file2").files[0]);
-            formData.append("file3", document.getElementById("file3").files[0]);
 
             let title = document.getElementById("postTitle").value;
             let content = document.getElementById("postContent").value;
@@ -67,7 +65,50 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// 게시물 수정
+// //게시물 수정
+// document.addEventListener('DOMContentLoaded', function () {
+//     const modifyButton = document.getElementById('modify-btn');
+//
+//     if (modifyButton) {
+//         modifyButton.addEventListener('click', event => {
+//             let params = new URLSearchParams(location.search);
+//             let postNo = params.get('postNo');
+//
+//             // 수정된 부분: postTitle과 postContent 값을 가져온 후 콘솔에 출력
+//             let title = document.getElementById('postTitle').value;
+//             let content = document.getElementById('postContent').value;
+//
+//             const formData = new FormData();
+//             formData.append("postTitle", title);
+//             formData.append("postContent", content);
+//             formData.append("file1", document.getElementById("file1").files[0]);
+//
+//             fetch(`/api/post/${postNo}`, {
+//                 method: 'PUT',
+//                 headers: {
+//                     "Content-Type": "application/json",
+//                 },
+//                 body: JSON.stringify({
+//                     postTitle: title,
+//                     postContent: content
+//                 })
+//             })
+//                 .then(response => {
+//                     if (response.status === 200) {
+//                         alert('수정이 완료되었습니다.');
+//                         location.replace('/lms/questions');
+//                     } else {
+//                         alert('수정에 실패했습니다.');
+//                     }
+//                 })
+//                 .catch(error => {
+//                     console.error('Error:', error);
+//                     alert('수정에 실패했습니다.');
+//                 });
+//         });
+//     }
+// });
+
 document.addEventListener('DOMContentLoaded', function () {
     const modifyButton = document.getElementById('modify-btn');
 
@@ -76,34 +117,38 @@ document.addEventListener('DOMContentLoaded', function () {
             let params = new URLSearchParams(location.search);
             let postNo = params.get('postNo');
 
-            // 수정된 부분: postTitle과 postContent 값을 가져온 후 콘솔에 출력
             let title = document.getElementById('postTitle').value;
             let content = document.getElementById('postContent').value;
-            console.log('postTitle:', title);
-            console.log('postContent:', content);
 
-            fetch(`/api/post/${postNo}`, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    postTitle: title,
-                    postContent: content
+            const formData = new FormData();
+            formData.append("file1", document.getElementById("file1").files[0]);
+            formData.append("postTitle", title);
+            formData.append("postContent", content);
+
+            if (title == "" && content == "") {
+                alert("제목과 내용을 입력해주세요!")
+            } else if (content == "") {
+                alert("내용을 입력해주세요!");
+            } else if (title == "") {
+                alert("제목을 입력해주세요!")
+            } else {
+                fetch(`/api/post/${postNo}`, {
+                    method: "PUT",
+                    body: formData,
                 })
-            })
-                .then(response => {
-                    if (response.status === 200) {
-                        alert('수정이 완료되었습니다.');
-                        location.replace('/lms/questions');
-                    } else {
-                        alert('수정에 실패했습니다.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('수정에 실패했습니다.');
-                });
+                    .then((response) => {
+                        if (response.status === 200) {
+                            alert("수정을 완료했습니다.");
+                            location.replace('/lms/questions');
+                        } else {
+                            alert("수정을 실패했습니다.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                        alert("수정을 실패했습니다.");
+                    });
+            }
         });
     }
 });

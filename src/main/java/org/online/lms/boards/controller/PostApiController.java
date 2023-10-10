@@ -34,14 +34,12 @@ public class PostApiController {
     @PostMapping("/api/post")
     public ResponseEntity<Post> addArticle(@RequestParam("postTitle") String postTitle,
                                            @RequestParam("postContent") String postContent,
-                                           @RequestParam(value = "file1", required = false) MultipartFile file1,
-                                           @RequestParam(value = "file2", required = false) MultipartFile file2,
-                                           @RequestParam(value = "file3", required = false) MultipartFile file3) throws Exception {
+                                           @RequestParam(value = "file1", required = false) MultipartFile file1) throws Exception {
         PostRequest dto = new PostRequest();
         dto.setPostTitle(postTitle);
         dto.setPostContent(postContent);
 
-        Post savedPost = postService.save(dto, file1, file2, file3);
+        Post savedPost = postService.save(dto, file1);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedPost);
@@ -77,9 +75,16 @@ public class PostApiController {
     // 글 수정
     @PutMapping("/api/post/{postNo}")
     public ResponseEntity<Post> updatePost(@PathVariable Long postNo,
-                                           @RequestBody UpdatePostRequest request) {
+                                           @RequestParam("postTitle") String postTitle,
+                                           @RequestParam("postContent") String postContent,
+                                           @RequestParam(name = "file1", required = false) MultipartFile file1) throws Exception {
 
-        Post updatedPost = postService.update(postNo, request);
+        Post post = postService.findById(postNo);
+
+        post.setPostTitle(postTitle);
+        post.setPostContent(postContent);
+
+        Post updatedPost = postService.update(postNo, postTitle, postContent,  file1);
 
         return ResponseEntity.ok().body(updatedPost);
     }
