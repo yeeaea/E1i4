@@ -7,12 +7,21 @@ import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.dto.PostRequest;
 import org.online.lms.boards.dto.PostResponse;
 import org.online.lms.boards.dto.UpdatePostRequest;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController
@@ -37,7 +46,6 @@ public class PostApiController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedPost);
     }
-
 
 
     // 글 목록 조회
@@ -76,4 +84,29 @@ public class PostApiController {
         return ResponseEntity.ok().body(updatedPost);
     }
 
+
+    private final String fileStoragePath = System.getProperty("user.dir") + "/src/main/resources/static/files/";
+
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+        // 파일 경로 생성
+        Path filePath = Paths.get(fileStoragePath).resolve(fileName);
+        Resource resource;
+
+        try {
+            resource = new UrlResource(filePath.toUri());
+            if (resource.exists() && resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } else {
+                // 파일을 찾을 수 없거나 읽을 수 없음
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            // 파일 다운로드 중 오류 발생
+            return ResponseEntity.status(500).build();
+        }
+    }
 }

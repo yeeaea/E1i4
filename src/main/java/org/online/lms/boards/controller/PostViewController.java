@@ -60,7 +60,7 @@ public class PostViewController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("sortBy", sortBy);
 
-        return "boards/questionList.html";
+        return "page/boards/questionList.html";
     }
 
     // 게시글 1개 조회
@@ -75,7 +75,7 @@ public class PostViewController {
         model.addAttribute("question", questionResponse);
 
 
-        return "boards/question.html";
+        return "page/boards/question.html";
     }
 
     // 게시물 작성
@@ -92,7 +92,7 @@ public class PostViewController {
             model.addAttribute("question", questionResponse);
         }
 
-        return "boards/newQuestion.html";
+        return "page/boards/newQuestion.html";
     }
 
 

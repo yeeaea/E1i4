@@ -29,11 +29,14 @@
         <!-- 첨부 파일 정보 표시 -->
         <p th:if="${question.orgFileName != null}">
             첨부 파일:
-            <a th:href="@{'/' + question.filePath}" th:download="${question.orgFileName}" th:text="${question.orgFileName}">다운로드</a>
+            <a th:href="@{'/download/' + ${question.saveFileName}}" th:text="${question.orgFileName}">다운로드</a>
         </p>
+
         <p th:unless="${question.orgFileName != null}">
             첨부 파일이 없습니다.
         </p>
+
+
 
     </div>
     <div>
