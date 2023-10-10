@@ -13,13 +13,15 @@
 
     <!-- page 고유 javascript -->
     <th:block layout:fragment="script">
-        <script th:src="@{js/js.js}"></script>
+        <script th:src="@{js/js}"></script>
     </th:block>
 
     <!-- content start -->
     <section layout:fragment="content">
         <div class="container">
-            <p>This is a paragraph from the content page</p>
+            <a href="/lms/mypage/change-pw">
+                <button id="changePwBtn">비밀번호 변경</button>
+            </a>
         </div>
     </section>
     <!-- content end -->

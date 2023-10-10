@@ -4,6 +4,7 @@ package org.online.lms.security.service;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
+import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.online.lms.security.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,5 +140,26 @@ public class MemberService {
         log.info("임시 비밀번호 업데이트 시도 중 (3/4)");
         memberRepository.save(member);
         log.info("임시 비밀번호 업데이트 성공");
+    }
+
+    // 비밀번호 변경 - 로그인된 아이디를 기준으로 비밀번호 입력 시, 맞으면 변경
+    @Transactional
+    public String updateMemberPw(MemberPwChangeDTO dto, String loginId) {
+        // 변경을 위한 아이디 값 가져오기
+        Members member = memberRepository.findByLoginId(loginId).get();
+        log.info("비밀번호 변경할 아이디 : " + loginId);
+
+        // DB에 저장된 비밀번호와 비교
+        if( !passwordEncoder.matches(dto.getCurrentPw(), member.getLoginPw())){
+            // 일치하지 않는 경우
+            // 컨트롤러에서 null에 대한 에러 메시지 설정
+            return null;
+        } else {
+            // 일치하는 경우
+            // 새로 입력받은 비밀번호를 기존에 설정한 변수에 업데이트해주기
+            member.setLoginPw(passwordEncoder.encode(dto.getNewPw()));
+            memberRepository.save(member);
+            return "업데이트";
+        }
     }
 }
