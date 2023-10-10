@@ -34,7 +34,8 @@ public class ProgressInfo { // 강의 차시 정보 테이블
     private Content contentNo; // 콘텐츠 관리 번호 (외래키 연결)
 
     @Builder
-    public ProgressInfo(String nthName) {
+    public ProgressInfo(String nthName, Content contentNo) {
         this.nthName = nthName;
+        this.contentNo = contentNo;
     }
 }

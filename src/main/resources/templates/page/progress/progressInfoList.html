@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <title>Content page</title>
+</head>
+    <!-- page 고유 css -->
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/progress.css}">
+    </th:block>
+
+    <!-- page 고유 javascript -->
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/progress.js}"></script>
+    </th:block>
+
+    <!-- content start -->
+    <section layout:fragment="content">
+        <div class="container">
+            <table class="border border-dark p-3 mb-3">
+                <thead>
+                    <tr>
+                        <th>강의 번호</th>
+                        <th>강의 년도</th>
+                        <th>강의 제목</th>
+                        <th>차시 관리 번호</th>
+                        <th>차시명</th>
+                        <th>콘텐츠 관리 번호</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 강의 차시 정보 목록 표시 -->
+                    <tr th:each="progressInfo : ${progressInfoList}">
+                        <td th:text="${progressInfo.lectureNo.lectureNo}"></td>
+                        <td th:text="${progressInfo.lectureNo.lectureYear}"></td>
+                        <td th:text="${progressInfo.lectureNo.lectureTitle}"></td>
+                        <td th:text="${progressInfo.nthNo}"></td>
+                        <td th:text="${progressInfo.nthName}"></td>
+                        <td th:text="${progressInfo.contentNo.contentNo}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="border border-dark p-3 mb-3">
+                <thead>
+                <tr>
+                    <th>차시 관리 번호</th>
+                    <th>차시명</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 차시 목록 표시 -->
+                <tr th:each="session : ${sessionList}">
+                    <td th:text="${session.nthNo}"></td>
+                    <td th:text="${session.nthName}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="border border-dark p-3 mb-3">
+                <thead>
+                <tr>
+                    <th>차시 관리 번호</th>
+                    <th>차시명</th>
+                    <th>콘텐츠 관리 번호</th>
+                    <th>콘텐츠명</th>
+                    <th>콘텐츠 설명</th>
+                    <th>콘텐츠 파일 번호</th>
+                    <th>Youtube 연동 번호</th>
+                    <th>콘텐츠 호출 URL</th>
+                    <th>차시학습시간</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 강의 차시별 콘텐츠 목록 표시 -->
+                <tr th:each="progressInfo : ${progressInfoList}">
+                    <td th:text="${progressInfo.nthNo}"></td>
+                    <td th:text="${progressInfo.nthName}"></td>
+                    <td th:text="${progressInfo.contentNo.contentNo}"></td>
+                    <td>
+                        <a href="#" th:text="${progressInfo.contentNo.contentName}"
+                           onclick="showContentDetails(
+                           '${progressInfo.nthNo}',
+                           '${progressInfo.nthName}',
+                           '${progressInfo.contentNo.contentNo}')">Show Details</a>
+                    </td>
+                    <td th:text="${progressInfo.contentNo.contentDesc}"></td>
+                    <td th:text="${progressInfo.contentNo.contentFileNo}"></td>
+                    <td th:text="${progressInfo.contentNo.ytbUrl}"></td>
+                    <td th:text="${progressInfo.contentNo.contentUrl}"></td>
+                    <td th:text="${progressInfo.contentNo.runTm}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div id="contentDetails">
+                <h3>상세 정보</h3>
+                <table class="contentDetailsTable">
+                    <tr>
+                        <th>차시 관리 번호</th>
+                        <td><input id="nthNo"></td>
+                    </tr>
+                    <tr>
+                        <th>차시명</th>
+                        <td><input id="nthName"></td>
+                    </tr>
+                    <tr>
+                        <th>콘텐츠 관리 번호</th>
+                        <td><input id="contentNo"></td>
+                    </tr>
+                    <!-- 이하 콘텐츠 관련 정보들을 추가 -->
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- content end -->
+</html>

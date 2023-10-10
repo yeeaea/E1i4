@@ -1,0 +1,31 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.contentDetailsTable {
+    width: 50%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.contentDetailsTable th, .contentDetailsTable td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+}
