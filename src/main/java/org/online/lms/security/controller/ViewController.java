@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.online.lms.security.repository.MemberRepository;
 import org.online.lms.security.service.MemberService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -26,22 +27,22 @@ public class ViewController {
 
     @GetMapping("/")    // 메인 페이지로 이동
     public String login(){  // 커스텀 로그인 페이지 지정
-        return "login";
+        return "/page/security/login";
     }
 
     @GetMapping("/lms/mypage")    // 마이페이지로 이동
     public String mypage(){
-        return "/page/content";
+        return "content";
     }
 
     @GetMapping("/lms/signup")      // 회원가입 페이지로 이동
     public String signUp(){
-        return "signUp";
+        return "/page/security/signUp";
     }
 
     @PostMapping("/lms/signup")        // 회원가입 처리
     public String processSignup(@Valid MemberSignupDTO dto, Errors errors, Model model){
-        // @Valid가 적용된 MemberSignupDTO 객체 유효성 검증 -> 실패 시, 에러 정보가 Errors 객체에 저장됨
+//        // @Valid가 적용된 MemberSignupDTO 객체 유효성 검증 -> 실패 시, 에러 정보가 Errors 객체에 저장됨
 //        log.info("dto : {}, errors : {}", dto, errors);
 //        if(errors.hasErrors()){
 //            // 회원가입 실패 시, 입력 데이터 값 그대로 유지
@@ -82,11 +83,49 @@ public class ViewController {
 
     @GetMapping("/lms/find-id")     // 아이디 찾기 페이지로 이동
     public String findId(){
-        return "findId";
+        return "/page/security/findId";
+    }
+
+    @PostMapping("/lms/find-id")
+    @ResponseBody
+    public ResponseEntity<String> processFindId(@RequestParam(name = "memberName") String memberName, @RequestParam(name = "memberEmail") String memberEmail, Model model){
+        String findId = memberService.searchByLoginId(memberName, memberEmail);
+
+        if(findId != null){
+            return ResponseEntity.ok(findId);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("입력하신 정보와 일치하는 아이디가 없습니다.");
+        }
     }
 
     @GetMapping("/lms/find-pw")     // 비밀번호 찾기 페이지로 이동
     public String findPw(){
-        return "findPw";
+        return "/page/security/findPw";
     }
+
+    @PostMapping("/lms/find-pw/check")  // 뷰에서 사용자가 입력한 memberEmail를 파라미터로 받아 이메일 유무 확인하는 용도
+    @ResponseBody
+    public boolean checkEmail(@RequestParam(name = "memberEmail") String memberEmail){
+        log.info("checkEmail 진입");
+        // 아이디 조회 폼을 보여주는 뷰 이름
+        return memberService.checkEmail(memberEmail);
+    }
+    @PostMapping("/lms/find-pw/send") // 임시 비밀번호 생성 후, 전송
+    @ResponseBody
+    public String sendEmail(@RequestParam(name = "memberEmail") String memberEmail){
+        log.info("sendEmail 집입");
+        log.info("이메일 : " + memberEmail);
+
+        // 임시 비밀번호 생성
+        String tmpPwd = memberService.getTmpPwd();
+
+        // 임시 비밀번호 저장
+        memberService.updatePwd(tmpPwd, memberEmail);
+
+        log.info("임시 비밀번호 : " + tmpPwd);
+        log.info("임시 비밀번호 전송 완료");
+
+        return "" + tmpPwd;
+    }
+
 }
