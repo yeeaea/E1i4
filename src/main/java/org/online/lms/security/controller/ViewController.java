@@ -4,10 +4,14 @@ package org.online.lms.security.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.online.lms.security.domain.Members;
+import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.online.lms.security.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.core.Authentication;
+
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -125,4 +132,37 @@ public class ViewController {
         return "" + tmpPwd;
     }
 
+    @GetMapping("/lms/mypage/change-pw")     // 비밀번호 변경하는 페이지 이동
+    public String showChangePw(){
+        return "/page/security/changePw";
+    }
+
+    @PostMapping("/lms/mypage/change-pw")   // 비밀번호 변경 처리
+    // Authentication : 현재 사용자의 인증 정보를 포함한 객체
+    // @AuthenticationPrincipal Members member : 현재 사용자의 정보를 나타내는 어노테이션으로,
+    //                                           Spring Security를 사용해 현재 사용자 정보 가져옴
+    public String updatePw(@Valid MemberPwChangeDTO dto, Errors errors, Model model,
+                           Authentication authentication, @AuthenticationPrincipal Members member){
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        // 현재 사용자 인증 정보에서 Principal를 가져와 UserDetails로 업캐스팅
+        String result = memberService.updateMemberPw(dto, userDetails.getUsername());
+        // 비밀번호 변경을 위해 memberService 호출 -> dto와 현재 사용자의 아이디를 전달
+
+        // ① 현재 비밀번호가 틀렸을 경우
+        if (result == null) {
+            model.addAttribute("dto", dto);
+            model.addAttribute("wrongPassword", "입력하신 비밀번호와 저장된 비밀번호가 일치하지 않습니다.");
+
+            return "/page/security/changePw";   // 오류 메시지를 보여줄 HTML 페이지로 리다이렉트
+        }
+        // ② 새로 입력한 비밀번호와 비교
+        if (!Objects.equals(dto.getNewPw(), dto.getComfirmPw())) {
+            model.addAttribute("dto", dto);
+            model.addAttribute("differentPassword", "새로 입력하신 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+            return "/page/security/changePw";   // 오류 메시지를 보여줄 HTML 페이지로 리다이렉트
+        }
+
+        // 성공하면 로그아웃 -> 로그인 페이지로 이동
+        return "redirect:/";
+    }
 }
