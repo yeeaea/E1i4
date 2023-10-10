@@ -35,6 +35,39 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     });
 
+    // 강의 시작일과 종료일 입력 필드 가져오기
+    const lectureStartInput = document.getElementById("lectureStartAt");
+    const lectureEndInput = document.getElementById("lectureEndAt");
+    const lectureDurationSelect = document.getElementById("lectureDuration");
+
+    // 강의 종료일 검증 함수
+    function validateEndDate() {
+        const startDate = new Date(lectureStartInput.value);
+        const endDate = new Date(lectureEndInput.value);
+
+        if (endDate < startDate) {
+            alert("강의 종료일은 강의 시작일 이후여야 합니다.");
+            lectureEndInput.value = ""; // 종료일 초기화
+            return;
+        }
+
+        // 강의 주차 계산 및 선택 옵션 업데이트
+        const duration = Math.ceil((endDate - startDate) / (7 * 24 * 60 * 60 * 1000)); // 일주일은 7일
+
+        // 강의 주차가 15주를 넘어가면 알림 표시하고 종료일 초기화
+        if (duration > 15) {
+            alert("강의 주차는 최대 15주까지 가능합니다.");
+            lectureEndInput.value = ""; // 종료일 초기화
+        } else {
+            // 주차 선택 옵션 업데이트
+            lectureDurationSelect.value = duration.toString();
+        }
+    }
+
+    // 강의 종료일 입력 필드에 이벤트 리스너 추가
+    lectureEndInput.addEventListener("change", validateEndDate);
+
+
 
 
     // 강의 삭제 기능
