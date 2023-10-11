@@ -6,6 +6,8 @@ import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.domain.FileUpload;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @NoArgsConstructor
 @Getter
 public class PostViewResponse {
@@ -16,6 +18,7 @@ public class PostViewResponse {
     private String orgFileName;
     private String saveFileName;
     private String filePath;
+    private List<CommentListViewResponse> comments;
     // 파일 , 닉네임 추가예정
 
     public PostViewResponse(Post post, FileUpload file) {

@@ -3,11 +3,11 @@ package org.online.lms.boards.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "file_board")
 @Entity
+@Table(name = "file_board")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class FileUpload {
 
     @Id
@@ -30,20 +30,26 @@ public class FileUpload {
     @Column(name = "file_size")
     private Long fileSize;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "post_no") // post_no 필드를 사용하여 게시물과 연결합니다.
-//    private Post post;
-// 생성자 및 빌더 수정
-@Builder
-public FileUpload(Long fileNo, Long fileSeq, String orgFileName, String saveFileName, String filePath, Long fileSize) {
-    this.fileNo = fileNo;
-    this.fileSeq = fileSeq;
-    this.orgFileName = orgFileName;
-    this.saveFileName = saveFileName;
-    this.filePath = filePath;
-    this.fileSize = fileSize;
+    // 기본 생성자를 명시적으로 추가
+
+    @Builder
+    public FileUpload(Long fileSeq, String orgFileName, String saveFileName, String filePath, Long fileSize) {
+        this.fileSeq = fileSeq;
+        this.orgFileName = orgFileName;
+        this.saveFileName = saveFileName;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+    }
+
+    public void update(Long fileSeq, String orgFileName, String saveFileName, String filePath, Long fileSize) {
+        this.fileSeq = fileSeq;
+        this.orgFileName = orgFileName;
+        this.saveFileName = saveFileName;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+    }
 }
-}
+
 
 
 

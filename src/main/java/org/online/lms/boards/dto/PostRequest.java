@@ -30,7 +30,7 @@ public class PostRequest {
     // private String loginId;
     public Post toEntity() {
         FileUpload file = FileUpload.builder()
-                .fileNo(fileNo)
+
                 .fileSeq(fileSeq)
                 .orgFileName(orgFileName)
                 .saveFileName(saveFileName)
