@@ -8,6 +8,7 @@ import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.online.lms.security.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
@@ -146,15 +147,10 @@ public class MemberService {
     @Transactional
     public String updateMemberPw(MemberPwChangeDTO dto, String loginId) {
         // 변경을 위한 아이디 값 가져오기
-        Optional <Members> memberOptional = memberRepository.findByLoginId(loginId);
-        if (!memberOptional.isPresent()) {
-            // 해당 아이디로 멤버를 찾을 수 없는 경우에 대한 처리
-            return null; // 또는 예외 처리 등
-        }
-
-        Members member = memberOptional.get();
+        Optional<Members> memberOptional = memberRepository.findByLoginId(loginId);
+        // 아이디가 존재하지 않을 경우, 예외 발생
+        Members member = memberOptional.orElseThrow(()-> new UsernameNotFoundException("사용자를 찾을 수 없습니다. 해당 아이디 : " + loginId));
         log.info("비밀번호 변경할 아이디 : " + loginId);
-
 
         // DB에 저장된 비밀번호와 비교
         if( !passwordEncoder.matches(dto.getCurrentPw(), member.getLoginPw())){

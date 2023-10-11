@@ -43,8 +43,10 @@
         <div class="alert alert-danger" id="error-message"
              th:if="${param.fail}">
             <!-- 오류 시 나오는 내용 -->
-            <div class="mt-5" th:if="${differentPassword}"></div>
+            <!-- 현재 비밀번호와 입력한 비밀번호가 일치하지 않은 경우-->
             <div th:if="${wrongPassword}"></div>
+            <!-- 새로 입력한 비밀번호와 일치하지 않은 경우 -->
+            <div class="mt-5" th:if="${differentPassword}"></div>
         </div>
         <button type="submit">변경하기</button>
     </form>
