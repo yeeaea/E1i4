@@ -26,6 +26,11 @@ public class VideoInfoService {
     // 콘텐츠 조회
     public List<Content> findAll() { return videoInfoRepository.findAll(); }
 
+    // 콘텐츠 삭제
+    public void delete(Long contentNo) {
+        videoInfoRepository.deleteById(contentNo);
+    }
+
 //    연결해서 리스트 출력 -- 추후에 추가
 //    public List<VideoInfoViewResponse> contentAndLectureList(Long contentNo) {
 //        return videoInfoRepository.findContentByLectureId(contentNo);

@@ -5,12 +5,12 @@
       layout:decorate="~{layouts/layout_mem.html}">
 <head>
     <meta charset="UTF-8">
-    <title>강의 등록</title>
+    <title>콘텐츠 등록</title>
 </head>
 <body>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/add-content.js}"></script>
+    <script th:src="@{/js/content.js}"></script>
 </th:block>
 
 <th:block layout:fragment="content">
@@ -50,7 +50,7 @@
         </div>
 
         <div style="flex: 1;">
-            <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="put" th:object="${videoInfoRequest}">
+            <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT" th:object="${videoInfoRequest}">
                 <div>
                     <label for="contentNo">콘텐츠 관리 번호 : </label>
                     <input type="text" id="contentNo" name="contentNo" th:field="*{contentNo}" />
@@ -79,9 +79,9 @@
                     <label for="runTm">차시학습시간 : </label>
                     <input type="text" id="runTm" name="runTm" th:field="*{runTm}" />
                 </div>
-                <button type="submit">등록</button>
-                <button>수정</button>
-                <button>삭제</button>
+                <button id="registerBtn" type="button">등록</button>
+                <button id="updateBtn"  type="button">수정</button>
+                <button id="deleteBtn"  type="button">삭제</button>
             </form>
         </div>
     </div>

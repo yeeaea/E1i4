@@ -29,7 +29,7 @@ import java.util.Optional;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class ViewController {
+public class MemberViewController {
     private final MemberService memberService;
 
     @GetMapping("/")    // 메인 페이지로 이동
