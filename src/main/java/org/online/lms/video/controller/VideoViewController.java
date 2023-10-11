@@ -1,7 +1,6 @@
 package org.online.lms.video.controller;
 
 
-import org.online.lms.lecture.dto.LectureInfoViewResponse;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.dto.VideoInfoRequest;
 import org.online.lms.video.dto.VideoInfoViewResponse;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -46,8 +44,12 @@ public class VideoViewController {
         model.addAttribute("contentList", contentList);
         model.addAttribute("videoInfoRequest", new VideoInfoRequest());
 
-        return "/page/video/videoRegister";
+        return "/page/video/videoUpdate";
     }
 
-
+    /////// 추후에 viewController로 이동(Security) - 차시테이블 사용
+    @GetMapping("/lms/online/progress-info-list")
+    public String ytbList() {
+        return "/page/video/ytbContent";
+    }
 }
