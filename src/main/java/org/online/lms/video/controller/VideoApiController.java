@@ -5,27 +5,36 @@ import org.online.lms.video.service.VideoInfoService;
 import org.online.lms.video.domain.Content;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class AdminVideoApiController {
+@RequestMapping("/api/admin")
+public class VideoApiController {
 
     private final VideoInfoService videoInfoService;
 
     @Autowired
-    public AdminVideoApiController(VideoInfoService videoInfoService) {
+    public VideoApiController(VideoInfoService videoInfoService) {
         this.videoInfoService = videoInfoService;
     }
 
-    // 콘텐츠 추가
-    @PutMapping("/api/admin/content-edit")
+    // 콘텐츠 등록 + 수정
+    @PutMapping("/content-edit")
     public ResponseEntity<Content> contentRegister(@RequestBody VideoInfoRequest request) {
 
         Content contentRegister = videoInfoService.contentRegister(request);
 
         return ResponseEntity.ok(contentRegister);
     }
+
+    // 콘텐츠 삭제
+    @DeleteMapping("/content/{contentNo}")
+    public ResponseEntity<Void> deleteContent(@PathVariable Long contentNo) {
+        videoInfoService.delete(contentNo);
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
 }
