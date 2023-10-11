@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <title>Content page</title>
+</head>
+    <!-- page 고유 css -->
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{css/css.css}">
+    </th:block>
+
+    <!-- page 고유 javascript -->
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/lecture/lectureApply.js}"></script>
+    </th:block>
+
+    <!-- content start -->
+    <section layout:fragment="content">
+        <div class="container">
+            <h3>내 수강 강의 목록</h3>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>강의년도</th>
+                    <th>강의 과정</th>
+                    <th>강의명</th>
+                    <th>강의 시작일</th>
+                    <th>강의 종료일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lecture : ${lectureDetails}">
+                    <td th:text="${#dates.format(lecture.lectureYear, 'yyyy년')}"></td>
+                    <td th:text="${lecture.lectureCourse}"></td>
+                    <td th:text="${lecture.lectureTitle}"></td>
+                    <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+                    <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- content end -->
+</html>

@@ -17,7 +17,12 @@ public class LectureApply {
 
     // 데이터베이스에 대한 추가 및 갱신에 영향을 주지 않음 = false
     // 데이터베이스에 대한 추가 및 갱신에 영향을 줌 = true
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "apply_no")
+    private Long applyNo; // 수강신청번호
+
     @OneToOne
     @JoinColumn(name = "lecture_no", referencedColumnName = "lecture_no"
                 /*insertable = false, updatable = false*/)

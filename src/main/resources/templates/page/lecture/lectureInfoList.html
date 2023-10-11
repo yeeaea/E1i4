@@ -13,7 +13,7 @@
 
     <!-- page 고유 javascript -->
     <th:block layout:fragment="script">
-        <script th:src="@{js/js.js}"></script>
+        <script th:src="@{/js/lecture/lectureApply.js}"></script>
     </th:block>
 
     <!-- content start -->
@@ -41,7 +41,7 @@
                                    th:text="${lecture.lectureTitle}"></a></td>
                             <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
                             <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-                            <td> <button class="apply-button" data-lecture-no="${lecture.lectureNo}">수강신청</button></td>
+                            <td> <button class="apply-button" data-lecture-no="${lecture.lectureNo}" onclick="applyForLecture(this)">수강신청</button></td>
 
                         </div>
                     </tr>
