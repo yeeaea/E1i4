@@ -23,7 +23,9 @@
           enctype="multipart/form-data">
 
     <div class="container">
-        <h1>게시글 등록</h1>
+
+        <h1 th:if="${question.postNo} == null">게시글 등록</h1>
+        <h1 th:if="${question.postNo} != null">게시글 수정</h1>
 
             <input type="hidden" id="question-id" th:value="${question.postNo}">
 
@@ -44,8 +46,15 @@
 
         <!-- 여러 개의 파일 업로드 input 요소 -->
         <!-- 파일 업로드 input 요소를 세 개로 분리 -->
+        <!-- 기존 업로드된 파일 정보 표시 -->
+        <div th:if="${question.postNo != null}">
+            <p>현재 첨부된 파일:  <a th:href="@{'/download/' + ${question.saveFileName}}" th:text="${question.orgFileName}"></a></p>
+            <button type="button" onclick="deleteFile()">삭제</button>
+        </div>
+
         <div class="mb-4">
-            <label for="file1">파일 업로드 1:</label>
+            <label th:if="${question.postNo == null}" for="file1">파일 업로드 :</label>
+            <label th:if="${question.postNo != null}" for="file1">파일 수정 :</label>
             <input type="file" id="file1" name="file1" class="form-control-file">
         </div>
 

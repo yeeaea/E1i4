@@ -6,8 +6,6 @@ import org.online.lms.boards.service.PostService;
 import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.dto.PostRequest;
 import org.online.lms.boards.dto.PostResponse;
-import org.online.lms.boards.dto.UpdatePostRequest;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -17,12 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 public class PostApiController {
@@ -84,11 +81,21 @@ public class PostApiController {
         post.setPostTitle(postTitle);
         post.setPostContent(postContent);
 
-        Post updatedPost = postService.update(postNo, postTitle, postContent,  file1);
+        Post updatedPost = postService.update(postNo, postTitle, postContent, file1);
 
         return ResponseEntity.ok().body(updatedPost);
     }
 
+    // 글 수정 시 파일 삭제
+    @PostMapping("/api/deleteFile")
+    public ResponseEntity<String> deleteFile(@RequestParam Long postNo) {
+        try {
+            postService.deleteFileAndSetNull(postNo);
+            return ResponseEntity.ok("파일이 삭제되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 삭제 중 오류가 발생했습니다.");
+        }
+    }
 
     private final String fileStoragePath = System.getProperty("user.dir") + "/src/main/resources/static/files/";
 

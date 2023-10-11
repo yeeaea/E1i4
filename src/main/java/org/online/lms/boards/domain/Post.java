@@ -46,17 +46,16 @@ public class Post {
 
 //    // 파일 목록 관리
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    private List<FileUpload> files;
+//    private List<FileUploaFd> files;
 //
 
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private List<FileUpload> files;
 
-
-    /*
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    /*
     @ManyToOne
     @JoinColumn(name = "board_no")
     private Board board;
@@ -76,20 +75,6 @@ public class Post {
     public void update(String postTitle, String postContent) {
         this.postTitle = postTitle;
         this.postContent = postContent;
-    }
-
-    public void setFileSeq(long fileSeq) {
-    }
-
-    public void setOrgFileName(String orgFilename) {
-    }
-
-    public void setSaveFileName(String saveFileName) {
-    }
-
-    public void setFilePath(String filePath) {
-    }
-
-    public void setFileSize(long size) {
+        this.file = file;
     }
 }

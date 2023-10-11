@@ -2,10 +2,10 @@ package org.online.lms.boards.service;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.online.lms.boards.domain.FileUpload;
 import org.online.lms.boards.repository.PostRepository;
 import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.dto.PostRequest;
-import org.online.lms.boards.dto.UpdatePostRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +19,7 @@ import java.io.File;
 
 import jakarta.transaction.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 @RequiredArgsConstructor
 @Service
 public class PostService {
@@ -27,7 +28,8 @@ public class PostService {
     int fileSeq = 1; // 파일 일련번호 초기화
 
     // 글 등록
-    public Post save(PostRequest dto, MultipartFile file1) throws Exception {
+    public Post save(PostRequest dto,
+                     MultipartFile file1) throws Exception {
         String projectPath =
                 System.getProperty("user.dir") + "/src/main/resources/static/files";
 
@@ -47,6 +49,7 @@ public class PostService {
 
         return postRepository.save(dto.toEntity());
     }
+
     // 글 목록 조회
     public Page<Post> findAll(Pageable pageable) {
         Pageable Pageable =
@@ -71,7 +74,10 @@ public class PostService {
 
     // 글 수정 (파일 추가 예정)
     @Transactional
-    public Post update(Long postNo, String postTitle, String postContent, MultipartFile file1) throws Exception {
+    public Post update(Long postNo,
+                       String postTitle,
+                       String postContent,
+                       MultipartFile file1) throws Exception {
         Post post = postRepository.findById(postNo)
                 .orElseThrow(() ->
                         new IllegalArgumentException(postNo + "번 글이 존재하지 않습니다."));
@@ -88,20 +94,57 @@ public class PostService {
             File saveFile = new File(projectPath, fileName);
             file1.transferTo(saveFile);
 
-            // 파일 관련 정보를 데이터베이스에 저장 또는 업데이트
-            post.setFileSeq((long) fileSeq++);  // 파일 시퀀스
-            post.setOrgFileName(file1.getOriginalFilename()); // 원본 파일 이름
-            post.setSaveFileName(fileName); // 저장된 파일 이름
-            post.setFilePath("/files/" + fileName); // 파일 경로
-            post.setFileSize(file1.getSize()); // 파일 크기
-        }
+            // 기존 파일 객체를 찾아서 업데이트
+            FileUpload existingFile = post.getFile();
+            if (existingFile != null) {
+                existingFile.update(
+                        (long) fileSeq++,  // 새로운 fileSeq 값으로 업데이트
+                        file1.getOriginalFilename(),
+                        fileName,
+                        "/files/" + fileName,
+                        file1.getSize()
+                );
+            } else {
+                // 파일 객체가 없는 경우, 새로 생성
+                FileUpload fileUpload = FileUpload.builder()
+                        .fileSeq((long) fileSeq++)
+                        .orgFileName(file1.getOriginalFilename())
+                        .saveFileName(fileName)
+                        .filePath("/files/" + fileName)
+                        .fileSize(file1.getSize())
+                        .build();
 
+                post.setFile(fileUpload);
+            }
+        } else {
+            // 파일을 업로드하지 않은 경우, 기존 파일 정보 유지
+//            post.setFile(null);
+        }
         return post;
     }
 
+    // 수정시 첨부파일 삭제
+    public void deleteFileAndSetNull(Long postNo) {
+        Optional<Post> postOptional = postRepository.findById(postNo);
+        if (postOptional.isPresent()) {
+            Post post = postOptional.get();
+            FileUpload file = post.getFile();
+            if (file != null) {
+                // 파일 정보를 null로 설정
+                // post.setFile(null);
+                file.setFileSeq(null);
+                file.setFilePath(null);
+                file.setFileSize(null);
+                file.setSaveFileName(null);
+                file.setOrgFileName(null);
+                postRepository.save(post);
+            }
+        }
+    }
 
     // 키워드 검색
-    public Page<Post> boardSearchList(String keyword, Pageable pageable) {
+    public Page<Post> boardSearchList(String keyword,
+                                      Pageable pageable) {
         return postRepository.findByPostTitleContaining(keyword, pageable);
     }
 
@@ -137,5 +180,6 @@ public class PostService {
         return postRepository.
                 findAllByOrderByPostViewDesc(descendingPageable);
     }
+
 
 }

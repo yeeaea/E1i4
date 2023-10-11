@@ -1,9 +1,12 @@
 package org.online.lms.boards.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.online.lms.boards.domain.Comment;
 import org.online.lms.boards.domain.FileUpload;
 import org.online.lms.boards.domain.Post;
+import org.online.lms.boards.dto.CommentListViewResponse;
 import org.online.lms.boards.dto.PostViewResponse;
+import org.online.lms.boards.service.CommentService;
 import org.online.lms.boards.service.PostService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +20,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @RequiredArgsConstructor
 @Controller
 public class PostViewController {
+
     private final PostService postService;
+    private final CommentService commentService;
 
     // 게시글 목록 조회
     @GetMapping("/lms/questions")
@@ -65,14 +73,26 @@ public class PostViewController {
 
     // 게시글 1개 조회
     @GetMapping("/lms/questions/{postNo}")
-    public String getQuestion(@PathVariable Long postNo, HttpSession session, Model model) {
+    public String getQuestion(@PathVariable Long postNo,
+                              HttpSession session,
+                              Model model) {
 
         // 글 정보 가져오기
         Post question = postService.getQues(postNo, session);
         FileUpload file = question.getFile();
 
         PostViewResponse questionResponse = new PostViewResponse(question, file);
+
+        // 댓글 목록을 가져오기
+        List<Comment> comments =
+                commentService.getCommentsByPostNo(postNo);
+        List<CommentListViewResponse> commentResponses =
+                comments.stream()
+                        .map(CommentListViewResponse::new)
+                        .collect(Collectors.toList());
+
         model.addAttribute("question", questionResponse);
+        model.addAttribute("comments", commentResponses);
 
 
         return "page/boards/question.html";
@@ -80,7 +100,8 @@ public class PostViewController {
 
     // 게시물 작성
     @GetMapping("/lms/new-question")
-    public String newQuestion(@RequestParam(required = false) Long postNo, Model model) {
+    public String newQuestion(@RequestParam(required = false) Long postNo,
+                              Model model) {
         if (postNo == null) {
             model.addAttribute("question", new PostViewResponse());
         } else {

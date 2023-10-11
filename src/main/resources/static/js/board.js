@@ -1,4 +1,4 @@
-// 게시물 생성
+// 게시물 등록
 document.addEventListener('DOMContentLoaded', function () {
     const createButton = document.getElementById("create-btn");
     if (createButton) {
@@ -65,50 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-// //게시물 수정
-// document.addEventListener('DOMContentLoaded', function () {
-//     const modifyButton = document.getElementById('modify-btn');
-//
-//     if (modifyButton) {
-//         modifyButton.addEventListener('click', event => {
-//             let params = new URLSearchParams(location.search);
-//             let postNo = params.get('postNo');
-//
-//             // 수정된 부분: postTitle과 postContent 값을 가져온 후 콘솔에 출력
-//             let title = document.getElementById('postTitle').value;
-//             let content = document.getElementById('postContent').value;
-//
-//             const formData = new FormData();
-//             formData.append("postTitle", title);
-//             formData.append("postContent", content);
-//             formData.append("file1", document.getElementById("file1").files[0]);
-//
-//             fetch(`/api/post/${postNo}`, {
-//                 method: 'PUT',
-//                 headers: {
-//                     "Content-Type": "application/json",
-//                 },
-//                 body: JSON.stringify({
-//                     postTitle: title,
-//                     postContent: content
-//                 })
-//             })
-//                 .then(response => {
-//                     if (response.status === 200) {
-//                         alert('수정이 완료되었습니다.');
-//                         location.replace('/lms/questions');
-//                     } else {
-//                         alert('수정에 실패했습니다.');
-//                     }
-//                 })
-//                 .catch(error => {
-//                     console.error('Error:', error);
-//                     alert('수정에 실패했습니다.');
-//                 });
-//         });
-//     }
-// });
-
+// 게시물 수정
 document.addEventListener('DOMContentLoaded', function () {
     const modifyButton = document.getElementById('modify-btn');
 
@@ -153,6 +110,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// 첨부파일 삭제
+function deleteFile() {
+    let params = new URLSearchParams(location.search);
+    let postNo = params.get('postNo');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/deleteFile", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            // 파일이 삭제되면 화면에서 파일 정보를 제거
+            alert("삭제가 완료되었습니다."); // 삭제 완료 팝업 표시
+            location.href = location.href; // 페이지 자동으로 다시 로드
+        } else if (xhr.status !== 200) {
+            alert("파일 삭제 요청 중 오류가 발생했습니다.");
+        }
+    };
+
+    xhr.send("postNo=" + postNo);
+}
+
+
 // 조회수 정렬
 function changeSort(sortBy) {
     // 현재 페이지 URL 가져오기
@@ -191,7 +170,6 @@ function countingLength(inputElementId, counterElementId) {
 }
 
 // 파일 업로드 목록 확인
-
 const fileInput = document.getElementById('files');
 const fileList = document.getElementById('file-list');
 
