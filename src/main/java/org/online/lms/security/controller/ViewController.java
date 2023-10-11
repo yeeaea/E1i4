@@ -138,15 +138,17 @@ public class ViewController {
     }
 
     @PostMapping("/lms/mypage/change-pw")   // 비밀번호 변경 처리
-    // Authentication : 현재 사용자의 인증 정보를 포함한 객체
-    // @AuthenticationPrincipal Members member : 현재 사용자의 정보를 나타내는 어노테이션으로,
-    //                                           Spring Security를 사용해 현재 사용자 정보 가져옴
+    /*
+    *  Authentication : 현재 사용자의 인증 정보를 포함한 객체
+    *  @AuthenticationPrincipal : 현재 사용자의 정보를 나타내는 어노테이션으로,
+    *                              Spring Security를 사용해 현재 사용자 정보 가져옴
+    * */
     public String updatePw(@Valid MemberPwChangeDTO dto, Errors errors, Model model,
                            Authentication authentication, @AuthenticationPrincipal Members member){
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         // 현재 사용자 인증 정보에서 Principal를 가져와 UserDetails로 업캐스팅
-        String result = memberService.updateMemberPw(dto, userDetails.getUsername());
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         // 비밀번호 변경을 위해 memberService 호출 -> dto와 현재 사용자의 아이디를 전달
+        String result = memberService.updateMemberPw(dto, userDetails.getUsername());
 
         // ① 현재 비밀번호가 틀렸을 경우
         if (result == null) {
