@@ -15,8 +15,9 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                        <div>ㅇㅇㅇ님, 환영합니다!</div>
+                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                        <!-- 사용자 이름을 나타내는 부분. ID를 "welcome-message"로 설정함 -->
+                        <div id="welcome-message">Loading...</div>
                     </form>
 
                     <div class="dropdown text-end">
@@ -34,5 +35,23 @@
                 </div>
             </div>
         </div>
+
+        <script>
+            // 서버에서 사용자 이름을 가져오는 요청
+            fetch('/lms/api/members/current-memberName')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.memberName) {
+                        const welcomeMessage = document.getElementById("welcome-message");
+                        welcomeMessage.textContent = "안녕하세요, " + data.memberName + "님!";
+                    } else {
+                        console.error("Error: 사용자 이름이 없습니다.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+
+        </script>
     </header>
 </html>

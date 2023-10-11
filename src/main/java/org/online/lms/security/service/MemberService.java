@@ -89,7 +89,6 @@ public class MemberService {
         return memberRepository.findByLoginId(loginId);
     }
 
-
     // * 아이디 찾기
     public String searchByLoginId(String memberName, String memberEmail) {
         // 사용자 이름과 이메일 입력받기
