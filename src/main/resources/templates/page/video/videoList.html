@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>콘텐츠 목록 전체 조회</title>
+</head>
+<body>
+
+<th:block layout:fragment="script">
+    <script th:src="@{/js/content.js}"></script>
+</th:block>
+
+<th:block layout:fragment="content">
+
+    <!-- 전체 강의 리스트 -->
+    <div class="container" style="display: flex;">
+
+        <div style="flex: 1; padding-right: 100px;">
+            <h3>콘텐츠 관리</h3>
+
+            <table class = "table table-hover">
+                <thead>
+                <tr>
+                    <th>콘텐츠 관리 번호</th>
+                    <th>콘텐츠 명</th>
+                    <th>콘텐츠 설명</th>
+                    <th>콘텐츠 파일번호</th>
+                    <th>Youtube 연동번호</th>
+                    <th>콘텐츠 호출 URL</th>
+                    <th>차시학습시간</th>
+                </tr>
+                </thead>
+
+                <tbody class="row-7" th:each="content : ${contentInfo}">
+                <tr>
+                    <!-- 콘텐츠 리스트 출력 -->
+                    <td th:text="${content.contentNo}"></td>
+                    <td th:text="${content.contentName}"></td>
+                    <td th:text="${content.contentDesc}"></td>
+                    <td th:text="${content.contentFileNo}"></td>
+                    <td th:text="${content.ytbUrl}"></td>
+                    <td th:text="${content.contentUrl}"></td>
+                    <td th:text="${content.runTm}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="flex: 1;">
+            <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT">
+                <div>
+                    <label for="contentNo">콘텐츠 관리 번호 : </label>
+                    <input type="text" id="contentNo" name="contentNo"/>
+                </div>
+                <div>
+                    <label for="contentName">콘텐츠 명 : </label>
+                    <input type="text" id="contentName" name="contentName"/>
+                </div>
+                <div>
+                    <label for="contentFileNo">콘텐츠 파일번호 : </label>
+                    <input type="text" id="contentFileNo" name="contentFileNo"/>
+                </div>
+                <div>
+                    <label for="ytbUrl">Youtube 연동번호 : </label>
+                    <input type="text" id="ytbUrl" name="ytbUrl"/>
+                </div>
+                <div>
+                    <label for="contentDesc">콘텐츠 설명 : </label>
+                    <textarea id="contentDesc" name="contentDesc" rows="4"></textarea>
+                </div>
+                <div>
+                    <label for="contentUrl">콘텐츠 호출 URL : </label>
+                    <input type="text" id="contentUrl" name="contentUrl"\/>
+                </div>
+                <div>
+                    <label for="runTm">차시학습시간 : </label>
+                    <input type="text" id="runTm" name="runTm"\/>
+                </div>
+                <button id="registerBtn" type="button">등록</button>
+                <button id="updateBtn"  type="button">수정</button>
+                <button id="deleteBtn"  type="button">삭제</button>
+            </form>
+        </div>
+    </div>
+
+
+</th:block>
+</body>
+</html>
