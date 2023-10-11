@@ -1,66 +1,141 @@
-// // JavaScript 강의 차시별 콘텐츠 상세 정보 보여주기
-// function showContentDetails(contentNo) {
-//     // 해당 콘텐츠의 상세 정보를 서버로부터 받아와 테이블에 표시하는 로직을 구현
-//     console.log('Showing details for contentNo:', contentNo);
-//     // 여기에 상세 정보 보여주기 로직 추가
-//     var contentDetails = `
-//                 <table>
-//                     <!-- 상세 정보 표시 -->
-//                     <!-- 예시로 몇 가지 항목을 표시 -->
-//                     <tr>
-//                         <th>상세 정보 항목 1</th>
-//                         <td>내용 1</td>
-//                     </tr>
-//                     <tr>
-//                         <th>상세 정보 항목 2</th>
-//                         <td>내용 2</td>
-//                     </tr>
-//                 </table>
-//                 <button onclick="editContent('${contentNo}')">Edit</button>
-//                 <button onclick="deleteContent('${contentNo}')">Delete</button>
-//             `;
-//     document.getElementById('contentDetails').innerHTML = contentDetails;
-// }
-//
-// function editContent(contentNo) {
-//     // 수정 로직 구현: contentNo를 기반으로 해당 콘텐츠 수정 화면으로 이동하거나 필요한 동작을 수행
-//     console.log('Editing content with contentNo:', contentNo);
-//     // 여기에 수정 로직 추가
-// }
-//
-// function deleteContent(contentNo) {
-//     // 삭제 로직 구현: contentNo를 기반으로 해당 콘텐츠 삭제
-//     console.log('Deleting content with contentNo:', contentNo);
-//     // 여기에 삭제 로직 추가
-// }
-
-// JavaScript 강의 차시별 콘텐츠 상세 정보 보여주기
-function showContentDetails(nthNo, nthName, contentNo, contentName, contentDesc, contentFileNo, ytbUrl, contentUrl, runTm) {
-    // 강의 차시별 콘텐츠 상세 정보를 가져와서 표시
-    let nthNoValue = "${progressInfo.nthNo}";
-    let nthNameValue = "${progressInfo.nthName}";
-    let contentNoValue = "${progressInfo.contentNo.contentNo}";
-
-    console.log('nthNo:', nthNoValue);
-    console.log('nthName:', nthNameValue);
-    console.log('contentNo:', contentNoValue);
+function updateContentDetails(checkbox) {
+    let nthNoValue = checkbox.getAttribute('data-nthNo');
+    let lectureCourseValue = checkbox.getAttribute('data-lectureCourse');
+    let contentNoValue = checkbox.getAttribute('data-contentNo');
+    let lectureDurationValue = checkbox.getAttribute('data-lectureDuration');
+    let nthNameValue = checkbox.getAttribute('data-nthName');
+    let contentNameValue = checkbox.getAttribute('data-contentName');
+    let runTmValue = checkbox.getAttribute('data-runTm');
+    let contentFileNoValue = checkbox.getAttribute('data-contentFileNo');
+    let ytbUrlValue = checkbox.getAttribute('data-ytbUrl');
+    let contentUrlValue = checkbox.getAttribute('data-contentUrl');
 
     // 강의 차시별 콘텐츠 상세 정보를 표시
-    document.getElementById('nthNo').innerText = nthNoValue;
-    document.getElementById('nthName').innerText = nthNameValue;
-    document.getElementById('contentNo').innerText = contentNoValue;
+    document.getElementById('nthNo').value = nthNoValue;
+    document.getElementById('lectureCourse').value = lectureCourseValue;
+    document.getElementById('contentNo').value = contentNoValue;
+    document.getElementById('lectureDuration').value = lectureDurationValue;
+    document.getElementById('nthName').value = nthNameValue;
+    document.getElementById('contentName').value = contentNameValue;
+    document.getElementById('runTm').value = runTmValue;
+    document.getElementById('contentFileNo').value = contentFileNoValue;
+    document.getElementById('ytbUrl').value = ytbUrlValue;
+    document.getElementById('contentUrl').value = contentUrlValue;
 
-    // 강의 차시 번호를 출력
-    console.log('Showing details for nthNo:', nthNoValue);
+    // 예: 체크박스가 클릭될 때 editContent 함수 호출
+    // editContent();
 }
 
-// JavaScript 강의 차시별 콘텐츠 상세 정보 보여주기
-// function showContentDetails(nthNo, nthName, contentNo, contentName, contentDesc, contentFileNo, ytbUrl, contentUrl, runTm) {
-//     document.getElementById('nthNo').value = nthNo;
-//     document.getElementById('nthName').value = nthName;
-//     document.getElementById('contentNo').value = contentNo;
-//     // 필요한 경우 이하의 콘텐츠 관련 정보들도 추가
-//
-//     // 상세 정보 표시
-//     console.log('Showing details for nthNo:', nthNo);
-// }
+function addCheckboxListeners() {
+    const checkboxes = document.querySelectorAll('.contentCheckbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('click', () => {
+            if (checkbox.checked) {
+                updateContentDetails(checkbox);
+            }
+        });
+    });
+}
+
+// 차시 정보 추가
+function addContent() {
+    const newContentButton = document.getElementById('newContent');
+    if (newContentButton) {
+        newContentButton.addEventListener('click', event => {
+            event.preventDefault();
+            clearTextBoxes();
+            toggleEditing();
+            showNewLessonInfoAlert();
+        });
+    }
+
+    // 텍스트 박스 내용 비우기
+    function clearTextBoxes() {
+        const inputElements = document.querySelectorAll('input');
+
+        inputElements.forEach(input => {
+            input.value = '';
+        });
+    }
+
+    // 신규 버튼 클릭 시 텍스트 박스 편집 가능하도록 토글
+    function toggleEditing() {
+        const inputElements = document.querySelectorAll('input[readonly]');
+
+        inputElements.forEach(input => {
+            input.readOnly = !input.readOnly;
+        });
+    }
+
+    // 알림창 띄우기
+    function showNewLessonInfoAlert() {
+        alert('새로운 차시 정보를 입력하세요.');
+    }
+}
+
+// 차시 정보 수정
+function editContent() {
+    const saveContentButton = document.getElementById('saveContent');
+    if (saveContentButton) {
+        saveContentButton.addEventListener('click', event => {
+            event.preventDefault();
+            let params = new URLSearchParams(location.search);
+            let nthNo = params.get('nthNo');
+
+            fetch(`/admin/api/progress/update/${nthNo}`, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    nthNo: document.getElementById('nthNo').value,
+                    lectureCourse: document.getElementById('lectureCourse').value,
+                    contentNo: document.getElementById('contentNo').value,
+                    lectureDuration: document.getElementById('lectureDuration').value,
+                    nthName: document.getElementById('nthName').value,
+                    contentName: document.getElementById('contentName').value,
+                    runTm: document.getElementById('runTm').value,
+                    contentFileNo: document.getElementById('contentFileNo').value,
+                    ytbUrl: document.getElementById('ytbUrl').value,
+                    contentUrl: document.getElementById('contentUrl').value
+                })
+            })
+                .then(() => {
+                    alert('작성하신 내용이 저장되었습니다.');
+                    saveChanges();
+                });
+        });
+    }
+
+    // 텍스트 박스 읽기 전용으로 설정
+    function saveChanges() {
+        document.getElementById('nthNo').readOnly = true;
+        document.getElementById('lectureCourse').readOnly = true;
+        document.getElementById('contentNo').readOnly = true;
+        document.getElementById('lectureDuration').readOnly = true;
+        document.getElementById('nthName').readOnly = true;
+        document.getElementById('contentName').readOnly = true;
+        document.getElementById('runTm').readOnly = true;
+        document.getElementById('contentFileNo').readOnly = true;
+        document.getElementById('ytbUrl').readOnly = true;
+        document.getElementById('contentUrl').readOnly = true;
+    }
+}
+
+// 삭제
+function deleteContent() {
+    const deleteButton = document.getElementById('deleteContent');
+    let nthNo = document.getElementById('nthNo').value;
+
+    if (deleteButton) {
+        deleteButton.addEventListener("click", event => {
+            fetch(`/admin/api/progress/delete/${nthNo}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    alert('차시 정보가 삭제되었습니다.');
+                    location.reload();
+                });
+        });
+    }
+}
