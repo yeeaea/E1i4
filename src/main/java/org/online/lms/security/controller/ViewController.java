@@ -36,7 +36,7 @@ public class ViewController {
 
     @GetMapping("/lms/mypage")    // 마이페이지로 이동
     public String mypage(){
-        return "content";
+        return "/page/security/mypage";
     }
 
     @GetMapping("/lms/signup")      // 회원가입 페이지로 이동
@@ -166,5 +166,10 @@ public class ViewController {
 
         // 성공하면 로그아웃 -> 로그인 페이지로 이동
         return "redirect:/";
+    }
+
+    @GetMapping("/lms/mypage/edit-info")    // 개인정보 수정 페이지로 이동
+    public String showEditInfoPage(){
+        return "page/security/memberUpdate";
     }
 }
