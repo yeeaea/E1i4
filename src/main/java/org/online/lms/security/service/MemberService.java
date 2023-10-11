@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
+import org.online.lms.security.dto.UpdateMemberInfoDTO;
 import org.online.lms.security.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -86,6 +87,7 @@ public class MemberService {
     // * 아이디 검색
     //   -> 아이디로 회원 정보 찾기에 이용
     public Optional<Members> findByLoginId(String loginId){
+        log.info(loginId);
         return memberRepository.findByLoginId(loginId);
     }
 
@@ -151,7 +153,6 @@ public class MemberService {
         // 아이디가 존재하지 않을 경우, 예외 발생
         Members member = memberOptional.orElseThrow(()-> new UsernameNotFoundException("사용자를 찾을 수 없습니다. 해당 아이디 : " + loginId));
         log.info("비밀번호 변경할 아이디 : " + loginId);
-
         // DB에 저장된 비밀번호와 비교
         if( !passwordEncoder.matches(dto.getCurrentPw(), member.getLoginPw())){
             // 일치하지 않는 경우
@@ -165,4 +166,18 @@ public class MemberService {
             return "업데이트";
         }
     }
+
+//    // 회원정보 수정
+//    @Transactional
+//    public void updateMemberInfo(UpdateMemberInfoDTO dto) {
+//        // 회원 찾기
+//        Members member = memberRepository.findByLoginId(dto.toEntity().getLoginId())
+//                    .orElseThrow(()-> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+//
+//
+//        // DB에 회원정보 저장
+//        memberRepository.save(member);
+//    }
+
+
 }

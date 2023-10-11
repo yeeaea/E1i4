@@ -5,6 +5,8 @@ import lombok.*;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.lang.reflect.Member;
+
 @Entity
 @Table(name = "members")
 @Getter
@@ -55,4 +57,15 @@ public class Members { // 회원 정보 테이블
                 .build();
         return member;
     }
+
+//    // 회원정보 수정에서 사용
+//    public static Members createMember(String loginId, String loginPw, String memberName, String memberTel, String memberEmail) {
+//        Members member = new Members();
+//        member.setLoginId(loginId);
+//        member.setLoginPw(loginPw);
+//        member.setMemberName(memberName);
+//        member.setMemberTel(memberTel);
+//        member.setMemberEmail(memberEmail);
+//        return member;
+//    }
 }
