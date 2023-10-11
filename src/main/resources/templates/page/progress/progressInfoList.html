@@ -6,114 +6,144 @@
 <head>
     <title>Content page</title>
 </head>
-    <!-- page 고유 css -->
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/progress.css}">
-    </th:block>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/progress.css}">
+</th:block>
 
-    <!-- page 고유 javascript -->
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/progress.js}"></script>
-    </th:block>
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/progress.js}"></script>
+</th:block>
 
-    <!-- content start -->
-    <section layout:fragment="content">
-        <div class="container">
+<!-- content start -->
+<section layout:fragment="content">
+    <div class="container" style="display: flex; flex-direction: column;">
+        <div style="flex: 1; margin-right: 20px;">
             <table class="border border-dark p-3 mb-3">
                 <thead>
-                    <tr>
-                        <th>강의 번호</th>
-                        <th>강의 년도</th>
-                        <th>강의 제목</th>
-                        <th>차시 관리 번호</th>
-                        <th>차시명</th>
-                        <th>콘텐츠 관리 번호</th>
-                    </tr>
+                <tr>
+                    <th>개설강의번호</th>
+                    <th>강의년도</th>
+                    <th>과정구분</th>
+                    <th>개설강의명</th>
+                    <th>총 강의 주차수</th>
+                </tr>
                 </thead>
-                <tbody>
+                <tbody id="lectureList">
                     <!-- 강의 차시 정보 목록 표시 -->
                     <tr th:each="progressInfo : ${progressInfoList}">
                         <td th:text="${progressInfo.lectureNo.lectureNo}"></td>
                         <td th:text="${progressInfo.lectureNo.lectureYear}"></td>
+                        <td th:text="${progressInfo.lectureNo.lectureCourse}"></td>
                         <td th:text="${progressInfo.lectureNo.lectureTitle}"></td>
+                        <td th:text="${progressInfo.lectureNo.lectureDuration}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container" style="display: flex; flex-direction: row;">
+            <div style="flex: 1; margin-right: 20px;">
+                <table class="border border-dark p-3 mb-3">
+                    <thead>
+                    <tr>
+                        <th>강의 주차수</th>
+                        <th>과정구분</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 차시 목록 표시 -->
+                    <tr th:each="progressInfo : ${progressInfoList}">
+                        <td th:text="${progressInfo.lectureNo.lectureDuration}"></td>
+                        <td th:text="${progressInfo.lectureNo.lectureCourse}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="flex: 1; margin-right: 20px;">
+                <table class="border border-dark p-3 mb-3">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>차시 관리 번호</th>
+                        <th>차시명</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- 강의 차시별 콘텐츠 목록 표시 -->
+                    <tr th:each="progressInfo : ${progressInfoList}">
+                        <td><input type="checkbox" class="contentCheckbox"
+                                   th:attr="data-nthNo=${progressInfo.nthNo},
+                                   data-lectureCourse=${progressInfo.lectureNo.lectureCourse},
+                                   data-contentNo=${progressInfo.contentNo.contentNo},
+                                   data-lectureDuration=${progressInfo.lectureNo.lectureDuration},
+                                   data-nthName=${progressInfo.nthName},
+                                   data-contentName=${progressInfo.contentNo.contentName},
+                                   data-runTm=${progressInfo.contentNo.runTm},
+                                   data-contentFileNo=${progressInfo.contentNo.contentFileNo},
+                                   data-ytbUrl=${progressInfo.contentNo.ytbUrl},
+                                   data-contentUrl=${progressInfo.contentNo.contentUrl}
+                                   "
+                                   onclick="addCheckboxListeners(this)"></td>
                         <td th:text="${progressInfo.nthNo}"></td>
                         <td th:text="${progressInfo.nthName}"></td>
-                        <td th:text="${progressInfo.contentNo.contentNo}"></td>
                     </tr>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
-            <table class="border border-dark p-3 mb-3">
-                <thead>
-                <tr>
-                    <th>차시 관리 번호</th>
-                    <th>차시명</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- 차시 목록 표시 -->
-                <tr th:each="session : ${sessionList}">
-                    <td th:text="${session.nthNo}"></td>
-                    <td th:text="${session.nthName}"></td>
-                </tr>
-                </tbody>
-            </table>
-
-            <table class="border border-dark p-3 mb-3">
-                <thead>
-                <tr>
-                    <th>차시 관리 번호</th>
-                    <th>차시명</th>
-                    <th>콘텐츠 관리 번호</th>
-                    <th>콘텐츠명</th>
-                    <th>콘텐츠 설명</th>
-                    <th>콘텐츠 파일 번호</th>
-                    <th>Youtube 연동 번호</th>
-                    <th>콘텐츠 호출 URL</th>
-                    <th>차시학습시간</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- 강의 차시별 콘텐츠 목록 표시 -->
-                <tr th:each="progressInfo : ${progressInfoList}">
-                    <td th:text="${progressInfo.nthNo}"></td>
-                    <td th:text="${progressInfo.nthName}"></td>
-                    <td th:text="${progressInfo.contentNo.contentNo}"></td>
-                    <td>
-                        <a href="#" th:text="${progressInfo.contentNo.contentName}"
-                           onclick="showContentDetails(
-                           '${progressInfo.nthNo}',
-                           '${progressInfo.nthName}',
-                           '${progressInfo.contentNo.contentNo}')">Show Details</a>
-                    </td>
-                    <td th:text="${progressInfo.contentNo.contentDesc}"></td>
-                    <td th:text="${progressInfo.contentNo.contentFileNo}"></td>
-                    <td th:text="${progressInfo.contentNo.ytbUrl}"></td>
-                    <td th:text="${progressInfo.contentNo.contentUrl}"></td>
-                    <td th:text="${progressInfo.contentNo.runTm}"></td>
-                </tr>
-                </tbody>
-            </table>
-
-            <div id="contentDetails">
-                <h3>상세 정보</h3>
+            <div id="contentDetails" style="flex: 1;">
                 <table class="contentDetailsTable">
+                    <button id="uploadPost" onclick="">게시</button>
+                    <button id="cancelPost" onclick="">게시취소</button>
+                    <button id="newContent" onclick="addContent()">신규</button>
+                    <button id="saveContent" onclick="editContent()">저장</button>
+                    <button id="deleteContent" onclick="deleteContent()">삭제</button>
                     <tr>
                         <th>차시 관리 번호</th>
-                        <td><input id="nthNo"></td>
+                        <td><input type="text" id="nthNo" readonly></td>
                     </tr>
                     <tr>
-                        <th>차시명</th>
-                        <td><input id="nthName"></td>
+                        <th>과정구분</th>
+                        <td><input type="text" id="lectureCourse" readonly></td>
                     </tr>
                     <tr>
                         <th>콘텐츠 관리 번호</th>
-                        <td><input id="contentNo"></td>
+                        <td><input type="text" id="contentNo" readonly></td>
                     </tr>
-                    <!-- 이하 콘텐츠 관련 정보들을 추가 -->
+                    <tr>
+                        <th>강의 주차수</th>
+                        <td><input type="text" id="lectureDuration" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>차시명</th>
+                        <td><input type="text" id="nthName" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>콘텐츠명</th>
+                        <td><input type="text" id="contentName" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>차시 학습 시간</th>
+                        <td><input type="text" id="runTm" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>콘텐츠 파일 번호</th>
+                        <td><input type="text" id="contentFileNo" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>Youtube 연동 번호</th>
+                        <td><input type="text" id="ytbUrl" readonly></td>
+                    </tr>
+                    <tr>
+                        <th>콘텐츠 호출 URL</th>
+                        <td><input type="text" id="contentUrl" readonly></td>
+                    </tr>
+
                 </table>
             </div>
         </div>
-    </section>
-    <!-- content end -->
+    </div>
+</section>
+<!-- content end -->
 </html>
