@@ -17,34 +17,54 @@ function applyForLecture(button) {
                 const lectureNo = parseInt(lectureNoString);
 
                 console.log("강의 번호: " + lectureNo);
-                // 서버에 보낼 데이터 준비
-                let data = JSON.stringify({
-                    lectureNo: lectureNo,
-                    memberNo: memberNo
-                });
 
-                // 회원번호와 강의번호를 사용하여 수강신청을 서버로 요청
-                fetch(`/lms/api/lectures/apply-for-lecture`, {
-                    method: 'POST',
+                // 서버로부터 중복 수강 신청 여부를 확인하는 요청
+                fetch(`/lms/api/lectures/check-duplicate-apply?lectureNo=${lectureNo}&memberNo=${memberNo}`, {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body:data
                 })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success) {
-                            // 수강신청 성공 메시지를 표시하거나 리디렉션을 수행합니다.
-                            alert("수강신청이 완료되었습니다.");
+                        if (data.isDuplicate) {
+                            // 이미 수강 신청한 강의인 경우 알림을 표시
+                            alert("이미 수강 신청한 강의입니다.");
                         } else {
-                            // 수강신청 실패 메시지를 표시합니다.
-                            alert("수강신청에 실패했습니다.");
-                        }
-                    })
-                    .catch(error => {
-                        // 서버 오류 메시지를 표시합니다.
-                        alert("서버 오류가 발생했습니다.");
+                    // 서버에 보낼 데이터 준비
+                    let data = JSON.stringify({
+                        lectureNo: lectureNo,
+                        memberNo: memberNo
                     });
+
+                    // 회원번호와 강의번호를 사용하여 수강신청을 서버로 요청
+                    fetch(`/lms/api/lectures/apply-for-lecture`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body:data
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // 수강신청 성공 메시지를 표시하거나 리디렉션을 수행합니다.
+                                alert("수강신청이 완료되었습니다.");
+                            } else {
+                                // 수강신청 실패 메시지를 표시합니다.
+                                alert("수강신청에 실패했습니다.");
+                            }
+                        })
+                        .catch(error => {
+                            // 서버 오류 메시지를 표시합니다.
+                            alert("서버 오류가 발생했습니다.");
+                        });
+                    }
+                })
+                .catch(error => {
+                    // 서버 오류 메시지를 표시합니다.
+                    alert("서버 오류가 발생했습니다.");
+                });
             } else {
                 // 회원번호를 가져오지 못한 경우 처리
                 alert("회원번호를 가져오지 못했습니다.");
