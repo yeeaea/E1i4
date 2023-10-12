@@ -10,14 +10,20 @@
     <title>youtube</title>
 </head>
 <body>
+
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/content.css}">
+</th:block>
+
 <th:block layout:fragment="script">
     <script th:src="@{/js/ytbplaylist.js}"></script>
 </th:block>
+
 <th:block layout:fragment="content">
 
     <!-- ifame : youtube 동영상 재생 시 url을 src 속성에 설정하면 해당 동영상이 현재 페이지에 보임 -->
     <!-- iframe 사용하거나 div로 id값 줘서 javascript로 영상 가져오거나 -->
-    <!-- ${contentList.get(0).getYtbUrl()} get(안의 번호)차시 정보 번호 통해서 가져오기? -->
+    <!-- ${contentList.get(0).getYtbUrl()} get(안의 번호)차시 정보 번호 통해서 가져오기?
     <iframe
             id="player2"
             type="text/html"
@@ -25,10 +31,9 @@
             height="405"
             th:src="@{'https://www.youtube.com/embed/' + ${contentList.get(0).getYtbUrl()}}"
             allowfullscreen="allowfullscreen">
-    </iframe>
-
-    <div id="player" style="height: 950px; width: 1550px;">
-
+    </iframe> 콘텐츠 id 등록해줘야 ${}값 가져와서 실행됨 -->
+    <div class="video-container">
+        <div id="player"></div>
     </div>
 
     <script>
