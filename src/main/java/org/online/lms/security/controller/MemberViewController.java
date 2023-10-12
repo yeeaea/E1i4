@@ -174,7 +174,7 @@ public class MemberViewController {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         // 비밀번호 변경을 위해 memberService 호출 -> dto와 현재 사용자의 아이디를 전달
         String result = memberService.updateMemberPw(dto, userDetails.getUsername());
-
+        log.info("사용자의 DB에 저장되어 있는 비밀번호 : " + dto.getCurrentPw());
         // ① 현재 비밀번호가 틀렸을 경우
         if (result == null) {
             model.addAttribute("dto", dto);
@@ -225,7 +225,7 @@ public class MemberViewController {
         model.addAttribute("member", dto);
         Members updatedMember = memberService.updateMemberInfo(dto);
 
-        return "redirect:/lms/mypage";  // 정보 업데이트시킨 후, 마이페이지로 이동
+        return "redirect:/lms/mypage/edit-info";  // 정보 업데이트시킨 후, 마이페이지로 이동
 
     }
 

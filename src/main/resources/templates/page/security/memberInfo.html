@@ -75,8 +75,12 @@
                         <input type="text" id="memberEmail" name="loginId" th:field="*{memberEmail}"
                                th:value="${member != null} ? ${member.getMemberEmail()} : ''">
                     </div>
-                    <button type="submit" id="save-memberInfo-btn">변경 완료</button>
+                    <button type="submit" id="saveInfoBtn">변경 완료</button>
                 </form>
+                <!-- 비밀번호 변경 -->
+                <a href="/lms/mypage/change-pw">
+                    <button id="modifyPwBtn">비밀번호 변경</button>
+                </a>
             </div>
         </div>
     </div>
