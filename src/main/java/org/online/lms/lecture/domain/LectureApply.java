@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.online.lms.security.domain.Members;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Set;
+
 @Table(name = "lecture_apply")
 @Entity
 @Getter
@@ -23,22 +25,18 @@ public class LectureApply {
     @Column(name = "apply_no")
     private Long applyNo; // 수강신청번호
 
-    @OneToOne
-    @JoinColumn(name = "lecture_no", referencedColumnName = "lecture_no"
-                /*insertable = false, updatable = false*/)
-    private LectureInfo lectureNo; // 강의 번호 (외래키 연결)
+    @Column(name = "lecture_no")
+    private Long lectureNo; // 강의 번호 (외래키 연결하지 않고, 받아와서 입력)
 
-    @OneToOne
-    @JoinColumn(name = "member_no", referencedColumnName = "member_no"
-                /*insertable = false, updatable = false*/)
-    private Members memberNo; // 회원 번호 (외래키 연결)
+    @Column(name = "member_no")
+    private Long memberNo; // 회원 번호 (외래키 연결하지 않고, 받아와서 입력)
 
     @Column(name = "completion_yn", nullable = false)
     private boolean completionYn; // 수료 여부
 
     @Builder
-    public LectureApply(LectureInfo lectureNo,
-                        Members memberNo,
+    public LectureApply(Long lectureNo,
+                        Long memberNo,
                         boolean completionYn) {
         this.lectureNo = lectureNo;
         this.memberNo = memberNo;
