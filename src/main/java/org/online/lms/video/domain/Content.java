@@ -1,15 +1,13 @@
 package org.online.lms.video.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Table(name="content")
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Content { // 콘텐츠 관리 정보 테이블
@@ -26,7 +24,7 @@ public class Content { // 콘텐츠 관리 정보 테이블
     @Column(name = "content_name", nullable = false)
     private String contentName; // 콘텐츠명
 
-    @Column(name = "content_desc")
+    @Column(name = "content_desc", length = 10000)
     private String contentDesc; // 콘텐츠 설명
 
     @Column(name = "content_file_no")
@@ -35,7 +33,7 @@ public class Content { // 콘텐츠 관리 정보 테이블
     @Column(name = "ytb_url", nullable = false)
     private String ytbUrl; // Youtube 연동 번호
 
-    @Column(name = "content_url", nullable = false)
+    @Column(name = "content_url")
     private String contentUrl; // 콘텐츠 호출 URL
 
     @Column(name = "run_tm")
@@ -58,5 +56,9 @@ public class Content { // 콘텐츠 관리 정보 테이블
         this.ytbUrl = ytbUrl;
         this.contentUrl = contentUrl;
         this.runTm = runTm;
+    }
+
+    public static Content contentYtb() {
+        return new Content();
     }
 }

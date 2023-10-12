@@ -4,51 +4,6 @@ const PLAYLIST_ID = 'PLRx0vPvlEmdBjfCADjCc41aD4G0bmdl4R'; // 대상 재생목록
 // maxResults=30 : 최대 30개 가져오기, 설정 안 하면 기본적으로 5개만 가지고 옴
 const API_URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=30&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
 
-
-
-
-/*
-// mariaDB 저장
-const mysql = require('mysql2/promise');
-const fetch = require('node-fetch');
-
-const dbConfig = {
-    host: 'localhost',
-    user: 'E1i4',
-    password: 'password',
-    database: 'e1i4',
-};
-
-const pool = mysql.createPool(dbConfig);
-
-fetch(API_URL)
-    .then(response => response.json())
-    .then(async data => {
-        data.items.forEach(async item => {
-            const videoTitle = item.snippet.title;
-            const videoDescription = item.snippet.description;
-            const videoId = item.snippet.resourceId.videoId || "";
-
-            try {
-                const connection = await pool.getConnection();
-                await connection.query(
-                    'INSERT INTO content (contentName, contentDesc, ytbUrl, contentUrl) VALUES (?, ?, ?, ?)',
-                    [videoTitle, videoDescription, videoId, "https://www.youtube.com/watch?v=${videoId}"]
-                );
-                connection.release();
-                console.log(`데이터 저장 성공: ${videoTitle}`);
-            } catch (error) {
-                console.error('데이터 저장 중 오류 발생:', error);
-            }
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching video data: ', error);
-    });*/
-
-
-
-// api 통해서 재생목록 가져오기
 // 재생시간도 가져와야 되는데 이거는 어떻게 가져오냐
 fetch(API_URL)
     .then(response => response.json())
@@ -60,6 +15,30 @@ fetch(API_URL)
             const videoDescription = item.snippet.description;
             const videoThumbnail = item.snippet.thumbnails.medium.url;
             const videoId = item.snippet.resourceId.videoId || "";
+
+            // data 객체 생성
+            const data = {
+                videoTitle: videoTitle,
+                videoDescription: videoDescription,
+                videoId: videoId
+            };
+
+            // 서버로 데이터를 보내는 fetch 요청
+            fetch('/api/admin/saveYoutubeData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    // 데이터 저장 결과 처리
+                    console.log('나오나'+ videoTitle);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
 
             const listItem = document.createElement("li");
             listItem.innerHTML = `
@@ -97,6 +76,51 @@ fetch(API_URL)
         console.error('Error fetching video data: ', error);
     });
 
+/*
+// 가져온 데이터 DB에 저장
+fetch(API_URL)
+    .then(response => response.json())
+    .then(data => {
+        const videoList = document.getElementById("videoList");
+
+        data.items.forEach(item => {
+            const videoTitle = item.snippet.title;
+            const videoDescription = item.snippet.description;
+            const videoThumbnail = item.snippet.thumbnails.medium.url;
+            const videoId = item.snippet.resourceId.videoId || "";
+
+            // 이전 코드와 동일한 부분
+
+            // data 객체 생성
+            const data = {
+                videoTitle: videoTitle,
+                videoDescription: videoDescription,
+                videoId: videoId
+            };
+
+            // 서버로 데이터를 보내는 fetch 요청
+            fetch('/saveYoutubeData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => response.json())
+                .then(result => {
+                    // 데이터 저장 결과 처리
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            // 나머지 부분도 이전 코드와 동일
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching video data: ', error);
+    });
+*/
 
 //// 알림창 띄우기
 // YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
