@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
+import org.online.lms.security.dto.UpdateMemberInfoDTO;
 import org.online.lms.security.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+
+import javax.swing.text.html.Option;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -165,17 +168,27 @@ public class MemberService {
         }
     }
 
-//    // 회원정보 수정
-//    @Transactional
-//    public void updateMemberInfo(UpdateMemberInfoDTO dto) {
-//        // 회원 찾기
-//        Members member = memberRepository.findByLoginId(dto.toEntity().getLoginId())
-//                    .orElseThrow(()-> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
-//
-//
-//        // DB에 회원정보 저장
-//        memberRepository.save(member);
-//    }
+    // 회원정보 수정 ( 정보 업데이트 )
+    @Transactional
+    public Members updateMemberInfo(UpdateMemberInfoDTO dto) {
+        // id로 사용자 확인
+        Optional<Members> membersOptional = memberRepository.findByLoginId(dto.getLoginId());
+
+        if(membersOptional.isPresent()){
+            // 사용자가 있다면
+            Members member = membersOptional.get();
+            // 사용자 정보 변경
+            member.setLoginId(dto.getLoginId());
+            member.setMemberName(dto.getMemberName());
+            member.setMemberTel(dto.getMemberTel());
+            member.setMemberEmail(dto.getMemberEmail());
+            // DB에 회원정보 저장
+            return memberRepository.save(member);
+        } else {
+            // 사용자가 없다면
+            return null;
+        }
+    }
 
 
 }
