@@ -68,9 +68,10 @@
                         th:text="${post.postTitle}"></a></td>
 
                 <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"></td>
-                <td>id</td>
+                <td th:text="${post.loginId}"></td>
                 <td th:text="${post.postView}"></td>
-                <td>댓글수</td>
+                <td th:text="${#lists.size(post.comments)}"></td>
+
 
             </tr>
             </tbody>

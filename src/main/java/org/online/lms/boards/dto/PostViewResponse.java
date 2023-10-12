@@ -2,6 +2,7 @@ package org.online.lms.boards.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.domain.FileUpload;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class PostViewResponse {
     private Long postNo;
     private String postTitle;
@@ -18,6 +20,8 @@ public class PostViewResponse {
     private String orgFileName;
     private String saveFileName;
     private String filePath;
+    private Long boardNo;
+    private String boardType;
     private List<CommentListViewResponse> comments;
     // 파일 , 닉네임 추가예정
 
@@ -26,6 +30,8 @@ public class PostViewResponse {
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
         this.postRtm = post.getPostRtm();
+        this.boardNo = post.getBoardNo();
+        this.boardType = post.getBoardType();
 
         if (file != null) {
             this.orgFileName = file.getOrgFileName();
@@ -33,5 +39,7 @@ public class PostViewResponse {
             this.filePath = file.getFilePath();
         }
     }
+
+
 
 }

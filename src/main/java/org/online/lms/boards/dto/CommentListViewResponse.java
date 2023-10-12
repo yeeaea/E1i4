@@ -12,6 +12,7 @@ public class CommentListViewResponse {
     private final String commentContent;
     private final LocalDateTime commentRtm;
     private final LocalDateTime commentUtm;
+    private final String loginId;
 
     public CommentListViewResponse(Comment comment) {
         this.postNo = comment.getPost().getPostNo();
@@ -19,5 +20,6 @@ public class CommentListViewResponse {
         this.commentContent = comment.getCommentContent();
         this.commentRtm = comment.getCommentRtm();
         this.commentUtm = comment.getCommentUtm();
+        this.loginId = comment.getLoginId();
     }
 }

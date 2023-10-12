@@ -1,9 +1,12 @@
 package org.online.lms.boards.dto;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.online.lms.boards.domain.Board;
 import org.online.lms.boards.domain.FileUpload;
 import org.online.lms.boards.domain.Post;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,14 +26,16 @@ public class PostRequest {
     private String saveFileName;
     private String filePath;
     private Long fileSize;
+    private String loginId;
+    private Long boardNo;
+    private String boardType;
 
     private List<MultipartFile> files; // 여러 개의 파일을 업로드하기 위한 목록
 
-    // 게시판 분류, 파일 추가 예정
-    // private String loginId;
+
+
     public Post toEntity() {
         FileUpload file = FileUpload.builder()
-
                 .fileSeq(fileSeq)
                 .orgFileName(orgFileName)
                 .saveFileName(saveFileName)
@@ -38,9 +43,13 @@ public class PostRequest {
                 .fileSize(fileSize)
                 .build();
 
+
         Post post = Post.builder()
                 .postTitle(postTitle)
                 .postContent(postContent)
+                .loginId(loginId)
+                .boardNo(boardNo)
+                .boardType(boardType)
                 .build();
 
         post.setFile(file); // File 객체를 Post에 설정

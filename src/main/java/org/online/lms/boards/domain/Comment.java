@@ -40,18 +40,18 @@ public class Comment {
     @JoinColumn(name = "post_no")
     private Post post;
 
-    // 유저 추가해야 함..
+    private String loginId;
+
 
     @Builder
-    public Comment(String commentContent) {
+    public Comment(String commentContent, String loginId) {
         this.commentContent = commentContent;
-       // this.loginId = loginId;
+        this.loginId = loginId;
     }
 
     public void update(String commentContent){
         this.commentContent = commentContent;
     }
-
 
 
 }
