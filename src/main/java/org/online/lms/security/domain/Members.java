@@ -6,7 +6,6 @@ import org.online.lms.security.domain.role.MemberRole;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 @Entity
 @Table(name = "members")
 @Getter
