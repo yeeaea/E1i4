@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/lms/api/lectures")
 public class LectureApplyApiController {
@@ -19,15 +21,13 @@ public class LectureApplyApiController {
 
     @PostMapping("/apply-for-lecture")
     public ResponseEntity<?> applyForLecture(@RequestBody LectureApplyDto lectureApplyDto) {
-        try {
-            // 서비스 메서드 호출 결과를 사용하여 성공 또는 실패 여부를 판단
-            lectureApplyService.applyForLecture(lectureApplyDto);
+        boolean success = lectureApplyService.applyForLecture(lectureApplyDto);
 
-            // 성공한 경우
-            return ResponseEntity.ok().body("{\"success\": true}");
-        } catch (Exception e) {
-            // 실패한 경우
-            return ResponseEntity.ok().body("{\"success\": false}");
+        if (success) {
+            return ResponseEntity.ok(Map.of("success", true));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "강의 신청에 실패했습니다."));
         }
     }
+
 }
