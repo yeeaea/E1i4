@@ -2,8 +2,11 @@ package org.online.lms.security.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.online.lms.security.domain.role.MemberRole;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.online.lms.security.domain.role.MemberRole;
 
 import java.lang.reflect.Member;
 
@@ -32,6 +35,15 @@ public class Members { // 회원 정보 테이블
 
     @Column(name = "member_email", nullable = false)
     private String memberEmail; // 이메일
+
+    @Column(name = "member_attendance")
+    @ColumnDefault("false")
+    private boolean memberAttendance; // 출결상태
+
+    @Column(name="member_role", nullable=false)
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'USER'")
+    private MemberRole memberRole;      // 사용자 권한
 
     @Builder
     public Members(String loginId,
