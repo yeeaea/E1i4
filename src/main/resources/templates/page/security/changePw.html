@@ -17,7 +17,6 @@
     <!-- 비밀번호 변경 폼 -->
     <form action="/lms/mypage/change-pw" method="post"
           th:if="${dto == null}">
-        <input type="hidden" th:value="${dto != null}? ${dto.getLoginId()} : ''" >
         <!-- 기존 비밀번호 입력란 -->
         <div>
             <label for="currentPw">기존 비밀번호</label>

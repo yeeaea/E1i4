@@ -7,22 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
+import org.online.lms.security.dto.UpdateMemberInfoDTO;
 import org.online.lms.security.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.security.core.Authentication;
 
-import java.security.Principal;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,12 +30,14 @@ import java.util.Optional;
 public class MemberViewController {
     private final MemberService memberService;
 
-    @GetMapping("/")    // 메인 페이지로 이동
+    // 메인 페이지로 이동
+    @GetMapping("/")
     public String login(){  // 커스텀 로그인 페이지 지정
         return "/page/security/login";
     }
 
-    @GetMapping("/lms/mypage")    // 마이페이지로 이동
+    // 마이페이지로 이동
+    @GetMapping("/lms/mypage")
     public String mypage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -54,12 +54,14 @@ public class MemberViewController {
         return "/page/security/mypage";
     }
 
-    @GetMapping("/lms/signup")      // 회원가입 페이지로 이동
+    // 회원가입 페이지로 이동
+    @GetMapping("/lms/signup")
     public String signUp(){
         return "/page/security/signUp";
     }
 
-    @PostMapping("/lms/signup")        // 회원가입 처리
+    // 회원가입 처리
+    @PostMapping("/lms/signup")
     public String processSignup(@Valid MemberSignupDTO dto, Errors errors, Model model){
 //        // @Valid가 적용된 MemberSignupDTO 객체 유효성 검증 -> 실패 시, 에러 정보가 Errors 객체에 저장됨
 //        log.info("dto : {}, errors : {}", dto, errors);
@@ -82,7 +84,8 @@ public class MemberViewController {
         return "redirect:/?success=true";
     }
 
-    @GetMapping("/signup/checkId")      // 회원가입 시, 아이디 중복체크 ( Ajax 요청 포함 )
+    // 회원가입 시, 아이디 중복체크 ( Ajax 요청 포함 )
+    @GetMapping("/signup/checkId")
     @ResponseBody
     public ResponseEntity<?> checkLoginId(@RequestParam(name = "loginId") String loginId){
         log.info("loginId : " + loginId);
@@ -99,12 +102,13 @@ public class MemberViewController {
         }
     }
 
-
-    @GetMapping("/lms/find-id")     // 아이디 찾기 페이지로 이동
+    // 아이디 찾기 페이지로 이동
+    @GetMapping("/lms/find-id")
     public String findId(){
         return "/page/security/findId";
     }
 
+    // 아이디 찾기 처리
     @PostMapping("/lms/find-id")
     @ResponseBody
     public ResponseEntity<String> processFindId(@RequestParam(name = "memberName") String memberName, @RequestParam(name = "memberEmail") String memberEmail, Model model){
@@ -117,19 +121,23 @@ public class MemberViewController {
         }
     }
 
-    @GetMapping("/lms/find-pw")     // 비밀번호 찾기 페이지로 이동
+    // 비밀번호 찾기 페이지로 이동
+    @GetMapping("/lms/find-pw")
     public String findPw(){
         return "/page/security/findPw";
     }
 
-    @PostMapping("/lms/find-pw/check")  // 뷰에서 사용자가 입력한 memberEmail를 파라미터로 받아 이메일 유무 확인하는 용도
+    // 뷰에서 사용자가 입력한 memberEmail를 파라미터로 받아 이메일 유무 확인하는 용도
+    @PostMapping("/lms/find-pw/check")
     @ResponseBody
     public boolean checkEmail(@RequestParam(name = "memberEmail") String memberEmail){
         log.info("checkEmail 진입");
         // 아이디 조회 폼을 보여주는 뷰 이름
         return memberService.checkEmail(memberEmail);
     }
-    @PostMapping("/lms/find-pw/send") // 임시 비밀번호 생성 후, 전송
+
+    // 임시 비밀번호 생성 후, 전송
+    @PostMapping("/lms/find-pw/send")
     @ResponseBody
     public String sendEmail(@RequestParam(name = "memberEmail") String memberEmail){
         log.info("sendEmail 집입");
@@ -147,12 +155,14 @@ public class MemberViewController {
         return "" + tmpPwd;
     }
 
-    @GetMapping("/lms/mypage/change-pw")     // 비밀번호 변경하는 페이지 이동
+    // 비밀번호 변경하는 페이지 이동
+    @GetMapping("/lms/mypage/change-pw")
     public String showChangePw(){
         return "/page/security/changePw";
     }
 
-    @PostMapping("/lms/mypage/change-pw")   // 비밀번호 변경 처리
+    // 비밀번호 변경 처리
+    @PostMapping("/lms/mypage/change-pw")
     /*
     *  Authentication : 현재 사용자의 인증 정보를 포함한 객체
     *  @AuthenticationPrincipal : 현재 사용자의 정보를 나타내는 어노테이션으로,
@@ -183,8 +193,40 @@ public class MemberViewController {
         return "redirect:/";
     }
 
-    @GetMapping("/lms/mypage/edit-info")    // 개인정보 수정 페이지로 이동
-    public String showEditInfoPage(){
-        return "page/security/memberUpdate";
+    // 개인정보 수정 페이지로 이동
+    @PreAuthorize("isAuthenticated()")  // 로그인된 사용자만 이 페이지 볼 수 있음
+    @GetMapping("/lms/mypage/edit-info")
+    public String showEditInfoPage(Model model, Authentication authentication, @AuthenticationPrincipal Members member){
+
+        // 현재 로그인된 사용자인 경우
+        if(authentication != null && authentication.isAuthenticated()){
+            // 로그인된 아이디 가져옴
+            String loginId = authentication.getName();
+            // 위에서 가져온 아이디를 기준으로 사용자 정보 불러옴
+            Optional<Members> currentMember = memberService.findByLoginId(loginId);
+            if(currentMember.isPresent()){
+                // model에 member 객체 추가해서 뷰로 넘겨줌
+                model.addAttribute("member", currentMember.get());
+                return "/page/security/memberInfo";
+            } else {
+                return "/page/error";
+            }
+        } else {
+            // 로그인되지 않은 경우 처리
+            return "/page/security/login";
+        }
     }
+
+    // 개인정보 수정 페이지 처리
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/lms/mypage/edit-info")
+    public String processInfoPage(UpdateMemberInfoDTO dto, Errors errors, Model model, @AuthenticationPrincipal Members member){
+        // 유효성 검사 아직 진행하진 못했지만, 유효성 검사 통과 시 아래 코드 실행
+        model.addAttribute("member", dto);
+        Members updatedMember = memberService.updateMemberInfo(dto);
+
+        return "redirect:/lms/mypage";  // 정보 업데이트시킨 후, 마이페이지로 이동
+
+    }
+
 }
