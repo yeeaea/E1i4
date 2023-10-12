@@ -1,3 +1,4 @@
+// 차시 관리 checkbox 클릭 시 상세 정보 출력
 function updateContentDetails(checkbox) {
     let nthNoValue = checkbox.getAttribute('data-nthNo');
     let lectureCourseValue = checkbox.getAttribute('data-lectureCourse');
@@ -10,7 +11,7 @@ function updateContentDetails(checkbox) {
     let ytbUrlValue = checkbox.getAttribute('data-ytbUrl');
     let contentUrlValue = checkbox.getAttribute('data-contentUrl');
 
-    // 강의 차시별 콘텐츠 상세 정보를 표시
+    // 강의 차시별 콘텐츠 상세 정보 표시
     document.getElementById('nthNo').value = nthNoValue;
     document.getElementById('lectureCourse').value = lectureCourseValue;
     document.getElementById('contentNo').value = contentNoValue;
@@ -36,6 +37,9 @@ function addCheckboxListeners() {
         });
     });
 }
+
+// 중복 호출 방지
+addCheckboxListeners();
 
 // 차시 정보 추가
 function addContent() {

@@ -20,6 +20,7 @@
 <section layout:fragment="content">
     <div class="container" style="display: flex; flex-direction: column;">
         <div style="flex: 1; margin-right: 20px;">
+            <button onclick="lectureInfoList()">조회</button>
             <table class="border border-dark p-3 mb-3">
                 <thead>
                 <tr>
@@ -30,7 +31,7 @@
                     <th>총 강의 주차수</th>
                 </tr>
                 </thead>
-                <tbody id="lectureList">
+                <tbody id="lectureList" th:each="progressInfo : ${progressInfoList}">
                     <!-- 강의 차시 정보 목록 표시 -->
                     <tr th:each="progressInfo : ${progressInfoList}">
                         <td th:text="${progressInfo.lectureNo.lectureNo}"></td>
@@ -51,9 +52,9 @@
                         <th>과정구분</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody th:each="progressInfo : ${progressInfoList}">
                     <!-- 차시 목록 표시 -->
-                    <tr th:each="progressInfo : ${progressInfoList}">
+                    <tr>
                         <td th:text="${progressInfo.lectureNo.lectureDuration}"></td>
                         <td th:text="${progressInfo.lectureNo.lectureCourse}"></td>
                     </tr>
@@ -69,9 +70,9 @@
                         <th>차시명</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody  th:each="progressInfo : ${progressInfoList}">
                     <!-- 강의 차시별 콘텐츠 목록 표시 -->
-                    <tr th:each="progressInfo : ${progressInfoList}">
+                    <tr>
                         <td><input type="checkbox" class="contentCheckbox"
                                    th:attr="data-nthNo=${progressInfo.nthNo},
                                    data-lectureCourse=${progressInfo.lectureNo.lectureCourse},

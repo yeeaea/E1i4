@@ -1,6 +1,7 @@
 package org.online.lms.video.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.dto.AddProgressInfoRequest;
 import org.online.lms.video.dto.UpdateProgressInfoRequest;
@@ -8,6 +9,8 @@ import org.online.lms.video.service.ProgressInfoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -23,6 +26,7 @@ public class ProgressInfoApiController {
         return ResponseEntity.ok(addedProgress);
     }
 
+    // 차시 정보 수정
     @PutMapping("/update/{nthNo}")
     public ResponseEntity<ProgressInfo> updateProgress(@PathVariable long nthNo, @RequestBody UpdateProgressInfoRequest request) {
         ProgressInfo updatedProgress = progressInfoService.updateProgress(nthNo, request);
@@ -34,6 +38,7 @@ public class ProgressInfoApiController {
         }
     }
 
+    // 차시 정보 삭제
     @DeleteMapping("/delete/{nthNo}")
     public ResponseEntity<String> deleteProgress(@PathVariable long nthNo) {
         try {
