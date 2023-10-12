@@ -10,7 +10,20 @@ function applyForLecture(button) {
         .then(memberData => {
             if (memberData.success) {
                 const memberNo = memberData.memberNo;
-                const lectureNo = button.getAttribute("data-lecture-no");
+                // 강의 번호 추출
+                const lectureNoString = button.getAttribute("data-lecture-no");
+
+                // Long형으로 변환
+                const lectureNo = parseInt(lectureNoString);
+                const completionYn = false;
+
+                console.log("강의 번호: " + lectureNo);
+                // Long형으로 변환하여 서버에 보낼 데이터 준비
+                let data = JSON.stringify({
+                    lectureNo: lectureNo,
+                    memberNo: memberNo,
+                    completionYn: completionYn
+                });
 
                 // 회원번호와 강의번호를 사용하여 수강신청을 서버로 요청
                 fetch('/lms/api/lectures/apply-for-lecture', {
@@ -18,10 +31,7 @@ function applyForLecture(button) {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        memberNo: memberNo,
-                        lectureNo: lectureNo,
-                    }),
+                    body:data
                 })
                     .then(response => response.json())
                     .then(data => {

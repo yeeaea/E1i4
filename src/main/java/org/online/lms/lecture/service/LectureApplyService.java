@@ -28,26 +28,29 @@ public class LectureApplyService {
         this.memberRepository = memberRepository;
     }
 
-    public void applyForLecture(LectureApplyDto lectureApplyDto) {
+    // 수강신청
+    public boolean applyForLecture(LectureApplyDto lectureApplyDto) {
         Long lectureNo = lectureApplyDto.getLectureNo();
         Long memberNo = lectureApplyDto.getMemberNo();
-        boolean completionYn = lectureApplyDto.isCompletionYn(); // completionYn 값을 가져옴
 
-        // 강의 번호와 회원 번호를 사용하여 해당 엔티티들을 찾습니다.
+        // 강의와 회원 엔터티 찾기
         LectureInfo lectureInfo = lectureInfoRepository.findById(lectureNo)
                 .orElseThrow(() -> new IllegalArgumentException("강의 정보를 찾을 수 없습니다."));
         Members member = memberRepository.findById(memberNo)
                 .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
 
-        // 수강신청 정보를 생성하고 저장합니다.
+        // 수강신청 엔터티 저장
         LectureApply lectureApply = LectureApply.builder()
                 .lectureNo(lectureInfo)
                 .memberNo(member)
-                .completionYn(completionYn) // completionYn 값을 사용
+                .completionYn(false)
                 .build();
 
         lectureApplyRepository.save(lectureApply);
+
+        return true; // 신청 성공
     }
+
 
     // 회원 번호로 수강 신청한 강의 목록 찾기
     public List<LectureApply> getLecturesByMember(Long memberNo) {
