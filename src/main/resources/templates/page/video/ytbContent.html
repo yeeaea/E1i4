@@ -10,15 +10,15 @@
     <title>youtube</title>
 </head>
 <body>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/ytbplaylist.js}"></script>
+</th:block>
 <th:block layout:fragment="content">
-    <iframe
-            id="ytplayer"
-            type="text/html"
-            width="720"
-            height="405"
-            src="https://www.youtube.com/embed/wjLwmWyItWI"
-            allowfullscreen="allowfullscreen">
-    </iframe>
+
+    <ul id="videoList">
+        <!-- 비디오 목록 여기에 나열될 거임 -->
+    </ul>
+
 </th:block>
 </body>
 </html>

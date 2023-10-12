@@ -48,8 +48,17 @@ public class VideoViewController {
     }
 
     /////// 추후에 viewController로 이동(Security) - 차시테이블 사용
+    // 재생목록 리스트
     @GetMapping("/lms/online/progress-info-list")
-    public String ytbList() {
+    public String ytbList(Model model) {
         return "/page/video/ytbContent";
+    }
+
+    // 재생목록에서 버튼 누르면 나오는 콘텐츠 플레이 창
+    @GetMapping("/lms/online/view")
+    public String ytbPlay(Model model) {
+        List<Content> contentList = videoInfoService.findAll();
+        model.addAttribute("contentList", contentList);
+        return "/page/video/ytbView";
     }
 }
