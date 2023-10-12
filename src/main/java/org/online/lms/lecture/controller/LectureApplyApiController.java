@@ -20,7 +20,7 @@ public class LectureApplyApiController {
     }
 
     @PostMapping("/apply-for-lecture")
-    public ResponseEntity<?> applyForLecture(@RequestBody LectureApplyDto lectureApplyDto) {
+    public ResponseEntity<Object> applyForLecture(@RequestBody LectureApplyDto lectureApplyDto) {
         boolean success = lectureApplyService.applyForLecture(lectureApplyDto);
 
         if (success) {
