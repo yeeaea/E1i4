@@ -1,10 +1,12 @@
 package org.online.lms.boards.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.online.lms.boards.domain.Comment;
 import org.online.lms.boards.domain.FileUpload;
 import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.dto.CommentListViewResponse;
+import org.online.lms.boards.dto.PostRequest;
 import org.online.lms.boards.dto.PostViewResponse;
 import org.online.lms.boards.service.CommentService;
 import org.online.lms.boards.service.PostService;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import jakarta.servlet.http.HttpSession;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,11 +77,29 @@ public class PostViewController {
     // 게시글 1개 조회
     @GetMapping("/lms/questions/{postNo}")
     public String getQuestion(@PathVariable Long postNo,
+                              Model model,
                               HttpSession session,
-                              Model model) {
+                              HttpServletRequest request) {
+
+        // 현재 로그인한 사용자 정보 가져오기
+        Principal principal = request.getUserPrincipal();
+
+        String currentLoginId = null; // 초기화
+
+        if (principal != null) {
+            currentLoginId = principal.getName();
+        } else {
+            // 사용자가 인증되지 않은 경우에 처리
+            currentLoginId = "anonymous";
+        }
 
         // 글 정보 가져오기
         Post question = postService.getQues(postNo, session);
+
+        // 글 작성자 정보 가져오기
+        String loginId = question.getLoginId();
+
+
         FileUpload file = question.getFile();
 
         PostViewResponse questionResponse = new PostViewResponse(question, file);
@@ -93,15 +114,17 @@ public class PostViewController {
 
         model.addAttribute("question", questionResponse);
         model.addAttribute("comments", commentResponses);
-
-
+        model.addAttribute("currentLoginId", currentLoginId);
+        model.addAttribute("loginId", loginId);
         return "page/boards/question.html";
     }
+
 
     // 게시물 작성
     @GetMapping("/lms/new-question")
     public String newQuestion(@RequestParam(required = false) Long postNo,
                               Model model) {
+
         if (postNo == null) {
             model.addAttribute("question", new PostViewResponse());
         } else {
@@ -110,6 +133,7 @@ public class PostViewController {
 
             // File 객체를 사용하여 PostViewResponse 객체 생성
             PostViewResponse questionResponse = new PostViewResponse(post, file);
+
             model.addAttribute("question", questionResponse);
         }
 

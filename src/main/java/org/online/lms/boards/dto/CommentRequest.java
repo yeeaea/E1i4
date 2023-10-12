@@ -14,12 +14,12 @@ import org.online.lms.boards.domain.Comment;
 public class CommentRequest {
     private Long postNo;
     private String commentContent;
-    // longinId 추가예정
+    private String loginId;
 
     public Comment toEntity() {
         return Comment.builder()
                 .commentContent(commentContent)
-                // longinId 추가예정
+                .loginId(loginId)
                 .build();
     }
 

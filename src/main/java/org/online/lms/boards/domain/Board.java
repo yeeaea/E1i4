@@ -11,16 +11,23 @@ import lombok.*;
 public class Board {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "board_no", updatable = false)
     private Long boardNo;
 
-    @Column(name = "board_type", nullable = false)
+    @Column(name = "board_type", nullable = true)
     private String boardType;
 
-    @Column(name = "board_title", nullable = false)
-    private String boardTitle;
+//    @Column(name = "board_title", nullable = false)
+//    private String boardTitle;
+//
+//    @Column(name = "board_yn")
+//    private Boolean boardYn;
 
-    @Column(name = "board_yn")
-    private Boolean boardYn;
+    @Builder
+    public Board(Long boardNo) {
+        this.boardNo = boardNo;
+        this.boardType = boardType;
+    }
+
 }

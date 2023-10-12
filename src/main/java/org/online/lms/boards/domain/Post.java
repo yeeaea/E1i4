@@ -44,6 +44,17 @@ public class Post {
     @JoinColumn(name = "file_no")
     private FileUpload file;
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
+    private String loginId;
+
+    @Column(name = "board_no", updatable = false)
+    private Long boardNo;
+
+    @Column(name = "board_type", nullable = true)
+    private String boardType;
+
 //    // 파일 목록 관리
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private List<FileUploaFd> files;
@@ -52,29 +63,21 @@ public class Post {
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    private List<FileUpload> files;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Comment> comments;
-
-    /*
-    @ManyToOne
-    @JoinColumn(name = "board_no")
-    private Board board;
-
-    @Column(name = "login_id")
-    private String loginId;
-
-    */
 
     // 게시판 분류, 파일, 닉네임 추가 예정
     @Builder
-    public Post(String postTitle, String postContent) {
+    public Post(String postTitle, String postContent, String loginId,Long boardNo,String boardType) {
         this.postTitle = postTitle;
         this.postContent = postContent;
+        this.loginId = loginId;
+        this.boardNo = boardNo;
+        this.boardType = boardType;
+
     }
+
     // 수정 메서드
     public void update(String postTitle, String postContent) {
         this.postTitle = postTitle;
         this.postContent = postContent;
-        this.file = file;
     }
 }

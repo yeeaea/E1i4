@@ -1,5 +1,6 @@
 package org.online.lms.boards.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 import org.online.lms.boards.service.PostService;
@@ -14,11 +15,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,21 +32,32 @@ public class PostApiController {
     private final PostService postService;
 
     // 글 등록
-
     @PostMapping("/api/post")
     public ResponseEntity<Post> addArticle(@RequestParam("postTitle") String postTitle,
                                            @RequestParam("postContent") String postContent,
-                                           @RequestParam(value = "file1", required = false) MultipartFile file1) throws Exception {
-        PostRequest dto = new PostRequest();
-        dto.setPostTitle(postTitle);
-        dto.setPostContent(postContent);
+                                           @RequestParam(value = "file1", required = false) MultipartFile file1,
+                                           Principal principal,
+                                           HttpServletRequest request) throws Exception {
 
-        Post savedPost = postService.save(dto, file1);
+        if (principal != null) {
+            // 현재 로그인한 사용자의 아이디
+            String loginId = principal.getName();
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedPost);
+            PostRequest dto = new PostRequest();
+            dto.setPostTitle(postTitle);
+            dto.setPostContent(postContent);
+            dto.setLoginId(loginId);
+            dto.setBoardNo(1L);
+            dto.setBoardType("질의응답");
+
+            Post savedPost = postService.save(dto, file1);
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(savedPost);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
     }
-
 
     // 글 목록 조회
     @GetMapping("/api/post")
@@ -74,9 +90,27 @@ public class PostApiController {
     public ResponseEntity<Post> updatePost(@PathVariable Long postNo,
                                            @RequestParam("postTitle") String postTitle,
                                            @RequestParam("postContent") String postContent,
-                                           @RequestParam(name = "file1", required = false) MultipartFile file1) throws Exception {
+                                           @RequestParam(name = "file1", required = false) MultipartFile file1,
+                                           Principal principal) throws Exception {
+
+        // 현재 로그인한 사용자 아이디
+        String currentLoginId = principal.getName();
 
         Post post = postService.findById(postNo);
+
+        if (post == null) {
+            // 글이 존재하지 않는 경우 에러 처리
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // 글 작성자의 아이디
+        String authorId = post.getLoginId();
+
+        // 현재 사용자와 글 작성자를 비교하여 권한 확인
+        if (!currentLoginId.equals(authorId)) {
+            // 현재 사용자가 글 작성자가 아닌 경우 권한이 없으므로 에러 처리
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
 
         post.setPostTitle(postTitle);
         post.setPostContent(postContent);

@@ -23,7 +23,8 @@ public class CommentService {
     private final PostRepository postRepository;
 
     // 댓글 등록
-    public Comment saveComment(CommentRequest commentRequest, Long postNo) {
+    public Comment saveComment(CommentRequest commentRequest,
+                               Long postNo) {
         // postNo에 해당하는 게시글에 댓글을 저장하는 로직 구현
         Post post = postRepository.findById(postNo).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없음"));
         Comment comment = commentRequest.toEntity();
@@ -58,7 +59,8 @@ public class CommentService {
 
     // 댓글 수정
     @Transactional
-    public Comment update(Long commentNo, UpdateCommentRequest dto) {
+    public Comment update(Long commentNo,
+                          UpdateCommentRequest dto) {
         Comment comment = commentRepository.findById(commentNo)
                 .orElseThrow(() -> new IllegalArgumentException("수정할 댓글이 없습니다."));
 
@@ -68,17 +70,5 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    /*
 
-    // 댓글 작성자의 닉네임을 가져오는 메소드
-    public String getLoginId(Long commentNo) {
-        Comment comment = commentRepository.findById(commentNo).orElse(null);
-
-        if (comment != null) {
-            return comment.getLoginId();
-        }
-        return null;
-    }
-
- */
 }
