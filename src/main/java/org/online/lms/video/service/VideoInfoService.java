@@ -1,5 +1,7 @@
 package org.online.lms.video.service;
 
+
+import lombok.extern.slf4j.Slf4j;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.dto.VideoInfoRequest;
 import org.online.lms.video.repository.VideoInfoRepository;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class VideoInfoService {
 
@@ -35,5 +38,11 @@ public class VideoInfoService {
 //    public List<VideoInfoViewResponse> contentAndLectureList(Long contentNo) {
 //        return videoInfoRepository.findContentByLectureId(contentNo);
 //    }
+
+    // 유튜브 api에서 추출한 값 Content DB테이블의 컬럼에 저장하기
+    public Content saveContent(Content content) {
+        log.info("서비스진입");
+        return videoInfoRepository.save(content);
+    }
 
 }
