@@ -2,13 +2,10 @@ package org.online.lms.security.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.online.lms.security.domain.role.MemberRole;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.online.lms.security.domain.role.MemberRole;
 
-import java.lang.reflect.Member;
 
 @Entity
 @Table(name = "members")
