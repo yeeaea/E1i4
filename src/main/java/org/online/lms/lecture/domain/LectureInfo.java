@@ -1,5 +1,6 @@
 package org.online.lms.lecture.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -7,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 
 @Table(name="lecture_info")
@@ -31,11 +32,13 @@ public class LectureInfo { // 개설 강의 정보 테이블
     @Column(name = "lecture_desc")
     private String lectureDesc; // 강의 설명
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "lecture_start_at", nullable = false)
-    private Timestamp lectureStartAt; // 강의 시작일
+    private LocalDate lectureStartAt; // 강의 시작일
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(name = "lecture_end_at", nullable = false)
-    private Timestamp lectureEndAt; // 강의 종료일
+    private LocalDate lectureEndAt; // 강의 종료일
 
     @Column(name = "lecture_course", nullable = false)
     private String lectureCourse; // 강의 과정
@@ -46,8 +49,25 @@ public class LectureInfo { // 개설 강의 정보 테이블
     public LectureInfo(String lectureYear,
                        String lectureTitle,
                        String lectureDesc,
-                       Timestamp lectureStartAt,
-                       Timestamp lectureEndAt,
+                       LocalDate lectureStartAt,
+                       LocalDate lectureEndAt,
+                       String lectureCourse,
+                       int lectureDuration) {
+        this.lectureYear = lectureYear;
+        this.lectureTitle = lectureTitle;
+        this.lectureDesc = lectureDesc;
+        this.lectureStartAt = lectureStartAt;
+        this.lectureEndAt = lectureEndAt;
+        this.lectureCourse = lectureCourse;
+        this.lectureDuration = lectureDuration;
+    }
+
+    // 수정 메소드
+    public void update(String lectureYear,
+                       String lectureTitle,
+                       String lectureDesc,
+                       LocalDate lectureStartAt,
+                       LocalDate lectureEndAt,
                        String lectureCourse,
                        int lectureDuration) {
         this.lectureYear = lectureYear;

@@ -54,28 +54,20 @@ public class LectureInfoService {
 
     // 강의 정보 수정
     @Transactional
-    public LectureInfo updateLecture(Long lectureNo, UpdateLectureInfoRequest request) {
-        // 업데이트 할 필드 설정
-        Optional<LectureInfo> optionalExistingLecture = lectureInfoRepository.findById(lectureNo);
+    public LectureInfo updateLectures(Long lectureNo,
+                                      UpdateLectureInfoRequest request) {
+        LectureInfo lectureInfo = lectureInfoRepository.findById(lectureNo).orElseThrow(
+                ()-> new IllegalArgumentException(lectureNo + "번 강의가 존재하지 않습니다."));
 
-        if (optionalExistingLecture.isPresent()) {
-            LectureInfo existingLecture = optionalExistingLecture.get();
+        lectureInfo.update(request.getLectureYear(),
+                           request.getLectureTitle(),
+                           request.getLectureDesc(),
+                           request.getLectureStartAt(),
+                           request.getLectureEndAt(),
+                           request.getLectureCourse(),
+                           request.getLectureDuration());
 
-            LectureInfo updatedLecture = LectureInfo.builder()
-                    .lectureYear(request.getLectureYear())
-                    .lectureCourse(request.getLectureCourse())
-                    .lectureTitle(request.getLectureTitle())
-                    .lectureDesc(request.getLectureDesc())
-                    .lectureStartAt(request.getLectureStartAt())
-                    .lectureEndAt(request.getLectureEndAt())
-                    .build();
-
-            // 변경된 정보를 저장
-            return lectureInfoRepository.save(updatedLecture);
-        } else {
-            // 강의를 찾을 수 없는 경우 처리
-            return null;
-        }
+        return lectureInfo;
     }
 
     // 강의 삭제
