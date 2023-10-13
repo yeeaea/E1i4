@@ -10,7 +10,7 @@
 <body>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/content.js}"></script>
+    <script th:src="@{/js/video/content.js}"></script>
 </th:block>
 
 <th:block layout:fragment="content">
@@ -19,18 +19,19 @@
     <!-- 전체 강의 리스트 -->
     <div class="container" style="display: flex;">
 
-        <div style="flex: 1; padding-right: 100px;">
+        <div style="flex: 6; padding-right: 100px;">
 
+<!--        콘텐츠 파일번호, 재생 시간을 유튜브에서 제공해주지 않아 값이 없어서 우선 제외했습니다-->
             <table class = "table table-hover">
                 <thead>
                 <tr>
                     <th>콘텐츠 관리 번호</th>
                     <th>콘텐츠 명</th>
                     <th>콘텐츠 설명</th>
-                    <th>콘텐츠 파일번호</th>
+<!--                    <th>콘텐츠 파일번호</th>-->
                     <th>Youtube 연동번호</th>
                     <th>콘텐츠 호출 URL</th>
-                    <th>재생 시간</th>
+<!--                    <th>재생 시간</th>-->
                 </tr>
                 </thead>
 
@@ -40,7 +41,7 @@
                     <td th:text="${content.contentNo}"></td>
                     <td th:text="${content.contentName}"></td>
                     <td th:text="${content.contentDesc}"></td>
-                    <td th:text="${content.contentFileNo}"></td>
+<!--                    <td th:text="${content.contentFileNo}"></td>-->
                     <td th:text="${content.ytbUrl}"></td>
                     <td th:text="${content.contentUrl}"></td>
                     <td th:text="${content.runTm}"></td>
@@ -49,7 +50,7 @@
             </table>
         </div>
 
-        <div style="flex: 1;">
+        <div style="flex: 4;">
             <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT">
                 <div>
                     <label for="contentNo">콘텐츠 관리 번호 : </label>
@@ -59,10 +60,10 @@
                     <label for="contentName">콘텐츠 명 : </label>
                     <input type="text" id="contentName" name="contentName"/>
                 </div>
-                <div>
-                    <label for="contentFileNo">콘텐츠 파일번호 : </label>
-                    <input type="text" id="contentFileNo" name="contentFileNo"/>
-                </div>
+<!--                <div>-->
+<!--                    <label for="contentFileNo">콘텐츠 파일번호 : </label>-->
+<!--                    <input type="text" id="contentFileNo" name="contentFileNo"/>-->
+<!--                </div>-->
                 <div>
                     <label for="ytbUrl">Youtube 연동번호 : </label>
                     <input type="text" id="ytbUrl" name="ytbUrl"/>

@@ -44,10 +44,5 @@ public class VideoInfoService {
         return videoInfoRepository.save(content);
     }
 
-    // Content 엔티티에서 가장 큰 position 값을 찾는 메서드
-    public int getLastPosition() {
-        // Content 엔티티의 레포지토리에서 가장 큰 position 값을 가져오는 예시
-        int lastPosition = videoInfoRepository.findMaxPosition();
-        return lastPosition;
-    }
+
 }
