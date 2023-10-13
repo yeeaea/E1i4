@@ -32,7 +32,7 @@ public class MemberService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // * 회원가입 로직 ( 유효성 검사는 일단 나중에..! )
+    ///////// * 회원가입 로직 ( 유효성 검사는 일단 나중에..! )
     // 1) Member 엔티티 저장
     public Members saveMember(Members member){
         return memberRepository.save(member);
@@ -80,20 +80,20 @@ public class MemberService {
         return validatorResult;
     }
 
-    // * 아이디 중복 체크
+    ///////// * 아이디 중복 체크
     public boolean isLoginIdDuplicate(String loginId){
         Optional<Members> member = memberRepository.findByLoginId(loginId);
         return member.isPresent();
     }
 
-    // * 아이디 검색
+    ///////// * 아이디 검색
     //   -> 아이디로 회원 정보 찾기에 이용
     public Optional<Members> findByLoginId(String loginId){
-        log.info(loginId);
+        //log.info(loginId);
         return memberRepository.findByLoginId(loginId);
     }
 
-    // * 아이디 찾기
+    ///////// * 아이디 찾기
     public String searchByLoginId(String memberName, String memberEmail) {
         // 사용자 이름과 이메일 입력받기
         Optional<Members> member = memberRepository.findByMemberNameAndMemberEmail(memberName, memberEmail);
@@ -106,7 +106,7 @@ public class MemberService {
         }
     }
 
-    // * 비밀번호 찾기
+    ///////// * 비밀번호 찾기
     // 1) DB에서 사용자의 이메일 유무 확인
     public boolean checkEmail(String memberEmail){
         log.info("사용자 이메일 조회 여부 : " + memberEmail);
@@ -146,7 +146,7 @@ public class MemberService {
         log.info("임시 비밀번호 업데이트 성공");
     }
 
-    // 비밀번호 변경 - 로그인된 아이디를 기준으로 비밀번호 입력 시, 맞으면 변경
+    ///////// 비밀번호 변경 - 로그인된 아이디를 기준으로 비밀번호 입력 시, 맞으면 변경
     @Transactional
     public String updateMemberPw(MemberPwChangeDTO dto, String loginId) {
         // 변경을 위한 아이디 값 가져오기
@@ -168,7 +168,7 @@ public class MemberService {
         }
     }
 
-    // 회원정보 수정 ( 정보 업데이트 )
+    ///////// 회원정보 수정 ( 정보 업데이트 )
     @Transactional
     public Members updateMemberInfo(UpdateMemberInfoDTO dto) {
         // id로 사용자 확인
