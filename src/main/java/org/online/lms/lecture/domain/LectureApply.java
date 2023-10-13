@@ -24,10 +24,10 @@ public class LectureApply {
     private Long applyNo; // 수강신청번호
 
     @Column(name = "lecture_no")
-    private Long lectureNo; // 강의 번호 (외래키 연결하지 않고, 받아와서 입력)
+    private Long lectureNo; // 강의 번호 (외래키 연결하지 않고, 값만 받아와서 입력)
 
     @Column(name = "member_no")
-    private Long memberNo; // 회원 번호 (외래키 연결하지 않고, 받아와서 입력)
+    private Long memberNo; // 회원 번호 (외래키 연결하지 않고, 값만 받아와서 입력)
 
     @Column(name = "completion_yn", nullable = false)
     private boolean completionYn; // 수료 여부
