@@ -42,8 +42,8 @@
             </tr>
             </thead>
 
-            <tbody class="row-6" th:each="lecture : ${lectureInfo}" th:attr="data-lecture-no=${lecture.lectureNo}">
-            <tr onclick="populateFormFields(this)" th:attr="data-lecture-no=${lecture.lectureNo}">
+            <tbody class="row-6" th:each="lecture : ${lectureInfo}">
+            <tr th:attr="data-lecture-no=${lecture.lectureNo}" class="lecture-row">
                 <!-- 체크박스 추가 -->
                 <td>
                     <input type="checkbox" th:attr="value=${lecture.lectureNo}" class="lecture-checkbox" />
@@ -52,8 +52,8 @@
                 <td th:text="${lecture.lectureCourse}"></td>
                 <td th:text="${lecture.lectureTitle}"></td>
                 <td th:text="${lecture.lectureDesc}"></td>
-                <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-                <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
+                <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
                 <td th:text="|${lecture.lectureDuration}주차|"></td>
             </tr>
             </tbody>

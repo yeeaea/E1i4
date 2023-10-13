@@ -87,12 +87,12 @@ document.addEventListener("DOMContentLoaded", function () {
     lectureEndInput.addEventListener("change", validateEndDate);
 
     // ******** 강의 수정 기능 ********
-    // 테이블의 모든 행에 클릭 이벤트 핸들러 추가
-    const tableRows = document.querySelectorAll('tbody tr');
-    tableRows.forEach(function (row) {
+// 테이블의 모든 행에 클릭 이벤트 핸들러 추가
+    const lectureRows = document.querySelectorAll('.lecture-row');
+    lectureRows.forEach(function (row) {
         row.addEventListener('click', function () {
             // 다른 행의 선택 상태를 초기화
-            tableRows.forEach(function (r) {
+            lectureRows.forEach(function (r) {
                 r.classList.remove('selected');
             });
 
@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
             populateFormFields(row);
         });
     });
+
 
     // 이벤트 핸들러 함수: 테이블 행 클릭 시 실행됨
     function populateFormFields(row) {
@@ -115,13 +116,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const lectureEndAtText = row.cells[6].textContent;
         const lectureDuration = row.cells[7].textContent;
 
-        // TIMESTAMP 문자열을 JavaScript Date 객체로 변환
+        // 날짜를 Date 객체로 변환
         const lectureStartAtDate = new Date(lectureStartAtText);
         const lectureEndAtDate = new Date(lectureEndAtText);
 
-        // 날짜 객체를 원하는 형식으로 포맷팅
-        const formattedStartDate = lectureStartAtDate.toLocaleDateString();
-        const formattedEndDate = lectureEndAtDate.toLocaleDateString();
+        // Date 객체를 ISO 형식으로 변환 (yyyy-mm-dd)
+        const formattedStartDate = lectureStartAtDate.toISOString().split('T')[0];
+        const formattedEndDate = lectureEndAtDate.toISOString().split('T')[0];
 
         // 강의 등록 섹션의 입력 필드에 정보 설정
         document.getElementById('lectureYear').value = lectureYear;
@@ -131,35 +132,32 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById('lectureStartAt').value = formattedStartDate;
         document.getElementById('lectureEndAt').value = formattedEndDate;
         document.getElementById('lectureDuration').value = lectureDuration;
-    }
 
-    // 수정 버튼 클릭 시 실행
-    document.getElementById('lectureEdit').addEventListener('click', function () {
-        const lectureForm = document.getElementById('LectureForm');
-        const formData = new FormData(lectureForm);
+        // ******** 강의 수정 기능 ********
+        // 강의 클릭한 행의 강의 번호 가져오기 (String)
+        const lectureNoString = row.getAttribute('data-lecture-no');
+        // Long형으로 변환
+        const lectureNo = parseInt(lectureNoString);
 
-        // 클릭한 행의 강의 번호를 가져오기
-        const lectureNoElement = document.querySelector('tr[data-lecture-no]');
-        const lectureNo = lectureNoElement ? lectureNoElement.getAttribute('data-lecture-no') : null;
+        const data = {
+            lectureYear,
+            lectureCourse,
+            lectureTitle,
+            lectureDesc,
+            formattedStartDate,
+            formattedEndDate,
+            lectureDuration
+        };
+        console.log(data);
 
-        if (lectureNo) {
-            // 강의 수정 요청 객체 생성
-            const updateRequest = {
-                lectureYear: formData.get('lectureYear'),
-                lectureCourse: formData.get('lectureCourse'),
-                lectureTitle: formData.get('lectureTitle'),
-                lectureDesc: formData.get('lectureDesc'),
-                lectureStartAt: formData.get('lectureStartAt'),
-                lectureEndAt: formData.get('lectureEndAt'),
-                lectureDuration: formData.get('lectureDuration')
-            };
-
-            fetch(`/lectures/update/${lectureNo}`, {
+        // 수정 버튼 클릭 시 실행
+        document.getElementById('lectureEdit').addEventListener('click', function () {
+            fetch(`/admin/api/lectures/update/${lectureNo}`, {
                 method: "PUT", // PUT 메서드 사용
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(updateRequest)
+                body: JSON.stringify(data)
             })
                 .then(response => response.json())
                 .then(data => {
@@ -170,10 +168,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         alert("강의 수정 실패");
                     }
                 });
-        } else {
-            alert("강의를 선택하세요.");
-        }
-    });
+        });
+    }
+
+
 
     // ******** 강의 삭제 기능 ********
     // 삭제 버튼 클릭 시 실행
@@ -185,14 +183,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // 선택된 강의를 삭제할지 확인하는 팝업을 표시합니다.
+        // 선택된 강의를 삭제할지 확인하는 팝업을 표시
         if (confirm("선택한 강의를 삭제하시겠습니까?")) {
             // 선택된 강의를 삭제하는 AJAX 요청을 보냅니다.
             let lectureNos = Array.from(selectedLectures).map(function(checkbox) {
                 return parseInt(checkbox.value);
             });
 
-            // 서버로 선택된 강의 번호 목록을 JSON 형식으로 변환하여 전송합니다.
+            // 서버로 선택된 강의 번호 목록을 JSON 형식으로 변환하여 전송
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "/admin/api/lectures/delete", true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -218,15 +216,4 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// 날짜 선택할 때 달력에서 선택하는 기능
-$(document).ready(function() {
-    $('#lectureStartAt').datepicker({
-        format: 'yyyy-mm-dd',
-        autoclose: true
-    });
 
-    $('#lectureEndAt').datepicker({
-        format: 'yyyy-mm-dd',
-        autoclose: true
-    });
-});
