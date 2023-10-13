@@ -38,7 +38,7 @@ public class MemberViewController {
 
     // 마이페이지로 이동
     @GetMapping("/lms/mypage")
-    public String mypage(Model model){
+    public String showMypage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String loginId = authentication.getName();
@@ -46,6 +46,7 @@ public class MemberViewController {
         Optional<Members> userOptional = memberService.findByLoginId(loginId);
 
         Members member = userOptional.get();
+        log.info("제발 null 나와야돼 : " + String.valueOf(member.getMemberRole()));
         String memberName = member.getMemberName();
 
         model.addAttribute("loginId", loginId);
@@ -84,23 +85,6 @@ public class MemberViewController {
         return "redirect:/?success=true";
     }
 
-    // 회원가입 시, 아이디 중복체크 ( Ajax 요청 포함 )
-    @GetMapping("/signup/checkId")
-    @ResponseBody
-    public ResponseEntity<?> checkLoginId(@RequestParam(name = "loginId") String loginId){
-        log.info("loginId : " + loginId);
-        boolean isDuplicate = true;
-        // 사용자가 입력한 아이디가 비어있지 않은 경우에만 중복 여부 확인
-        if(!loginId.isEmpty()){
-            isDuplicate = memberService.isLoginIdDuplicate(loginId);
-        }
-        // 중복 체크에 대한 조건문
-        if(isDuplicate){
-            return ResponseEntity.ok().body("다른 아이디를 입력하세요.");
-        } else {
-            return ResponseEntity.ok().body("사용 가능한 아이디입니다.");
-        }
-    }
 
     // 아이디 찾기 페이지로 이동
     @GetMapping("/lms/find-id")

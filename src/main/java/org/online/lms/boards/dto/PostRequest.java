@@ -33,7 +33,6 @@ public class PostRequest {
     private List<MultipartFile> files; // 여러 개의 파일을 업로드하기 위한 목록
 
 
-
     public Post toEntity() {
         FileUpload file = FileUpload.builder()
                 .fileSeq(fileSeq)
@@ -42,7 +41,6 @@ public class PostRequest {
                 .filePath(filePath)
                 .fileSize(fileSize)
                 .build();
-
 
         Post post = Post.builder()
                 .postTitle(postTitle)

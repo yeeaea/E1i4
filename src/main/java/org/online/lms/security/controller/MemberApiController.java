@@ -1,5 +1,6 @@
 package org.online.lms.security.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -18,8 +17,27 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/lms/api/members")
+@Slf4j
 public class MemberApiController {
     private final MemberService memberService;
+
+    // 회원가입 시, 아이디 중복체크 ( Ajax 요청 포함 )
+    @GetMapping("/signup/checkId")
+    public ResponseEntity<?> checkLoginId(@RequestParam(name = "loginId") String loginId){
+        log.info("loginId : " + loginId);
+        boolean isDuplicate = true;
+        // 사용자가 입력한 아이디가 비어있지 않은 경우에만 중복 여부 확인
+        if(!loginId.isEmpty()){
+            isDuplicate = memberService.isLoginIdDuplicate(loginId);
+        }
+        // 중복 체크에 대한 조건문
+        if(isDuplicate){
+            return ResponseEntity.ok().body("다른 아이디를 입력하세요.");
+        } else {
+            return ResponseEntity.ok().body("사용 가능한 아이디입니다.");
+        }
+    }
+
 
     @Autowired
     public MemberApiController(MemberService memberService) {
@@ -28,7 +46,7 @@ public class MemberApiController {
 
     // 회원 번호 받아오기
     @GetMapping("/current-memberNo")
-    public ResponseEntity<?> getCurrentMemberNo(Principal principal) {
+    public ResponseEntity<Object> getCurrentMemberNo(Principal principal) {
         if (principal != null) {
             // Principal 객체를 사용하여 현대 로그인한 사용자의 아이디 가져오기
             String loginId = principal.getName();
