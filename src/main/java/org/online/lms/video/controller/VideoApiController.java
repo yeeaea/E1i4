@@ -43,12 +43,16 @@ public class VideoApiController {
     @PostMapping("/saveYoutubeData")
     public Content saveYoutubeData(@RequestBody ytbDTO dto) {
 
-        log.info("진입");
-        log.info(dto.getVideoTitle());
         Content content = Content.contentYtb();
         content.setContentName(dto.getVideoTitle()); // YouTube 데이터의 제목을 contentName에 설정
         content.setContentDesc(dto.getVideoDescription()); // YouTube 데이터의 설명을 contentDesc에 설정
         content.setYtbUrl(dto.getVideoId()); // YouTube 데이터의 videoId를 ytbUrl에 설정
+        content.setContentUrl(dto.getVideoUrl()); // YouTube 데이터의 videoUrl을 contentUrl에 설정
+
+        // 현재 저장된 마지막 순서를 가져옴
+        int lastPosition = videoInfoService.getLastPosition();
+        log.info(lastPosition+"포지션");
+        content.setContentNo(lastPosition + 1);
 
         return videoInfoService.saveContent(content);
     }
