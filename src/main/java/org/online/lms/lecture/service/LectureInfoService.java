@@ -25,10 +25,17 @@ public class LectureInfoService {
         return lectureInfoRepository.findAll();
     }
 
-    // 강의 번호로 강의 객체 불러 오기
-    @Transactional(readOnly = true)
-    public LectureInfo getLectureByLectureNo(Long lectureNo) {
-        return lectureInfoRepository.findById(lectureNo).orElse(null);
+    // 강의 번호로 강의 정보 얻기
+    public LectureInfo getLectureInfoByLectureNo(Long lectureNo) {
+        // 강의 번호를 이용하여 해당 강의 정보를 조회
+        Optional<LectureInfo> optionalLectureInfo = lectureInfoRepository.findById(lectureNo);
+
+        if (optionalLectureInfo.isPresent()) {
+            return optionalLectureInfo.get();
+        } else {
+            // 해당 강의 번호에 해당하는 강의 정보가 없을 경우 예외 던지기
+            throw new LectureNotFoundException("강의 번호 " + lectureNo + "에 해당하는 강의 정보를 찾을 수 없습니다.");
+        }
     }
 
     // 강의 계획서 조회
@@ -55,7 +62,6 @@ public class LectureInfoService {
             LectureInfo existingLecture = optionalExistingLecture.get();
 
             LectureInfo updatedLecture = LectureInfo.builder()
-                    .lectureNo(existingLecture.getLectureNo()) // 기존 lectureNo 유지
                     .lectureYear(request.getLectureYear())
                     .lectureCourse(request.getLectureCourse())
                     .lectureTitle(request.getLectureTitle())
@@ -84,4 +90,13 @@ public class LectureInfoService {
             return false;
         }
     }
+
+
+    // 예외 클래스
+    public class LectureNotFoundException extends RuntimeException {
+        public LectureNotFoundException(String message) {
+            super(message);
+        }
+    }
+
 }
