@@ -58,7 +58,6 @@ public class Content { // 콘텐츠 관리 정보 테이블
         this.runTm = runTm;
     }
 
-    // 팩토리메서드 형식으로 만들어 컨트롤러에서 객체 생성할 수 있게 해주기
     public static Content contentYtb() {
         return new Content();
     }
