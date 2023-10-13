@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/main/java/org/online/lms/boards/controller/QuesViewController.java
 package org.online.lms.boards.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,7 +7,6 @@ import org.online.lms.boards.domain.Comment;
 import org.online.lms.boards.domain.FileUpload;
 import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.dto.CommentListViewResponse;
-import org.online.lms.boards.dto.PostRequest;
 import org.online.lms.boards.dto.PostViewResponse;
 import org.online.lms.boards.service.CommentService;
 import org.online.lms.boards.service.PostService;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
-public class PostViewController {
+public class QuesViewController {
 
     private final PostService postService;
     private final CommentService commentService;
@@ -47,13 +47,13 @@ public class PostViewController {
                 // 조회순 정렬
                 pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                         Sort.by("postView").descending());
-                boards = postService.findAllByOrderByPostViewDesc(pageable);
+                boards = postService.findByBoardNoOrderByPostViewDesc(1L, pageable);
 
             } else {
                 // 최신순 정렬
                 pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                         Sort.by("postRtm").descending());
-                boards = postService.findAll(pageable);
+                boards = postService.findByBoardNo(1L, pageable);
             }
 
         } else {
@@ -142,3 +142,5 @@ public class PostViewController {
 
 
 }
+=======
+>>>>>>> origin/dong:src/main/java/org/online/lms/boards/controller/PostViewController.java

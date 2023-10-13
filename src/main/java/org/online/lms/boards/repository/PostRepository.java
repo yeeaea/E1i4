@@ -9,8 +9,8 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post,Long> {
 
-    Page<Post> findAll(Pageable pageable);
     Page<Post> findByPostTitleContaining(String keyword, Pageable pageable);
     Page<Post> findAllByOrderByPostViewDesc(Pageable pageable);
-
+    Page<Post> findByBoardNo(Long boardNo, Pageable pageable);
+    Page<Post> findAllByBoardNoOrderByPostViewDesc(Long boardNo, Pageable descendingPageable);
 }

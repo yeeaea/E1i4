@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <title>Content page</title>
+</head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</th:block>
+
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/material.js}"></script>
+</th:block>
+
+<!-- content start -->
+<section layout:fragment="content">
+
+    <form id="material-form" action="/api/material" method="post"
+          enctype="multipart/form-data">
+
+        <div class="container">
+
+            <h1 th:if="${material.postNo} == null">게시글 등록</h1>
+            <h1 th:if="${material.postNo} != null">게시글 수정</h1>
+
+            <input type="hidden" id="material-id" th:value="${material.postNo}">
+
+            <header class="mb-4">
+                <label for="title">제목:</label>
+                <input type="text" id="postTitle" th:value="${material.postTitle}" class="form-control" required>
+            </header>
+
+            <section class="mb-5">
+                <label for="content">내용:</label>
+                <div class="count">
+                    <span id="counterWord">0/1000자</span>
+                </div>
+                <textarea id="postContent" rows="10" th:text="${material.postContent}" class="form-control" required
+                          onkeyup="countingLength('postContent', 'counterWord');"
+                ></textarea>
+            </section>
+
+            <!-- 여러 개의 파일 업로드 input 요소 -->
+            <!-- 파일 업로드 input 요소를 세 개로 분리 -->
+            <!-- 기존 업로드된 파일 정보 표시 -->
+            <div th:if="${material.postNo != null}">
+                <p>현재 첨부된 파일:  <a th:href="@{'/download/' + ${material.saveFileName}}" th:text="${material.orgFileName}"></a></p>
+                <button type="button" onclick="deleteFile()">삭제</button>
+            </div>
+
+            <div class="mb-4">
+                <label th:if="${material.postNo == null}" for="file1">파일 업로드 :</label>
+                <label th:if="${material.postNo != null}" for="file1">파일 수정 :</label>
+                <input type="file" id="file1" name="file1" class="form-control-file">
+            </div>
+
+            <!-- 파일 목록을 표시할 ul 요소 -->
+            <ul id="file-list"></ul>
+
+            <!-- 수정/등록 버튼 -->
+            <button th:if="${material.postNo} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm">수정</button>
+            <button th:if="${material.postNo} == null" type="button" id="create-btn" class="btn btn-primary btn-sm">등록</button>
+
+        </div>
+    </form>
+</section>
+
+</html>

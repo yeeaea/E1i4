@@ -59,6 +59,10 @@ public class PostService {
         return postRepository.findAll(Pageable);
     }
 
+    public Page<Post> findByBoardNo(Long boardNo, Pageable pageable) {
+        return postRepository.findByBoardNo(boardNo, pageable);
+    }
+
     // 글 하나 조회
     public Post findById(Long postNo) {
         return postRepository.findById(postNo)
@@ -68,6 +72,7 @@ public class PostService {
 
     // 글 삭제
     public void delete(Long postNo) {
+
         postRepository.deleteById(postNo);
     }
 
@@ -172,15 +177,11 @@ public class PostService {
     }
 
     // 조회수 정렬
-    public Page<Post> findAllByOrderByPostViewDesc(Pageable pageable) {
+    public Page<Post> findByBoardNoOrderByPostViewDesc(long boardNo, Pageable pageable) {
         Pageable descendingPageable =
                 PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                         Sort.by(Sort.Direction.DESC, "postView"));
 
-        return postRepository.
-                findAllByOrderByPostViewDesc(descendingPageable);
+        return postRepository.findAllByBoardNoOrderByPostViewDesc(boardNo, descendingPageable);
     }
-
-
-
 }

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function(){
         let xhr = new XMLHttpRequest();
 
         // 요청 설정
-        xhr.open("GET", '/signup/checkId?loginId=' + loginId, true);
+        xhr.open("GET", '/lms/api/members/signup/checkId?loginId=' + loginId, true);
         // 요청이 완료되면 실행할 함수 설정
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE) { // 요청이 완료됨

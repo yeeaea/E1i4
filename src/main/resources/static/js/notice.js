@@ -22,15 +22,15 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (title == "") {
                 alert("제목을 입력해주세요!")
             } else {
-                fetch("/api/post", {
+                fetch("/api/notice", {
                     method: "POST",
                     body: formData,
                 }).then((response) => {
                     if (response.status === 201) {
                         alert("등록이 완료되었습니다.");
-                        location.replace('/lms/questions');
+                        location.replace('/lms/notice');
                     } else {
-                        alert("등록을 실패했습니다.");
+                        alert("로그인 후 작성이 가능합니다.");
                     }
                 })
                     .catch((error) => {
@@ -51,14 +51,14 @@ document.addEventListener('DOMContentLoaded', function () {
         deleteButton.addEventListener('click', event => {
             const isConfirmed = confirm('게시글을 삭제하시겠습니까?');
             if (isConfirmed) {
-                let postNo = document.getElementById('question-postNo').value;
+                let postNo = document.getElementById('notice-postNo').value;
 
-                fetch(`/api/post/${postNo}`, {
+                fetch(`/api/notice/${postNo}`, {
                     method: 'DELETE'
                 })
                     .then(() => {
                         alert('삭제가 완료되었습니다.');
-                        location.replace('/lms/questions');
+                        location.replace('/lms/notice');
                     });
             }
         });
@@ -89,14 +89,14 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (title == "") {
                 alert("제목을 입력해주세요!")
             } else {
-                fetch(`/api/post/${postNo}`, {
+                fetch(`/api/notice/${postNo}`, {
                     method: "PUT",
                     body: formData,
                 })
                     .then((response) => {
                         if (response.status === 200) {
                             alert("수정을 완료했습니다.");
-                            location.replace('/lms/questions');
+                            location.replace('/lms/notice');
                         } else {
                             alert("수정을 실패했습니다.");
                         }
