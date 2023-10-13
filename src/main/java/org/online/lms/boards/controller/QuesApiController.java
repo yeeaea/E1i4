@@ -1,7 +1,5 @@
-<<<<<<< HEAD:src/main/java/org/online/lms/boards/controller/QuesApiController.java
 package org.online.lms.boards.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 import org.online.lms.boards.service.PostService;
@@ -154,5 +152,3 @@ public class QuesApiController {
         }
     }
 }
-=======
->>>>>>> origin/dong:src/main/java/org/online/lms/boards/controller/PostApiController.java

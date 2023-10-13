@@ -16,13 +16,13 @@ public class AddProgressInfoRequest {
 
     private long nthNo; // 차시 관리 번호
     private String nthName; // 차시명
-    private Content contentNo; // 콘텐츠 관리 번호
+    private Content content; // 콘텐츠 관리 번호
 
     public ProgressInfo toEntity() {
         return ProgressInfo.builder()
                 .nthNo(nthNo)
                 .nthName(nthName)
-                .contentNo(contentNo)
+                .content(content)
                 .build();
     }
 }

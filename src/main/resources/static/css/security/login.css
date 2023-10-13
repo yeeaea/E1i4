@@ -1,0 +1,47 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden; /* 스크롤 막기 (선택 사항) */
+}
+
+.home {
+    display: flex;
+    margin : auto;
+    width: 80%;
+}
+
+b{
+    color: #6499E9;
+}
+
+.modal{
+    flex: 4;
+    border: 0px solid black;
+    width: 100%;
+    height: 100%;
+    padding-top: 15%;
+}
+.modal-content {
+    width: 350px;
+}
+
+.buttons a {
+    text-decoration: none;
+    color: #1F4172;
+}
+.buttons a:hover{
+    font-weight: bolder;
+}
+
+.home_img{
+    flex: 6;
+    border: 0px solid black;
+    width: 100%;
+    height: 100%;
+}
+
+.home_img img{
+    width: 100%;
+    height: 80%;
+}

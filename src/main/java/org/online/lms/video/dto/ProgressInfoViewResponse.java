@@ -2,6 +2,7 @@ package org.online.lms.video.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.ProgressInfo;
 
@@ -9,14 +10,14 @@ import org.online.lms.video.domain.ProgressInfo;
 @Setter
 public class ProgressInfoViewResponse {
     private long nthNo; // 차시 관리 번호
-    private long lectureNo; // 강의 번호
+    private LectureInfo lecture; // 강의 번호
     private String nthName; // 차시명
-    private long contentNo; // 콘텐츠 관리 번호
+    private Content content; // 콘텐츠 관리 번호
 
     public ProgressInfoViewResponse(ProgressInfo progressInfo) {
         this.nthNo = progressInfo.getNthNo();
-        this.lectureNo = progressInfo.getLectureNo().getLectureNo();
+        this.lecture = progressInfo.getLecture();
         this.nthName = progressInfo.getNthName();
-        this.contentNo = progressInfo.getContentNo().getContentNo();
+        this.content = progressInfo.getContent();
     }
 }
