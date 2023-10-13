@@ -1,5 +1,49 @@
+function loadLectureInfo() {
+    let selectedYear = document.getElementById('yearSelect').value;
+    let selectedCourse = document.getElementById('courseSelect').value;
+
+    loadData(selectedYear, selectedCourse);
+
+    // 가정: 데이터는 강의 정보 객체의 배열로 가정하고, 선택한 강의년도와 과정구분에 따라 데이터를 필터링합니다.
+    let filteredData = data.filter(function (lectureInfo) {
+        return (!selectedYear || lectureInfo.lectureYear === selectedYear) &&
+            (!selectedCourse || lectureInfo.lectureCourse === selectedCourse);
+    });
+
+    // TODO: 필터링된 데이터를 HTML에 표시하는 로직을 구현합니다.
+    displayFilteredData(filteredData);  // 예시 함수, 실제 데이터 표시 로직으로 대체해야 합니다.
+}
+
+function loadData(selectedYear, selectedCourse) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const responseData = JSON.parse(xhr.responseText);
+            // TODO: 데이터를 활용하여 원하는 동작을 수행합니다.
+            // 예시: 필요한 동작을 구현하거나 적절한 함수를 호출할 수 있습니다.
+        } else {
+            console.error('Failed to fetch data.');
+        }
+    };
+
+    xhr.open('GET', `/api/progress?year=${selectedYear}&course=${selectedCourse}`);
+    xhr.send();
+}
+
+// 예시 함수: 필터링된 데이터를 HTML에 표시하는 함수
+function displayFilteredData(data) {
+    // TODO: 실제로 필터링된 데이터를 HTML에 표시하는 로직을 구현합니다.
+    // 예시: 간단히 console.log로 데이터를 출력하는 예시
+    data.forEach(function (lectureInfo) {
+        console.log(lectureInfo);
+    });
+}
+
 // 차시 관리 checkbox 클릭 시 상세 정보 출력
-function updateContentDetails(checkbox) {
+function updateContentDetails() {
+    const checkbox = this;
+
     let nthNoValue = checkbox.getAttribute('data-nthNo');
     let lectureCourseValue = checkbox.getAttribute('data-lectureCourse');
     let contentNoValue = checkbox.getAttribute('data-contentNo');
@@ -30,11 +74,7 @@ function updateContentDetails(checkbox) {
 function addCheckboxListeners() {
     const checkboxes = document.querySelectorAll('.contentCheckbox');
     checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('click', () => {
-            if (checkbox.checked) {
-                updateContentDetails(checkbox);
-            }
-        });
+        checkbox.addEventListener('click', updateContentDetails);
     });
 }
 
@@ -142,4 +182,66 @@ function deleteContent() {
                 });
         });
     }
+}
+
+// function fetchDataFromDatabase() {
+//     return new Promise((resolve, reject) => {
+//         const url = '/admin/contentList';
+//         const xhr = new XMLHttpRequest();
+//
+//         xhr.onload = function () {
+//             if (xhr.status === 200) {
+//                 resolve(xhr.responseText);
+//             } else {
+//                 reject(new Error('Failed to fetch data from the database.'));
+//             }
+//         };
+//
+//         xhr.onerror = function () {
+//             reject(new Error('Failed to make the request.'));
+//         };
+//
+//         xhr.open('GET', url);
+//         xhr.send();
+//     });
+// }
+
+// 모달창 열기
+function openModal() {
+    // 여기서 타임리프를 사용하여 데이터베이스에서 데이터를 가져옵니다.
+    // 실제 데이터베이스에서 데이터를 가져오는 로직을 여기에 추가해주세요.
+
+    let modalElement = document.getElementById("myModal");
+    let modal = new bootstrap.Modal(modalElement);
+    modal.show();
+}
+
+// 모달창 내 검색 버튼
+function searchModal() {
+    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+
+    const contentTable = document.getElementById("contentTable");
+    const rows = contentTable.getElementsByTagName('tr');
+
+    for (let i = 1; i < rows.length; i++) {
+        const contentName = rows[i].getElementsByTagName('td')[1].innerText.toLowerCase();
+        if (contentName.includes(searchTerm)) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
+        }
+    }
+}
+
+// 모달창 선택 버튼
+function selectModal() {
+    // 선택 기능 구현
+    console.log('Select button clicked.');
+}
+
+// 모달창 닫기 버튼
+function hideModal() {
+    let modalElement = document.getElementById("myModal");
+    let modal = bootstrap.Modal.getInstance(modalElement);
+    modal.hide();
 }

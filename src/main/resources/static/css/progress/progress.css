@@ -29,3 +29,8 @@ tr:hover {
     padding: 10px;
     text-align: left;
 }
+
+.search {
+    margin-left: 10px;
+    cursor: pointer;
+}
