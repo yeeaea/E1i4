@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const runTm = document.querySelector("#runTm").value;
 
         // 입력 필드가 비어 있는지 확인
-        if (!contentName || !contentFileNo || !ytbUrl || !contentDesc || !contentUrl || !runTm) {
+        if (!contentName || !contentFileNo || !ytbUrl || !contentUrl) {
             alert("모든 필드를 입력해야 합니다!");
             return; // 입력 필드가 비어 있을 때 아래 코드를 실행하지 않음
         }

@@ -41,8 +41,13 @@ public class VideoInfoService {
 
     // 유튜브 api에서 추출한 값 Content DB테이블의 컬럼에 저장하기
     public Content saveContent(Content content) {
-        log.info("서비스진입");
         return videoInfoRepository.save(content);
     }
 
+    // Content 엔티티에서 가장 큰 position 값을 찾는 메서드
+    public int getLastPosition() {
+        // Content 엔티티의 레포지토리에서 가장 큰 position 값을 가져오는 예시
+        int lastPosition = videoInfoRepository.findMaxPosition();
+        return lastPosition;
+    }
 }
