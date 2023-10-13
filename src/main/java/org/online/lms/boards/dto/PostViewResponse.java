@@ -20,8 +20,6 @@ public class PostViewResponse {
     private String orgFileName;
     private String saveFileName;
     private String filePath;
-    private Long boardNo;
-    private String boardType;
     private List<CommentListViewResponse> comments;
     // 파일 , 닉네임 추가예정
 
@@ -30,8 +28,6 @@ public class PostViewResponse {
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
         this.postRtm = post.getPostRtm();
-        this.boardNo = post.getBoardNo();
-        this.boardType = post.getBoardType();
 
         if (file != null) {
             this.orgFileName = file.getOrgFileName();

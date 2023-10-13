@@ -6,7 +6,6 @@ import org.online.lms.boards.domain.Comment;
 import org.online.lms.boards.domain.FileUpload;
 import org.online.lms.boards.domain.Post;
 import org.online.lms.boards.dto.CommentListViewResponse;
-import org.online.lms.boards.dto.PostRequest;
 import org.online.lms.boards.dto.PostViewResponse;
 import org.online.lms.boards.service.CommentService;
 import org.online.lms.boards.service.PostService;
@@ -29,17 +28,18 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
-public class PostViewController {
+public class MaterialViewController {
 
     private final PostService postService;
     private final CommentService commentService;
 
+
     // 게시글 목록 조회
-    @GetMapping("/lms/questions")
-    public String getQuestions(@PageableDefault(size = 5) Pageable pageable,
-                               Model model,
-                               @RequestParam(required = false) String keyword,
-                               @RequestParam(required = false) String sortBy) {
+    @GetMapping("/lms/materials")
+    public String getMaterialList(@PageableDefault(size = 5) Pageable pageable,
+                                Model model,
+                                @RequestParam(required = false) String keyword,
+                                @RequestParam(required = false) String sortBy) {
         Page<Post> boards;
 
         if (keyword == null) {
@@ -47,13 +47,13 @@ public class PostViewController {
                 // 조회순 정렬
                 pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                         Sort.by("postView").descending());
-                boards = postService.findAllByOrderByPostViewDesc(pageable);
+                boards = postService.findByBoardNoOrderByPostViewDesc(3L, pageable); // boardNo가 1인 게시글만 가져오도록 수정
 
             } else {
                 // 최신순 정렬
                 pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
                         Sort.by("postRtm").descending());
-                boards = postService.findAll(pageable);
+                boards = postService.findByBoardNo(3L, pageable);
             }
 
         } else {
@@ -66,20 +66,21 @@ public class PostViewController {
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getPageable().getPageNumber() + 4, boards.getTotalPages());
 
-        model.addAttribute("questions", boards);
+        model.addAttribute("material", boards);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("sortBy", sortBy);
 
-        return "page/boards/questionList.html";
+        return "page/boards/materialList.html";
     }
 
+
     // 게시글 1개 조회
-    @GetMapping("/lms/questions/{postNo}")
-    public String getQuestion(@PathVariable Long postNo,
-                              Model model,
-                              HttpSession session,
-                              HttpServletRequest request) {
+    @GetMapping("/lms/materials/{postNo}")
+    public String getMaterial(@PathVariable Long postNo,
+                            Model model,
+                            HttpSession session,
+                            HttpServletRequest request) {
 
         // 현재 로그인한 사용자 정보 가져오기
         Principal principal = request.getUserPrincipal();
@@ -94,15 +95,15 @@ public class PostViewController {
         }
 
         // 글 정보 가져오기
-        Post question = postService.getQues(postNo, session);
+        Post material = postService.getQues(postNo, session);
 
         // 글 작성자 정보 가져오기
-        String loginId = question.getLoginId();
+        String loginId = material.getLoginId();
 
 
-        FileUpload file = question.getFile();
+        FileUpload file = material.getFile();
 
-        PostViewResponse questionResponse = new PostViewResponse(question, file);
+        PostViewResponse materialResponse = new PostViewResponse(material, file);
 
         // 댓글 목록을 가져오기
         List<Comment> comments =
@@ -112,33 +113,34 @@ public class PostViewController {
                         .map(CommentListViewResponse::new)
                         .collect(Collectors.toList());
 
-        model.addAttribute("question", questionResponse);
+        model.addAttribute("material", materialResponse);
         model.addAttribute("comments", commentResponses);
         model.addAttribute("currentLoginId", currentLoginId);
         model.addAttribute("loginId", loginId);
-        return "page/boards/question.html";
+        return "page/boards/material.html";
     }
 
 
     // 게시물 작성
-    @GetMapping("/lms/new-question")
-    public String newQuestion(@RequestParam(required = false) Long postNo,
-                              Model model) {
+    @GetMapping("/lms/new-material")
+    public String newMaterial(@RequestParam(required = false) Long postNo,
+                            Model model) {
 
         if (postNo == null) {
-            model.addAttribute("question", new PostViewResponse());
+            model.addAttribute("material", new PostViewResponse());
         } else {
             Post post = postService.findById(postNo);
             FileUpload file = post != null ? post.getFile() : null; // 게시물과 연결된 파일 가져오기 (File 객체로 가정)
 
             // File 객체를 사용하여 PostViewResponse 객체 생성
-            PostViewResponse questionResponse = new PostViewResponse(post, file);
+            PostViewResponse materialResponse = new PostViewResponse(post, file);
 
-            model.addAttribute("question", questionResponse);
+            model.addAttribute("material", materialResponse);
         }
 
-        return "page/boards/newQuestion.html";
+        return "page/boards/newMaterial.html";
     }
 
 
 }
+
