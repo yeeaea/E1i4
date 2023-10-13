@@ -44,7 +44,7 @@ public class VideoViewController {
                 .toList();
         model.addAttribute("contentInfo", contentInfo);
 
-        return "/page/video/videoListFrom";
+        return "/page/video/videoListForm";
     }
 
     @GetMapping("/content/save")
