@@ -14,13 +14,38 @@
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
     <script th:src="@{/js/progress.js}"></script>
+    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
 </th:block>
 
 <!-- content start -->
 <section layout:fragment="content">
     <div class="container" style="display: flex; flex-direction: column;">
+        <!-- 타임리프 템플릿에서 progressInfoList 출력 -->
+        <script th:inline="javascript">
+            var progressInfoList = /*[[${progressInfoList}]]*/ null;
+            console.log(progressInfoList);
+        </script>
         <div style="flex: 1; margin-right: 20px;">
-            <button onclick="lectureInfoList()">조회</button>
+            <label for="yearSelect">강의년도:</label>
+            <select id="yearSelect" onchange="loadLectureInfo()">
+                <option value="">전체</option>
+                <option value="2022">2022년</option>
+                <option value="2023">2023년</option>
+                <option value="2024">2024년</option>
+                <option value="2025">2025년</option>
+            </select>
+
+            <label for="courseSelect">과정구분:</label>
+            <select id="courseSelect" onchange="loadLectureInfo()">
+                <option value="">전체</option>
+                <option value="JAVA">JAVA</option>
+                <option value="C++">C++</option>
+                <option value="PYTHON">PYTHON</option>
+                <option value="C#">C#</option>
+                <option value="JAVASCRIPT">JAVASCRIPT</option>
+            </select>
+
+            <button type="button" onclick="loadLectureInfo()">조회</button>
             <table class="border border-dark p-3 mb-3">
                 <thead>
                 <tr>
@@ -31,14 +56,14 @@
                     <th>총 강의 주차수</th>
                 </tr>
                 </thead>
-                <tbody id="lectureList" th:each="progressInfo : ${progressInfoList}">
-                    <!-- 강의 차시 정보 목록 표시 -->
-                    <tr th:each="progressInfo : ${progressInfoList}">
-                        <td th:text="${progressInfo.lectureNo.lectureNo}"></td>
-                        <td th:text="${progressInfo.lectureNo.lectureYear}"></td>
-                        <td th:text="${progressInfo.lectureNo.lectureCourse}"></td>
-                        <td th:text="${progressInfo.lectureNo.lectureTitle}"></td>
-                        <td th:text="${progressInfo.lectureNo.lectureDuration}"></td>
+                <tbody th:each="progressInfo : ${progressInfoList}">
+                    <!-- 차시 목록 표시 -->
+                    <tr>
+                        <td th:text="${progressInfo.lecture.lectureNo}"></td>
+                        <td th:text="${progressInfo.lecture.lectureYear}"></td>
+                        <td th:text="${progressInfo.lecture.lectureCourse}"></td>
+                        <td th:text="${progressInfo.lecture.lectureTitle}"></td>
+                        <td th:text="${progressInfo.lecture.lectureDuration}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -55,8 +80,8 @@
                     <tbody th:each="progressInfo : ${progressInfoList}">
                     <!-- 차시 목록 표시 -->
                     <tr>
-                        <td th:text="${progressInfo.lectureNo.lectureDuration}"></td>
-                        <td th:text="${progressInfo.lectureNo.lectureCourse}"></td>
+                        <td th:text="${progressInfo.lecture.lectureDuration}"></td>
+                        <td th:text="${progressInfo.lecture.lectureCourse}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -70,20 +95,20 @@
                         <th>차시명</th>
                     </tr>
                     </thead>
-                    <tbody  th:each="progressInfo : ${progressInfoList}">
+                    <tbody th:each="progressInfo : ${progressInfoList}">
                     <!-- 강의 차시별 콘텐츠 목록 표시 -->
                     <tr>
                         <td><input type="checkbox" class="contentCheckbox"
                                    th:attr="data-nthNo=${progressInfo.nthNo},
-                                   data-lectureCourse=${progressInfo.lectureNo.lectureCourse},
-                                   data-contentNo=${progressInfo.contentNo.contentNo},
-                                   data-lectureDuration=${progressInfo.lectureNo.lectureDuration},
+                                   data-lectureCourse=${progressInfo.lecture.lectureCourse},
+                                   data-contentNo=${progressInfo.content.contentNo},
+                                   data-lectureDuration=${progressInfo.lecture.lectureDuration},
                                    data-nthName=${progressInfo.nthName},
-                                   data-contentName=${progressInfo.contentNo.contentName},
-                                   data-runTm=${progressInfo.contentNo.runTm},
-                                   data-contentFileNo=${progressInfo.contentNo.contentFileNo},
-                                   data-ytbUrl=${progressInfo.contentNo.ytbUrl},
-                                   data-contentUrl=${progressInfo.contentNo.contentUrl}
+                                   data-contentName=${progressInfo.content.contentName},
+                                   data-runTm=${progressInfo.content.runTm},
+                                   data-contentFileNo=${progressInfo.content.contentFileNo},
+                                   data-ytbUrl=${progressInfo.content.ytbUrl},
+                                   data-contentUrl=${progressInfo.content.contentUrl}
                                    "
                                    onclick="addCheckboxListeners(this)"></td>
                         <td th:text="${progressInfo.nthNo}"></td>
@@ -110,7 +135,9 @@
                     </tr>
                     <tr>
                         <th>콘텐츠 관리 번호</th>
-                        <td><input type="text" id="contentNo" readonly></td>
+                        <td style="display: flex; align-items: center;">
+                            <input type="text" id="contentNo" class="col-10" readonly>
+                            <i class="search fa-solid fa-magnifying-glass col-2" onclick="openModal()"></i></td>
                     </tr>
                     <tr>
                         <th>강의 주차수</th>
@@ -145,6 +172,48 @@
             </div>
         </div>
     </div>
+
+    <!-- modal start -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <!-- 검색어 입력 -->
+                    <div>
+                        <label for="searchInput">콘텐츠명</label>
+                        <input type="text" id="searchInput" placeholder="검색어 입력">
+                    </div>
+
+                    <!-- 결과 목록 -->
+                    <table class="table" id="contentTable">
+                        <thead>
+                        <tr>
+                            <th>콘텐츠 관리 번호</th>
+                            <th>콘텐츠명</th>
+                            <th>차시 학습 시간</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- 타임리프를 사용하여 데이터 출력 -->
+                        <tr th:each="progressInfo : ${progressInfoList}">
+                            <td th:text="${progressInfo.content.contentNo}"></td>
+                            <td th:text="${progressInfo.content.contentName}"></td>
+                            <td th:text="${progressInfo.content.runTm}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 검색 및 조회 버튼 -->
+                    <div>
+                        <button type="button" class="btn btn-secondary" onclick="searchModal()">조회</button>
+                        <button type="button" class="btn btn-secondary" onclick="selectModal()">선택</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideModal()">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- modal end -->
 </section>
 <!-- content end -->
 </html>

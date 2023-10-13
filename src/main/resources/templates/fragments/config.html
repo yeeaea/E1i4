@@ -6,23 +6,24 @@
     <meta charset="UTF-8"/>
     <title>coding master level</title>
 
+    <!-- page 고유 css -->
+    <th:block layout:fragment="css"></th:block>
+
+    <!-- page 고유 javascript -->
+    <th:block layout:fragment="script"></th:block>
+
     <!-- 공통으로 사용하는 css -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-
-    <!-- page 고유 css -->
-    <th:block layout:fragment="css"></th:block>
 
     <!-- 공통으로 사용하는 javascript -->
     <script th:src="@{/js/index.js}"></script>
     <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js}" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-    <!-- page 고유 javascript -->
-    <th:block layout:fragment="script"></th:block>
-
     <!-- 공통으로 사용되는 템플릿 -->
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
     <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
     <link th:href="@{https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap}" rel="stylesheet">
+    <script th:src="@{https://kit.fontawesome.com/3eb7b16202.js}" crossorigin="anonymous"></script>
 </head>
 </html>

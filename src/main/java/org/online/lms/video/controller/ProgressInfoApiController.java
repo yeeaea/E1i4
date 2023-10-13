@@ -2,6 +2,7 @@ package org.online.lms.video.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.online.lms.lecture.domain.LectureInfo;
+import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.dto.AddProgressInfoRequest;
 import org.online.lms.video.dto.UpdateProgressInfoRequest;
