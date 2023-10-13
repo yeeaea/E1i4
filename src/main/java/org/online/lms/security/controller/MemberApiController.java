@@ -20,25 +20,6 @@ import java.util.Optional;
 @Slf4j
 public class MemberApiController {
     private final MemberService memberService;
-
-    // 회원가입 시, 아이디 중복체크 ( Ajax 요청 포함 )
-    @GetMapping("/signup/checkId")
-    public ResponseEntity<?> checkLoginId(@RequestParam(name = "loginId") String loginId){
-        log.info("loginId : " + loginId);
-        boolean isDuplicate = true;
-        // 사용자가 입력한 아이디가 비어있지 않은 경우에만 중복 여부 확인
-        if(!loginId.isEmpty()){
-            isDuplicate = memberService.isLoginIdDuplicate(loginId);
-        }
-        // 중복 체크에 대한 조건문
-        if(isDuplicate){
-            return ResponseEntity.ok().body("다른 아이디를 입력하세요.");
-        } else {
-            return ResponseEntity.ok().body("사용 가능한 아이디입니다.");
-        }
-    }
-
-
     @Autowired
     public MemberApiController(MemberService memberService) {
         this.memberService = memberService;
@@ -94,5 +75,20 @@ public class MemberApiController {
         return ResponseEntity.ok(response);
     }
 
-
+    // 회원가입 시, 아이디 중복체크 ( Ajax 요청 포함 )
+    @GetMapping("/signup/checkId")
+    public ResponseEntity<?> checkLoginId(@RequestParam(name = "loginId") String loginId){
+        log.info("loginId : " + loginId);
+        boolean isDuplicate = true;
+        // 사용자가 입력한 아이디가 비어있지 않은 경우에만 중복 여부 확인
+        if(!loginId.isEmpty()){
+            isDuplicate = memberService.isLoginIdDuplicate(loginId);
+        }
+        // 중복 체크에 대한 조건문
+        if(isDuplicate){
+            return ResponseEntity.ok().body("다른 아이디를 입력하세요.");
+        } else {
+            return ResponseEntity.ok().body("사용 가능한 아이디입니다.");
+        }
+    }
 }
