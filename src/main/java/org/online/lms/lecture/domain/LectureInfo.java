@@ -43,15 +43,13 @@ public class LectureInfo { // 개설 강의 정보 테이블
     @Column(name = "lecture_duration", nullable = false)
     private int lectureDuration; // 총 주차 수
     @Builder
-    public LectureInfo(Long lectureNo,
-                       String lectureYear,
+    public LectureInfo(String lectureYear,
                        String lectureTitle,
                        String lectureDesc,
                        Timestamp lectureStartAt,
                        Timestamp lectureEndAt,
                        String lectureCourse,
                        int lectureDuration) {
-        this.lectureNo = lectureNo;
         this.lectureYear = lectureYear;
         this.lectureTitle = lectureTitle;
         this.lectureDesc = lectureDesc;

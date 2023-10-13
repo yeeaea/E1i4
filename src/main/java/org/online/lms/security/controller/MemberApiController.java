@@ -28,7 +28,7 @@ public class MemberApiController {
 
     // 회원 번호 받아오기
     @GetMapping("/current-memberNo")
-    public ResponseEntity<?> getCurrentMemberNo(Principal principal) {
+    public ResponseEntity<Object> getCurrentMemberNo(Principal principal) {
         if (principal != null) {
             // Principal 객체를 사용하여 현대 로그인한 사용자의 아이디 가져오기
             String loginId = principal.getName();
