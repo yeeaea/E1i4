@@ -132,3 +132,4 @@ const fetchPlaylistData = async (playlistId) => {
 PLAYLIST_IDS.forEach((playlistId) => {
     fetchPlaylistData(playlistId);
 });
+
