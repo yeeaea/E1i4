@@ -15,17 +15,12 @@ public class Board {
     @Column(name = "board_no", updatable = false)
     private Long boardNo;
 
-    @Column(name = "board_type", nullable = true)
+    @Column(name = "board_type", updatable = false)
     private String boardType;
 
-//    @Column(name = "board_title", nullable = false)
-//    private String boardTitle;
-//
-//    @Column(name = "board_yn")
-//    private Boolean boardYn;
 
     @Builder
-    public Board(Long boardNo) {
+    public Board(Long boardNo, String boardType) {
         this.boardNo = boardNo;
         this.boardType = boardType;
     }

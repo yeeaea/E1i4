@@ -1,4 +1,3 @@
-
 // 댓글 등록
 document.addEventListener('DOMContentLoaded', function () {
     // Submit 버튼 클릭 이벤트 핸들러
@@ -80,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // 댓글 수정
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     let editingCommentNo = null;
 
     // 공통 함수: 수정 폼을 보이거나 숨기고, 내용을 설정하는 함수
@@ -137,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ commentContent: updatedContent })
+                    body: JSON.stringify({commentContent: updatedContent})
                 })
                     .then(response => {
                         if (response.status === 200) {
@@ -165,6 +164,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+
 // 댓글 길이 카운팅
 function countingLength(inputElementId, counterElementId) {
     let inputElement = document.getElementById(inputElementId);
@@ -179,17 +179,18 @@ function countingLength(inputElementId, counterElementId) {
     counter.innerText = inputElement.value.length + '/200자';
 }
 
-document.addEventListener("DOMContentLoaded", function() {
+
+document.addEventListener("DOMContentLoaded", function () {
     // 호출할 때 함수 이름을 다르게 지정하여 각각의 입력 필드에 적용
     let commentContent = document.getElementById('commentContent');
     let counterComment = document.getElementById('counterComment');
-    commentContent.addEventListener('input', function() {
+    commentContent.addEventListener('input', function () {
         countingLength('commentContent', 'counterComment');
     });
 
     let editCommentContent = document.getElementById('editCommentContent');
     let counterEdit = document.getElementById('counterEdit');
-    editCommentContent.addEventListener('input', function() {
+    editCommentContent.addEventListener('input', function () {
         countingLength('editCommentContent', 'counterEdit');
     });
 });

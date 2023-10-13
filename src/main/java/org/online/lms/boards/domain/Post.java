@@ -52,7 +52,7 @@ public class Post {
     @Column(name = "board_no", updatable = false)
     private Long boardNo;
 
-    @Column(name = "board_type", nullable = true)
+    @Column(name = "board_type", updatable = false)
     private String boardType;
 
 //    // 파일 목록 관리
@@ -72,7 +72,6 @@ public class Post {
         this.loginId = loginId;
         this.boardNo = boardNo;
         this.boardType = boardType;
-
     }
 
     // 수정 메서드
