@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/main/java/org/online/lms/boards/controller/QuesViewController.java
 package org.online.lms.boards.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -142,5 +141,3 @@ public class QuesViewController {
 
 
 }
-=======
->>>>>>> origin/dong:src/main/java/org/online/lms/boards/controller/PostViewController.java

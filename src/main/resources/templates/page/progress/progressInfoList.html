@@ -8,19 +8,18 @@
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/progress.css}">
+    <link rel="stylesheet" th:href="@{/css/progress/progress.css}">
 </th:block>
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-    <script th:src="@{/js/progress.js}"></script>
+    <script th:src="@{/js/progress/progress.js}"></script>
     <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
 </th:block>
 
 <!-- content start -->
 <section layout:fragment="content">
     <div class="container" style="display: flex; flex-direction: column;">
-        <!-- 타임리프 템플릿에서 progressInfoList 출력 -->
         <script th:inline="javascript">
             var progressInfoList = /*[[${progressInfoList}]]*/ null;
             console.log(progressInfoList);

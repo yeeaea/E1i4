@@ -43,26 +43,8 @@ public class ProgressInfoViewController {
         return "page/progress/progressInfoList";
     }
 
-//    @GetMapping("/progress-all/{nthNo}")
-//    public String allProgressInfo(@PathVariable long nthNo, Model model) {
-//        ProgressInfo progressInfo = progressInfoService.findById(nthNo);
-//
-//        if (progressInfo != null) {
-//            model.addAttribute("progressInfo", progressInfo);
-//
-//            // 강의 정보 조회
-//            LectureInfo lectureInfo = progressInfoService.getLectureInfoByProgressInfo(progressInfo);
-//            model.addAttribute("lectureInfo", lectureInfo);
-//
-//            // 콘텐츠 정보 조회
-//            Content contentInfo = progressInfoService.getContentByProgressInfo(progressInfo);
-//            model.addAttribute("contentInfo", contentInfo);
-//        } else {
-//            model.addAttribute("progressInfo", null);
-//            model.addAttribute("lectureInfo", null);
-//            model.addAttribute("contentInfo", null);
-//        }
-//
-//        return "page/progress/progressInfo";
-//    }
+    @GetMapping("/api/progress")
+    public List<LectureInfo> getAllLectureInfo() {
+        return progressInfoService.getAllLectureInfo();
+    }
 }

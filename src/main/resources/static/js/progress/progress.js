@@ -1,3 +1,45 @@
+function loadLectureInfo() {
+    let selectedYear = document.getElementById('yearSelect').value;
+    let selectedCourse = document.getElementById('courseSelect').value;
+
+    loadData(selectedYear, selectedCourse);
+
+    // 가정: 데이터는 강의 정보 객체의 배열로 가정하고, 선택한 강의년도와 과정구분에 따라 데이터를 필터링합니다.
+    let filteredData = data.filter(function (lectureInfo) {
+        return (!selectedYear || lectureInfo.lectureYear === selectedYear) &&
+            (!selectedCourse || lectureInfo.lectureCourse === selectedCourse);
+    });
+
+    // TODO: 필터링된 데이터를 HTML에 표시하는 로직을 구현합니다.
+    displayFilteredData(filteredData);  // 예시 함수, 실제 데이터 표시 로직으로 대체해야 합니다.
+}
+
+function loadData(selectedYear, selectedCourse) {
+    const xhr = new XMLHttpRequest();
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const responseData = JSON.parse(xhr.responseText);
+            // TODO: 데이터를 활용하여 원하는 동작을 수행합니다.
+            // 예시: 필요한 동작을 구현하거나 적절한 함수를 호출할 수 있습니다.
+        } else {
+            console.error('Failed to fetch data.');
+        }
+    };
+
+    xhr.open('GET', `/api/progress?year=${selectedYear}&course=${selectedCourse}`);
+    xhr.send();
+}
+
+// 예시 함수: 필터링된 데이터를 HTML에 표시하는 함수
+function displayFilteredData(data) {
+    // TODO: 실제로 필터링된 데이터를 HTML에 표시하는 로직을 구현합니다.
+    // 예시: 간단히 console.log로 데이터를 출력하는 예시
+    data.forEach(function (lectureInfo) {
+        console.log(lectureInfo);
+    });
+}
+
 // 차시 관리 checkbox 클릭 시 상세 정보 출력
 function updateContentDetails() {
     const checkbox = this;
