@@ -5,10 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.online.lms.security.domain.Members;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Set;
 
 @Table(name = "lecture_apply")
 @Entity

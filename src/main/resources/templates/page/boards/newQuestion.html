@@ -13,7 +13,7 @@
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-    <script th:src="@{/js/board.js}"></script>
+    <script th:src="@{/js/question.js}"></script>
 </th:block>
 
 <!-- content start -->
@@ -60,7 +60,6 @@
 
         <!-- 파일 목록을 표시할 ul 요소 -->
         <ul id="file-list"></ul>
-
 
         <!-- 수정/등록 버튼 -->
             <button th:if="${question.postNo} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm">수정</button>

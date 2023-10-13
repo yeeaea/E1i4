@@ -25,7 +25,7 @@
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-    <script th:src="@{/js/board.js}"></script>
+    <script th:src="@{/js/question.js}"></script>
 </th:block>
 
 <!-- content start -->
@@ -61,7 +61,7 @@
             <tbody>
             <!-- 게시글 목록을 반복해서 출력 -->
             <tr th:each="post : ${questions}">
-                <td th:text="${post.postNo}"></td>
+                <td th:text="${post.boardType}"></td>
 
                 <td><a
                         th:href="@{/lms/questions/{postNo}(postNo=${post.postNo})}"

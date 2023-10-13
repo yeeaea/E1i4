@@ -13,33 +13,34 @@
 
     <!-- page 고유 javascript -->
     <th:block layout:fragment="script">
-        <script th:src="@{/js/lecture/lectureApply.js}"></script>
+        <script th:src="@{/js/lecture/myLectureList.js}"></script>
     </th:block>
 
     <!-- content start -->
     <section layout:fragment="content">
-        <div class="container">
-            <h3>내 수강 강의 목록</h3>
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>강의년도</th>
-                    <th>강의 과정</th>
-                    <th>강의명</th>
-                    <th>강의 시작일</th>
-                    <th>강의 종료일</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="lecture : ${lectureDetails}">
-                    <td th:text="${#dates.format(lecture.lectureYear, 'yyyy년')}"></td>
-                    <td th:text="${lecture.lectureCourse}"></td>
-                    <td th:text="${lecture.lectureTitle}"></td>
-                    <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-                    <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-                </tr>
-                </tbody>
-            </table>
+        <h3>내 수강 강의 목록</h3>
+        <div th:each="lecture, lectureStat : ${lectures}">
+            <div class="accordion-item">
+                <button class="class_info accordion-button">
+                    <!-- 강의명 -->
+                    <span class="accordion-title grid1_lect_info" th:text="|과목 : ${lecture.lectureTitle}|"></span>
+                    <span class="icon" aria-hidden="true"></span>
+                </button>
+                <div class="accordion-content" style="display: none">
+                    <div>
+                        <div>
+                            <input type="hidden" th:value="${lecture.lectureNo}">
+                            <a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}">
+                                <button>강의계획서</button>
+                            </a>
+                            <button>출결조회</button>
+                            <button>강의 자료</button>
+                            <button>온라인강좌</button>
+                            <button>질문</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- content end -->
