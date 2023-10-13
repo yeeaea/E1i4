@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VideoInfoRepository extends JpaRepository<Content, Long>{
-    @Query("SELECT MAX(c.contentNo) FROM Content c")
-    Integer findMaxPosition();
 
     /*
     //    연결해서 리스트 출력 -- 추후에 추가
