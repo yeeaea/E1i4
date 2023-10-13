@@ -1,3 +1,4 @@
+
 // 콘텐츠 등록 부분
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -7,14 +8,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // 각 입력 필드에서 데이터 수집
         const contentNo = document.querySelector("#contentNo").value;
         const contentName = document.querySelector("#contentName").value;
-        const contentFileNo = document.querySelector("#contentFileNo").value;
+        //const contentFileNo = document.querySelector("#contentFileNo").value;
         const ytbUrl = document.querySelector("#ytbUrl").value;
         const contentDesc = document.querySelector("#contentDesc").value;
         const contentUrl = document.querySelector("#contentUrl").value;
         const runTm = document.querySelector("#runTm").value;
 
         // 입력 필드가 비어 있는지 확인
-        if (!contentName || !contentFileNo || !ytbUrl || !contentUrl) {
+        if (!contentName || !ytbUrl || !contentDesc || !contentUrl || !runTm) {
             alert("모든 필드를 입력해야 합니다!");
             return; // 입력 필드가 비어 있을 때 아래 코드를 실행하지 않음
         }
@@ -23,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = {
             contentNo: contentNo,
             contentName: contentName,
-            contentFileNo: contentFileNo,
+            //contentFileNo: contentFileNo,
             ytbUrl: ytbUrl,
             contentDesc: contentDesc,
             contentUrl: contentUrl,
@@ -65,14 +66,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // 각 입력 필드에서 데이터 수집
         const contentNo = document.querySelector("#contentNo").value;
         const contentName = document.querySelector("#contentName").value;
-        const contentFileNo = document.querySelector("#contentFileNo").value;
+        //const contentFileNo = document.querySelector("#contentFileNo").value;
         const ytbUrl = document.querySelector("#ytbUrl").value;
         const contentDesc = document.querySelector("#contentDesc").value;
         const contentUrl = document.querySelector("#contentUrl").value;
         const runTm = document.querySelector("#runTm").value;
 
         // 입력 필드가 비어 있는지 확인
-        if (!contentName || !contentFileNo || !ytbUrl || !contentDesc || !contentUrl || !runTm) {
+        if (!contentName || !ytbUrl || !contentDesc || !contentUrl || !runTm) {
             alert("모든 필드를 입력해야 합니다!");
             return; // 입력 필드가 비어 있을 때 아래 코드를 실행하지 않음
         }
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = {
             contentNo: contentNo,
             contentName: contentName,
-            contentFileNo: contentFileNo,
+            //contentFileNo: contentFileNo,
             ytbUrl: ytbUrl,
             contentDesc: contentDesc,
             contentUrl: contentUrl,
@@ -127,16 +128,16 @@ function rowClicked() {
                 let contentNo = this.cells[0].innerText;
                 let contentName = this.cells[1].innerText;
                 let contentDesc = this.cells[2].innerText;
-                let contentFileNo = this.cells[3].innerText;
-                let ytbUrl = this.cells[4].innerText;
-                let contentUrl = this.cells[5].innerText;
-                let runTm = this.cells[6].innerText;
+                //let contentFileNo = this.cells[3].innerText;
+                let ytbUrl = this.cells[3].innerText;
+                let contentUrl = this.cells[4].innerText;
+                let runTm = this.cells[5].innerText;
 
                 // 가져온 데이터를 원하는 곳에 넣는 코드
                 document.querySelector("#contentNo").value = contentNo;
                 document.querySelector("#contentName").value = contentName;
                 document.querySelector("#contentDesc").value = contentDesc;
-                document.querySelector("#contentFileNo").value = contentFileNo;
+                //document.querySelector("#contentFileNo").value = contentFileNo;
                 document.querySelector("#ytbUrl").value = ytbUrl;
                 document.querySelector("#contentUrl").value = contentUrl;
                 document.querySelector("#runTm").value = runTm;
