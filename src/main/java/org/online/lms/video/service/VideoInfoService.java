@@ -41,8 +41,8 @@ public class VideoInfoService {
 
     // 유튜브 api에서 추출한 값 Content DB테이블의 컬럼에 저장하기
     public Content saveContent(Content content) {
-        log.info("서비스진입");
         return videoInfoRepository.save(content);
     }
+
 
 }

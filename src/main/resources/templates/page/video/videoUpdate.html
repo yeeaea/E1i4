@@ -10,7 +10,7 @@
 <body>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/content.js}"></script>
+    <script th:src="@{/js/video/content.js}"></script>
 </th:block>
 
 <th:block layout:fragment="content">
@@ -30,7 +30,7 @@
                 <th>콘텐츠 파일번호</th>
                 <th>Youtube 연동번호</th>
                 <th>콘텐츠 호출 URL</th>
-                <th>차시학습시간</th>
+                <th>재생 시간</th>
             </tr>
             </thead>
 
@@ -76,7 +76,7 @@
                     <input type="text" id="contentUrl" name="contentUrl" th:field="*{contentUrl}" />
                 </div>
                 <div>
-                    <label for="runTm">차시학습시간 : </label>
+                    <label for="runTm">재생 시간 : </label>
                     <input type="text" id="runTm" name="runTm" th:field="*{runTm}" />
                 </div>
                 <button id="registerBtn" type="button">등록</button>

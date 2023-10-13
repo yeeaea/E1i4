@@ -7,8 +7,14 @@ import org.online.lms.video.dto.ytbDTO;
 import org.online.lms.video.service.VideoInfoService;
 import org.online.lms.video.domain.Content;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -43,16 +49,17 @@ public class VideoApiController {
     @PostMapping("/saveYoutubeData")
     public Content saveYoutubeData(@RequestBody ytbDTO dto) {
 
-        log.info("진입");
-        log.info(dto.getVideoTitle());
         Content content = Content.contentYtb();
+
         content.setContentName(dto.getVideoTitle()); // YouTube 데이터의 제목을 contentName에 설정
         content.setContentDesc(dto.getVideoDescription()); // YouTube 데이터의 설명을 contentDesc에 설정
         content.setYtbUrl(dto.getVideoId()); // YouTube 데이터의 videoId를 ytbUrl에 설정
+        content.setContentUrl(dto.getVideoUrl()); // YouTube 데이터의 videoUrl을 contentUrl에 설정
+        content.setRunTm(dto.getDuration());
 
         return videoInfoService.saveContent(content);
-    }
 
+    }
 
 
 }
