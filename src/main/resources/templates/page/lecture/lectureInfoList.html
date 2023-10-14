@@ -39,8 +39,8 @@
                             <td th:text="${lecture.lectureCourse}"></td>
                             <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
                                    th:text="${lecture.lectureTitle}"></a></td>
-                            <td th:text="${#dates.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-                            <td th:text="${#dates.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                            <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
+                            <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
                             <td> <button class="apply-button" th:attr="data-lecture-no=${lecture.lectureNo}" onclick="applyForLecture(this)">수강신청</button></td>
                         </div>
                     </tr>

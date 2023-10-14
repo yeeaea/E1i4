@@ -61,7 +61,7 @@
 
         <!-- 강의 등록 section -->
         <div>
-            <form id="LectureForm" th:object="${lectureInfoRequest}">
+            <form id="LectureForm" th:object="${lectureInfoRequest}" autocomplete="off">
                 <div>
                     <label for="lectureYear">강의 년도:</label>
                     <select id="lectureYear" name="lectureYear" th:field="*{lectureYear}">
