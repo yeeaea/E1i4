@@ -2,7 +2,7 @@
 const API_KEY = 'AIzaSyCg9dqHR6cSg7j1smdb50VLVsSLaxRBRA4'; // 내 api_key
 const PLAYLIST_ID = 'PLz2iXe7EqJOOAo_79II0pnV4-mhQz_Sp-'; // 대상 재생목록의 ID
 // maxResults=30 : 최대 30개 가져오기, 설정 안 하면 기본적으로 5개만 가지고 옴
-const API_URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=30&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
+const API_URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=40&playlistId=${PLAYLIST_ID}&key=${API_KEY}`;
 
 // 재생시간은 유튜브 api에서 제공해주지 않아서 못 가져옴..
 fetch(API_URL)
@@ -14,7 +14,6 @@ fetch(API_URL)
             const videoTitle = item.snippet.title;
             const videoDescription = item.snippet.description;
             const videoThumbnail = item.snippet.thumbnails.medium.url;
-            const videoId = item.snippet.resourceId.videoId || "";
 
 
             const listItem = document.createElement("li");
@@ -37,6 +36,7 @@ fetch(API_URL)
                                width: 200px; height: 150px; padding-top: 50px;"></i>
                     </a>
                     -->
+                    <!-- 영상
                     <a href="/admin/lms/online/view">
                     <i class="fa-regular fa-circle-play" 
                        style=" font-size: 60px; color: black;
@@ -55,7 +55,7 @@ fetch(API_URL)
 
 
 
-//// 알림창 띄우기
+// 알림창 띄우기
 // YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";

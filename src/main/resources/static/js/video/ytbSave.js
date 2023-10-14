@@ -70,7 +70,7 @@ const PLAYLIST_IDS = [
     'PLE8CE1CEC45631D51'];// 여러 개의 재생목록 ID를 배열로 정의
 
 const fetchPlaylistData = async (playlistId) => {
-    const API_URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=30&playlistId=${playlistId}&key=${API_KEY}`;
+    const API_URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=40&playlistId=${playlistId}&key=${API_KEY}`;
 
     try {
         const response = await fetch(API_URL);
