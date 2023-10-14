@@ -43,6 +43,11 @@ dependencies {
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    // 유튜브 api 관련 의존성 추가
+    implementation 'com.google.api-client:google-api-client:1.32.1'
+    implementation 'com.google.apis:google-api-services-youtube:v3-rev222-1.25.0'
+
 }
 
 tasks.named('test') {
