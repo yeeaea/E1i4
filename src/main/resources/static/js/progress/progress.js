@@ -85,90 +85,122 @@ function addCheckboxListeners() {
 // 중복 호출 방지
 addCheckboxListeners();
 
+
+
 // 차시 정보 추가
-function addContent() {
+// 텍스트 박스 내용 비우기
+function clearTextBoxes() {
+    const inputElements = document.querySelectorAll('input');
+
+    inputElements.forEach(input => {
+        input.value = '';
+    });
+}
+
+// 신규 버튼 클릭 시 텍스트 박스 편집 가능하도록 토글
+// function toggleEditing() {
+//     const inputElements = document.querySelectorAll('input[readonly]');
+//
+//     inputElements.forEach(input => {
+//         input.readOnly = !input.readOnly;
+//     });
+// }
+
+// 알림창 띄우기
+function showNewLessonInfoAlert() {
+    alert('새로운 차시 정보를 입력하세요.');
+}
+
+// 신규 버튼 클릭 이벤트 핸들러
+function handleEditButtonClick(event) {
+    event.preventDefault();
+    clearTextBoxes();
+//    toggleEditing();
+    showNewLessonInfoAlert();
+}
+
+
+
+/////////////////////////// 차시 정보 수정 ///////////////////////////
+const saveProgress = document.getElementById('saveProgress');
+function saveContent() {
+    const table = document.querySelector('.contentDetailsTable');
+    const  nthNoString = table.getAttribute('data-nthNo');
+
+    const nthNo = parseInt(nthNoString);
+    const lectureCourse= document.getElementById('lectureCourse').value;
+    const contentNo= document.getElementById('contentNo').value;
+    const lectureDuration = document.getElementById('lectureDuration').value;
+    const nthName = document.getElementById('nthName').value;
+    const contentName = document.getElementById('contentName').value;
+    const runTm = document.getElementById('runTm').value;
+    const contentFileNo = document.getElementById('contentFileNo').value;
+    const ytbUrl = document.getElementById('ytbUrl').value;
+    const contentUrl = document.getElementById('contentUrl').value;
+
+    const data = {
+        lectureCourse,
+        contentNo,
+        lectureDuration,
+        contentName,
+        runTm,
+        contentFileNo,
+        ytbUrl,
+        contentUrl
+    };
+
+    console.log(data);
+
+    fetch(`/admin/api/progress/update/${nthNo}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            if(data) {
+                alert('작성하신 내용이 저장되었습니다.');
+                setTextBoxesReadOnly(true);
+            } else {
+                alert('저장 실패');
+            }
+        });
+}
+
+// 텍스트 박스의 읽기 전용 상태를 설정하는 함수
+function setTextBoxesReadOnly(isReadOnly) {
+    const textBoxes = document.querySelectorAll('input[type="text"]');
+    textBoxes.forEach(textBox => {
+        textBox.readOnly = isReadOnly;
+    });
+}
+
+// 저장 버튼 클릭 이벤트 핸들러
+function handleSaveButtonClick(event) {
+    event.preventDefault();
+    saveContent();
+}
+
+// 초기화 함수
+function initialize() {
     const newContentButton = document.getElementById('newContent');
-    if (newContentButton) {
-        newContentButton.addEventListener('click', event => {
-            event.preventDefault();
-            clearTextBoxes();
-            toggleEditing();
-            showNewLessonInfoAlert();
-        });
-    }
-
-    // 텍스트 박스 내용 비우기
-    function clearTextBoxes() {
-        const inputElements = document.querySelectorAll('input');
-
-        inputElements.forEach(input => {
-            input.value = '';
-        });
-    }
-
-    // 신규 버튼 클릭 시 텍스트 박스 편집 가능하도록 토글
-    function toggleEditing() {
-        const inputElements = document.querySelectorAll('input[readonly]');
-
-        inputElements.forEach(input => {
-            input.readOnly = !input.readOnly;
-        });
-    }
-
-    // 알림창 띄우기
-    function showNewLessonInfoAlert() {
-        alert('새로운 차시 정보를 입력하세요.');
-    }
-}
-
-// 차시 정보 수정
-function editContent() {
     const saveContentButton = document.getElementById('saveContent');
-    if (saveContentButton) {
-        saveContentButton.addEventListener('click', event => {
-            event.preventDefault();
-            let params = new URLSearchParams(location.search);
-            let nthNo = params.get('nthNo');
 
-            fetch(`/admin/api/progress/update/${nthNo}`, {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    nthNo: document.getElementById('nthNo').value,
-                    lectureCourse: document.getElementById('lectureCourse').value,
-                    contentNo: document.getElementById('contentNo').value,
-                    lectureDuration: document.getElementById('lectureDuration').value,
-                    nthName: document.getElementById('nthName').value,
-                    contentName: document.getElementById('contentName').value,
-                    runTm: document.getElementById('runTm').value,
-                    contentFileNo: document.getElementById('contentFileNo').value,
-                    ytbUrl: document.getElementById('ytbUrl').value,
-                    contentUrl: document.getElementById('contentUrl').value
-                })
-            })
-                .then(() => {
-                    alert('작성하신 내용이 저장되었습니다.');
-                    saveChanges();
-                });
-        });
+    if (newContentButton) {
+        newContentButton.addEventListener('click', handleEditButtonClick);
     }
 
-    // 텍스트 박스 읽기 전용으로 설정
-    function saveChanges() {
-        document.getElementById('nthNo').readOnly = true;
-        document.getElementById('lectureCourse').readOnly = true;
-        document.getElementById('contentNo').readOnly = true;
-        document.getElementById('lectureDuration').readOnly = true;
-        document.getElementById('nthName').readOnly = true;
-        document.getElementById('contentName').readOnly = true;
-        document.getElementById('runTm').readOnly = true;
-        document.getElementById('contentFileNo').readOnly = true;
-        document.getElementById('ytbUrl').readOnly = true;
-        document.getElementById('contentUrl').readOnly = true;
+    if (saveContentButton) {
+        saveContentButton.addEventListener('click', handleSaveButtonClick);
     }
 }
+
+// 페이지 로드 시 초기화 함수 호출
+window.addEventListener('load', initialize);
+
+
 
 // 삭제
 function deleteContent() {

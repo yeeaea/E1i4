@@ -67,7 +67,6 @@ public class ProgressInfoService {
 
             ProgressInfo updateProgress = ProgressInfo.builder()
                     .nthNo(existingProgress.getNthNo())
-                    .nthName(existingProgress.getNthName())
                     .content(existingProgress.getContent())
                     .build();
 

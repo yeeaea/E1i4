@@ -11,6 +11,5 @@ import lombok.Setter;
 @Setter
 public class UpdateProgressInfoRequest {
     private long nthNo; // 차시 관리 번호
-    private String nthName; // 차시명
     private long content; // 콘텐츠 관리 번호
 }

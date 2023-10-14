@@ -52,6 +52,8 @@
                     <th>강의년도</th>
                     <th>과정구분</th>
                     <th>개설강의명</th>
+                    <th>강의 시작일</th>
+                    <th>강의 종료일</th>
                     <th>총 강의 주차수</th>
                 </tr>
                 </thead>
@@ -62,7 +64,9 @@
                     <td th:text="${lecture.lectureYear}"></td>
                     <td th:text="${lecture.lectureCourse}"></td>
                     <td th:text="${lecture.lectureTitle}"></td>
-                    <td th:text="${lecture.lectureDuration}"></td>
+                    <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
+                    <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${lecture.lectureDuration} + '주차'"></td>
                 </tr>
                 </tbody>
             </table>
@@ -103,9 +107,9 @@
 
             <div id="contentDetails" style="flex: 1;">
                 <table class="contentDetailsTable">
-                    <button id="newContent" onclick="addContent()">신규</button>
-                    <button id="saveContent" onclick="editContent()">저장</button>
-                    <button id="deleteContent" onclick="deleteContent()">삭제</button>
+                    <button id="newProgress" onclick="addContent()">신규</button>
+                    <button id="saveProgress" onclick="editContent()">저장</button>
+                    <button id="deleteProgress" onclick="deleteContent()">삭제</button>
                     <tr>
                         <th>차시 관리 번호</th>
                         <td><input type="text" id="nthNo" autocomplete="off" readonly></td>

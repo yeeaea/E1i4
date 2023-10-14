@@ -24,18 +24,14 @@ public class ProgressInfo { // 강의 차시 정보 테이블
     @JoinColumn(name = "lecture_no", referencedColumnName = "lecture_no")
     private LectureInfo lecture; // 강의 번호 (외래키 연결)
 
-    @Column(name = "nth_name")
-    private String nthName; // 차시명
-
     @OneToOne
     @JoinColumn(name = "content_mgmt_no", referencedColumnName = "content_mgmt_no")
     private Content content; // 콘텐츠 관리 번호 (외래키 연결)
 
     @Builder
-    public ProgressInfo(long nthNo, LectureInfo lecture, String nthName, Content content) {
+    public ProgressInfo(long nthNo, LectureInfo lecture, Content content) {
         this.nthNo = nthNo;
         this.lecture = lecture;
-        this.nthName = nthName;
         this.content = content;
     }
 }

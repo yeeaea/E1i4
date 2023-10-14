@@ -11,13 +11,11 @@ import org.online.lms.video.domain.ProgressInfo;
 public class ProgressInfoViewResponse {
     private long nthNo; // 차시 관리 번호
     private LectureInfo lecture; // 강의 번호
-    private String nthName; // 차시명
     private Content content; // 콘텐츠 관리 번호
 
     public ProgressInfoViewResponse(ProgressInfo progressInfo) {
         this.nthNo = progressInfo.getNthNo();
         this.lecture = progressInfo.getLecture();
-        this.nthName = progressInfo.getNthName();
         this.content = progressInfo.getContent();
     }
 }
