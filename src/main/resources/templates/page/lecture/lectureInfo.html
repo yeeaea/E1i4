@@ -39,10 +39,10 @@
                                         <div th:text="|강의 과정 ${lectureInfo.lectureCourse}|"></div>
                                         <div style="font-size: 13px"
                                              class="ms-auto text-muted fst-italic mb-2 justify-content"
-                                             th:text="|강의 시작일 ${#dates.format(lectureInfo.lectureStartAt, 'yyyy년 MM월 dd일')}|"></div>
+                                             th:text="|강의 시작일 ${#temporals.format(lectureInfo.lectureStartAt, 'yyyy년 MM월 dd일')}|"></div>
                                         <div style="font-size: 13px"
                                              class="ms-auto text-muted fst-italic mb-2 justify-content"
-                                             th:text="|강의 종료일 ${#dates.format(lectureInfo.lectureEndAt, 'yyyy년 MM월 dd일')}|"></div>
+                                             th:text="|강의 종료일 ${#temporals.format(lectureInfo.lectureEndAt, 'yyyy년 MM월 dd일')}|"></div>
                                     </div>
                                     <hr style="width: 100%; margin: 10px auto; color: #b1b1b1">
                                     <section class="mb-5" style="width: 90%; margin: 0 auto;">

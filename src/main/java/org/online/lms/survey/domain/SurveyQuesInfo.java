@@ -5,7 +5,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.online.lms.video.domain.Content;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Table(name = "survey_ques_info")
@@ -23,6 +22,9 @@ public class SurveyQuesInfo {
     @OneToOne
     @JoinColumn(name = "survey_ques_no2", referencedColumnName = "survey_ques_no")
     private SurveyQuesInfo surveyQuesNo2; // 상위 문항 번호 (재귀)
+
+    @Column(name = "survey_ques_view_no")
+    private Long surveyQuesViewNo; // 표시 문항 번호
 
     @Column(name = "survey_ques_name", nullable = false)
     private String surveyQuesName; // 문항 명
