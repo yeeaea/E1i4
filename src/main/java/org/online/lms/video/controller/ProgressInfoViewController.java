@@ -22,7 +22,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/online")
+@RequestMapping("/admin")
 public class ProgressInfoViewController {
 
     private final ProgressInfoService progressInfoService;
