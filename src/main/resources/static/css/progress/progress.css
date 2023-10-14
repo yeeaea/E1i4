@@ -34,3 +34,18 @@ tr:hover {
     margin-left: 10px;
     cursor: pointer;
 }
+
+.divBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.searchDiv {
+    display: flex;
+    align-items: center;
+}
+
+.buttonDiv {
+    display: flex;
+}
