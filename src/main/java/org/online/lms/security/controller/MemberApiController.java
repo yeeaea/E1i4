@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -89,6 +91,19 @@ public class MemberApiController {
             return ResponseEntity.ok().body("다른 아이디를 입력하세요.");
         } else {
             return ResponseEntity.ok().body("사용 가능한 아이디입니다.");
+        }
+    }
+
+    // 아이디 찾기 처리 ( Ajax 포함 )
+    @PostMapping("/find-id")
+    public ResponseEntity<String> processFindId(@RequestParam(name = "memberName") String memberName,
+                                                @RequestParam(name = "memberEmail") String memberEmail, Model model){
+        String findId = memberService.searchByLoginId(memberName, memberEmail);
+        log.info("조회된 아이디 : " + findId);
+        if(findId != null){
+            return ResponseEntity.ok(findId);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("입력하신 정보와 일치하는 아이디가 없습니다.");
         }
     }
 }

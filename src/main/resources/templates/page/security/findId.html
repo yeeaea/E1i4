@@ -2,10 +2,10 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+<link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
@@ -16,60 +16,42 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/security/findId.js}"></script>
 </th:block>
-<div class="home ms-auto">
-    <div class="modal modal-sheet position-static d-block mx-auto" tabindex="-1" role="dialog" id="modalSignin">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content rounded-4 shadow" >
-                <div class="modal-header border-bottom-0 text-center ">
-                    <p>
-                        <h1 class="fw-bold mb-0">Find Id</h1>
-                    </p>
-                </div>
+<body>
+    <div class="home ms-auto">
+        <div class="modal modal-sheet position-static d-block mx-auto" tabindex="-1" role="dialog" id="modalSignin">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-4 shadow" >
+                    <div class="modal-header border-bottom-0 text-center ">
+                        <p>
+                            <h1 class="fw-bold mb-0">Find Id</h1>
+                        </p>
+                    </div>
 
-                <div class="modal-body">
-                    <form class="form-findId" method="post" action="/lms/find-id">
-                        <!-- 이름 입력 필드 -->
-                        <div>
-                            <input type="text" id="memberName" name="memberName" class="form-control rounded-3" placeholder="이름">
-                            <label for="memberName"></label>
-                        </div>
-                        <!-- 이메일 입력 필드 -->
-                        <div>
-                            <input type="text" id="memberEmail" name="memberEmail" class="form-control rounded-3" placeholder="이메일 주소">
-                            <label for="memberEmail"></label>
-                        </div>
-                        <br>
-                        <!-- 아이디 찾기 버튼 -->
-                        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button" id="findIdBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- 아이디 조회 결과 : 모달창에 보이도록! -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-         data-bs-keyboard="false" tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">아이디 찾기 결과</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="findIdResult">
-                </div>
-                <div class="modal-footer">
-                    <form action="/" method="get">
-                        <button type="submit" id="ok" class="btn btn-primary">로그인 화면으로 이동</button>
-                    </form>
+                    <div class="modal-body">
+                        <form class="form-findId" method="post" action="/lms/api/members/find-id">
+                            <!-- 이름 입력 필드 -->
+                            <div>
+                                <input type="text" id="memberName" name="memberName" class="form-control rounded-3" placeholder="이름">
+                                <label for="memberName"></label>
+                            </div>
+                            <!-- 이메일 입력 필드 -->
+                            <div>
+                                <input type="text" id="memberEmail" name="memberEmail" class="form-control rounded-3" placeholder="이메일 주소">
+                                <label for="memberEmail"></label>
+                            </div>
+                            <!-- 조회된 아이디 출력될 부분 -->
+                            <div class="modal-body" id="findIdResult" >
+                            </div>
+                            <!-- 아이디 찾기 버튼 -->
+                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button" id="findIdBtn" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">Search</button>
+                        </form>
+                        <!-- 아이디 조회되면, 버튼 출력되도록!-->
+                        <button type="submit" id="toLoginBtn" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" style="display: none;">로그인 화면으로 이동</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
 </body>
 </html>
