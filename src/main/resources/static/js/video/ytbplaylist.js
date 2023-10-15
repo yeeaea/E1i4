@@ -16,8 +16,9 @@ fetch(API_URL)
             const videoThumbnail = item.snippet.thumbnails.medium.url;
 
 
-            const listItem = document.createElement("li");
+            const listItem = document.createElement("div");
             listItem.innerHTML = `
+            <!-- 폰트어썸 링크 추가 -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
             <div class="container" style="display: flex; padding-bottom: 100px">
                 <div style="flex: 2; padding-right: 100px;"" >
@@ -36,7 +37,7 @@ fetch(API_URL)
                                width: 200px; height: 150px; padding-top: 50px;"></i>
                     </a>
                     -->
-                    <!-- 영상
+                    <!-- 영상 -->
                     <a href="/admin/lms/online/view">
                     <i class="fa-regular fa-circle-play" 
                        style=" font-size: 60px; color: black;
