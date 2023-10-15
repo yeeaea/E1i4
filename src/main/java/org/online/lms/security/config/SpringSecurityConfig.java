@@ -1,6 +1,10 @@
 package org.online.lms.security.config;
 
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.role.MemberRole;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +15,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import java.io.IOException;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -29,22 +36,27 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
                         .requestMatchers("/**").permitAll() // /** : 전체 페이지 접근 허용
-                        .requestMatchers("/admin/**").hasAuthority(MemberRole.ADMIN.getRoleName())
-                        //.anyRequest().permitAll()       // 어떠한 요청이라도 모두 허용
-                        .anyRequest().authenticated() // 어떠한 요청이라도 인증 필요
+                        //.requestMatchers("/admin/**").hasAuthority(MemberRole.ADMIN.getRoleName())
+                        .anyRequest().permitAll()       // 어떠한 요청이라도 모두 허용
+                        //.anyRequest().authenticated() // 어떠한 요청이라도 인증 필요
                 )
                 .formLogin(login -> login
                         .loginPage("/page/security/login")
                         .loginProcessingUrl("/login-process")
                         .usernameParameter("loginId")
                         .passwordParameter("loginPw")
-                        .successHandler((request, response, authentication) -> {
-                            // 여기에서 authentication을 이용해 역할을 확인하고 적절한 URL로 리다이렉트
-                            if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals(MemberRole.ADMIN.getRoleName()))) {
-                                log.info("스프링 설정 파일에서 권한 확인 : " + MemberRole.ADMIN.getRoleName());
-                                response.sendRedirect("/admin/mypage");
-                            } else {
-                                response.sendRedirect("/lms/mypage");
+                        .successHandler(new AuthenticationSuccessHandler() {
+                            @Override
+                            public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+                                // 여기에서 authentication을 이용해 역할을 확인하고 적절한 URL로 리다이렉트
+                                //System.out.println(MemberRole.ADMIN.getRoleName());     // ADMIN
+                                System.out.println(authentication.getAuthorities());       // *** 문제 : authentication에서 못 가져옴 -> []
+                                log.info("로그인 분기처리 전");
+                                if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals(MemberRole.ADMIN.getRoleName()))) {
+                                    response.sendRedirect("/admin/mypage");
+                                } else {
+                                    response.sendRedirect("/lms/mypage");
+                                }
                             }
                         })
                         .permitAll()

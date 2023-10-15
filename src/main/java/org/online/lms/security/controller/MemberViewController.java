@@ -46,7 +46,7 @@ public class MemberViewController {
         Optional<Members> userOptional = memberService.findByLoginId(loginId);
 
         Members member = userOptional.get();
-        log.info("제발 null 나와야돼 : " + String.valueOf(member.getMemberRole()));
+        log.info("사용자 권한(컨트롤러에서 확인) : " + String.valueOf(member.getMemberRole()));
         String memberName = member.getMemberName();
 
         model.addAttribute("loginId", loginId);
@@ -97,7 +97,7 @@ public class MemberViewController {
     @ResponseBody
     public ResponseEntity<String> processFindId(@RequestParam(name = "memberName") String memberName, @RequestParam(name = "memberEmail") String memberEmail, Model model){
         String findId = memberService.searchByLoginId(memberName, memberEmail);
-
+        log.info("조회된 아이디 : " + findId);
         if(findId != null){
             return ResponseEntity.ok(findId);
         } else {
