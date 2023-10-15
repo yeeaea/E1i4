@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const runTm = document.querySelector("#runTm").value;
 
         // 입력 필드가 비어 있는지 확인
-        if (!contentName || !ytbUrl || !contentDesc || !contentUrl || !runTm) {
-            alert("모든 필드를 입력해야 합니다!");
+        if (!contentName || !ytbUrl) {
+            alert("필수 필드를 입력 하세요!");
             return; // 입력 필드가 비어 있을 때 아래 코드를 실행하지 않음
         }
 
@@ -73,8 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const runTm = document.querySelector("#runTm").value;
 
         // 입력 필드가 비어 있는지 확인
-        if (!contentName || !ytbUrl || !contentDesc || !contentUrl || !runTm) {
-            alert("모든 필드를 입력해야 합니다!");
+        if (!contentName || !ytbUrl) {
+            alert("필수 필드를 입력 하세요!");
             return; // 입력 필드가 비어 있을 때 아래 코드를 실행하지 않음
         }
 
@@ -169,4 +169,22 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// 연동 확인 버튼
+document.addEventListener("DOMContentLoaded", function () {
+    const ytbLinkBtn = document.getElementById("ytbLinkBtn");
+
+    ytbLinkBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        const ytbId = document.querySelector("#ytbUrl").value;
+
+        if (ytbId) {
+            // YouTube ID가 입력되었을 때에만 새 창에서 열기
+            const youtubeLink = `https://www.youtube.com/watch?v=${ytbId}`;
+            window.open(youtubeLink, "_blank"); // 새 창에서 열기
+        }else {
+            alert("Youtube 연동번호가 없습니다!");
+        }
+
+    });
+});
 
