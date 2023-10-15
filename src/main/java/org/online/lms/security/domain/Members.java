@@ -2,6 +2,7 @@ package org.online.lms.security.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.online.lms.security.domain.role.MemberRole;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,9 +36,11 @@ public class Members { // 회원 정보 테이블
     @Column(name = "member_attendance", columnDefinition = "boolean default false")
     private boolean memberAttendance; // 출결상태
 
-    @Column(name="member_role")
+    @Column(name = "member_role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private MemberRole memberRole;      // 사용자 권한
+    @ColumnDefault("'USER'")
+    private MemberRole memberRole;   // 사용자 권한
+
 
     @Builder
     public Members(String loginId,
@@ -53,7 +56,7 @@ public class Members { // 회원 정보 테이블
         this.memberTel = memberTel;
         this.memberEmail = memberEmail;
         this.memberAttendance = memberAttendance;
-        this.memberRole = memberRole;
+        this.memberRole = memberRole != null ? memberRole : MemberRole.USER;
     }
 
     // MemberSignDTO에서 받아온 정보로 Member 객체 생성
@@ -68,14 +71,4 @@ public class Members { // 회원 정보 테이블
         return member;
     }
 
-//    // 회원정보 수정에서 사용
-//    public static Members createMember(String loginId, String loginPw, String memberName, String memberTel, String memberEmail) {
-//        Members member = new Members();
-//        member.setLoginId(loginId);
-//        member.setLoginPw(loginPw);
-//        member.setMemberName(memberName);
-//        member.setMemberTel(memberTel);
-//        member.setMemberEmail(memberEmail);
-//        return member;
-//    }
 }
