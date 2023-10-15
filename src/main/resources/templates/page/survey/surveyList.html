@@ -20,32 +20,42 @@
 <section layout:fragment="content">
   <div class="container">
     <h3>강의평가</h3>
-    <table class = "table table-hover">
-      <thead>
-      <tr>
-        <th>강의년도</th>
-        <th>강의 과정</th>
-        <th>강의명</th>
-        <th>강의 시작일</th>
-        <th>강의 종료일</th>
-        <th>강의평가</th>
-      </tr>
-      </thead>
+    <div th:if="${not #lists.isEmpty(lectures)}">
+      <table class = "table table-hover">
+        <thead>
+        <tr>
+          <th>강의년도</th>
+          <th>강의 과정</th>
+          <th>강의명</th>
+          <th>강의 시작일</th>
+          <th>강의 종료일</th>
+          <th>강의평가</th>
+        </tr>
+        </thead>
 
-      <tbody class="row-6" th:each="lecture : ${lectures}">
-      <tr>
-        <div>
-          <td th:text="${lecture.lectureYear}"></td>
-          <td th:text="${lecture.lectureCourse}"></td>
-          <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
-                 th:text="${lecture.lectureTitle}"></a></td>
-          <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-          <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-          <td> <button >강의평가</button></td>
-        </div>
-      </tr>
-      </tbody>
-    </table>
+        <tbody class="row-6" th:each="lecture : ${lectures}">
+        <tr>
+          <div>
+            <td th:text="${lecture.lectureYear}"></td>
+            <td th:text="${lecture.lectureCourse}"></td>
+            <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
+                   th:text="${lecture.lectureTitle}"></a></td>
+            <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+            <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+            <td> <button >강의평가</button></td>
+          </div>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div th:if="${#lists.isEmpty(lectures)}">
+      <!-- 수강 중인 강의 목록이 없는 경우 -->
+      <P> 수강 중인 강의가 없습니다. </P>
+      <a th:href="@{/lms/online/lecture-all}">
+        <button>수강신청 페이지로 이동</button>
+      </a>
+    </div>
   </div>
 </section>
 <!-- content end -->

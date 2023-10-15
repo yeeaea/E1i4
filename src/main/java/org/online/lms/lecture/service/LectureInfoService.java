@@ -1,9 +1,11 @@
 package org.online.lms.lecture.service;
 
 import lombok.RequiredArgsConstructor;
+import org.online.lms.lecture.domain.LectureApply;
 import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.lecture.dto.AddLectureInfoRequest;
 import org.online.lms.lecture.dto.UpdateLectureInfoRequest;
+import org.online.lms.lecture.repository.LectureApplyRepository;
 import org.online.lms.lecture.repository.LectureInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,18 +14,24 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
 public class LectureInfoService {
 
-    @Autowired
     private final LectureInfoRepository lectureInfoRepository;
+    private final LectureApplyRepository lectureApplyRepository;
 
+    @Autowired
+    public LectureInfoService(LectureInfoRepository lectureInfoRepository,
+                              LectureApplyRepository lectureApplyRepository) {
+        this.lectureInfoRepository = lectureInfoRepository;
+        this.lectureApplyRepository = lectureApplyRepository;
+    }
     // 강의 목록 조회
     @Transactional(readOnly = true)
     public List<LectureInfo> findAll() {
         return lectureInfoRepository.findAll();
     }
+
 
     // 강의 번호로 강의 정보 얻기
     public LectureInfo getLectureInfoByLectureNo(Long lectureNo) {
@@ -74,6 +82,13 @@ public class LectureInfoService {
     @Transactional
     public boolean deleteLectures(List<Long> lectureNos) {
         try {
+            // 각각의 강의 번호에 대해 수강 신청 데이터를 찾아 삭제
+            // 강의 번호로 수강신청 데이터 찾기
+            List<LectureApply> lectureApplies = lectureApplyRepository.findByLectureNoIn(lectureNos);
+
+            // 수강신청 데이터 삭제
+            lectureApplyRepository.deleteAll(lectureApplies);
+
             // lectureNos 목록에 포함된 강의 삭제
             lectureInfoRepository.deleteByLectureNoIn(lectureNos);
             return true;
