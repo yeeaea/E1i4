@@ -2,7 +2,6 @@ package org.online.lms.lecture.controller;
 
 import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.lecture.dto.AddLectureInfoRequest;
-import org.online.lms.lecture.dto.UpdateLectureInfoRequest;
 import org.online.lms.lecture.service.LectureInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,6 @@ public class LectureInfoUpdateController {
         List<LectureInfo> lectureInfos = lectureInfoService.findAll();
         model.addAttribute("lectureInfo", lectureInfos);
         model.addAttribute("lectureInfoRequest", new AddLectureInfoRequest());
-        model.addAttribute("updateLectureRequest", new UpdateLectureInfoRequest()); // 수정 섹션에 사용할 객체 추가
 
         return "/page/lecture/lectureUpdate";
     }

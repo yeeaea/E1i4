@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.List;
+
 @Table(name = "survey_ques_info")
 @Entity
 @Getter
@@ -17,11 +19,14 @@ public class SurveyQuesInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "survey_ques_no")
-    private long surveyQuesNo; // 평가 문항 번호
+    private Long surveyQuesNo; // 평가 문항 번호
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "survey_ques_no2", referencedColumnName = "survey_ques_no")
-    private SurveyQuesInfo surveyQuesNo2; // 상위 문항 번호 (재귀)
+    private SurveyQuesInfo parentQues; // 상위 문항 번호 (재귀)
+
+    @OneToMany(mappedBy = "parentQues")
+    private List<SurveyQuesInfo> subQuestions; // 하위 문항들
 
     @Column(name = "survey_ques_view_no")
     private Long surveyQuesViewNo; // 표시 문항 번호
@@ -29,7 +34,7 @@ public class SurveyQuesInfo {
     @Column(name = "survey_ques_name", nullable = false)
     private String surveyQuesName; // 문항 명
 
-    @Column(name = "survey_ques_type", nullable = false)
+    @Column(name = "survey_ques_type")
     private String surveyQuesType; // 문항 답변 유형
 
     @Column(name = "survey_ques_yn", nullable = false)
@@ -37,12 +42,16 @@ public class SurveyQuesInfo {
 
     @Builder
     public SurveyQuesInfo(long surveyQuesNo,
-                          SurveyQuesInfo surveyQuesNo2,
+                          SurveyQuesInfo parentQues,
+                          List<SurveyQuesInfo> subQuestions,
+                          Long surveyQuesViewNo,
                           String surveyQuesName,
                           String surveyQuesType,
                           boolean surveyQuesYn) {
         this.surveyQuesNo = surveyQuesNo;
-        this.surveyQuesNo2 = surveyQuesNo2;
+        this.parentQues = parentQues;
+        this.subQuestions = subQuestions;
+        this.surveyQuesViewNo = surveyQuesViewNo;
         this.surveyQuesName = surveyQuesName;
         this.surveyQuesType = surveyQuesType;
         this.surveyQuesYn = surveyQuesYn;

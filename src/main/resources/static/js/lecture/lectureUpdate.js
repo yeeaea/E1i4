@@ -1,6 +1,15 @@
 // 페이지가 로드될 때 실행할 함수
 document.addEventListener("DOMContentLoaded", function () {
     // ******** 강의 추가 기능 ********
+    // 필드 이름을 매핑하는 객체
+    const fieldNamesMap = {
+        "lectureCourse": "강의 과정",
+        "lectureTitle": "강의 제목",
+        "lectureDesc": "강의 설명",
+        "lectureStartAt": "강의 시작일",
+        "lectureEndAt": "강의 종료일",
+        "lectureDuration": "총 주차 수"
+    };
     // 등록 버튼 클릭 시 실행
     document.getElementById("lectureAdd").addEventListener("click", function () {
         // 필수 입력 필드 목록
@@ -13,13 +22,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const field = document.getElementById(fieldName);
             if (!field.value) {
                 hasEmptyField = true;
-                emptyFieldNames.push(fieldName);
+                emptyFieldNames.push(fieldNamesMap[fieldName]); // 필드 이름을 가져오고 사용
             }
         }
 
         if (hasEmptyField) {
             const emptyFieldNamesString = emptyFieldNames.join(", ");
-            alert(`${emptyFieldNamesString}는 필수 입력값입니다.`);
+            alert(`${emptyFieldNamesString} 항목은 필수 입력값입니다.`);
         } else {
             // 폼 데이터를 가져오기
             const lectureForm = document.getElementById("LectureForm");
