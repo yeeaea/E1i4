@@ -26,23 +26,10 @@
         </script>
         <div style="flex: 1; margin-right: 20px;">
             <label for="yearSelect">강의년도:</label>
-            <select id="yearSelect" onchange="loadLectureInfo()">
-                <option value="">전체</option>
-                <option value="2022">2022년</option>
-                <option value="2023">2023년</option>
-                <option value="2024">2024년</option>
-                <option value="2025">2025년</option>
-            </select>
+            <select id="yearSelect"></select>
 
-            <label for="courseSelect">과정구분:</label>
-            <select id="courseSelect" onchange="loadLectureInfo()">
-                <option value="">전체</option>
-                <option value="java">java</option>
-                <option value="C++">C++</option>
-                <option value="C#">C#</option>
-                <option value="python">python</option>
-                <option value="javascript">javascript</option>
-            </select>
+            <label for="lectureSelect">과정구분:</label>
+            <select id="lectureSelect"></select>
 
             <button type="button" onclick="loadLectureInfo()">조회</button>
             <table class="border border-dark p-3 mb-3">
@@ -52,27 +39,33 @@
                     <th>강의년도</th>
                     <th>과정구분</th>
                     <th>개설강의명</th>
+                    <th>강의 시작일</th>
+                    <th>강의 종료일</th>
                     <th>총 강의 주차수</th>
                 </tr>
                 </thead>
                 <tbody th:each="lecture : ${lectureInfoList}">
                 <!-- 차시 목록 표시 -->
-                <tr>
+                <tr onclick="handleRowClick('${lecture.lectureNo}')">
                     <td th:text="${lecture.lectureNo}"></td>
                     <td th:text="${lecture.lectureYear}"></td>
                     <td th:text="${lecture.lectureCourse}"></td>
                     <td th:text="${lecture.lectureTitle}"></td>
-                    <td th:text="${lecture.lectureDuration}"></td>
+                    <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
+                    <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
+                    <td th:text="${lecture.lectureDuration} + '주차'"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="container" style="display: flex; flex-direction: row;">
-            <div style="flex: 1; margin-right: 20px;">
+            <div id="progressDetails" style="flex: 1; margin-right: 20px;">
                 <table class="border border-dark p-3 mb-3">
                     <thead>
                     <tr>
-                        <th></th>
+                        <th>
+                            <input type="checkbox" id="selectAllCheckbox" autocomplete="off" onchange="selectAllCheckboxes(this)">
+                        </th>
                         <th>차시 순서</th><!-- 차시 관리 번호 -->
                         <th>차시명</th>
                         <th>차시학습시간</th>
@@ -88,7 +81,6 @@
                                    data-lectureDuration=${progressInfo.lecture.lectureDuration},
                                    data-contentName=${progressInfo.content.contentName},
                                    data-runTm=${progressInfo.content.runTm},
-                                   data-contentFileNo=${progressInfo.content.contentFileNo},
                                    data-ytbUrl=${progressInfo.content.ytbUrl},
                                    data-contentUrl=${progressInfo.content.contentUrl}
                                    "
@@ -103,46 +95,46 @@
 
             <div id="contentDetails" style="flex: 1;">
                 <table class="contentDetailsTable">
-                    <button id="newContent" onclick="addContent()">신규</button>
-                    <button id="saveContent" onclick="editContent()">저장</button>
+                    <button id="newContent" onclick="handleEditButtonClick()">신규</button>
+                    <button id="saveContent" onclick="handleSaveButtonClick()">저장</button>
                     <button id="deleteContent" onclick="deleteContent()">삭제</button>
                     <tr>
                         <th>차시 관리 번호</th>
-                        <td><input type="text" id="nthNo" autocomplete="off" readonly></td>
+                        <td><input type="text" id="nthNo" autocomplete="off"></td>
                     </tr>
                     <tr>
                         <th>과정구분</th>
-                        <td><input type="text" id="lectureCourse" autocomplete="off" readonly></td>
+                        <td>
+                            <select id="lectureCourse" autocomplete="off" onchange="lectureCourse()"></select>
+                        </td>
                     </tr>
                     <tr>
                         <th>콘텐츠 관리 번호</th>
                         <td style="display: flex; align-items: center;">
-                            <input type="text" id="contentNo" class="col-10" autocomplete="off" readonly>
+                            <input type="text" id="contentNo" class="col-10" autocomplete="off">
                             <i class="search fa-solid fa-magnifying-glass col-2" onclick="openModal()"></i></td>
                     </tr>
                     <tr>
                         <th>강의 주차수</th>
-                        <td><input type="text" id="lectureDuration" autocomplete="off" readonly></td>
+                        <td>
+                            <select id="lectureDuration" autocomplete="off" onchange="lectureDuration()"></select>
+                        </td>
                     </tr>
                     <tr>
                         <th>콘텐츠명</th>
-                        <td><input type="text" id="contentName" autocomplete="off" readonly></td>
+                        <td><input type="text" id="contentName" autocomplete="off"></td>
                     </tr>
                     <tr>
                         <th>차시 학습 시간</th>
-                        <td><input type="text" id="runTm" autocomplete="off" readonly></td>
-                    </tr>
-                    <tr>
-                        <th>콘텐츠 파일 번호</th>
-                        <td><input type="text" id="contentFileNo" autocomplete="off" readonly></td>
+                        <td><input type="text" id="runTm" autocomplete="off"></td>
                     </tr>
                     <tr>
                         <th>Youtube 연동 번호</th>
-                        <td><input type="text" id="ytbUrl" autocomplete="off" readonly></td>
+                        <td><input type="text" id="ytbUrl" autocomplete="off"></td>
                     </tr>
                     <tr>
                         <th>콘텐츠 호출 URL</th>
-                        <td><input type="text" id="contentUrl" autocomplete="off" readonly></td>
+                        <td><input type="text" id="contentUrl" autocomplete="off"></td>
                     </tr>
 
                 </table>
@@ -175,14 +167,23 @@
                     <table class="table" id="contentTable">
                         <thead>
                         <tr>
-                            <th>콘텐츠 관리 번호</th>
+                            <th></th>
+                            <th>번호</th>
                             <th>콘텐츠명</th>
                             <th>차시 학습 시간</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <!-- 타임리프를 사용하여 데이터 출력 -->
                         <tr th:each="content : ${contentList}">
+                            <td>
+                                <input type="checkbox" class="modalContentCheckbox"
+                                       th:attr="data-modalContentNo=${content.contentNo},
+                                       data-modalContentName=${content.contentName},
+                                       data-modalRunTm=${content.runTm},
+                                       data-modalYtbUrl=${content.ytbUrl},
+                                       data-modalContentUrl=${content.contentUrl}"
+                                       onclick="handleCheckboxSelection(this)">
+                            </td>
                             <td th:text="${content.contentNo}"></td>
                             <td th:text="${content.contentName}"></td>
                             <td th:text="${content.runTm}"></td>

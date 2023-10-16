@@ -38,6 +38,17 @@ public class ProgressInfoService {
                 .orElseThrow(() -> new IllegalArgumentException("not found" + nthNo));
     }
 
+    // 차시 번호로 차시 정보 얻기
+//    public ProgressInfo getProgressInfoByNthNo(long nthNo) {
+//        Optional<ProgressInfo> optionalProgressInfo = progressInfoRepository.findById(nthNo);
+//
+//        if (optionalProgressInfo.isPresent()) {
+//            return optionalProgressInfo.get();
+//        } else {
+//            throw new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다.");
+//        }
+//    }
+
     // 강의 정보 조회
     @Transactional
     public List<LectureInfo> getAllLectureInfo() {
@@ -60,21 +71,12 @@ public class ProgressInfoService {
     // 차시 정보 수정
     @Transactional
     public ProgressInfo updateProgress(long nthNo, UpdateProgressInfoRequest request) {
-        Optional<ProgressInfo> optionalExistingProgress = progressInfoRepository.findById(nthNo);
+        ProgressInfo progressInfo = progressInfoRepository.findById(nthNo).orElseThrow(
+                () -> new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다."));
 
-        if(optionalExistingProgress.isPresent()) {
-            ProgressInfo existingProgress = optionalExistingProgress.get();
+        progressInfo.update(request.getNthNo());
 
-            ProgressInfo updateProgress = ProgressInfo.builder()
-                    .nthNo(existingProgress.getNthNo())
-                    .nthName(existingProgress.getNthName())
-                    .content(existingProgress.getContent())
-                    .build();
-
-            return progressInfoRepository.save(updateProgress);
-        } else {
-            return null;
-        }
+        return progressInfo;
     }
 
     // 차시 정보 삭제
