@@ -54,19 +54,22 @@
             <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT">
                 <div>
                     <label for="contentNo">콘텐츠 관리 번호 : </label>
-                    <input type="text" id="contentNo" name="contentNo"/>
+                    <input type="text" id="contentNo" name="contentNo" />
                 </div>
                 <div>
-                    <label for="contentName">콘텐츠 명 : </label>
-                    <input type="text" id="contentName" name="contentName"/>
+                    <label for="contentName">콘텐츠 명<b style="color: red"> *</b> : </label>
+                    <input type="text" id="contentName" name="contentName" />
                 </div>
 <!--                <div>-->
 <!--                    <label for="contentFileNo">콘텐츠 파일번호 : </label>-->
 <!--                    <input type="text" id="contentFileNo" name="contentFileNo"/>-->
 <!--                </div>-->
                 <div>
-                    <label for="ytbUrl">Youtube 연동번호 : </label>
-                    <input type="text" id="ytbUrl" name="ytbUrl"/>
+                    <label for="ytbUrl">Youtube 연동 번호<b style="color: red"> *</b> : </label>
+                    <div style="display: flex">
+                        <input type="text" id="ytbUrl" name="ytbUrl"  style="width: 65%; margin-right: 5%"/>
+                        <button id="ytbLinkBtn" style="width: 30%">연동 확인</button>
+                    </div>
                 </div>
                 <div>
                     <label for="contentDesc">콘텐츠 설명 : </label>
@@ -74,11 +77,11 @@
                 </div>
                 <div>
                     <label for="contentUrl">콘텐츠 호출 URL : </label>
-                    <input type="text" id="contentUrl" name="contentUrl"\/>
+                    <input type="text" id="contentUrl" name="contentUrl" />
                 </div>
                 <div>
                     <label for="runTm">재생 시간 : </label>
-                    <input type="text" id="runTm" name="runTm"\/>
+                    <input type="text" id="runTm" name="runTm" />
                 </div>
                 <button id="registerBtn" type="button">등록</button>
                 <button id="updateBtn"  type="button">수정</button>

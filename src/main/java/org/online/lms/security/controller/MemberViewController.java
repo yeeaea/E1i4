@@ -85,24 +85,10 @@ public class MemberViewController {
         return "redirect:/?success=true";
     }
 
-
     // 아이디 찾기 페이지로 이동
     @GetMapping("/lms/find-id")
     public String findId(){
         return "/page/security/findId";
-    }
-
-    // 아이디 찾기 처리
-    @PostMapping("/lms/find-id")
-    @ResponseBody
-    public ResponseEntity<String> processFindId(@RequestParam(name = "memberName") String memberName, @RequestParam(name = "memberEmail") String memberEmail, Model model){
-        String findId = memberService.searchByLoginId(memberName, memberEmail);
-        log.info("조회된 아이디 : " + findId);
-        if(findId != null){
-            return ResponseEntity.ok(findId);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("입력하신 정보와 일치하는 아이디가 없습니다.");
-        }
     }
 
     // 비밀번호 찾기 페이지로 이동
