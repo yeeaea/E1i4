@@ -8,7 +8,7 @@
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/board/board.css}">
 </th:block>
 
 <!-- page 고유 javascript -->
@@ -18,12 +18,32 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content">
+<section layout:fragment="content" style="width: 60%" class="container section-container mt-4 mb-4">
 
-    <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h4 class ="mt-1">질의응답 </h4>
+        </div>
+        <div>
+            <!-- 수정 버튼 -->
+            <button type="button" id="modify-btn"
+                    th:onclick="|location.href='@{/lms/new-question?postNo={postNo}(postNo=${question.postNo})}'|"
+                    class="btn btn-primary btn-sm"
+                    th:if="${currentLoginId == loginId}">수정
+            </button>
+
+            <!-- 삭제 버튼 -->
+            <button type="button" id="delete-btn"
+                    class="btn btn-secondary btn-sm"
+                    th:if="${currentLoginId == loginId}">삭제
+            </button>
+        </div>
+    </div>
+
+    <div class="container mt-4">
         <input type="hidden" id="question-postNo"
                th:value="${question.postNo}">
-        <h2 th:text="${question.postTitle}" class="mb-3">게시글 제목</h2>
+        <h3 th:text="${question.postTitle}" class="mb-3">게시글 제목</h3>
         <p th:text="|작성자:${loginId} , 작성일자: ${#temporals.format(question.postRtm, 'yyyy-MM-dd HH:mm')}"></p>
 
         <hr>
@@ -32,7 +52,6 @@
            style="word-break: break-all; min-height: 100px;"></p>
 
         <!-- 첨부 파일 정보 표시 -->
-        <p class="fs-6 mt-3 mb-4" th:text="${question.postContent}" style="word-break: break-all;"></p>
         <p th:if="${question.orgFileName != null}">
             첨부 파일:
             <a th:href="@{'/download/' + ${question.saveFileName}}" th:text="${question.orgFileName}">다운로드</a>
@@ -41,21 +60,6 @@
             첨부 파일이 없습니다.
         </p>
     </div>
-
-    <div class="d-flex justify-content-center mt-4">
-        <button type="button" id="modify-btn"
-                th:onclick="|location.href='@{/lms/new-question?postNo={postNo}(postNo=${question.postNo})}'|"
-                class="btn btn-primary btn-sm"
-                style="margin-right: 10px;"
-                th:if="${currentLoginId == loginId}">수정
-        </button>
-
-        <button type="button" id="delete-btn"
-                class="btn btn-secondary btn-sm"
-                th:if="${currentLoginId == loginId}">삭제
-        </button>
-    </div>
-
 
     <!-- Comment start -->
 
@@ -82,6 +86,7 @@
                                     th:attr="data-commentNo=${comment.commentNo}"
                                     th:if="${currentLoginId == comment.loginId}">수정
                             </button>
+
                             <!-- 삭제 버튼 -->
                             <button type="button" class="cmt-delete-btn" style="font-size: 12px; padding: .1em .5em;"
                                     th:attr="data-quesCmtNo=${comment.commentNo}"
@@ -125,9 +130,10 @@
     <!-- Comment End -->
 
     <!-- 게시글 목록으로 돌아가는 버튼 -->
-    <div class="back-button">
-        <a th:href="@{/lms/questions}">게시글 목록으로 돌아가기</a>
+    <div class="back-button mt-3">
+        <a th:href="@{/lms/questions}" style="text-decoration: none; color: black;">< 목록으로 돌아가기</a>
     </div>
+
 </section>
 <!-- content end -->
 </html>
