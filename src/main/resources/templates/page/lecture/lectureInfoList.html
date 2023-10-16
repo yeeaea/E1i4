@@ -33,7 +33,7 @@
                 </thead>
 
                 <tbody class="row-6" th:each="lecture : ${lectureInfo}">
-                    <tr>
+                    <tr th:attr="data-lecture-no=${lecture.lectureNo}">
                         <div>
                             <td th:text="${lecture.lectureYear}"></td>
                             <td th:text="${lecture.lectureCourse}"></td>
