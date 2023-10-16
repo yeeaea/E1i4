@@ -13,44 +13,30 @@
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-    <script th:src="@{/js/question.js}"></script>
-    <script th:src="@{/js/comment.js}"></script>
+    <script th:src="@{/js/boards/notice.js}"></script>
+    <script th:src="@{/js/boards/comment.js}"></script>
 </th:block>
 
 <!-- content start -->
 <section layout:fragment="content">
     <div class="container">
-        <input type="hidden" id="question-postNo"
-               th:value="${question.postNo}">
-        <h2 th:text="${question.postTitle}">게시글 제목</h2>
-        <p th:text="|작성자:${loginId} , 작성일자: ${#temporals.format(question.postRtm, 'yyyy-MM-dd HH:mm')}"></p>
+        <input type="hidden" id="notice-postNo"
+               th:value="${notice.postNo}">
+        <h2 th:text="${notice.postTitle}">게시글 제목</h2>
+        <p th:text="|작성자:${loginId} , 작성일자: ${#temporals.format(notice.postRtm, 'yyyy-MM-dd HH:mm')}"></p>
 
         <hr>
         <p>내용:</p>
-        <p th:text="${question.postContent}">게시글 내용</p>
+        <p th:text="${notice.postContent}">게시글 내용</p>
         <!-- 첨부 파일 정보 표시 -->
-            첨부 파일:
-            <a th:href="@{'/download/' + ${question.saveFileName}}" th:text="${question.orgFileName}">다운로드</a>
+        첨부 파일:
+        <a th:href="@{'/download/' + ${notice.saveFileName}}" th:text="${notice.orgFileName}">다운로드</a>
         </p>
 
-        <p th:unless="${question.orgFileName != null}">
+        <p th:unless="${notice.orgFileName != null}">
             첨부 파일이 없습니다.
         </p>
 
-
-
-    </div>
-    <div>
-        <button type="button" id="modify-btn"
-                th:onclick="|location.href='@{/lms/new-question?postNo={postNo}(postNo=${question.postNo})}'|"
-                class="btn btn-primary btn-sm" style="margin-right: 10px;"
-                th:if="${currentLoginId == loginId}">수정
-        </button>
-
-        <button type="button" id="delete-btn"
-                class="btn btn-secondary btn-sm" style="margin-right: 10px;"
-                th:if="${currentLoginId == loginId}">삭제
-        </button>
     </div>
 
 
@@ -79,7 +65,7 @@
                             </button>
                             <!-- 삭제 버튼 -->
                             <button type="button" class="cmt-delete-btn" style="font-size: 12px; padding: .1em .5em;"
-                                    th:attr="data-quesCmtNo=${comment.commentNo}"
+                                    th:attr="data-commentNo=${comment.commentNo}"
                                     th:if="${currentLoginId == comment.loginId}">삭제
                             </button>
                             <!-- 댓글 내용 -->
@@ -99,7 +85,7 @@
 
             <!-- 댓글 작성 폼 -->
             <form id="comment-form">
-                <input type="hidden" id="postNo" th:value="${question.postNo}">
+                <input type="hidden" id="postNo" th:value="${notice.postNo}">
                 <div class="card-body mt-3">
                     <textarea class="form-control" id="commentContent" style="font-size: 14px;" placeholder="댓글을 입력하세요" onkeyup="countingLength(this);" rows="4"></textarea>
 
@@ -115,7 +101,7 @@
 
     <!-- 게시글 목록으로 돌아가는 버튼 -->
     <div class="back-button">
-        <a th:href="@{/lms/questions}">게시글 목록으로 돌아가기</a>
+        <a th:href="@{/lms/notice}">게시글 목록으로 돌아가기</a>
     </div>
 </section>
 <!-- content end -->

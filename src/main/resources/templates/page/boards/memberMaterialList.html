@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+
+<head>
+    <title>Content page</title>
+
+    <!-- Icon Font Stylesheet -->
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+            rel="stylesheet">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
+            rel="stylesheet">
+    <script src="https://kit.fontawesome.com/3eb7b16202.js"
+            crossorigin="anonymous"></script>
+</head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</th:block>
+
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/boards/material.js}"></script>
+</th:block>
+
+<!-- content start -->
+<section layout:fragment="content">
+    <div class="container">
+
+        <h2>게시글 목록</h2>
+
+        <!-- 최신순과 조회순 버튼 추가 -->
+        <form id="sortByForm" method="get">
+            <input type="hidden" name="sortBy" id="sortByInput" th:value="${sortBy}"/>
+        </form>
+
+        <!-- 최신순 정렬 버튼 -->
+        <button type="button" onclick="changeSort('latest')">최신순</button>
+
+        <!-- 조회순 정렬 버튼 -->
+        <button type="button" onclick="changeSort('most-visited')">조회순</button>
+
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>게시판 유형</th>
+                <th>게시글 제목</th>
+                <th>등록시간</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>댓글수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 게시글 목록을 반복해서 출력 -->
+            <tr th:each="post : ${material}">
+                <td th:text="${post.boardType}"></td>
+
+                <td><a
+                        th:href="@{/lms/materials/{postNo}(postNo=${post.postNo})}"
+                        th:text="${post.postTitle}"></a></td>
+
+                <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${post.loginId}"></td>
+                <td th:text="${post.postView}"></td>
+                <td th:text="${#lists.size(post.comments)}"></td>
+
+
+            </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${noResults}" class="text-center mt-3">
+            <p>검색 결과가 없습니다.</p>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 페이지 링크 -->
+                <li class="page-item" th:if="${startPage != 1}">
+                    <a class="page-link"
+                       th:href="@{/lms/materials(page=${material.pageable.pageNumber - 1}, sortBy=${sortBy})}"
+                       tabindex="-1"> < </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item" th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                    th:if="${material.totalElements > 0}">
+                    <a class="page-link"
+                       th:href="@{/lms/materials(page=${num-1}, sortBy=${sortBy})}"
+                       th:text="${num}"
+                       th:classappend="${num == (material.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li class="page-item" th:if="${endPage < material.totalPages}">
+                    <a class="page-link"
+                       th:href="@{/lms/materials(page=${material.pageable.pageNumber + 1}, sortBy=${sortBy})}">
+                        > </a>
+                </li>
+            </ul>
+        </nav>
+
+
+        <form class="my-5 pagination justify-content-center" action="/lms/materials" method="GET">
+            <label for="keyword" hidden>검색어</label>
+            <input id="keyword" type="search" placeholder="검색어를 입력해주세요" name="keyword" th:value="${param.keyword}">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+</section>
+<!-- content end -->
+</html>

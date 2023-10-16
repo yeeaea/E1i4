@@ -63,6 +63,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                     // 삭제 요청이 성공하면 화면에서 해당 댓글을 제거합니다.
                                     commentItem.remove();
                                     console.log(`${commentNo}번 댓글 삭제`);
+
+                                    // 페이지 새로고침
+                                    location.reload();
                                 } else {
                                     console.error("댓글 삭제 실패");
                                 }
@@ -76,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
 
 
 // 댓글 수정
