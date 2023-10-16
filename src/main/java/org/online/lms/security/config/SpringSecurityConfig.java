@@ -53,7 +53,7 @@ public class SpringSecurityConfig {
                                 System.out.println(authentication.getAuthorities());      // *** 문제 : authentication에서 못 가져옴 -> []
                                 log.info("로그인 분기처리 전");
                                 if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals(MemberRole.ADMIN.getRoleName()))) {
-                                    response.sendRedirect("/admin/mypage");
+                                    response.sendRedirect("/admin/memberInfo");
                                 } else {
                                     response.sendRedirect("/lms/mypage");
                                 }

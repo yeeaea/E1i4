@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/security/MemberInfoByAdmin.css}">
+</th:block>
+<body>
+    <!-- content start -->
+    <section layout:fragment="content">
+        가입된 사용자 목록 조회
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Tel</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+<!--                <tr th:if="${memberItem.memberRole == 'USER'}" th:each="memberItem : ${member}" >-->
+                <tr th:each="memberItem : ${member}">
+                    <td th:text="${memberItem.loginId}"></td>
+                    <td th:text="${memberItem.memberName}"></td>
+                    <td th:text="${memberItem.memberTel}"></td>
+                    <td th:text="${memberItem.memberEmail}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    <!-- content end -->
+</body>
+</html>
