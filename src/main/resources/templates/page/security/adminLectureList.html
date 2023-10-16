@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_admin.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/security/adminLectureList.js}" defer></script>
+</th:block>
+<body>
+    <!-- content start -->
+    <section layout:fragment="content">
+        <div class="container">
+            <h3>개설 강의 목록</h3>
+            <table class = "table table-hover">
+                <thead>
+                <tr>
+                    <th>강의년도</th>
+                    <th>강의 과정</th>
+                    <th>강의명</th>
+                    <th>강의 시작일</th>
+                    <th>강의 종료일</th>
+                    <th>수강생 조회</th>
+                </tr>
+                </thead>
+
+                <tbody class="row-6" th:each="lecture : ${lectureInfo}">
+                <tr>
+                    <div>
+                        <td th:text="${lecture.lectureYear}"></td>
+                        <td th:text="${lecture.lectureCourse}"></td>
+                        <td th:text="${lecture.lectureTitle}"></td>
+                        <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+                        <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                        <td> <button id="lookupStudentBtn" th:attr="data-lecture-no=${lecture.lectureNo}">조회 버튼</button></td>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- content end -->
+</body>
+</html>
