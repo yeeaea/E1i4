@@ -8,7 +8,7 @@
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/board/board.css}">
 </th:block>
 
 <!-- page 고유 javascript -->
@@ -17,15 +17,15 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content">
+<section layout:fragment="content"style="width: 50%;">
 
     <form id="question-form" action="/api/post" method="post"
           enctype="multipart/form-data">
 
     <div class="container">
 
-        <h2 th:if="${question.postNo} == null">게시글 등록</h2>
-        <h2 th:if="${question.postNo} != null">게시글 수정</h2>
+        <h2 th:if="${question.postNo} == null" class ="mt-4 mb-3" >게시글 등록</h2>
+        <h2 th:if="${question.postNo} != null" class ="mt-4 mb-3">게시글 수정</h2>
 
             <input type="hidden" id="question-id" th:value="${question.postNo}">
 
@@ -49,29 +49,27 @@
         <!-- 기존 업로드된 파일 정보 표시 -->
         <div th:if="${question.postNo != null}">
             <p class="d-flex justify-content-between align-items-center">
-                <span>현재 첨부된 파일: <a th:href="@{'/download/' + ${question.saveFileName}}" th:text="${question.orgFileName}"></a></span>
-                <button type="button" onclick="deleteFile()" class="btn btn-link p-0" style="text-decoration: none;">X</button>
+                <span th:if="${question.orgFileName != null}">현재 첨부된 파일: <a th:href="@{'/download/' + ${question.saveFileName}}" th:text="${question.orgFileName}"></a></span>
+                <span th:if="${question.orgFileName == null}">현재 첨부된 파일: 없음</span>
+                <button type="button" onclick="deleteFile()" class="btn btn-link p-0" style="text-decoration: none;" th:if="${question.orgFileName != null}">X</button>
             </p>
         </div>
 
 
 
-
-
-
-        <div class="mb-4">
-            <label th:if="${question.postNo == null}" for="file1">파일 업로드 :</label>
-            <label th:if="${question.postNo != null}" for="file1">파일 수정 :</label>
+        <div class="mb-3">
+            <label th:if="${question.postNo == null}" for="file1" class="mb-2">파일 업로드 :</label>
+            <label th:if="${question.postNo != null}" for="file1" class="mb-2">파일 수정 :</label>
             <input type="file" id="file1" name="file1" class="form-control">
         </div>
 
         <!-- 파일 목록을 표시할 ul 요소 -->
-        <ul id="file-list" class="list-group mb-4"></ul>
+        <ul id="file-list" class="list-group mb-2"></ul>
 
         <!-- 수정/등록 버튼 가로길이 및 세로길이 조절, 가운데 정렬 -->
         <div class="d-flex justify-content-center">
-            <button th:if="${question.postNo} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm" style="width: 100px; padding: 10px 0;">수정</button>
-            <button th:if="${question.postNo == null}" type="button" id="create-btn" class="btn btn-primary btn-sm" style="width: 100px; padding: 10px 0;">등록</button>
+            <button th:if="${question.postNo} != null" type="button" id="modify-btn" class="btn btn-primary btn-sm mt-3 mb-5" style="width: 100px; padding: 10px 0;">수정</button>
+            <button th:if="${question.postNo == null}" type="button" id="create-btn" class="btn btn-primary btn-sm mt-3 mb-5" style="width: 100px; padding: 10px 0;">등록</button>
         </div>
 
     </div>
