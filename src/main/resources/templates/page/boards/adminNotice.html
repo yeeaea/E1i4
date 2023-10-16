@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <title>Content page</title>
+</head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</th:block>
+
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/boards/notice.js}"></script>
+    <script th:src="@{/js/boards/comment.js}"></script>
+</th:block>
+
+<!-- content start -->
+<section layout:fragment="content">
+    <div class="container">
+        <input type="hidden" id="notice-postNo"
+               th:value="${notice.postNo}">
+        <h2 th:text="${notice.postTitle}">게시글 제목</h2>
+        <p th:text="|작성자:${loginId} , 작성일자: ${#temporals.format(notice.postRtm, 'yyyy-MM-dd HH:mm')}"></p>
+
+        <hr>
+        <p>내용:</p>
+        <p th:text="${notice.postContent}">게시글 내용</p>
+        <!-- 첨부 파일 정보 표시 -->
+        첨부 파일:
+        <a th:href="@{'/download/' + ${notice.saveFileName}}" th:text="${notice.orgFileName}">다운로드</a>
+        </p>
+
+        <p th:unless="${notice.orgFileName != null}">
+            첨부 파일이 없습니다.
+        </p>
+
+    </div>
+    <div>
+        <button type="button" id="modify-btn"
+                th:onclick="|location.href='@{/admin/new-notice?postNo={postNo}(postNo=${notice.postNo})}'|"
+                class="btn btn-primary btn-sm" style="margin-right: 10px;"
+                th:if="${currentLoginId == loginId}">수정
+        </button>
+
+        <button type="button" id="delete-btn"
+                class="btn btn-secondary btn-sm" style="margin-right: 10px;"
+                th:if="${currentLoginId == loginId}">삭제
+        </button>
+    </div>
+
+    <!-- Comment start -->
+
+    <div class="container mt-5">
+        <div class="card" style="border: 1px solid #ccc; border-radius: 15px;">
+            <div class="card-header" style="border-radius: 15px; background-color: #f0f0f0;">
+                <span th:if="${comments.size()}" th:text="' ' + ${comments.size()} + ' 댓글'"></span>
+            </div>
+
+            <!-- 댓글 목록 -->
+            <ul id="comment-list" style="list-style: none; padding: 12px;">
+                <li th:each="comment : ${comments}" class="list-group-item">
+                    <div id="edit-cmt-box" class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <!-- 댓글 번호와 닉네임 -->
+                            <span class="comment-no" style="display: none;" type="hidden" th:text="${comment.commentNo}"></span>
+                            <span class="comment-nickname" style="font-size: small" th:text="${comment.loginId}"></span>
+                            <!-- 댓글 작성일 -->
+                            <span style="font-size: x-small" class="comment-date" th:text="${#temporals.format(comment.commentRtm, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                            <!-- 수정 버튼 -->
+                            <button type="button" class="edit-comment-btn" style="font-size: 12px; padding: .1em .5em;"
+                                    th:attr="data-commentNo=${comment.commentNo}"
+                                    th:if="${currentLoginId == comment.loginId}">수정
+                            </button>
+                            <!-- 삭제 버튼 -->
+                            <button type="button" class="cmt-delete-btn" style="font-size: 12px; padding: .1em .5em;"
+                                    th:attr="data-commentNo=${comment.commentNo}"
+                                    th:if="${currentLoginId == comment.loginId}">삭제
+                            </button>
+                            <!-- 댓글 내용 -->
+                            <span class="mt-2 comment-content" th:text="${comment.commentContent}" style="display: block; font-size: 14px; word-break: break-all;"></span>
+                            <!-- 수정 폼 -->
+                            <div class="edit-comment-form" style="display: none; width: 100%;">
+                                <textarea class="mt-2 edit-comment-textarea" id="editCommentContent" style="font-size: 14px; color: #212529;" onkeyup="countingLength(this);" rows="3"></textarea>
+                                <span id="counterEdit" style="font-size: 12px; margin: 8px;"></span>
+                                <button style="font-size: 12px; padding: .1em .5em;" class="save-comment-btn">저장</button>
+                                <button style="font-size: 12px; padding: .1em .5em;" class="cancel-comment-btn">취소</button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+
+            <!-- 댓글 작성 폼 -->
+            <form id="comment-form">
+                <input type="hidden" id="postNo" th:value="${notice.postNo}">
+                <div class="card-body mt-3">
+                    <textarea class="form-control" id="commentContent" style="font-size: 14px;" placeholder="댓글을 입력하세요" onkeyup="countingLength(this);" rows="4"></textarea>
+
+                </div>
+                <div class="card-body" style="float: right;">
+                    <span id="counterComment" style="font-size: 12px; margin: 8px;">0/200자</span>
+                    <button type="button" id="submit-comment" style="font-size: 14px; padding: .275em .5em;">등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Comment End -->
+
+    <!-- 게시글 목록으로 돌아가는 버튼 -->
+    <div class="back-button">
+        <a th:href="@{/admin/notice}">게시글 목록으로 돌아가기</a>
+    </div>
+</section>
+<!-- content end -->
+</html>

@@ -8,9 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post,Long> {
-
-    Page<Post> findByPostTitleContaining(String keyword, Pageable pageable);
-    Page<Post> findAllByOrderByPostViewDesc(Pageable pageable);
     Page<Post> findByBoardNo(Long boardNo, Pageable pageable);
     Page<Post> findAllByBoardNoOrderByPostViewDesc(Long boardNo, Pageable descendingPageable);
+
+    Page<Post> findByBoardNoAndPostTitleContaining(Long boardNo, String keyword, Pageable pageable);
 }

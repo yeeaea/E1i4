@@ -148,10 +148,10 @@ public class PostService {
     }
 
     // 키워드 검색
-    public Page<Post> boardSearchList(String keyword,
-                                      Pageable pageable) {
-        return postRepository.findByPostTitleContaining(keyword, pageable);
+    public Page<Post> findByBoardNoAndPostTitleContaining(Long boardNo, String keyword, Pageable pageable) {
+        return postRepository.findByBoardNoAndPostTitleContaining(boardNo, keyword, pageable);
     }
+
 
     // 세션을 통한 중복 방지 조회수 증가
     public Post getQues(long postNo, HttpSession session) {

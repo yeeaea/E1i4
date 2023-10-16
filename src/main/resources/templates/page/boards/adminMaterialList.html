@@ -2,7 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout_mem.html}">
+      layout:decorate="~{layouts/layout_admin.html}">
 
 <head>
     <title>Content page</title>
@@ -24,7 +24,7 @@
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-    <script th:src="@{/js/material.js}"></script>
+    <script th:src="@{/js/boards/material.js}"></script>
 </th:block>
 
 <!-- content start -->
@@ -32,7 +32,7 @@
     <div class="container">
 
         <h2>게시글 목록</h2>
-        <a href="/lms/new-material">게시글 작성하기</a>
+        <a href="/admin/new-material">게시글 작성하기</a>
 
         <!-- 최신순과 조회순 버튼 추가 -->
         <form id="sortByForm" method="get">
@@ -63,7 +63,7 @@
                 <td th:text="${post.boardType}"></td>
 
                 <td><a
-                        th:href="@{/lms/materials/{postNo}(postNo=${post.postNo})}"
+                        th:href="@{/admin/materials/{postNo}(postNo=${post.postNo})}"
                         th:text="${post.postTitle}"></a></td>
 
                 <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"></td>
@@ -86,28 +86,28 @@
                 <!-- 이전 페이지 링크 -->
                 <li class="page-item" th:if="${startPage != 1}">
                     <a class="page-link"
-                       th:href="@{/lms/materials(page=${material.pageable.pageNumber - 1}, sortBy=${sortBy})}"
+                       th:href="@{/admin/materials(page=${material.pageable.pageNumber - 1}, sortBy=${sortBy})}"
                        tabindex="-1"> < </a>
                 </li>
                 <!-- 페이지 번호 링크 -->
                 <li class="page-item" th:each="num : ${#numbers.sequence(startPage, endPage)}"
                     th:if="${material.totalElements > 0}">
                     <a class="page-link"
-                       th:href="@{/lms/materials(page=${num-1}, sortBy=${sortBy})}"
+                       th:href="@{/admin/materials(page=${num-1}, sortBy=${sortBy})}"
                        th:text="${num}"
                        th:classappend="${num == (material.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
                 </li>
                 <!-- 다음 페이지 링크 -->
                 <li class="page-item" th:if="${endPage < material.totalPages}">
                     <a class="page-link"
-                       th:href="@{/lms/materials(page=${material.pageable.pageNumber + 1}, sortBy=${sortBy})}">
+                       th:href="@{/admin/materials(page=${material.pageable.pageNumber + 1}, sortBy=${sortBy})}">
                         > </a>
                 </li>
             </ul>
         </nav>
 
 
-        <form class="my-5 pagination justify-content-center" action="/lms/materials" method="GET">
+        <form class="my-5 pagination justify-content-center" action="/admin/materials" method="GET">
             <label for="keyword" hidden>검색어</label>
             <input id="keyword" type="search" placeholder="검색어를 입력해주세요" name="keyword" th:value="${param.keyword}">
             <button type="submit">검색</button>

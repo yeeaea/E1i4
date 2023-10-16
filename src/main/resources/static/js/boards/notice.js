@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).then((response) => {
                     if (response.status === 201) {
                         alert("등록이 완료되었습니다.");
-                        location.replace('/lms/notice');
+                        location.replace('/admin/notice');
                     } else {
                         alert("로그인 후 작성이 가능합니다.");
                     }
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                     .then(() => {
                         alert('삭제가 완료되었습니다.');
-                        location.replace('/lms/notice');
+                        location.replace('/admin/notice');
                     });
             }
         });
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then((response) => {
                         if (response.status === 200) {
                             alert("수정을 완료했습니다.");
-                            location.replace('/lms/notice');
+                            location.replace('/admin/notice');
                         } else {
                             alert("수정을 실패했습니다.");
                         }
