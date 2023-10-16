@@ -50,7 +50,7 @@ public class SpringSecurityConfig {
                             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                                 // 여기에서 authentication을 이용해 역할을 확인하고 적절한 URL로 리다이렉트
                                 //System.out.println(MemberRole.ADMIN.getRoleName());     // ADMIN
-                                System.out.println(authentication.getAuthorities());       // *** 문제 : authentication에서 못 가져옴 -> []
+                                System.out.println(authentication.getAuthorities());      // *** 문제 : authentication에서 못 가져옴 -> []
                                 log.info("로그인 분기처리 전");
                                 if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals(MemberRole.ADMIN.getRoleName()))) {
                                     response.sendRedirect("/admin/mypage");
@@ -61,7 +61,9 @@ public class SpringSecurityConfig {
                         })
                         .permitAll()
                 )
-                .logout(withDefaults());
+                .logout((logout) -> logout.logoutUrl("/logout")
+                        .logoutSuccessUrl("/")      // 로그아웃 시, 로그인 페이지(메인)로 이동
+                        .permitAll());
 
         return http.build();
     }
