@@ -2,6 +2,7 @@ package org.online.lms.survey.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.online.lms.survey.domain.SurveyQuesInfo;
+import org.online.lms.survey.dto.AddSurveyQuesInfoRequest;
 import org.online.lms.survey.service.SurveyQuesInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,8 @@ public class SurveyQuesInfoViewController {
         List<SurveyQuesInfo> surveyQuesInfoList = surveyQuesInfoService.getAllSurveyQuesInfo();
 
         model.addAttribute("surveyQuesInfoList", surveyQuesInfoList);
+        model.addAttribute("surveyQuesInfoRequest", new AddSurveyQuesInfoRequest());
 
-        return "page/survey/surveyQuesInfoList";
+        return "/page/survey/surveyQuesUpdate";
     }
 }
