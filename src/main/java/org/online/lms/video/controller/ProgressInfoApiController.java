@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ import java.util.List;
 public class ProgressInfoApiController {
 
     private final ProgressInfoService progressInfoService;
+    private final List<Long> usedNthNo = new ArrayList<>();
 
     // 차시 정보 추가
     @PostMapping("/add")
@@ -42,12 +44,23 @@ public class ProgressInfoApiController {
     // 차시 정보 삭제
     @DeleteMapping("/delete/{nthNo}")
     public ResponseEntity<String> deleteProgress(@PathVariable long nthNo) {
+        progressInfoService.deleteProgress(nthNo);
+
         try {
-            // Call the service to delete progress
-            progressInfoService.deleteProgress(nthNo);
             return ResponseEntity.ok("삭제 완료");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("삭제 오류 : " + e.getMessage());
+        }
+    }
+
+    // 차시 번호 중복 검사 (수정중)
+    @PostMapping("/check-nthNo/{nthNo}")
+    public String checkDuplicateNthNo(@PathVariable long nthNo) {
+        if (usedNthNo.contains(nthNo)) {
+            return "차시 관리 번호 " + nthNo + "는 이미 사용 중입니다. 다른 번호를 선택해주세요.";
+        } else {
+            usedNthNo.add(nthNo);
+            return "차시 관리 번호 " + nthNo + "는 사용 가능합니다.";
         }
     }
 }
