@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert(`${emptyFieldNamesString} 항목은 필수 입력값입니다.`);
         } else {
             // 폼 데이터를 가져오기
-            const lectureForm = document.getElementById("LectureForm");
+            const lectureForm = document.getElementById("lectureForm");
             const formData = new FormData(lectureForm);
 
             // FormData를 JSON으로 변환
@@ -196,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
     lectureEditButton.addEventListener('click', editButtonClickHandler);
 
 
-
     // ******** 강의 삭제 기능 ********
     // 삭제 버튼 클릭 시 실행
     document.getElementById('deleteSelected').addEventListener('click', function () {
@@ -210,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // 선택된 강의를 삭제할지 확인하는 팝업을 표시
         if (confirm("선택한 강의를 삭제하시겠습니까?")) {
             // 선택된 강의를 삭제하는 AJAX 요청을 보냅니다.
-            let lectureNos = Array.from(selectedLectures).map(function(checkbox) {
+            let lectureNos = Array.from(selectedLectures).map(function (checkbox) {
                 return parseInt(checkbox.value);
             });
 
@@ -219,11 +218,11 @@ document.addEventListener("DOMContentLoaded", function () {
             xhr.open("POST", "/admin/api/lectures/delete", true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         // 삭제가 성공한 경우, 화면에서 선택한 강의를 제거합니다.
-                        selectedLectures.forEach(function(checkbox) {
+                        selectedLectures.forEach(function (checkbox) {
                             checkbox.closest("tr").remove();
                         });
                         alert("강의가 삭제되었습니다.");

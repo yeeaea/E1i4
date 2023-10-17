@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class AddSurveyQuesInfoRequest {
     private Long surveyQuesNo; // 평가 문항 번호
     private Long parentQuesNo; // 상위 문항 번호 (재귀)
-    private List<AddSurveyQuesInfoRequest> subQuestions;
     private Long surveyQuesViewNo; // 표시 문항 번호
     private String surveyQuesName; // 문항 명
     private String surveyQuesType; // 문항 답변 유형
@@ -26,7 +25,6 @@ public class AddSurveyQuesInfoRequest {
         return SurveyQuesInfo.builder()
                 .surveyQuesNo(surveyQuesNo)
                 .parentQues(parentQuesNo != null ? SurveyQuesInfo.builder().surveyQuesNo(parentQuesNo).build() : null)
-                .subQuestions(subQuestions != null ? subQuestions.stream().map(AddSurveyQuesInfoRequest::toEntity).collect(Collectors.toList()) : null)
                 .surveyQuesViewNo(surveyQuesViewNo)
                 .surveyQuesName(surveyQuesName)
                 .surveyQuesType(surveyQuesType)

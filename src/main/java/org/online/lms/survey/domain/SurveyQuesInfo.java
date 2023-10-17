@@ -1,10 +1,9 @@
 package org.online.lms.survey.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
@@ -12,8 +11,10 @@ import java.util.List;
 @Table(name = "survey_ques_info")
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor
 public class SurveyQuesInfo {
 
     @Id
@@ -23,9 +24,11 @@ public class SurveyQuesInfo {
 
     @ManyToOne
     @JoinColumn(name = "survey_ques_no2", referencedColumnName = "survey_ques_no")
+    @JsonManagedReference
     private SurveyQuesInfo parentQues; // 상위 문항 번호 (재귀)
 
     @OneToMany(mappedBy = "parentQues")
+    @JsonBackReference
     private List<SurveyQuesInfo> subQuestions; // 하위 문항들
 
     @Column(name = "survey_ques_view_no")

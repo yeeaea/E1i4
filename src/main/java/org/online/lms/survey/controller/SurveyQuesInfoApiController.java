@@ -1,7 +1,6 @@
 package org.online.lms.survey.controller;
 
 import org.online.lms.survey.domain.SurveyQuesInfo;
-import org.online.lms.survey.dto.AddSurveyQuesInfoRequest;
 import org.online.lms.survey.service.SurveyQuesInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,25 +17,20 @@ public class SurveyQuesInfoApiController {
         this.surveyQuesInfoService = surveyQuesInfoService;
     }
 
-    // 상위 문항 추가
-    @PostMapping("/add-parent-question")
-    public ResponseEntity<SurveyQuesInfo> addParentQuestion(@RequestBody AddSurveyQuesInfoRequest request) {
-        SurveyQuesInfo newParentQuestion = surveyQuesInfoService.addParentQuestion(request);
-        if (newParentQuestion != null) {
-            return ResponseEntity.ok(newParentQuestion);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
+    // 강의 평가 문항 추가
+    @PostMapping("/add-questions")
+    public ResponseEntity<SurveyQuesInfo> addSubQuestion(@RequestParam(value = "surveyQuesName") String surveyQuesName,
+                                                         @RequestParam(value = "surveyQuesType", required = false) String surveyQuesType,
+                                                         @RequestParam(value = "surveyQuesViewNo") Long surveyQuesViewNo,
+                                                         @RequestParam(value = "surveyQuesYn") boolean surveyQuesYn,
+                                                         @RequestParam(value = "parentQuesNo", required = false) Long parentQuesNo) {
+        SurveyQuesInfo subQuesInfo = surveyQuesInfoService.addQuestion(surveyQuesName,
+                                                                       surveyQuesType,
+                                                                       surveyQuesViewNo,
+                                                                       surveyQuesYn,
+                                                                       parentQuesNo);
+
+        return ResponseEntity.ok(subQuesInfo);
     }
 
-    // 하위 문항 추가
-    @PostMapping("/add-sub-question/{parentQuesNo}")
-    public ResponseEntity<SurveyQuesInfo> addSubQuestion(@RequestBody AddSurveyQuesInfoRequest request, @PathVariable Long parentQuesNo) {
-        SurveyQuesInfo newSubQuestion = surveyQuesInfoService.addSubQuestion(request, parentQuesNo);
-        if (newSubQuestion != null) {
-            return ResponseEntity.ok(newSubQuestion);
-        } else {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 }
