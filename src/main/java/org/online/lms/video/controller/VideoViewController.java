@@ -1,9 +1,11 @@
 package org.online.lms.video.controller;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.dto.VideoInfoRequest;
 import org.online.lms.video.dto.VideoInfoViewResponse;
+import org.online.lms.video.service.ProgressTmService;
 import org.online.lms.video.service.VideoInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,18 +16,25 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/admin")
 public class VideoViewController {
 
     private final VideoInfoService videoInfoService;
+    private final ProgressTmService progressTmService;
     @Autowired
-    public VideoViewController(VideoInfoService videoInfoService) {
+    public VideoViewController(
+            VideoInfoService videoInfoService,
+            ProgressTmService progressTmService) {
         this.videoInfoService = videoInfoService;
+        this.progressTmService = progressTmService;
     }
 
     @GetMapping("/contentList")
@@ -90,8 +99,14 @@ public class VideoViewController {
     /////// 추후에 viewController로 이동(Security) - 차시테이블 사용
     // 재생목록 리스트
     @GetMapping("/lms/online/progress-info-list")
-    public String ytbList(Model model) {
-        // nth_no
+    public String ytbList() {
+        return "/page/video/ytbContent";
+    }
+    @GetMapping("/lms/online/progress-info-list/{lectureNo}")
+    public String ytbList(@PathVariable String lectureNo, Model model) {
+        model.addAttribute("lectureNo", lectureNo);
+        //log.info(lectureNo + "값을 던져서 받는냐고");
+        //progressTmService.findNthNoByLecture(lectureNo);
         return "/page/video/ytbContent";
     }
 

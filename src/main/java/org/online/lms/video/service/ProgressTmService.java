@@ -31,4 +31,8 @@ public class ProgressTmService {
 
     public void save(ProgressTmRequest req) {
     }
+
+    public List<Long> findNthNoByLecture(String lectureNo) {
+        return progressTmRepository.findNthNoByLectureNo(lectureNo);
+    }
 }
