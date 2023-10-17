@@ -1,6 +1,5 @@
 package org.online.lms.lecture.service;
 
-import lombok.RequiredArgsConstructor;
 import org.online.lms.lecture.domain.LectureApply;
 import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.lecture.dto.AddLectureInfoRequest;
