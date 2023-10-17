@@ -1,7 +1,6 @@
 package org.online.lms.survey.controller;
 
 import org.online.lms.survey.domain.SurveyQuesInfo;
-import org.online.lms.survey.dto.AddSurveyQuesInfoRequest;
 import org.online.lms.survey.service.SurveyQuesInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
