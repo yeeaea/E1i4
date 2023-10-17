@@ -21,13 +21,8 @@ public class AdminViewController {
     private final AdminService adminService;
     private final LectureInfoService lectureInfoService;
 
-    // 관리자 로그인 -> 마이페이지 이동
-    @GetMapping("/admin/mypage")
-    public String showAdminPage(){
-        return "/page/security/adminPage";
-    }
 
-    // 수강생 관리 페이지로 이동
+    // 관리자 로그인 -> 수강생 관리 페이지로 이동
     @GetMapping("/admin/memberInfo")
     public String showMemberInfoByAdmin(@AuthenticationPrincipal Members member, Model model){
         List<Members> members = adminService.findAll();
