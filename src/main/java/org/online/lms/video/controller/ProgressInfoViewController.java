@@ -2,6 +2,7 @@ package org.online.lms.video.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.online.lms.lecture.domain.LectureInfo;
+import org.online.lms.lecture.dto.AddLectureInfoRequest;
 import org.online.lms.lecture.repository.LectureInfoRepository;
 import org.online.lms.lecture.service.LectureInfoService;
 import org.online.lms.video.domain.Content;
@@ -39,6 +40,7 @@ public class ProgressInfoViewController {
         model.addAttribute("progressInfoList", progressInfoList);
         model.addAttribute("lectureInfoList", lectureInfoList);
         model.addAttribute("contentList", contentList);
+        model.addAttribute("progressInfoRequest", new AddProgressInfoRequest());
 
         return "page/progress/progressInfoList";
     }

@@ -13,17 +13,15 @@
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
+    <script th:src="@{/js/progress/progressEvent.js}"></script>
     <script th:src="@{/js/progress/progress.js}"></script>
+    <script th:src="@{/js/progress/progressModal.js}"></script>
     <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
 </th:block>
 
 <!-- content start -->
 <section layout:fragment="content">
     <div class="container" style="display: flex; flex-direction: column;">
-        <script th:inline="javascript">
-            var progressInfoList = /*[[${progressInfoList}]]*/ null;
-            console.log(progressInfoList);
-        </script>
         <div style="flex: 1; margin-right: 20px;">
             <label for="yearSelect">강의년도:</label>
             <select id="yearSelect"></select>
@@ -46,14 +44,14 @@
                 </thead>
                 <tbody th:each="lecture : ${lectureInfoList}">
                 <!-- 차시 목록 표시 -->
-                <tr onclick="handleRowClick('${lecture.lectureNo}')">
+                <tr>
                     <td th:text="${lecture.lectureNo}"></td>
                     <td th:text="${lecture.lectureYear}"></td>
                     <td th:text="${lecture.lectureCourse}"></td>
                     <td th:text="${lecture.lectureTitle}"></td>
                     <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
                     <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
-                    <td th:text="${lecture.lectureDuration} + '주차'"></td>
+                    <td th:text="|${lecture.lectureDuration}주차|"></td>
                 </tr>
                 </tbody>
             </table>
@@ -64,7 +62,8 @@
                     <thead>
                     <tr>
                         <th>
-                            <input type="checkbox" id="selectAllCheckbox" autocomplete="off" onchange="selectAllCheckboxes(this)">
+                            <input type="checkbox" id="selectAllCheckbox" autocomplete="off"
+                                   onchange="selectAllCheckboxes(this)">
                         </th>
                         <th>차시 순서</th><!-- 차시 관리 번호 -->
                         <th>차시명</th>
@@ -94,18 +93,18 @@
             </div>
 
             <div id="contentDetails" style="flex: 1;">
-                <table class="contentDetailsTable">
+                <table class="contentDetailsTable" th:object="${progressInfoRequest}">
                     <button id="newContent" onclick="handleEditButtonClick()">신규</button>
-                    <button id="saveContent" onclick="handleSaveButtonClick()">저장</button>
+                    <button id="editContent" onclick="editContent()">저장</button>
                     <button id="deleteContent" onclick="deleteContent()">삭제</button>
                     <tr>
                         <th>차시 관리 번호</th>
-                        <td><input type="text" id="nthNo" autocomplete="off"></td>
+                        <td><input type="text" id="nthNo" value="1" autocomplete="off" th:field="*{nthNo}"></td>
                     </tr>
                     <tr>
                         <th>과정구분</th>
                         <td>
-                            <select id="lectureCourse" autocomplete="off" onchange="lectureCourse()"></select>
+                            <select id="lectureCourse" autocomplete="off"></select>
                         </td>
                     </tr>
                     <tr>
@@ -115,9 +114,9 @@
                             <i class="search fa-solid fa-magnifying-glass col-2" onclick="openModal()"></i></td>
                     </tr>
                     <tr>
-                        <th>강의 주차수</th>
+                        <th>차시순서</th><!-- 강의 주차수 -->
                         <td>
-                            <select id="lectureDuration" autocomplete="off" onchange="lectureDuration()"></select>
+                            <select id="lectureDuration" autocomplete="off"></select>
                         </td>
                     </tr>
                     <tr>
@@ -136,7 +135,6 @@
                         <th>콘텐츠 호출 URL</th>
                         <td><input type="text" id="contentUrl" autocomplete="off"></td>
                     </tr>
-
                 </table>
             </div>
         </div>

@@ -25,7 +25,7 @@ public class ProgressInfoService {
     private final LectureInfoRepository lectureInfoRepository;
     private final VideoInfoRepository videoInfoRepository;
 
-    // 강의 전체 조회
+    // 강의 차시 전체 조회
     @Transactional
     public List<ProgressInfo> findAll() {
         return progressInfoRepository.findAll();
@@ -39,15 +39,15 @@ public class ProgressInfoService {
     }
 
     // 차시 번호로 차시 정보 얻기
-//    public ProgressInfo getProgressInfoByNthNo(long nthNo) {
-//        Optional<ProgressInfo> optionalProgressInfo = progressInfoRepository.findById(nthNo);
-//
-//        if (optionalProgressInfo.isPresent()) {
-//            return optionalProgressInfo.get();
-//        } else {
-//            throw new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다.");
-//        }
-//    }
+    public ProgressInfo getProgressInfoByNthNo(long nthNo) {
+        Optional<ProgressInfo> optionalProgressInfo = progressInfoRepository.findById(nthNo);
+
+        if (optionalProgressInfo.isPresent()) {
+            return optionalProgressInfo.get();
+        } else {
+            throw new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다.");
+        }
+    }
 
     // 강의 정보 조회
     @Transactional
@@ -64,7 +64,14 @@ public class ProgressInfoService {
     // 차시 정보 추가
     @Transactional
     public ProgressInfo addProgress(AddProgressInfoRequest request) {
-        ProgressInfo progressInfo = request.toEntity();
+        ProgressInfo progressInfo = ProgressInfo.builder()
+                .nthNo(request.getNthNo())
+                .lecture(lectureInfoRepository.findById(request.getLectureNo())
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid lectureNo")))
+                .content(videoInfoRepository.findById(request.getContentNo())
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid contentNo")))
+                .build();
+
         return progressInfoRepository.save(progressInfo);
     }
 
@@ -76,7 +83,13 @@ public class ProgressInfoService {
 
         progressInfo.update(request.getNthNo());
 
-        return progressInfo;
+        Content content = progressInfo.getContent();
+        content.setContentNo(request.getContent());
+
+//        LectureInfo lecture = progressInfo.getLecture();
+//        lecture.setLectureNo(request.getLecture());
+
+        return progressInfoRepository.save(progressInfo);
     }
 
     // 차시 정보 삭제
