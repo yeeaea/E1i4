@@ -15,9 +15,31 @@
 </th:block>
 <th:block layout:fragment="content">
 
+    <h1>영상 목록</h1>
+    <!-- uri로 던져진 lectureNo 통해서 progressInfo 차시 테이블의 강의에 연결된 차시들을 each문으로 데리고 오기 -->
+    <!-- 이쪽에 썸네일, 강의명, 설명, 재생버튼 나와야함
+         재생버튼은 각 영상에 맞게 유튜브링크 던져줘야 함 -->
     <div id="videoList">
         <!-- 비디오 목록 여기에 나열될 거임 -->
     </div>
+
+<!--    <div>-->
+<!--        <div style="flex: 5; padding-right: 100px;">-->
+<!--        <h4 th:text="${videoTitle}"></h4>-->
+<!--        <p style="padding-top: 20px;" th:text="${videoDescription}"></p>-->
+<!--        </div>-->
+<!--        <div style="flex: 2">-->
+<!--    -->
+<!--            &lt;!&ndash; 던져주는 값이 어떤 값이어야 할까? nthNo&ndash;&gt;-->
+<!--            <button class="playBtn" th:attr="data-view-no=${nthNo}"-->
+<!--                    onclick="window.location.href='/admin/lms/online/view?nthNo='-->
+<!--                    + this.getAttribute('data-view-no')">-->
+<!--                <i class="fa-regular fa-circle-play"-->
+<!--                   style=" font-size: 60px; color: black;-->
+<!--                           width: 200px; height: 150px; padding-top: 50px;"></i>-->
+<!--            </button>-->
+<!--        </div>-->
+<!--    </div>-->
 
 </th:block>
 </body>

@@ -31,7 +31,7 @@
 <!--                    <th>콘텐츠 파일번호</th>-->
                     <th>Youtube 연동번호</th>
                     <th>콘텐츠 호출 URL</th>
-<!--                    <th>재생 시간</th>-->
+                    <th>재생 시간</th>
                 </tr>
                 </thead>
 
@@ -48,6 +48,36 @@
                 </tr>
                 </tbody>
             </table>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!-- 이전 페이지 링크 -->
+                    <!-- 이전 페이지 링크 -->
+                    <li class="page-item"
+                        th:classappend="${startPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber - 1})}"
+                           tabindex="-1"> < </a>
+                    </li>
+                    <!-- 페이지 번호 링크 -->
+                    <li class="page-item"
+                        th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                        th:if="${contentInfo.totalElements > 0}">
+                        <a class="page-link"
+                           th:href="@{/admin/content(page=${num - 1})}"
+                           th:text="${num}"
+                           th:classappend="${num == (contentInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                    </li>
+                    <!-- 다음 페이지 링크 -->
+                    <li class="page-item"
+                        th:classappend="${endPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber + 1})}"> >
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
         </div>
 
         <div style="flex: 4;">

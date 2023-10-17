@@ -3,18 +3,12 @@ package org.online.lms.video.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.online.lms.video.dto.VideoInfoRequest;
-import org.online.lms.video.dto.ytbDTO;
+import org.online.lms.video.dto.VideoYtbRequest;
 import org.online.lms.video.service.VideoInfoService;
 import org.online.lms.video.domain.Content;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -47,7 +41,7 @@ public class VideoApiController {
 
     // 유튜브 api에서 추출한 값 Content DB테이블의 컬럼에 저장하기
     @PostMapping("/saveYoutubeData")
-    public Content saveYoutubeData(@RequestBody ytbDTO dto) {
+    public Content saveYoutubeData(@RequestBody VideoYtbRequest dto) {
 
         Content content = Content.contentYtb();
 
