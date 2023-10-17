@@ -17,9 +17,10 @@
     <script src="https://kit.fontawesome.com/3eb7b16202.js"
             crossorigin="anonymous"></script>
 </head>
+
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/board/board.css}">
 </th:block>
 
 <!-- page 고유 javascript -->
@@ -28,91 +29,108 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content">
+<section layout:fragment="content" style="width: 80%;">
     <div class="container">
-
-        <h2>게시글 목록</h2>
-        <a href="/admin/new-notice">게시글 작성하기</a>
-
+        <br> <br>
+        <a href="/admin/notice" class="fs-3 fw-bold fc mt-4 custom-link">게시글 목록</a>
         <!-- 최신순과 조회순 버튼 추가 -->
         <form id="sortByForm" method="get">
             <input type="hidden" name="sortBy" id="sortByInput" th:value="${sortBy}"/>
         </form>
 
-        <!-- 최신순 정렬 버튼 -->
-        <button type="button" onclick="changeSort('latest')">최신순</button>
+        <div class="d-flex justify-content-between mb-2 mt-4">
+            <a href="/admin/new-notice" class="btn btn-primary">
+                <i class="far fa-pen-to-square"></i> 글 작성
+            </a>
+            <div>
+                <!-- 최신순 정렬 버튼 -->
+                <button type="button" class="btn custom-button" onclick="changeSort('latest')">최신순</button>
 
-        <!-- 조회순 정렬 버튼 -->
-        <button type="button" onclick="changeSort('most-visited')">조회순</button>
+                <!-- 조회순 정렬 버튼 -->
+                <button type="button" class="btn custom-button" onclick="changeSort('most-visited')">조회순</button>
+            </div>
+        </div>
 
-
-        <table class="table table-hover">
+        <table class="table table-hover mt-2">
             <thead>
             <tr>
-                <th>게시판 유형</th>
-                <th>게시글 제목</th>
-                <th>등록시간</th>
-                <th>작성자</th>
-                <th>조회수</th>
-                <th>댓글수</th>
+                <th style="text-align: center;">게시판 유형</th>
+                <th style="text-align: center;">게시글 제목</th>
+                <th style="text-align: center;">등록시간</th>
+                <th style="text-align: center;">작성자</th>
+                <th style="text-align: center;">조회수</th>
+                <th style="text-align: center;">댓글수</th>
             </tr>
             </thead>
+
             <tbody>
             <!-- 게시글 목록을 반복해서 출력 -->
             <tr th:each="post : ${notice}">
-                <td th:text="${post.boardType}"></td>
+                <td th:text="${post.boardType}" style="width: 15%; text-align: center;"></td>
 
-                <td><a
-                        th:href="@{/admin/notice/{postNo}(postNo=${post.postNo})}"
-                        th:text="${post.postTitle}"></a></td>
+                <td>
+                    <a th:href="@{/admin/notice/{postNo}(postNo=${post.postNo})}" th:text="${post.postTitle}"
+                       class="custom-link"
+                       style="width:25%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;"></a>
+                </td>
 
-                <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"></td>
-                <td th:text="${post.loginId}"></td>
-                <td th:text="${post.postView}"></td>
-                <td th:text="${#lists.size(post.comments)}"></td>
-
-
+                <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"
+                    style="width: 27%; text-align: center;"></td>
+                <td th:text="${post.loginId}" style="width: 13%; text-align: center;"></td>
+                <td th:text="${post.postView}" style="width: 10%; text-align: center;"></td>
+                <td th:text="${#lists.size(post.comments)}" style="width: 10%; text-align: center;"></td>
             </tr>
             </tbody>
         </table>
 
-        <div th:if="${noResults}" class="text-center mt-3">
-            <p>검색 결과가 없습니다.</p>
-        </div>
 
+        <div th:if="${noResults}" class="text-center mt-3">
+            <p>게시글이 없습니다.</p>
+        </div>
+        <br>
         <!-- 페이지네이션 -->
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <!-- 이전 페이지 링크 -->
-                <li class="page-item" th:if="${startPage != 1}">
+                <li class="page-item"
+                    th:classappend="${startPage == notice.pageable.pageNumber + 1} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{/admin/notice(page=${notice.pageable.pageNumber - 1}, sortBy=${sortBy})}"
                        tabindex="-1"> < </a>
                 </li>
                 <!-- 페이지 번호 링크 -->
-                <li class="page-item" th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(startPage, endPage)}"
                     th:if="${notice.totalElements > 0}">
                     <a class="page-link"
                        th:href="@{/admin/notice(page=${num-1}, sortBy=${sortBy})}"
                        th:text="${num}"
                        th:classappend="${num == (notice.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
                 </li>
+
+
                 <!-- 다음 페이지 링크 -->
-                <li class="page-item" th:if="${endPage < notice.totalPages}">
+                <li class="page-item"
+                    th:classappend="${endPage == notice.pageable.pageNumber + 1} ? 'disabled'">
                     <a class="page-link"
                        th:href="@{/admin/notice(page=${notice.pageable.pageNumber + 1}, sortBy=${sortBy})}">
                         > </a>
                 </li>
             </ul>
         </nav>
+        <form class="my-5 d-flex justify-content-center" action="/admin/notice" method="GET">
 
+            <label for="keyword" hidden>검색어</label> <input
+                class="form-control" id="keyword" type="search"
+                placeholder="검색어를 입력해주세요" name="keyword"
+                style="width: 280px; padding-left: 15px; padding-right: 10px; height: 40px;"
+                th:value="${param.keyword}">
 
-        <form class="my-5 pagination justify-content-center" action="/admin/notice" method="GET">
-            <label for="keyword" hidden>검색어</label>
-            <input id="keyword" type="search" placeholder="검색어를 입력해주세요" name="keyword" th:value="${param.keyword}">
-            <button type="submit">검색</button>
+            <button class="btn btn-primary" type="submit">검색
+            </button>
         </form>
     </div>
 </section>
 <!-- content end -->
+
 </html>
