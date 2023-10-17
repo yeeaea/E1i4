@@ -16,7 +16,7 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/video/ytbPlaylist.js}"></script>
+    <script th:src="@{/js/video/ytbControl.js}"></script>
 </th:block>
 
 <th:block layout:fragment="content">
@@ -32,6 +32,11 @@
             th:src="@{'https://www.youtube.com/embed/' + ${contentList.get(0).getYtbUrl()}}"
             allowfullscreen="allowfullscreen">
     </iframe> 콘텐츠 id 등록해줘야 ${}값 가져와서 실행됨 -->
+
+    <!-- 가져와야 되는 거 : ytbUrl, 영상번호(강의와 콘텐츠가 연결된 차시번호), finalTm, maxTm -->
+<!--    <input type="hidden" th:text="${videoData.finalTm}"/>-->
+<!--    <input type="hidden" th:text="${videoData.maxTm}"/>-->
+
     <div class="video-container">
         <div id="player"></div>
     </div>

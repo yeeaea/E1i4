@@ -6,6 +6,10 @@ import org.online.lms.video.domain.Content;
 import org.online.lms.video.dto.VideoInfoRequest;
 import org.online.lms.video.repository.VideoInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +31,16 @@ public class VideoInfoService {
     }
 
     // 콘텐츠 조회
-    public List<Content> findAll() { return videoInfoRepository.findAll(); }
+    public List<Content> findAll() {
+        return videoInfoRepository.findAll();
+    }
+    // 콘텐츠 조회 (페이지네이션)
+    public Page<Content> findAll(Pageable pageable) {
+        Pageable Pageable =
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                        Sort.by(Sort.Direction.ASC, "contentNo"));
+        return videoInfoRepository.findAll(Pageable);
+    }
 
     // 콘텐츠 삭제
     public void delete(Long contentNo) {

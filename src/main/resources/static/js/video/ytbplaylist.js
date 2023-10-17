@@ -1,3 +1,4 @@
+/*
 // 유튜브 api 통해서 재생목록의 title, description, img, videoId 받아서 출력
 const API_KEY = 'AIzaSyCg9dqHR6cSg7j1smdb50VLVsSLaxRBRA4'; // 내 api_key
 const PLAYLIST_ID = 'PLz2iXe7EqJOOAo_79II0pnV4-mhQz_Sp-'; // 대상 재생목록의 ID
@@ -30,19 +31,19 @@ fetch(API_URL)
                 </div>
                 <div style="flex: 2">
                     <!--
-                    이거는 화면을 
+                    이거는 화면을
                     <a href="https://www.youtube.com/embed/$videoId}" target="_blank">
-                    <i class="fa-regular fa-circle-play" 
+                    <i class="fa-regular fa-circle-play"
                        style=" font-size: 60px; color: black;
                                width: 200px; height: 150px; padding-top: 50px;"></i>
                     </a>
                     -->
-                    <!-- 영상 -->
-                    <a href="/admin/lms/online/view">
-                    <i class="fa-regular fa-circle-play" 
+                    <!-- 영상 href="/admin/lms/online/view"-->
+                    <button class="playBtn" th:attr="data-contentNo=${contentNo}">
+                    <i class="fa-regular fa-circle-play"
                        style=" font-size: 60px; color: black;
                                width: 200px; height: 150px; padding-top: 50px;"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
             `;
@@ -53,9 +54,9 @@ fetch(API_URL)
     .catch(error => {
         console.error('Error fetching video data: ', error);
     });
-
-
-
+*/
+/*
+////////////////////////// ytbControl로 이동(합치기)
 // 알림창 띄우기
 // YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
 let tag = document.createElement('script');
@@ -104,7 +105,7 @@ function onPlayerStateChange(event) {
         // }
     }
 }
-
+*/
 
 
 

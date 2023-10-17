@@ -37,7 +37,9 @@
                                 </a>
                                 <button>출결조회</button>
                                 <button>강의 자료</button>
-                                <button>온라인강좌</button>
+                                <button class="LectureListBtn" th:attr="data-lecture-list=${lecture.lectureNo}"
+                                        onclick="window.location.href='/admin/lms/online/progress-info-list?lectureNo='
+                                        + this.getAttribute('data-lecture-list')">온라인 강의</button>
                                 <button>질문</button>
                             </div>
                         </div>

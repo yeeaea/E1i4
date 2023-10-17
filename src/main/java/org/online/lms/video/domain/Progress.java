@@ -1,26 +1,30 @@
 package org.online.lms.video.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.online.lms.lecture.domain.LectureApply;
 import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.security.domain.Members;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.List;
+
 @Table(name="progress")
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Progress { // 강의 학습자별 차시 진도 테이블
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "progress_no")
+    private Long progressNo; // 고유 번호
+
     // 데이터베이스에 대한 추가 및 갱신에 영향을 주지 않음 = false
     // 데이터베이스에 대한 추가 및 갱신에 영향을 줌 = true
-    @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "nth_no", referencedColumnName = "nth_no"
             /*insertable = false, updatable = false*/)
     private ProgressInfo nthNo; // 차시 관리 번호 (외래키 연결)
@@ -41,7 +45,7 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
     @Column(name = "end_tm")
     private String endTm; // 접속 종료 시간
 
-    @Column(name = "final_tm", nullable = false)
+    @Column(name = "final_tm")
     private String finalTm; // 강의 최종 재생 위치
 
     @Column(name = "max_tm")
@@ -67,5 +71,10 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
         this.finalTm = finalTm;
         this.maxTm = maxTm;
         this.progRt = progRt;
+    }
+
+    // 팩토리메서드 형식으로 만들어 컨트롤러에서 객체 생성할 수 있게 해주기
+    public static Progress progressTm() {
+        return new Progress();
     }
 }

@@ -6,6 +6,11 @@ import org.online.lms.video.dto.VideoInfoRequest;
 import org.online.lms.video.dto.VideoInfoViewResponse;
 import org.online.lms.video.service.VideoInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,13 +41,21 @@ public class VideoViewController {
     }
 
     @GetMapping("/content")
-    public String contentListForm(Model model) {
-
+    public String contentListForm(@PageableDefault(size = 10) Pageable pageable, Model model) {
         // 콘텐츠 리스트 + 등록창
-        List<VideoInfoViewResponse> contentInfo = videoInfoService.findAll().stream()
-                .map(VideoInfoViewResponse::new)
-                .toList();
+
+        Page<Content> contentInfo;
+
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                Sort.by("contentNo").descending());
+        contentInfo = videoInfoService.findAll(pageable);
+
+        int startPage = Math.max(1, contentInfo.getPageable().getPageNumber() - 1);
+        int endPage = Math.min(contentInfo.getPageable().getPageNumber() + 3, contentInfo.getTotalPages());
+
         model.addAttribute("contentInfo", contentInfo);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         return "/page/video/videoListForm";
     }
@@ -78,14 +91,21 @@ public class VideoViewController {
     // 재생목록 리스트
     @GetMapping("/lms/online/progress-info-list")
     public String ytbList(Model model) {
+        // nth_no
         return "/page/video/ytbContent";
     }
 
     // 재생목록에서 버튼 누르면 나오는 콘텐츠 플레이 창
     @GetMapping("/lms/online/view")
     public String ytbPlay(Model model) {
-        List<Content> contentList = videoInfoService.findAll();
-        model.addAttribute("contentList", contentList);
+        List<VideoInfoViewResponse> contentInfo = videoInfoService.findAll().stream()
+                .map(VideoInfoViewResponse::new)
+                .toList();
+
+        model.addAttribute("contentInfo", contentInfo);
+//        List<Content> contentList = videoInfoService.findAll();
+//        model.addAttribute("contentList", contentList);
         return "/page/video/ytbView";
     }
+
 }
