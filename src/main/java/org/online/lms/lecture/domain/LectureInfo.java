@@ -2,10 +2,7 @@ package org.online.lms.lecture.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 @Table(name="lecture_info")
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LectureInfo { // 개설 강의 정보 테이블
@@ -46,13 +44,15 @@ public class LectureInfo { // 개설 강의 정보 테이블
     @Column(name = "lecture_duration", nullable = false)
     private int lectureDuration; // 총 주차 수
     @Builder
-    public LectureInfo(String lectureYear,
+    public LectureInfo(Long lectureNo,
+                       String lectureYear,
                        String lectureTitle,
                        String lectureDesc,
                        LocalDate lectureStartAt,
                        LocalDate lectureEndAt,
                        String lectureCourse,
                        int lectureDuration) {
+        this.lectureNo = lectureNo;
         this.lectureYear = lectureYear;
         this.lectureTitle = lectureTitle;
         this.lectureDesc = lectureDesc;
