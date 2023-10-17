@@ -199,3 +199,7 @@ p {
     color: white;
 }
 
+.table thead {
+    border: 0.6px #777;
+}
+
