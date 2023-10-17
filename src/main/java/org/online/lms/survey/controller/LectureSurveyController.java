@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/lms/mylecture/survey")
+@RequestMapping("/lms/survey")
 public class LectureSurveyController {
 
     private final LectureInfoService lectureInfoService;

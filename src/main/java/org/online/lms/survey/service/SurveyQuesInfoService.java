@@ -4,6 +4,7 @@ import org.online.lms.survey.domain.SurveyQuesInfo;
 import org.online.lms.survey.repository.SurveyQuesInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -63,7 +64,7 @@ public class SurveyQuesInfoService {
     }
 
     // 강의 평가 문항 수정 (문항명, 정렬 순서, 사용 여부만 수정 가능)
-    public SurveyQuesInfo updateQUestion(Long surveyQuesNo,
+    public SurveyQuesInfo updateQuestion(Long surveyQuesNo,
                                          String surveyQuesName,
                                          Long surveyQuesViewNo,
                                          boolean surveyQuesYn) {
@@ -82,5 +83,12 @@ public class SurveyQuesInfoService {
 
         // 수정 대상 문항을 찾지 못한 경우
         return null;
+    }
+
+    // 강의 평가 문항 삭제
+    @Transactional
+    public boolean deleteQuestions(List<Long> surveyQuesNos) {
+        surveyQuesInfoRepository.deleteBySurveyQuesNoIn(surveyQuesNos);
+        return true;
     }
 }
