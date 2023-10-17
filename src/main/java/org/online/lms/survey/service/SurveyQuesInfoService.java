@@ -1,8 +1,6 @@
 package org.online.lms.survey.service;
 
-import org.online.lms.survey.domain.Survey;
 import org.online.lms.survey.domain.SurveyQuesInfo;
-import org.online.lms.survey.dto.AddSurveyQuesInfoRequest;
 import org.online.lms.survey.repository.SurveyQuesInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

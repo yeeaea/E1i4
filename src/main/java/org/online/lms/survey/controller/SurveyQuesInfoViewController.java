@@ -2,7 +2,6 @@ package org.online.lms.survey.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.online.lms.survey.domain.SurveyQuesInfo;
-import org.online.lms.survey.dto.AddSurveyQuesInfoRequest;
 import org.online.lms.survey.service.SurveyQuesInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
