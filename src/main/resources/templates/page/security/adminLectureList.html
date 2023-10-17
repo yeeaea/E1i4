@@ -7,10 +7,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<!-- page 고유 javascript -->
-<th:block layout:fragment="script">
-    <script th:src="@{/js/security/adminLectureList.js}" defer></script>
-</th:block>
+
 <body>
     <!-- content start -->
     <section layout:fragment="content">
@@ -36,7 +33,8 @@
                         <td th:text="${lecture.lectureTitle}"></td>
                         <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
                         <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-                        <td> <button id="lookupStudentBtn" th:attr="data-lecture-no=${lecture.lectureNo}">조회 버튼</button></td>
+                        <td> <button id="lookupStudentBtn" th:attr="data-lecture-no=${lecture.lectureNo}"
+                            onclick="window.location.href='/admin/memberInfo/lectureNo/' + this.getAttribute('data-lecture-no')">조회 버튼</button></td>
                     </div>
                 </tr>
                 </tbody>

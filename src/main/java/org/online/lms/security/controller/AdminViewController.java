@@ -37,7 +37,7 @@ public class AdminViewController {
                 .map(LectureInfoViewResponse::new)
                 .toList();
         model.addAttribute("lectureInfo", lectureInfo); // 강의 목록 리스트 저장
-        log.info("lectureInfo 정보 나와라 : " + lectureInfo);
+
         return "/page/security/adminLectureList";
     }
 
