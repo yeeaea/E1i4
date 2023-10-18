@@ -30,16 +30,16 @@
             <label for="newPw">새로운 비밀번호</label>
             <input type="password" name="newPw" id="newPw"
                    th:value="${dto != null}? ${dto.getNewPw()} : ''" >
-            <!-- 유효성 검사
-            <span th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"></span> -->
+            <!-- 유효성 검사 -->
+            <span th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"></span>
         </div>
 
         <div>
             <label for="confirmPw">비밀번호 확인</label>
             <input type="password" name="confirmPw" id="confirmPw"
                    th:value="${dto != null}? ${dto.getConfirmPw()} : ''" >
-            <!-- 유효성 검사
-            <span th:if="${valid_comfirmPw}" id="valid"  th:text="${valid_comfirmPw}"></span> -->
+            <!-- 유효성 검사 -->
+            <span th:if="${valid_comfirmPw}" id="valid"  th:text="${valid_comfirmPw}"></span>
         </div>
 
         <div class="alert alert-danger" id="error-message"
@@ -64,10 +64,10 @@
                     <label for="currentPw">기존 비밀번호</label>
                     <input type="password" name="currentPw" class="form-control"
                            th:value="${dto != null}? ${dto.getCurrentPw()} : ''">
-                    <!-- 유효성 검사
+                    <!-- 유효성 검사  -->
                     <span
                             th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
-                            th:style="${valid_currentPw !=null? 'color:#F96666;' : ''}"></span> -->
+                            th:style="${valid_currentPw !=null? 'color: red;' : ''}"></span>
                 </div>
             </th:block>
 
@@ -77,10 +77,10 @@
                     <input type="password" name="currentPwd" id="currentPw"
                            class="form-control is-invalid"
                            th:value="${dto != null}? ${dto.getCurrentPw()} : ''" >
-                    <!-- 유효성 검사
+                    <!-- 유효성 검사 -->
                     <span
                             th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
-                            th:style="${valid_currentPw !=null? 'color:#F96666;' : ''}"></span> -->
+                            th:style="${valid_currentPw !=null? 'color: red;' : ''}"></span>
                     <div class="invalid-feedback" th:text="${wrongPassword}"></div>
                 </div>
             </th:block>
@@ -90,10 +90,10 @@
                 <input type="password" name="newPw" id="newPw "
                        th:value="${dto != null}? ${dto.getNewPw()} : ''"
                        required>
-                <!-- 유효성 검사
+                <!-- 유효성 검사 -->
                 <span
                         th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"
-                        th:style="${valid_newPw !=null? 'color:#F96666;' : ''}"></span>  -->
+                        th:style="${valid_newPw !=null? 'color: red;' : ''}"></span>
             </div>
 
             <th:block th:if="${differentPassword == null}">
@@ -101,10 +101,10 @@
                     <label class="fs-5">비밀번호 확인</label>
                     <input type="password" name="confirmPw"
                            th:value="${dto != null}? ${dto.getConfirmPw()} : ''">
-                    <!-- 유효성 검사
+                    <!-- 유효성 검사 -->
                     <span
                             th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
-                            th:style="${valid_comfirmPw !=null? 'color:#F96666;' : ''}"></span> -->
+                            th:style="${valid_comfirmPw !=null? 'color: red;' : ''}"></span>
                 </div>
             </th:block>
 
@@ -114,10 +114,10 @@
                     <input type="password" name="confirmPw" id="confirmPw"
                            class="form-control is-invalid"
                            th:value="${dto != null}? ${dto.getConfirmPw()} : ''" >
-                    <!-- 유효성 검사
+                    <!-- 유효성 검사 -->
                     <span
                             th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
-                            th:style="${valid_comfirmPw !=null? 'color:#F96666;' : ''}"></span> -->
+                            th:style="${valid_comfirmPw !=null? 'color: red;' : ''}"></span>
                     <div class="invalid-feedback" th:text="${differentPassword}"></div>
                 </div>
             </th:block>

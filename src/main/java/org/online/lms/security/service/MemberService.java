@@ -150,9 +150,12 @@ public class MemberService {
     @Transactional
     public String updateMemberPw(MemberPwChangeDTO dto, String loginId) {
         // 변경을 위한 아이디 값 가져오기
-        Optional<Members> memberOptional = memberRepository.findByLoginId(loginId);
+        Members member = memberRepository.findByLoginId(loginId).get();
         // 아이디가 존재하지 않을 경우, 예외 발생
-        Members member = memberOptional.orElseThrow(()-> new UsernameNotFoundException("사용자를 찾을 수 없습니다. 해당 아이디 : " + loginId));
+        if(member == null){
+            new UsernameNotFoundException("사용자를 찾을 수 없습니다. 해당 아이디 : " + loginId);
+        }
+//        Members member = memberOptional.orElseThrow(()-> new UsernameNotFoundException("사용자를 찾을 수 없습니다. 해당 아이디 : " + loginId));
         log.info("비밀번호 변경할 아이디 : " + loginId);
         // DB에 저장된 비밀번호와 비교
         if( !passwordEncoder.matches(dto.getCurrentPw(), member.getLoginPw())){
