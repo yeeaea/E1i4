@@ -1,34 +1,18 @@
 package org.online.lms.video.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.online.lms.lecture.domain.LectureApply;
-import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.lecture.repository.LectureApplyRepository;
 import org.online.lms.lecture.service.LectureApplyService;
-import org.online.lms.security.domain.Members;
 import org.online.lms.security.service.MemberService;
-import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.Progress;
-import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.dto.ProgressTmRequest;
-import org.online.lms.video.repository.ProgressInfoRepository;
 import org.online.lms.video.service.ProgressInfoService;
 import org.online.lms.video.service.ProgressTmService;
 import org.online.lms.video.service.VideoInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -73,7 +57,7 @@ public class ProgressTmApiController {
             @RequestBody ProgressTmRequest req) {
         System.out.println("======="+ req.getProgressNo() );
         Progress newProgress = Progress.progressTm();
-        newProgress.setProgressNo(71L);
+        newProgress.setProgressNo(9L);
         newProgress.setFinalTm(req.getFinalTm());
         newProgress.setMaxTm(req.getMaxTm());
         return progressTmService.saveTmData(newProgress);
@@ -88,6 +72,9 @@ public class ProgressTmApiController {
 //            String finalTm,
 //            String maxTm)
 
+
+// loginId 저장하는 부분 참고!!!!!!
+///////////////////////////////////////////////////
 //        Optional<Progress> optionalProgress  = progressTmService.findByProgressNo(progressNo);
 //        log.info(progressNo + "여기 초기화 해준 거 아님?");
 //        // 세션에서 세션 id 가져오기
@@ -95,15 +82,19 @@ public class ProgressTmApiController {
 //        log.info("세션 아이디" + sessionID);
 ////
 ////        if (principal != null) {
-////            // 로그인 아이디 받아오기
-////            String loginId = principal.getName();
+//////            // 로그인 아이디 받아오기
+//////            String loginId = principal.getName();
 //
 //if(optionalProgress.isPresent()) {
 //    Progress progress = optionalProgress.get();
+//    progress.setMemberNo(loginId);
 //    progress.setFinalTm(finalTm);
 //    progress.setMaxTm(maxTm);
 //    return progressTmService.saveTmData(progress);
 //
+//////////////////////////////////////////////////////
+
+
 //}else {
 //    Progress newProgress = Progress.progressTm();
 //    newProgress.setFinalTm(req.getFinalTm());

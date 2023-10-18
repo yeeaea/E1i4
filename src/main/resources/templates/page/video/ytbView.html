@@ -16,7 +16,7 @@
 </th:block>
 
 <th:block layout:fragment="script">
-    <script th:src="@{/js/video/ytbplaylist.js}"></script>
+    <script th:src="@{/js/video/ytbControl.js}"></script>
 </th:block>
 
 <th:block layout:fragment="content">
@@ -34,16 +34,33 @@
     </iframe> 콘텐츠 id 등록해줘야 ${}값 가져와서 실행됨 -->
 
     <!-- 가져와야 되는 거 : ytbUrl, 영상번호(강의와 콘텐츠가 연결된 차시번호), finalTm, maxTm -->
-<!--    <input type="hidden" th:text="${videoData.finalTm}"/>-->
-<!--    <input type="hidden" th:text="${videoData.maxTm}"/>-->
+    <!--    <input type="hidden" th:text="${videoData.finalTm}"/>-->
+    <!--    <input type="hidden" th:text="${videoData.maxTm}"/>-->
 
     <div class="video-container">
         <div id="player"></div>
     </div>
 
-    <script>
+    <div style="display: flex;" th:each="content : ${contentList}">
+        <div data-ytb-url="[[${content.ytbUrl}]]"
+             th:attr="data-ytb-url=${content.ytbUrl}">
+        </div>
+    </div>
 
-    </script>
+    <div style="display: flex;" th:each="progressInfo : ${progressInfos}">
+        <input data-ytb-url="[[${progressInfo}]]" type="hidden"
+             th:attr="data-ytb-url=${progressInfo.getNthNo()}">
+        <input data-ytb-url="[[${progressInfo}]]" type="hidden"
+               th:attr="data-ytb-url=${progressInfo.getContent()}">
+        <input data-ytb-url="[[${progressInfo}]]" type="hidden"
+               th:attr="data-ytb-url=${progressInfo.getLecture()}">
+    </div>
+
+    <div style="display: flex;" th:each="req : ${requests}">
+        <div data-ytb-url="[[${req}]]"
+             th:attr="data-ytb-url=${req.setMemberNo()}">
+        </div>
+    </div>
 </th:block>
 </body>
 </html>

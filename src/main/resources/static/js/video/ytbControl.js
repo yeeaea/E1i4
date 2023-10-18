@@ -1,14 +1,11 @@
 
-
-
-/////////////////////////////////////////
 // YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-//const ytbUrl = document.getElementById('ytbUrl');
+//const ytbUrl = document.querySelector("[data-ytb-url]").getAttribute("data-ytb-url");
 const ytbUrl = 'wjLwmWyItWI';
 // let finalTm = document.getElementById('finalTm');
 // let maxTm = document.getElementById('maxTm');
