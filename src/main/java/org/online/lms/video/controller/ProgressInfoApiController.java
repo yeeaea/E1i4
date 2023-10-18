@@ -45,8 +45,8 @@ public class ProgressInfoApiController {
 
     // 차시 정보 수정
     @PutMapping("/update/{nthNo}")
-    public ResponseEntity<ProgressInfo> updateProgress(@PathVariable long nthNo, @RequestBody UpdateProgressInfoRequest request) {
-        ProgressInfo updatedProgress = progressInfoService.updateProgress(nthNo, request);
+    public ResponseEntity<ProgressInfo> updateProgress(@PathVariable long nthNo, @RequestParam int nthDuration, @RequestBody UpdateProgressInfoRequest request) {
+        ProgressInfo updatedProgress = progressInfoService.updateProgress(nthNo, nthDuration, request);
 
         if (updatedProgress != null) {
             return ResponseEntity.ok(updatedProgress);

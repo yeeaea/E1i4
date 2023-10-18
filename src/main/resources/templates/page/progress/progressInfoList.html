@@ -29,7 +29,7 @@
             <label for="lectureSelect">과정구분:</label>
             <select id="lectureSelect"></select>
 
-            <button type="button" onclick="loadLectureInfo()">조회</button>
+            <button type="button" id="loadButton">조회</button>
             <table class="border border-dark p-3 mb-3">
                 <thead>
                 <tr>
@@ -42,49 +42,51 @@
                     <th>총 강의 주차수</th>
                 </tr>
                 </thead>
-                <tbody th:each="lecture : ${lectureInfoList}">
+                <tbody id="lectureList" th:each="lecture : ${lectureInfoList}">
                 <!-- 차시 목록 표시 -->
                 <tr>
-                    <td th:text="${lecture.lectureNo}"></td>
-                    <td th:text="${lecture.lectureYear}"></td>
-                    <td th:text="${lecture.lectureCourse}"></td>
-                    <td th:text="${lecture.lectureTitle}"></td>
-                    <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
-                    <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
-                    <td th:text="|${lecture.lectureDuration}주차|"></td>
+                    <td id="data-lectureNo" th:text="${lecture.lectureNo}"></td>
+                    <td id="data-lectureYear" th:text="${lecture.lectureYear}"></td>
+                    <td id="data-lectureCourse" th:text="${lecture.lectureCourse}"></td>
+                    <td id="data-lectureTitle" th:text="${lecture.lectureTitle}"></td>
+                    <td id="data-lectureStartAt" th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">
+                        >
+                    </td>
+                    <td id="data-lectureEndAt" th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
+                    <td id="data-lectureDuration" th:text="|${lecture.lectureDuration}주차|"></td>
                 </tr>
                 </tbody>
             </table>
         </div>
         <div class="container" style="display: flex; flex-direction: row;">
             <div id="progressDetails" style="flex: 1; margin-right: 20px;">
-                <table class="border border-dark p-3 mb-3">
+                <table class="border border-dark p-3 mb-3" id="progress">
                     <thead>
                     <tr>
                         <th>
                             <input type="checkbox" id="selectAllCheckbox" autocomplete="off"
                                    onchange="selectAllCheckboxes(this)">
                         </th>
-                        <th>차시 순서</th><!-- 차시 관리 번호 -->
+                        <th th:href="@{/yourPageUrl(sortBy='nthDuration', order='asc')}">차시 순서</th><!-- 차시 관리 번호 -->
                         <th>차시명</th>
                         <th>차시학습시간</th>
                     </tr>
                     </thead>
-                    <tbody th:each="progressInfo : ${progressInfoList}">
+                    <tbody>
                     <!-- 강의 차시별 콘텐츠 목록 표시 -->
-                    <tr>
+                    <tr id="progressList" th:each="progressInfo : ${progressInfoList}" class="progress-row">
                         <td><input type="checkbox" class="contentCheckbox" autocomplete="off"
-                                   th:attr="data-nthNo=${progressInfo.nthNo},
+                                   th:attr="data-lectureNo=${progressInfo.lecture.lectureNo},
                                    data-lectureCourse=${progressInfo.lecture.lectureCourse},
                                    data-contentNo=${progressInfo.content.contentNo},
-                                   data-lectureDuration=${progressInfo.lecture.lectureDuration},
+                                   data-lectureDuration=${progressInfo.nthDuration},
                                    data-contentName=${progressInfo.content.contentName},
                                    data-runTm=${progressInfo.content.runTm},
                                    data-ytbUrl=${progressInfo.content.ytbUrl},
                                    data-contentUrl=${progressInfo.content.contentUrl}
                                    "
                                    onclick="addCheckboxListeners(this)"></td>
-                        <td th:text="${progressInfo.nthNo}"></td>
+                        <td th:text="${progressInfo.nthDuration}"></td>
                         <td th:text="${progressInfo.content.contentName}"></td>
                         <td th:text="${progressInfo.content.runTm}"></td>
                     </tr>
@@ -93,49 +95,70 @@
             </div>
 
             <div id="contentDetails" style="flex: 1;">
-                <table class="contentDetailsTable" th:object="${progressInfoRequest}">
-                    <button id="newContent" onclick="handleEditButtonClick()">신규</button>
-                    <button id="editContent" onclick="editContent()">저장</button>
+                <div>
+                    <button id="newContent">신규</button>
+                    <button id="editContent">저장</button>
                     <button id="deleteContent" onclick="deleteContent()">삭제</button>
-                    <tr>
-                        <th>차시 관리 번호</th>
-                        <td><input type="text" id="nthNo" value="1" autocomplete="off" th:field="*{nthNo}"></td>
-                    </tr>
-                    <tr>
-                        <th>과정구분</th>
-                        <td>
-                            <select id="lectureCourse" autocomplete="off"></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>콘텐츠 관리 번호</th>
-                        <td style="display: flex; align-items: center;">
-                            <input type="text" id="contentNo" class="col-10" autocomplete="off">
-                            <i class="search fa-solid fa-magnifying-glass col-2" onclick="openModal()"></i></td>
-                    </tr>
-                    <tr>
-                        <th>차시순서</th><!-- 강의 주차수 -->
-                        <td>
-                            <select id="lectureDuration" autocomplete="off"></select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>콘텐츠명</th>
-                        <td><input type="text" id="contentName" autocomplete="off"></td>
-                    </tr>
-                    <tr>
-                        <th>차시 학습 시간</th>
-                        <td><input type="text" id="runTm" autocomplete="off"></td>
-                    </tr>
-                    <tr>
-                        <th>Youtube 연동 번호</th>
-                        <td><input type="text" id="ytbUrl" autocomplete="off"></td>
-                    </tr>
-                    <tr>
-                        <th>콘텐츠 호출 URL</th>
-                        <td><input type="text" id="contentUrl" autocomplete="off"></td>
-                    </tr>
-                </table>
+                </div>
+                <form id="progressForm" class="contentDetailsTable" autocomplete="off">
+                    <div>
+                        <label for="lectureNo">강의 번호:</label>
+                        <input type="text" id="lectureNo" name="lectureNo">
+                    </div>
+                    <div>
+                        <label for="lectureCourse">과정구분:</label>
+                        <select id="lectureCourse" name="lectureCourse">
+                            <option value="java">java</option>
+                            <option value="python">python</option>
+                            <option value="C++">C++</option>
+                            <option value="C#">C#</option>
+                            <option value="javascript">javascript</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="contentNo">콘텐츠 관리 번호:</label>
+                        <div style="display: flex; align-items: center;">
+                            <input type="text" id="contentNo" name="contentNo" class="col-10">
+                            <i class="search fa-solid fa-magnifying-glass col-2" onclick="openModal()"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="nthDuration">차시순서:</label><!-- 강의 주차수 -->
+                        <select id="nthDuration" name="nthDuration">
+                            <option value="1">1주차</option>
+                            <option value="2">2주차</option>
+                            <option value="3">3주차</option>
+                            <option value="4">4주차</option>
+                            <option value="5">5주차</option>
+                            <option value="6">6주차</option>
+                            <option value="7">7주차</option>
+                            <option value="8">8주차</option>
+                            <option value="9">9주차</option>
+                            <option value="10">10주차</option>
+                            <option value="11">11주차</option>
+                            <option value="12">12주차</option>
+                            <option value="13">13주차</option>
+                            <option value="14">14주차</option>
+                            <option value="15">15주차</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="contentName">콘텐츠명:</label>
+                        <input type="text" id="contentName" name="contentName" readonly>
+                    </div>
+                    <div>
+                        <label for="runTm">차시 학습 시간:</label>
+                        <input type="text" id="runTm" name="runTm" readonly>
+                    </div>
+                    <div>
+                        <label for="ytbUrl">Youtube 연동 번호:</label>
+                        <input type="text" id="ytbUrl" name="ytbUrl" readonly>
+                    </div>
+                    <div>
+                        <label for="contentUrl">콘텐츠 호출 URL:</label>
+                        <input type="text" id="contentUrl" name="contentUrl" readonly>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
