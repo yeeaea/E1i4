@@ -1,3 +1,135 @@
+// 썸네일 가져오기
+const API_KEY = 'AIzaSyCg9dqHR6cSg7j1smdb50VLVsSLaxRBRA4'; // 내 API 키
+document.addEventListener("DOMContentLoaded", function() {
+    const videoListElements = document.querySelectorAll('[data-ytb-url]');
+
+    const promises = [];
+
+    videoListElements.forEach(videoListElement => {
+        const videoIds = videoListElement.getAttribute('data-ytb-url').split(',');
+
+        videoIds.forEach(id => {
+            console.log(id + "id다 나오나?");
+            const videoAPI_URL = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${id}&key=${API_KEY}`;
+
+            promises.push(
+                fetch(videoAPI_URL)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.items.length > 0) {
+                            const videoThumbnail = data.items[0].snippet.thumbnails.medium.url;
+
+                            // 생성된 div 내에 이미지 추가
+                            const imgElement = document.createElement("img");
+                            imgElement.src = videoThumbnail;
+                            videoListElement.appendChild(imgElement);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching video data for video ID', id, ':', error);
+                    })
+            );
+        });
+    });
+
+    // 모든 API 요청을 기다렸다가 처리
+    Promise.all(promises)
+        .then(() => {
+            console.log('All videos processed');
+        })
+        .catch(error => {
+            console.error('Error processing videos:', error);
+        });
+});
+
+
+function onYouTubeIframeAPIReady() {
+    // 모든 버튼 요소 가져오기
+    const playButtons = document.querySelectorAll('.playBtn');
+
+    playButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 해당 버튼에 연결된 비디오 ID 가져오기
+            const videoId = button.getAttribute('data-ytb-id');
+
+            console.log(videoId + "나와세요");
+            // videoId를 사용하여 YouTube 플레이어 초기화 및 재생
+            const player = new YT.Player('player', {
+                videoId: videoId,
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+            window.location.href = '/admin/lms/online/view';
+        });
+    });
+}
+
+function onPlayerReady(event) {
+    // 플레이어가 준비된 경우 원하는 동작을 수행하세요.
+}
+
+function onPlayerStateChange(event) {
+    // 플레이어 상태가 변경된 경우 원하는 동작을 수행하세요.
+}
+
+/*
+// 영상 보여주기
+// YouTube IFrame Player API 스크립트 로드
+let tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+let firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+let players = {}; // 각 비디오 플레이어를 저장할 객체
+
+function onYouTubeIframeAPIReady() {
+    // API가 로드되면 여기에 비디오 플레이어를 생성하는 로직을 추가합니다.
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    // 요소를 선택하거나 가져옵니다.
+    const element = document.querySelector('[data-ytburl]');
+
+// data-ytburl 속성 값을 가져옵니다.
+    const ytbUrl = element.getAttribute('data-ytburl');
+
+    const playButtons = document.querySelectorAll('.playBtn');
+
+    playButtons.forEach(playButton => {
+        playButton.addEventListener('click', function() {
+            const videoId = playButton.getAttribute('data-ytburl');
+
+            if (!players[videoId]) {
+                // 비디오 플레이어가 아직 생성되지 않은 경우
+                players[videoId] = new YT.Player(videoId, {
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            } else {
+                // 이미 생성된 비디오 플레이어가 있는 경우
+                // 이것을 사용하여 원하는 동작을 수행하세요.
+            }
+        });
+    });
+});
+
+function onPlayerReady(event) {
+    // 플레이어가 준비된 경우 원하는 동작을 수행하세요.
+}
+
+function onPlayerStateChange(event) {
+    // 플레이어 상태가 변경된 경우 원하는 동작을 수행하세요.
+}
+
+
+
+
 /*
 // 유튜브 api 통해서 재생목록의 title, description, img, videoId 받아서 출력
 const API_KEY = 'AIzaSyCg9dqHR6cSg7j1smdb50VLVsSLaxRBRA4'; // 내 api_key
@@ -56,6 +188,8 @@ fetch(API_URL)
     });
 */
 /*
+
+
 ////////////////////////// ytbControl로 이동(합치기)
 // 알림창 띄우기
 // YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
@@ -110,49 +244,6 @@ function onPlayerStateChange(event) {
 
 
 /*
-// videoId 동적으로 가져와 사용하기 -> 아니면 콘텐츠 컬럼에 videoId = ytbUrl 저장해서 이 컬럼을 가져오기
-fetch(API_URL)
-    .then(response => response.json())
-    .then(data => {
-        const videoList = document.getElementById("videoList");
-
-        data.items.forEach(item => {
-            const videoTitle = item.snippet.title;
-            const videoDescription = item.snippet.description;
-            const videoThumbnail = item.snippet.thumbnails.medium.url;
-            const videoId = item.snippet.resourceId.videoId || "";
-
-            // videoId를 동적으로 설정하기 위해 onYouTubeIframeAPIReady 함수 내에서 사용 가능하도록 설정
-            window.videoId = videoId;
-
-            const listItem = document.createElement("li");
-            listItem.innerHTML = `
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-            <div class="container" style="display: flex; padding-bottom: 100px">
-                <div style="flex: 2; padding-right: 100px;"" >
-                    <img src="${videoThumbnail}" alt="${videoTitle}">
-                </div>
-                <div style="flex: 5; padding-right: 100px;"">
-                    <h4>${videoTitle}</h4>
-                     <p style="padding-top: 20px;">${videoDescription}</p>
-                </div>
-                <div style="flex: 2">
-                    <a href="/admin/lms/online/view">
-                    <i class="fa-regular fa-circle-play" 
-                       style=" font-size: 60px; color: black;
-                               width: 200px; height: 150px; padding-top: 50px;"></i>
-                    </a>
-                </div>
-            </div>
-            `;
-
-            videoList.appendChild(listItem);
-        });
-    })
-    .catch(error => {
-        console.error('Error fetching video data: ', error);
-    });
-
 // 알림창 띄우기
 let tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";

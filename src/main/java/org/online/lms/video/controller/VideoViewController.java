@@ -3,6 +3,7 @@ package org.online.lms.video.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.online.lms.video.domain.Content;
+import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.dto.VideoInfoRequest;
 import org.online.lms.video.dto.VideoInfoViewResponse;
 import org.online.lms.video.service.ProgressTmService;
@@ -98,17 +99,21 @@ public class VideoViewController {
 
     /////// 추후에 viewController로 이동(Security) - 차시테이블 사용
     // 재생목록 리스트
-    @GetMapping("/lms/online/progress-info-list")
-    public String ytbList() {
-        return "/page/video/ytbContent";
-    }
     @GetMapping("/lms/online/progress-info-list/{lectureNo}")
-    public String ytbList(@PathVariable String lectureNo, Model model) {
-        model.addAttribute("lectureNo", lectureNo);
-        //log.info(lectureNo + "값을 던져서 받는냐고");
-        //progressTmService.findNthNoByLecture(lectureNo);
+    public String ytbList(@PathVariable Long lectureNo, Model model) {
+        List<Content> contentList = progressTmService.findContentByLectureNo(lectureNo);
+        model.addAttribute("contentList", contentList);
         return "/page/video/ytbContent";
     }
+//    @GetMapping("/lms/online/progress-info-list/{lectureNo}")
+//    public String ytbList(@PathVariable Long lectureNo, Model model) {
+//        log.info(lectureNo + "값을 던져서 받는냐고");
+//        Content contentList = progressTmService.findContentByLectureNo(lectureNo);
+//        log.info(contentList + "콘텐트 번호 나와야함");
+//        model.addAttribute("contentList", contentList);
+//        //progressTmService.findNthNoByLecture(lectureNo);
+//        return "/page/video/ytbContent";
+//    }
 
     // 재생목록에서 버튼 누르면 나오는 콘텐츠 플레이 창
     @GetMapping("/lms/online/view")
