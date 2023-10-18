@@ -77,17 +77,18 @@ public class ProgressInfoService {
 
     // 차시 정보 수정
     @Transactional
-    public ProgressInfo updateProgress(long nthNo, UpdateProgressInfoRequest request) {
+    public ProgressInfo updateProgress(long nthNo, int nthDuration, UpdateProgressInfoRequest request) {
         ProgressInfo progressInfo = progressInfoRepository.findById(nthNo).orElseThrow(
                 () -> new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다."));
 
-        progressInfo.update(request.getNthNo());
+        // 업데이트된 차시 정보 설정
+        progressInfo.update(nthNo, nthDuration);
 
         Content content = progressInfo.getContent();
         content.setContentNo(request.getContent());
 
-//        LectureInfo lecture = progressInfo.getLecture();
-//        lecture.setLectureNo(request.getLecture());
+        LectureInfo lecture = progressInfo.getLecture();
+        lecture.setLectureNo(request.getLecture());
 
         return progressInfoRepository.save(progressInfo);
     }

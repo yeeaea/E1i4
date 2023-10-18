@@ -28,15 +28,20 @@ public class ProgressInfo { // 강의 차시 정보 테이블
     @JoinColumn(name = "content_mgmt_no", referencedColumnName = "content_mgmt_no")
     private Content content; // 콘텐츠 관리 번호 (외래키 연결)
 
+    @Column(name = "nth_Duration")
+    private int nthDuration;
+
     @Builder
-    public ProgressInfo(long nthNo, LectureInfo lecture, Content content) {
+    public ProgressInfo(long nthNo, LectureInfo lecture, Content content, int nthDuration) {
         this.nthNo = nthNo;
         this.lecture = lecture;
         this.content = content;
+        this.nthDuration = nthDuration;
     }
 
     // 수정
-    public void update(long nthNo) {
+    public void update(long nthNo, int nthDuration) {
         this.nthNo = nthNo;
+        this.nthDuration = nthDuration;
     }
 }
