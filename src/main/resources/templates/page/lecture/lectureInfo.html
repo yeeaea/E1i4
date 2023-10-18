@@ -6,55 +6,45 @@
 <head>
     <title>Content page</title>
 </head>
-    <!-- page 고유 css -->
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{css/css.css}">
-    </th:block>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
+</th:block>
 
-    <!-- page 고유 javascript -->
-    <th:block layout:fragment="script">
-        <script th:src="@{js/js.js}"></script>
-    </th:block>
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{js/js.js}"></script>
+</th:block>
 
-    <!-- content start -->
-    <section layout:fragment="content">
-        <div class="container">
-            <div class="container mt-5">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <article>
-                            <input type="hidden" id="lectureInfo-lectureNo"
-                                   th:value="${lectureInfo.lectureNo}">
-                            <div
-                                    style="background-color: #faf4f4; border-radius: 30px; display: flex; flex-direction: column; align-items: flex-start; padding: 10px;">
+<!-- content start -->
+<section layout:fragment="content" style="width: 85%; height:600px">
+    <!-- 뒤로가기 -->
+    <input type="button" value="BACK" onClick="history.go(-1)" class="mt-4 mb-2">
 
-                                <div style="width: 90%; height: 90%; margin: 30px auto">
-                                    <!-- 뒤로가기 -->
-                                    <input type="button" value="BACK" onClick="history.go(-1)"> <br />
-                                    <p style="height: 20px;" class="fw-bolder mt-1 mb-0 fs-2"
-                                       th:text="${lectureInfo.lectureTitle}"></p>
-                                    <br />
-                                    <div class="d-flex justify-content-start my-3">
-<!--                                  강의하는 사람?     <div th:text="${lectureInfo}" class="mx-2" style="color: #949494"></div>-->
-                                        <div th:text="|강의 과정 ${lectureInfo.lectureCourse}|"></div>
-                                        <div style="font-size: 13px"
-                                             class="ms-auto text-muted fst-italic mb-2 justify-content"
-                                             th:text="|강의 시작일 ${#temporals.format(lectureInfo.lectureStartAt, 'yyyy년 MM월 dd일')}|"></div>
-                                        <div style="font-size: 13px"
-                                             class="ms-auto text-muted fst-italic mb-2 justify-content"
-                                             th:text="|강의 종료일 ${#temporals.format(lectureInfo.lectureEndAt, 'yyyy년 MM월 dd일')}|"></div>
-                                    </div>
-                                    <hr style="width: 100%; margin: 10px auto; color: #b1b1b1">
-                                    <section class="mb-5" style="width: 90%; margin: 0 auto;">
-                                        <p class="fs-6 mt-3 mb-4" th:text="${lectureInfo.lectureDesc}"
-                                           style="word-break: break-all;"></p>
-                                    </section>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-        </div>
-    </section>
-    <!-- content end -->
+    <input type="hidden" id="lectureInfo-lectureNo" th:value="${lectureInfo.lectureNo}">
+
+    <div class="content-item">
+        <div class="content-label">강의 명</div>
+        <div class="content-value" th:text="${lectureInfo.lectureTitle}"></div>
+    </div>
+    <div class="content-item">
+        <div class="content-label">강의 과정</div>
+        <div class="content-value" th:text="${lectureInfo.lectureCourse}"></div>
+    </div>
+    <div class="content-item">
+        <div class="content-label">강의 시작일</div>
+        <div class="content-value" th:text="${#temporals.format(lectureInfo.lectureStartAt, 'yyyy년 MM월 dd일')}"></div>
+    </div>
+    <div class="content-item">
+        <div class="content-label">강의 종료일</div>
+        <div class="content-value" th:text="${#temporals.format(lectureInfo.lectureEndAt, 'yyyy년 MM월 dd일')}"></div>
+    </div>
+    <div class="content-item">
+        <div class="content-label">강의 설명</div>
+        <div class="content-value" th:text="${lectureInfo.lectureDesc}" style="word-break: break-all;"></div>
+    </div>
+</section>
+
+
+<!-- content end -->
 </html>
