@@ -3,6 +3,7 @@ package org.online.lms.security.service;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.online.lms.lecture.repository.LectureApplyRepository;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
@@ -17,6 +18,7 @@ import org.springframework.validation.FieldError;
 
 import javax.swing.text.html.Option;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,11 +26,13 @@ import java.util.Optional;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final LectureApplyRepository lectureApplyRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired  // 생성자 의존성 주입
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder){
+    public MemberService(MemberRepository memberRepository, LectureApplyRepository lectureApplyRepository,PasswordEncoder passwordEncoder){
         this.memberRepository = memberRepository;
+        this.lectureApplyRepository = lectureApplyRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -193,5 +197,8 @@ public class MemberService {
         }
     }
 
-
+    ///////// 회원 아이디로 수강 중인 강의 과정(Java, C) 가져오기 -> 구글 차트
+    public List<String> findLetureCourseByMemberLoginId(String loginId){
+        return lectureApplyRepository.findLectureCourseByLoginId(loginId);
+    }
 }

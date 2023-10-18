@@ -4,27 +4,40 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout_mem.html}">
 <head>
-  <title>Content page</title>
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{css/css.css}">
+  <link rel="stylesheet" th:href="@{/css/security/mypage.css}">
 </th:block>
-
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-  <script th:src="@{js/js}"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script th:src="@{/js/security/mypage.js}"></script>
 </th:block>
 
-<!-- content start -->
-<section layout:fragment="content">
-  <div class="container">
-    <div th:text="|로그인 아이디 : ${loginId}|"></div>
-    <div th:text="|사용자 이름 : ${memberName}|"></div>
-    <a href="/admin/online/lecture-all">
-      <button>관리자페이지 이동</button>
-    </a>
-  </div>
-</section>
-<!-- content end -->
+<body>
+  <!-- content start -->
+  <section layout:fragment="content">
+    <div class="container">
+      <!-- 마이페이지 -->
+      <h1 class="my-5 text-center formTitle">My Page</h1>
+      <div class="formBox shawdow-sm row">
+        <div class="userImgBox col-md-6">
+          <img src="/img/userImg.png">
+        </div>
+        <div class="userInfoBox col-md-6">
+          <div class="fs-4" th:text="|Id : ${loginId}|"></div>
+          <div class="fs-4" th:text="|Name : ${memberName}|"></div>
+        </div>
+      </div>
+      <a href="/admin/online/lecture-all">
+        <button>관리자페이지 이동</button>
+      </a>
+      <!-- 구글 차트 나오는 영역 -->
+      <div id="donutchart" style="width: 600px; height: 500px;" class="border">
+      </div>
+    </div>
+  </section>
+  <!-- content end -->
+</body>
 </html>
