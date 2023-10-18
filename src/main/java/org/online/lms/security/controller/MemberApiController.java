@@ -13,9 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/lms/api/members")
@@ -106,4 +104,24 @@ public class MemberApiController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("입력하신 정보와 일치하는 아이디가 없습니다.");
         }
     }
+
+    // 회원 아이디로 수강 신청한 강의 번호 리스트 받아오기
+    @GetMapping("/lectureData")
+    public ResponseEntity<List<String>> getLetureCourseByMemberNo() {
+        log.info("MemberApiController 진입");
+        // 현재 사용자의 Authentication 객체 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String loginId = userDetails.getUsername();
+
+            if (userDetails != null) {
+                List<String> lectureData = memberService.findLetureCourseByMemberLoginId(loginId);
+                return ResponseEntity.ok(lectureData);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ArrayList<>());
+    }
+
 }

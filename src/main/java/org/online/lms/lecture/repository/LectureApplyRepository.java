@@ -24,4 +24,7 @@ public interface LectureApplyRepository extends JpaRepository<LectureApply, Long
     // 수료여부 확인
     boolean existsByLectureNoAndMemberNoAndCompletionYnTrue(Long lectureNo, Long memberNo);
 
+    // 회원 아이디로 수강 중인 강의 과정(Java, C 등) 가져오기
+    @Query("SELECT li.lectureCourse FROM LectureApply la JOIN LectureInfo li ON li.lectureNo = la.lectureNo WHERE la.memberNo = (SELECT m.memberNo from Members m where m.loginId = :loginId)")
+    List<String> findLectureCourseByLoginId(String loginId);
 }
