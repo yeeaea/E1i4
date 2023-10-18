@@ -1,18 +1,13 @@
 package org.online.lms.survey.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Table(name="survey_answer")
 @Entity
 @Getter
-@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SurveyAnswer {
 
@@ -31,17 +26,17 @@ public class SurveyAnswer {
     @Column(name = "survey_ans_name", nullable = false)
     private String surveyAnsName;
 
-    @Column(name = "survey_score", nullable = false)
-    private BigDecimal surveyScore;
+    @Column(name = "survey_ans_score")
+    private BigDecimal surveyAnsScore;
 
     @Builder
     public SurveyAnswer(long surveyAnsNo,
                         SurveyQuesInfo surveyQuesNo,
                         String surveyAnsName,
-                        BigDecimal surveyScore) {
+                        BigDecimal surveyAnsScore) {
         this.surveyAnsNo = surveyAnsNo;
         this.surveyQuesNo = surveyQuesNo;
         this.surveyAnsName = surveyAnsName;
-        this.surveyScore = surveyScore;
+        this.surveyAnsScore = surveyAnsScore;
     }
 }

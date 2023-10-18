@@ -43,4 +43,16 @@ public class LectureApplyApiController {
         return ResponseEntity.ok(response);
     }
 
+    // 수료여부 확인
+    @GetMapping("/completion-status")
+    public ResponseEntity<String> getCompletionStatus(@RequestParam Long lectureNo, @RequestParam Long memberNo) {
+        boolean isCompleted = lectureApplyService.isLectureCompleted(lectureNo, memberNo);
+
+        if (isCompleted) {
+            return ResponseEntity.ok("{\"completionStatus\": \"Y\"}");
+        } else {
+            return ResponseEntity.ok("{\"completionStatus\": \"N\"}");
+        }
+    }
+
 }

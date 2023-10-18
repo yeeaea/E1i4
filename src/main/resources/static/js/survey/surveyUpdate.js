@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return parseInt(checkbox.value);
             });
 
-            fetch("/admin/api/survey/delete", {
+            fetch("/admin/api/survey/delete-questions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -222,7 +222,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
         }
     });
-
 
 });
 

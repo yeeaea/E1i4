@@ -59,4 +59,6 @@ public class SurveyQuesInfo {
         this.surveyQuesType = surveyQuesType;
         this.surveyQuesYn = surveyQuesYn;
     }
+
+
 }

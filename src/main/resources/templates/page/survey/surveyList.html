@@ -13,7 +13,7 @@
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-  <script th:src="@{/js/lecture/lectureApply.js}"></script>
+  <script th:src="@{/js/survey/mySurvey.js}"></script>
 </th:block>
 
 <!-- content start -->
@@ -42,7 +42,7 @@
                    th:text="${lecture.lectureTitle}"></a></td>
             <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
             <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-            <td> <button >강의평가</button></td>
+            <td><button class="survey-button" th:attr="data-lecture-no=${lecture.lectureNo}" onclick="surveyForLecture(this)">강의평가</button></td>
           </div>
         </tr>
         </tbody>

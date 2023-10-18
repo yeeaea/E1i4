@@ -1,5 +1,6 @@
 package org.online.lms.survey.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.online.lms.survey.domain.SurveyQuesInfo;
 import org.online.lms.survey.service.SurveyQuesInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin/api/survey")
+@Slf4j
 public class SurveyQuesInfoApiController {
 
     private final SurveyQuesInfoService surveyQuesInfoService;
@@ -28,13 +30,15 @@ public class SurveyQuesInfoApiController {
                                                       @RequestParam(value = "surveyQuesYn") boolean surveyQuesYn,
                                                       @RequestParam(value = "parentQuesNo", required = false) Long parentQuesNo) {
         SurveyQuesInfo subQuesInfo = surveyQuesInfoService.addQuestion(surveyQuesName,
-                                                                       surveyQuesType,
-                                                                       surveyQuesViewNo,
-                                                                       surveyQuesYn,
-                                                                       parentQuesNo);
+                surveyQuesType,
+                surveyQuesViewNo,
+                surveyQuesYn,
+                parentQuesNo);
+
 
         return ResponseEntity.ok(subQuesInfo);
     }
+
 
     // 강의 평가 문항 수정
     @PutMapping("/update-question/{surveyQuesNo}")
@@ -54,7 +58,7 @@ public class SurveyQuesInfoApiController {
     }
 
     // 강의 평가 문항 삭제
-    @PostMapping("/delete")
+    @PostMapping("/delete-questions")
     public ResponseEntity<String> deleteQuestions(@RequestBody List<Long> surveyQuesNos) {
         // surveyQuesNos 목록에 포함된 강의 평가 목록 삭제
         boolean success = surveyQuesInfoService.deleteQuestions(surveyQuesNos);
@@ -65,4 +69,7 @@ public class SurveyQuesInfoApiController {
             return new ResponseEntity<>("강의 평가 문항 삭제 중 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+
 }
