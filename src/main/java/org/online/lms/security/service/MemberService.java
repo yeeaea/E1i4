@@ -71,7 +71,7 @@ public class MemberService {
             // FieldError 객체의 getField() 메서드 이용 -> 유효성 검증에 실패한 필드 이름 가져옴
             // String.format 메서드 이용 -> "valid_필드이름" 형식의 문자열 생성
             String validKeyName = String.format("valid_%s", error.getField());
-            // FieldError 객체의 getDefaultMessage() 메서드 이용 -> 유효성 검증 실패 시 표시될 오류 메시지
+            // FieldError 객체의 getDefaultMessage() 메서드 이용 -> 유효성 검증 실패 시 표시될 오류 메시지 가져옴
             // validKeyName을 키로, 오류메시지를 값으로 사용하여 map에 저장
             validatorResult.put(validKeyName, error.getDefaultMessage());
         }
