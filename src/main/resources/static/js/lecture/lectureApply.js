@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // 이미 수강 신청한 강의인 경우
                                 applyButton.disabled = true;
                                 applyButton.textContent = "수강 중";
+                                applyButton.style.backgroundColor= "#6c757d"; // 회색으로 변경
                             }
                         })
                         .catch(error => {

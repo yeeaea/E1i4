@@ -6,55 +6,60 @@
 <head>
     <title>Content page</title>
 </head>
-    <!-- page 고유 css -->
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{css/css.css}">
-    </th:block>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
+</th:block>
 
-    <!-- page 고유 javascript -->
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/lecture/myLectureList.js}"></script>
-    </th:block>
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script th:src="@{/js/lecture/myLectureList.js}"></script>
+</th:block>
 
-    <!-- content start -->
-    <section layout:fragment="content">
-        <h3>내 수강 강의 목록</h3>
-        <div th:if="${not #lists.isEmpty(lectures)}">
-            <!-- 수강 중인 강의 목록이 있는 경우 -->
-            <div th:each="lecture, lectureStat : ${lectures}">
-                <div class="accordion-item">
-                    <button class="class_info accordion-button">
-                        <!-- 강의명 -->
-                        <span class="accordion-title grid1_lect_info" th:text="|과목 : ${lecture.lectureTitle}|"></span>
-                        <span class="icon" aria-hidden="true"></span>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+<!-- content start -->
+<section layout:fragment="content" style="width: 80%; height: 600px">
+
+    <h3 class="mt-4 mb-4">내 수강 강의 목록</h3>
+
+    <div th:if="${not #lists.isEmpty(lectures)}">
+        <!-- 수강 중인 강의 목록이 있는 경우 -->
+        <div th:each="lecture, lectureStat : ${lectures}">
+            <div class="accordion-item">
+
+                <button class="class_info accordion-button mt-3 mb-3">
+                    <span class="accordion-title grid1_lect_info" th:text="|과목명 : ${lecture.lectureTitle}|"></span>
+                    <span class="icon" aria-hidden="true"><i class="fas fa-caret-down"></i></span> <!-- Font Awesome down arrow icon initially -->
+                </button>
+
+                <div class="accordion-content" style="display: none">
+                    <input type="hidden" th:value="${lecture.lectureNo}">
+                    <a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}" style="text-decoration: none;">
+
+                        <button>강의계획서</button>
+                    </a>
+
+                    <button>출결 조회</button>
+                    <button onclick="window.location.href='/lms/notice'">강의 자료</button>
+                    <button class="LectureListBtn" th:attr="data-lecture-list=${lecture.lectureNo}"
+                            onclick="window.location.href='/admin/lms/online/progress-info-list/'
+                                    + this.getAttribute('data-lecture-list')">온라인 강의
                     </button>
-                    <div class="accordion-content" style="display: none">
-                        <div>
-                            <div>
-                                <input type="hidden" th:value="${lecture.lectureNo}">
-                                <a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}">
-                                    <button>강의계획서</button>
-                                </a>
-                                <button>출결조회</button>
-                                <button>강의 자료</button>
-                                <button class="LectureListBtn" th:attr="data-lecture-list=${lecture.lectureNo}"
-                                        onclick="window.location.href='/admin/lms/online/progress-info-list?lectureNo='
-                                        + this.getAttribute('data-lecture-list')">온라인 강의</button>
-                                <button>질문</button>
-                            </div>
-                        </div>
-                    </div>
+                    <button onclick="window.location.href='/lms/questions'">질의 응답</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div th:if="${#lists.isEmpty(lectures)}">
-            <!-- 수강 중인 강의 목록이 없는 경우 -->
-            <P> 수강 중인 강의가 없습니다. </P>
-            <a th:href="@{/lms/online/lecture-all}">
-                <button>수강신청 페이지로 이동</button>
-            </a>
-        </div>
-    </section>
-    <!-- content end -->
+    <!-- 수강 중인 강의 목록이 없는 경우 -->
+    <div th:if="${#lists.isEmpty(lectures)}" style="text-align: center; margin-top: 100px;">
+        <p style="margin-bottom: 30px; font-size: 30px;">수강 중인 강의가 없습니다.</p>
+        <a th:href="@{/lms/online/lecture-all}">
+            <button class="apply-button" style="font-size: 20px;">수강신청 페이지로 이동</button>
+        </a>
+    </div>
+</section>
+<!-- content end -->
+
 </html>
