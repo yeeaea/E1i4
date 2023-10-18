@@ -50,5 +50,10 @@ public class LectureApplyService {
         return lectureApplyRepository.findLectureNumbersByMemberNo(memberNo);
     }
 
+    // 수료여부 확인
+    public boolean isLectureCompleted(Long lectureNo, Long memberNo) {
+        return lectureApplyRepository.existsByLectureNoAndMemberNoAndCompletionYnTrue(lectureNo, memberNo);
+    }
+
 
 }

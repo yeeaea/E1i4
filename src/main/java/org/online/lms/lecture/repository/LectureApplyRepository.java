@@ -21,4 +21,7 @@ public interface LectureApplyRepository extends JpaRepository<LectureApply, Long
     // 강의 번호로 수강신청 객체 가져오기
     List<LectureApply> findByLectureNoIn(List<Long> lectureNos);
 
+    // 수료여부 확인
+    boolean existsByLectureNoAndMemberNoAndCompletionYnTrue(Long lectureNo, Long memberNo);
+
 }

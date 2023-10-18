@@ -18,17 +18,18 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/lms/survey")
-public class LectureSurveyController {
+public class MySurveyController {
 
     private final LectureInfoService lectureInfoService;
     private final LectureApplyService lectureApplyService;
 
     private final MemberService memberService;
 
+
     @Autowired
-    public LectureSurveyController(LectureInfoService lectureInfoService,
-                                   LectureApplyService lectureApplyService,
-                                   MemberService memberService) {
+    public MySurveyController(LectureInfoService lectureInfoService,
+                              LectureApplyService lectureApplyService,
+                              MemberService memberService) {
         this.lectureInfoService = lectureInfoService;
         this.lectureApplyService = lectureApplyService;
         this.memberService = memberService;
@@ -61,4 +62,6 @@ public class LectureSurveyController {
         // 결과 페이지의 뷰 이름 반환
         return "/page/survey/surveyList";
     }
+
+
 }

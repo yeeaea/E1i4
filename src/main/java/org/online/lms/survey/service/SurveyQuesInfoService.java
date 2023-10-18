@@ -1,5 +1,6 @@
 package org.online.lms.survey.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.online.lms.survey.domain.SurveyQuesInfo;
 import org.online.lms.survey.repository.SurveyQuesInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
+@Slf4j
 public class SurveyQuesInfoService {
 
     private final SurveyQuesInfoRepository surveyQuesInfoRepository;
@@ -25,12 +26,7 @@ public class SurveyQuesInfoService {
         List<SurveyQuesInfo> surveyQuesInfoList = surveyQuesInfoRepository.findAll();
 
         // 강의 평가 문항 표시 번호 순으로 정렬
-        Collections.sort(surveyQuesInfoList, new Comparator<SurveyQuesInfo>() {
-            @Override
-            public int compare(SurveyQuesInfo q1, SurveyQuesInfo q2) {
-                return Long.compare(q1.getSurveyQuesViewNo(), q2.getSurveyQuesViewNo());
-            }
-        });
+        Collections.sort(surveyQuesInfoList, (q1, q2) -> Long.compare(q1.getSurveyQuesViewNo(), q2.getSurveyQuesViewNo()));
 
         return surveyQuesInfoList;
     }
@@ -91,4 +87,6 @@ public class SurveyQuesInfoService {
         surveyQuesInfoRepository.deleteBySurveyQuesNoIn(surveyQuesNos);
         return true;
     }
+
+
 }
