@@ -13,4 +13,7 @@ public interface VideoInfoRepository extends JpaRepository<Content, Long>{
 
     // 테이블의 정보(값) 받아오기
     Page<Content> findAll(Pageable pageable);
+
+
+    Content findByContentNo(long contentNo);
 }
