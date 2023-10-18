@@ -21,7 +21,7 @@
         <div class="modal modal-sheet position-static d-block mx-auto" tabindex="-1" role="dialog" id="modalSignin">
             <div class="modal-dialog" role="document">
                 <div class="modal-content rounded-4 shadow" >
-                    <div class="modal-header border-bottom-0 text-center ">
+                    <div class="modal-header border-bottom-0 text-center mt-3">
                         <p>
                             <h1 class="fw-bold mb-0">Find Id</h1>
                         </p>
@@ -30,24 +30,29 @@
                     <div class="modal-body">
                         <form class="form-findId" method="post" action="/lms/api/members/find-id">
                             <!-- 이름 입력 필드 -->
-                            <div>
+                            <div class = "w-75 m-auto">
                                 <input type="text" id="memberName" name="memberName" class="form-control rounded-3" placeholder="이름">
                                 <label for="memberName"></label>
                             </div>
                             <!-- 이메일 입력 필드 -->
-                            <div>
+                            <div class = "w-75 m-auto">
                                 <input type="text" id="memberEmail" name="memberEmail" class="form-control rounded-3" placeholder="이메일 주소">
                                 <label for="memberEmail"></label>
                             </div>
                             <!-- 조회된 아이디 출력될 부분 -->
                             <div class="modal-body" id="findIdResult" >
                             </div>
-                            <!-- 아이디 찾기 버튼 -->
-                            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="button" id="findIdBtn" data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop">Search</button>
+                            <div class="d-flex justify-content-center mb-2">
+                                <!-- 아이디 찾기 버튼 -->
+                                <button class="w-75 mb-2 btn btn-lg rounded-3 btn-primary" type="button" id="findIdBtn" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop">Search</button>
+                            </div>
                         </form>
                         <!-- 아이디 조회되면, 버튼 출력되도록!-->
-                        <button type="submit" id="toLoginBtn" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" style="display: none;">로그인 화면으로 이동</button>
+                        <div class="d-flex justify-content-center mb-2">
+                            <button type="submit" id="toLoginBtn" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" style="display: none;">로그인 화면으로 이동</button>
+
+                        </div>
                     </div>
                 </div>
             </div>

@@ -18,8 +18,8 @@ public interface AdminRepository extends JpaRepository<Members, Long> {
     // 관리자 페이지에서 수강생 목록 출력
     @Query("""
         SELECT m
-            FROM Members m
-            JOIN LectureApply la ON m.memberNo = la.memberNo
+           FROM Members m
+           JOIN LectureApply la ON m.memberNo = la.memberNo
            JOIN LectureInfo li ON li.lectureNo = la.lectureNo
          WHERE la.lectureNo = :lectureNo AND m.memberRole = 'USER'
     """)

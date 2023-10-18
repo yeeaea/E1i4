@@ -9,8 +9,6 @@ import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
 import org.online.lms.security.dto.UpdateMemberInfoDTO;
 import org.online.lms.security.service.MemberService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.security.core.Authentication;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -58,28 +57,29 @@ public class MemberViewController {
     // 회원가입 페이지로 이동
     @GetMapping("/lms/signup")
     public String signUp(){
-        return "/page/security/signUp";
+        return "/page/security/signup";
     }
 
     // 회원가입 처리
     @PostMapping("/lms/signup")
     public String processSignup(@Valid MemberSignupDTO dto, Errors errors, Model model){
-//        // @Valid가 적용된 MemberSignupDTO 객체 유효성 검증 -> 실패 시, 에러 정보가 Errors 객체에 저장됨
-//        log.info("dto : {}, errors : {}", dto, errors);
-//        if(errors.hasErrors()){
-//            // 회원가입 실패 시, 입력 데이터 값 그대로 유지
-//            model.addAttribute("signupDTO", dto);
-//            // 유효성 검증 실패한 필드와 메시지 핸들링
-//            Map<String, String> validatorResult = memberService.validateHandling(errors);
-//            // validatorResult.keySet() : Map의 key를 가진 Set 객체 반환
-//            // ( Set : Map의 키를 담아두는 컬렉션 )
-//            for(String key : validatorResult.keySet()){
-//                // 각 key에 해당하는 값을 model에 추가 -> 뷰에서 오류 메시지 표시 목적
-//                model.addAttribute(key, validatorResult.get(key));
-//            }
-//            // 회원가입 페이지로 다시 이동
-//            return "/lms/signup";
-//        }
+        // @Valid가 적용된 MemberSignupDTO 객체 유효성 검증 -> 실패 시, 에러 정보가 Errors 객체에 저장됨
+        log.info("dto : {}, errors : {}", dto, errors);
+        if(errors.hasErrors()){
+            log.info("회원가입 실패");
+            // 회원가입 실패 시, 입력 데이터 값 그대로 유지
+            model.addAttribute("signupDTO", dto);
+            // 유효성 검증 실패한 필드와 메시지 핸들링
+            Map<String, String> validatorResult = memberService.validateHandling(errors);
+            // validatorResult.keySet() : Map의 key를 가진 Set 객체 반환
+            // ( Set : Map의 키를 담아두는 컬렉션 )
+            for(String key : validatorResult.keySet()){
+                // 각 key에 해당하는 값을 model에 추가 -> 뷰에서 오류 메시지 표시 목적
+                model.addAttribute(key, validatorResult.get(key));
+            }
+            // 회원가입 페이지로 다시 이동
+            return "/page/security/signup";
+        }
         memberService.registerMember(dto);
         // 회원가입이 완료된 이후에 로그인 페이지로 이동
         return "redirect:/?success=true";
@@ -134,10 +134,10 @@ public class MemberViewController {
     // 비밀번호 변경 처리
     @PostMapping("/lms/mypage/change-pw")
     /*
-    *  Authentication : 현재 사용자의 인증 정보를 포함한 객체
-    *  @AuthenticationPrincipal : 현재 사용자의 정보를 나타내는 어노테이션으로,
-    *                              Spring Security를 사용해 현재 사용자 정보 가져옴
-    * */
+     *  Authentication : 현재 사용자의 인증 정보를 포함한 객체
+     *  @AuthenticationPrincipal : 현재 사용자의 정보를 나타내는 어노테이션으로,
+     *                              Spring Security를 사용해 현재 사용자 정보 가져옴
+     * */
     public String updatePw(@Valid MemberPwChangeDTO dto, Errors errors, Model model,
                            Authentication authentication, @AuthenticationPrincipal Members member){
         // 현재 사용자 인증 정보에서 Principal를 가져와 UserDetails로 업캐스팅

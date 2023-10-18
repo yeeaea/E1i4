@@ -29,7 +29,7 @@ dependencies {
     // 타임리프 레이아웃
     implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
     // 유효성 검사
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // 개발할때 소스자동생성 실행시 필요한 라이브러리
