@@ -35,16 +35,18 @@
 
         <!-- 재생 버튼 -->
         <!-- 던져주는 값이 어떤 값이어야 할까? progressNO-->
-        <button class="playBtn" data-ytb-id="VIDEO_ID_HERE" style="border: none; background-color: white;">
+        <button class="playBtn" style="border: none; background-color: white;">-->
             <i class="fa-regular fa-circle-play"
-               onclick="window.location.href='/admin/lms/online/view'"
+               th:attr="data-content-no=${content.contentNo}"
+               onclick="window.location.href='/admin/lms/online/view'
+               + this.getAttribute('data-content-no')"
                style=" font-size: 60px; color: black;
-                           width: 200px; height: 150px; padding-top: 50px;"></i>
+               width: 200px; height: 150px; padding-top: 50px;"></i>
         </button>
 
-    </div>
+                </div>
 
-<!--    <button class="playBtn" th:attr="data-ytb-id=${content.ytbUrl}" style="border: none; background-color: white;"-->
+            <!--    <button class="playBtn" th:attr="data-ytb-id=${content.ytbUrl}" style="border: none; background-color: white;"-->
 <!--            onclick="window.location.href='https://www.youtube.com/embed/' + this.getAttribute('data-ytb-id');">-->
 <!--        <i class="fa-regular fa-circle-play" style="font-size: 60px; color: black; width: 200px; height: 150px; padding-top: 50px;"></i>-->
 <!--    </button>-->
@@ -58,7 +60,14 @@
 <!--               + this.getAttribute('data-ytburl')"-->
 <!--           style=" font-size: 60px; color: black;-->
 <!--                           width: 200px; height: 150px; padding-top: 50px;"></i>-->
-<!--    </button>-->
+<!--    </button>
+<button class="playBtn" data-ytb-id="VIDEO_ID_HERE" style="border: none; background-color: white;">
+            <i class="fa-regular fa-circle-play"
+               onclick="window.location.href='/admin/lms/online/view'"
+               style=" font-size: 60px; color: black;
+                           width: 200px; height: 150px; padding-top: 50px;"></i>
+        </button>
+-->
 
 </th:block>
 </body>

@@ -1,10 +1,9 @@
 package org.online.lms.video.repository;
 
-import lombok.extern.slf4j.Slf4j;
-import org.online.lms.security.domain.Members;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.Progress;
 import org.online.lms.video.domain.ProgressInfo;
+import org.online.lms.video.dto.ProgressTmRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -30,13 +29,49 @@ public interface ProgressTmRepository extends JpaRepository<Progress, Long> {
     """)
     List<Long> findByLectureNo(@Param("lectureNo") Long lectureNo);
 
-    // 강의번호에 연결된 콘텐츠 번호들 가져오기
+
+
+
+    // 강의번호 통해 강의번호에 연결된 content 전체 가져오기 - 사용
     @Query("""
         SELECT pi.content
         FROM ProgressInfo pi
         WHERE pi.lecture.lectureNo = :lectureNo
     """)
     List<Content> findContentByLectureNo(@Param("lectureNo") Long lectureNo);
+
+
+    // 콘텐츠 번호 통해 content 전체 가져오기
+    @Query("""
+        SELECT pi.content
+        FROM ProgressInfo pi
+        WHERE pi.content.contentNo = :contentNo
+    """)
+    List<Content> findContentByContentNo(@Param("contentNo") Long contentNo);
+
+
+    // 콘텐츠 번호 통해 ProgressInfo 전체 가져오기
+    @Query("""
+        SELECT pi
+        FROM ProgressInfo pi
+        WHERE pi.content.contentNo = :contentNo
+    """)
+    List<ProgressInfo> findProgressInfosByContentNo(@Param("contentNo") Long contentNo);
+
+
+    // 콘텐츠 번호 통해 Progress 전체 가져오기 (필요하면 나중에 progressNo하나만)
+    // 아니면 반환값 List<Progress> findProgressByContentNo
+    @Query("""
+        SELECT p
+        FROM Progress p
+        WHERE p.nthNo.content.contentNo = :contentNo
+    """)
+    List<ProgressTmRequest> findProgressTmRequestByContentNo(@Param("contentNo") Long contentNo);
+
+
+    // 로그인 아이디가 있으면 중복 저장하는 업데이트
+
+
     // 차시 번호 통해 콘텐츠 테이블의 유튜브 연동번호 받아오기
     // (progress_info와 content를 조인해서 유튜브 연동번호 가져오고,
     // progress 테이블의 nthNo = progress_info테이블의 nthNo 정보를 가져오면 됨)
