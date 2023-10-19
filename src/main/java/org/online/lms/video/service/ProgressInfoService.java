@@ -9,11 +9,9 @@ import org.online.lms.video.dto.AddProgressInfoRequest;
 import org.online.lms.video.dto.UpdateProgressInfoRequest;
 import org.online.lms.video.repository.ProgressInfoRepository;
 import org.online.lms.video.repository.VideoInfoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,7 +75,7 @@ public class ProgressInfoService {
 
     // 차시 정보 수정
     @Transactional
-    public ProgressInfo updateProgress(long nthNo, int nthDuration, UpdateProgressInfoRequest request) {
+    public ProgressInfo updateProgress(long nthNo, String nthDuration, UpdateProgressInfoRequest request) {
         ProgressInfo progressInfo = progressInfoRepository.findById(nthNo).orElseThrow(
                 () -> new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다."));
 

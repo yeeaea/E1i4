@@ -1,8 +1,6 @@
 package org.online.lms.video.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.online.lms.lecture.domain.LectureInfo;
-import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.dto.AddProgressInfoRequest;
 import org.online.lms.video.dto.UpdateProgressInfoRequest;
@@ -45,7 +43,7 @@ public class ProgressInfoApiController {
 
     // 차시 정보 수정
     @PutMapping("/update/{nthNo}")
-    public ResponseEntity<ProgressInfo> updateProgress(@PathVariable long nthNo, @RequestParam int nthDuration, @RequestBody UpdateProgressInfoRequest request) {
+    public ResponseEntity<ProgressInfo> updateProgress(@PathVariable long nthNo, @RequestParam String nthDuration, @RequestBody UpdateProgressInfoRequest request) {
         ProgressInfo updatedProgress = progressInfoService.updateProgress(nthNo, nthDuration, request);
 
         if (updatedProgress != null) {

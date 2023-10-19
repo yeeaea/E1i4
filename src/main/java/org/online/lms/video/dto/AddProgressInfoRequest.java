@@ -17,7 +17,7 @@ public class AddProgressInfoRequest {
     private long nthNo; // 차시 관리 번호
     private long lectureNo; // 강의 관리 번호
     private long contentNo; // 콘텐츠 관리 번호
-    private int nthDuration; // 차시 순서
+    private String nthDuration; // 차시 순서
 
     public ProgressInfo toEntity() {
         return ProgressInfo.builder()

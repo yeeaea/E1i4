@@ -30,7 +30,7 @@
             <select id="lectureSelect"></select>
 
             <button type="button" id="loadButton">조회</button>
-            <table class="border border-dark p-3 mb-3">
+            <table class="border border-dark p-3 mb-3" id="lectureTable">
                 <thead>
                 <tr>
                     <th>개설강의번호</th>
@@ -60,10 +60,11 @@
         </div>
         <div class="container" style="display: flex; flex-direction: row;">
             <div id="progressDetails" style="flex: 1; margin-right: 20px;">
-                <table class="border border-dark p-3 mb-3" id="progress">
+                <table class="border border-dark p-3 mb-3" id="progressTable">
                     <thead>
                     <tr>
                         <th>
+                            <label for="selectAllCheckbox"></label>
                             <input type="checkbox" id="selectAllCheckbox" autocomplete="off"
                                    onchange="selectAllCheckboxes(this)">
                         </th>
@@ -74,18 +75,24 @@
                     </thead>
                     <tbody>
                     <!-- 강의 차시별 콘텐츠 목록 표시 -->
-                    <tr id="progressList" th:each="progressInfo : ${progressInfoList}" class="progress-row">
-                        <td><input type="checkbox" class="contentCheckbox" autocomplete="off"
-                                   th:attr="data-lectureNo=${progressInfo.lecture.lectureNo},
-                                   data-lectureCourse=${progressInfo.lecture.lectureCourse},
-                                   data-contentNo=${progressInfo.content.contentNo},
-                                   data-lectureDuration=${progressInfo.nthDuration},
-                                   data-contentName=${progressInfo.content.contentName},
-                                   data-runTm=${progressInfo.content.runTm},
-                                   data-ytbUrl=${progressInfo.content.ytbUrl},
-                                   data-contentUrl=${progressInfo.content.contentUrl}
-                                   "
-                                   onclick="addCheckboxListeners(this)"></td>
+                    <tr id="progressList" th:each="progressInfo : ${progressInfoList}" class="progress-row hidden-row">
+                        <td>
+                            <label for="contentCheckbox"></label>
+                            <input type="checkbox" id="contentCheckbox" class="contentCheckbox" autocomplete="off"
+                                   th:attr="data-nthNo=${progressInfo.nthNo},
+                                       data-lectureNo=${progressInfo.lecture.lectureNo},
+                                       data-lectureCourse=${progressInfo.lecture.lectureCourse},
+                                       data-contentNo=${progressInfo.content.contentNo},
+                                       data-nthDuration=${progressInfo.nthDuration},
+                                       data-contentName=${progressInfo.content.contentName},
+                                       data-runTm=${progressInfo.content.runTm},
+                                       data-ytbUrl=${progressInfo.content.ytbUrl},
+                                       data-contentUrl=${progressInfo.content.contentUrl}"
+                                   onclick="addCheckboxListeners(this)">
+                        </td>
+                        <td class="d-none" th:text="${progressInfo.nthNo}"></td>
+                        <td class="d-none" th:text="${progressInfo.lecture.lectureNo}"></td>
+                        <td class="d-none" th:text="${progressInfo.content.contentNo}"></td>
                         <td th:text="${progressInfo.nthDuration}"></td>
                         <td th:text="${progressInfo.content.contentName}"></td>
                         <td th:text="${progressInfo.content.runTm}"></td>
@@ -118,8 +125,8 @@
                     <div>
                         <label for="contentNo">콘텐츠 관리 번호:</label>
                         <div style="display: flex; align-items: center;">
-                            <input type="text" id="contentNo" name="contentNo" class="col-10">
-                            <i class="search fa-solid fa-magnifying-glass col-2" onclick="openModal()"></i>
+                            <input type="text" id="contentNo" name="contentNo">
+                            <i class="search fa-solid fa-magnifying-glass" onclick="openModal()"></i>
                         </div>
                     </div>
                     <div>

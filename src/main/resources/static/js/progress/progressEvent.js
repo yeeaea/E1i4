@@ -63,6 +63,46 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('loadButton').addEventListener('click', loadLectureInfo);
 });
 
+function loadProgressDataFromLectureTable() {
+    let lectureTableRows = document.querySelectorAll("#lectureTable tbody tr");
+    let progressTable = document.getElementById("progressTable");
+
+    lectureTableRows.forEach(function (row) {
+        row.addEventListener("click", function () {
+            // 클릭한 행의 데이터 가져오기
+            let lectureNo = row.querySelector("#data-lectureNo").textContent;
+
+            // progressTable 첫 번째 행(thead)는 건너뛰고 데이터 행을 찾음
+            let progressTableDataRows = progressTable.querySelectorAll("tbody tr");
+
+            // 모든 데이터 행에 hidden-row 클래스를 추가하여 숨깁니다.
+            progressTableDataRows.forEach(function (progressRow) {
+                progressRow.classList.add("hidden-row");
+            });
+
+            // 데이터 행에 해당 데이터 추가
+            progressTableDataRows.forEach(function (progressRow) {
+                let progressLectureNo = progressRow.querySelector("td.d-none:nth-child(3)").textContent;
+                if (progressLectureNo === lectureNo) {
+                    // 해당 데이터 행을 찾았을 때
+                    let contentCheckbox = progressRow.querySelector(".contentCheckbox");
+
+                    // contentCheckbox 선택 상태로 변경
+                    contentCheckbox.checked = true;
+
+                    // hidden-row 클래스를 제거하여 행을 보이게 만듭니다.
+                    progressRow.classList.remove("hidden-row");
+                }
+            });
+        });
+    });
+}
+
+// 페이지 로드 후 함수 실행
+window.onload = function () {
+    loadProgressDataFromLectureTable();
+};
+
 /////////////////////////// 등록된 차시 정보 조회 ///////////////////////////
 // 체크박스 전체 선택
 function selectAllCheckboxes(checkbox) {
@@ -156,10 +196,13 @@ document.addEventListener('DOMContentLoaded', function () {
             option.text = `${i}주차`;
             selectElement.add(option);
         }
+
+        selectElement.addEventListener('change', function () {
+            const selectedValue = selectElement.value;
+            selectElement.setAttribute('nthDuration', selectedValue);
+        });
     }
 
     selectDuration();
-
-    const newContentButton = document.getElementById('newContent');
-    newContentButton.addEventListener('click', handleEditButtonClick);
 });
+
