@@ -1,8 +1,6 @@
 package org.online.lms.video.service;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.online.lms.boards.domain.Post;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.Progress;
 import org.online.lms.video.domain.ProgressInfo;
@@ -57,8 +55,8 @@ public class ProgressTmService {
     }
 
     // 회원번호와 콘텐츠번호를 통해서 마지막 재생시간 가져오기
-    public Long findFiinalTmByContentNoAndMemberNo(Long contentNo, Long memberNo) {
-        return progressTmRepository.findFiinalTmByContentNoAndMemberNo(contentNo, memberNo);
+    public String findFinalTmByContentNoAndMemberNo(Long contentNo, Long memberNo) {
+        return progressTmRepository.findFinalTmByContentNoAndMemberNo(contentNo, memberNo);
     }
 
     // 콘텐츠 번호 통해 Progress 전체 가져오기

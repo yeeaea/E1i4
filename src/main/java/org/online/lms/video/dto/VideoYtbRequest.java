@@ -15,7 +15,7 @@ public class VideoYtbRequest {
     private String videoDescription; // 콘텐츠 설명
     private String videoId; // 유튜브 연동번호
     private String videoUrl; // 유튜브 url
-    private int duration; // 재생 시간
+    private String duration; // 재생 시간
 
     public Content toEntity() { // 생성자를 사용해 객체 생성
         return Content.builder()
