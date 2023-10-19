@@ -29,13 +29,10 @@ import java.util.List;
 public class VideoViewController {
 
     private final VideoInfoService videoInfoService;
-    private final ProgressTmService progressTmService;
     @Autowired
     public VideoViewController(
-            VideoInfoService videoInfoService,
-            ProgressTmService progressTmService) {
+            VideoInfoService videoInfoService) {
         this.videoInfoService = videoInfoService;
-        this.progressTmService = progressTmService;
     }
 
     @GetMapping("/contentList")
@@ -53,6 +50,7 @@ public class VideoViewController {
     @GetMapping("/content")
     public String contentListForm(@PageableDefault(size = 10) Pageable pageable, Model model) {
         // 콘텐츠 리스트 + 등록창
+        // 여기 템플릿만 보여주면 됨
 
         Page<Content> contentInfo;
 
@@ -95,40 +93,6 @@ public class VideoViewController {
         model.addAttribute("videoInfoRequest", new VideoInfoRequest());
 
         return "/page/video/videoUpdate";
-    }
-
-    /////// 추후에 viewController로 이동(Security) - 차시테이블 사용
-    @GetMapping("/lms/online/progress-info-list/{lectureNo}")
-    public String ytbList(@PathVariable Long lectureNo, Model model) {
-        // 온라인 강의 콘텐츠 리스트
-
-        List<Content> contentList = progressTmService.findContentByLectureNo(lectureNo);
-        model.addAttribute("contentList", contentList);
-        return "/page/video/ytbContent";
-
-    }
-
-    @GetMapping("/lms/online/view/{contentNo}")
-    public String ytbPlay(@PathVariable Long contentNo, Model model) {
-        // 온라인 강의 콘텐츠 리스트에서 재생버튼 누르면 나오는 영상 플레이 창
-
-        List<Content> contentList =
-                progressTmService.findContentByContentNo(contentNo);
-        model.addAttribute("contentList", contentList);
-
-        List<ProgressInfo> progressInfos =
-                progressTmService.findProgressInfosByContentNo(contentNo);
-        model.addAttribute("progressInfos", progressInfos);
-
-        List<ProgressTmRequest> requests =
-                progressTmService.findProgressTmRequestByContentNo(contentNo);
-        model.addAttribute("requests", requests);
-        return "/page/video/ytbView";
-    }
-
-    @GetMapping("/lms/online/view")
-    public String ytbPlay() {
-        return "/page/video/ytbView";
     }
 
 }

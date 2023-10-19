@@ -20,10 +20,11 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
 
     // 데이터베이스에 대한 추가 및 갱신에 영향을 주지 않음 = false
     // 데이터베이스에 대한 추가 및 갱신에 영향을 줌 = true
-    @ManyToOne
-    @JoinColumn(name = "nth_no", referencedColumnName = "nth_no"
-            /*insertable = false, updatable = false*/)
-    private ProgressInfo nthNo; // 차시 관리 번호 (외래키 연결)
+//    @ManyToOne
+//    @JoinColumn(name = "nth_no", referencedColumnName = "nth_no"
+            /*insertable = false, updatable = false*/
+    @Column(name = "nthNo")
+    private Long nthNo; // 차시 관리 번호 (외래키 연결)
 
     @OneToOne
     @JoinColumn(name = "lecture_no", referencedColumnName = "lecture_no"
@@ -34,7 +35,7 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
     // @JoinColumn(name = "member_no", referencedColumnName = "member_no"
             /*insertable = false, updatable = false*/
     @Column(name = "member_no")
-    private String memberNo; // 회원 번호 (외래키 연결)
+    private Long memberNo; // 회원 번호 (외래키 연결)
 
     @Column(name = "start_tm")
     private String startTm; // 접속 시작 시간
@@ -52,14 +53,16 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
     private Integer progRt; // 차시 진도율
 
     @Builder
-    public Progress(ProgressInfo nthNo,
+    public Progress(Long progressNo,
+                    Long nthNo,
                     LectureApply lectureNo,
-                    String memberNo,
+                    Long memberNo,
                     String startTm,
                     String endTm,
                     String finalTm,
                     String maxTm,
                     Integer progRt) {
+        this.progressNo = progressNo;
         this.nthNo = nthNo;
         this.lectureNo = lectureNo;
         this.memberNo = memberNo;
