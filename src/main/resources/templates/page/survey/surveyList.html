@@ -4,59 +4,100 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout_mem.html}">
 <head>
-  <title>Content page</title>
+    <title>Content page</title>
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{css/css.css}">
+    <link rel="stylesheet" th:href="@{css/css.css}">
 </th:block>
 
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-  <script th:src="@{/js/survey/mySurvey.js}"></script>
+    <script th:src="@{/js/survey/mySurvey.js}"></script>
 </th:block>
 
 <!-- content start -->
 <section layout:fragment="content">
-  <div class="container">
-    <h3>강의평가</h3>
-    <div th:if="${not #lists.isEmpty(lectures)}">
-      <table class = "table table-hover">
-        <thead>
-        <tr>
-          <th>강의년도</th>
-          <th>강의 과정</th>
-          <th>강의명</th>
-          <th>강의 시작일</th>
-          <th>강의 종료일</th>
-          <th>강의평가</th>
-        </tr>
-        </thead>
+    <div class="container">
+        <h3>강의평가</h3>
+        <div th:if="${not #lists.isEmpty(lectures)}">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>강의년도</th>
+                    <th>강의 과정</th>
+                    <th>강의명</th>
+                    <th>강의 시작일</th>
+                    <th>강의 종료일</th>
+                    <th>강의평가</th>
+                </tr>
+                </thead>
 
-        <tbody class="row-6" th:each="lecture : ${lectures}">
-        <tr>
-          <div>
-            <td th:text="${lecture.lectureYear}"></td>
-            <td th:text="${lecture.lectureCourse}"></td>
-            <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
-                   th:text="${lecture.lectureTitle}"></a></td>
-            <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-            <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-            <td><button class="survey-button" th:attr="data-lecture-no=${lecture.lectureNo}" onclick="surveyForLecture(this)">강의평가</button></td>
-          </div>
-        </tr>
-        </tbody>
-      </table>
+                <tbody class="row-6" th:each="lecture : ${lectures}">
+                <tr>
+                    <div>
+                        <td th:text="${lecture.lectureYear}"></td>
+                        <td th:text="${lecture.lectureCourse}"></td>
+                        <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
+                               th:text="${lecture.lectureTitle}"></a></td>
+                        <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+                        <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                        <td>
+                            <button class="survey-button" th:attr="data-lecture-no=${lecture.lectureNo},
+                                                                   data-lecture-title=${lecture.lectureTitle}"
+                                    onclick="surveyForLecture(this)">강의평가
+                            </button>
+                        </td>
+                    </div>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${#lists.isEmpty(lectures)}">
+            <!-- 수강 중인 강의 목록이 없는 경우 -->
+            <P> 수강 중인 강의가 없습니다. </P>
+            <a th:href="@{/lms/online/lecture-all}">
+                <button>수강신청 페이지로 이동</button>
+            </a>
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <h3>강의평가 페이지</h3>
+
+                <form>
+                    <!-- 각 문항에 대한 순서대로 루프를 실행 -->
+                    <div name="questions"th:each="surveyQuestion, questionIndex : ${surveyQuesInfoList}">
+                        <!-- 현재 문항의 번호 -->
+                        <input type="hidden" name="surveyQuesNo" th:value="${surveyQuestion.surveyQuesNo}">
+
+                        <!-- 평가 문항 표시 -->
+                        <p th:text="${surveyQuestion.surveyQuesName}">강의평가문항명: {평가 문항 내용}</p>
+
+                        <!-- 다중 선택의 경우 5개의 라디오 버튼 -->
+                        <div th:if="${surveyQuestion.surveyQuesType eq '1'}">
+                            <label>답변 선택:</label><br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇다"> 매우 그렇다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇다"> 그렇다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="보통이다"> 보통이다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇지 않다"> 그렇지 않다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇지 않다"> 매우 그렇지 않다<br>
+                        </div><br>
+
+                        <!-- 직접 입력의 경우 입력 필드 -->
+                        <div th:if="${surveyQuestion.surveyQuesType eq '2'}">
+                            <label for="directInputAnswer">답변:</label>
+                            <input type="text" th:id="__${'directInputAnswer' + questionIndex.index}__" th:name="__${'directInputAnswer' + questionIndex.index}__">
+                        </div><br>
+                    </div>
+                    <button id="surveySubmit">제출</button>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div th:if="${#lists.isEmpty(lectures)}">
-      <!-- 수강 중인 강의 목록이 없는 경우 -->
-      <P> 수강 중인 강의가 없습니다. </P>
-      <a th:href="@{/lms/online/lecture-all}">
-        <button>수강신청 페이지로 이동</button>
-      </a>
-    </div>
-  </div>
+
+
 </section>
 <!-- content end -->
 </html>

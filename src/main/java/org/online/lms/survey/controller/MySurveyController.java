@@ -5,6 +5,8 @@ import org.online.lms.lecture.service.LectureApplyService;
 import org.online.lms.lecture.service.LectureInfoService;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.service.MemberService;
+import org.online.lms.survey.domain.SurveyQuesInfo;
+import org.online.lms.survey.service.SurveyQuesInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,17 +24,19 @@ public class MySurveyController {
 
     private final LectureInfoService lectureInfoService;
     private final LectureApplyService lectureApplyService;
-
     private final MemberService memberService;
+    private final SurveyQuesInfoService surveyQuesInfoService;
 
 
     @Autowired
     public MySurveyController(LectureInfoService lectureInfoService,
                               LectureApplyService lectureApplyService,
-                              MemberService memberService) {
+                              MemberService memberService,
+                              SurveyQuesInfoService surveyQuesInfoService) {
         this.lectureInfoService = lectureInfoService;
         this.lectureApplyService = lectureApplyService;
         this.memberService = memberService;
+        this.surveyQuesInfoService = surveyQuesInfoService;
     }
 
     @GetMapping("/lecture-all")
@@ -56,8 +60,12 @@ public class MySurveyController {
                 lectures.add(lecture);
             }
 
+            // 답변 유형 필드가 있는 강의 평가 문항 가져오기
+            List<SurveyQuesInfo> surveyQuesInfoList = surveyQuesInfoService.getSurveyQuesWithAnswerType();
+
             // 모델에 결과를 추가하여 뷰로 전달
             model.addAttribute("lectures", lectures);
+            model.addAttribute("surveyQuesInfoList", surveyQuesInfoList);
         }
         // 결과 페이지의 뷰 이름 반환
         return "/page/survey/surveyList";

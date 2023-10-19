@@ -20,6 +20,7 @@ public class SurveyQuesInfoService {
     public SurveyQuesInfoService(SurveyQuesInfoRepository surveyQuesInfoRepository) {
         this.surveyQuesInfoRepository = surveyQuesInfoRepository;
     }
+
     // 강의 평가 문항 전체 조회
     public List<SurveyQuesInfo> getAllSurveyQuesInfo() {
 
@@ -38,10 +39,10 @@ public class SurveyQuesInfoService {
 
     // 강의 평가 문항 추가
     public SurveyQuesInfo addQuestion(String surveyQuesName,
-                                         String surveyQuesType,
-                                         Long surveyQuesViewNo,
-                                         boolean surveyQuesYn,
-                                         Long parentQuesNo) {
+                                      String surveyQuesType,
+                                      Long surveyQuesViewNo,
+                                      boolean surveyQuesYn,
+                                      Long parentQuesNo) {
         SurveyQuesInfo surveyQuesInfo = new SurveyQuesInfo();
         surveyQuesInfo.setSurveyQuesName(surveyQuesName);
         surveyQuesInfo.setSurveyQuesType(surveyQuesType);
@@ -51,7 +52,7 @@ public class SurveyQuesInfoService {
         if (parentQuesNo != null) {
             SurveyQuesInfo parentQuestion = surveyQuesInfoRepository.findById(parentQuesNo).orElse(null);
 
-            if (parentQuestion !=null) {
+            if (parentQuestion != null) {
                 surveyQuesInfo.setParentQues(parentQuestion);
             }
         }
@@ -88,5 +89,13 @@ public class SurveyQuesInfoService {
         return true;
     }
 
+    // 답변 유형이 있는 강의평가 문항 리스트
+    public List<SurveyQuesInfo> getSurveyQuesWithAnswerType() {
+        List<SurveyQuesInfo> surveyQuesInfoList = surveyQuesInfoRepository.findBySurveyQuesTypeIsNotNull();
 
+        // 강의 평가 문항 표시 번호 순으로 정렬
+        Collections.sort(surveyQuesInfoList, (q1, q2) -> Long.compare(q1.getSurveyQuesViewNo(), q2.getSurveyQuesViewNo()));
+
+        return surveyQuesInfoList;
+    }
 }
