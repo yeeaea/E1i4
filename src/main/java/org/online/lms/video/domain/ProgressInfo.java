@@ -29,10 +29,10 @@ public class ProgressInfo { // 강의 차시 정보 테이블
     private Content content; // 콘텐츠 관리 번호 (외래키 연결)
 
     @Column(name = "nth_Duration")
-    private int nthDuration;
+    private String nthDuration;
 
     @Builder
-    public ProgressInfo(long nthNo, LectureInfo lecture, Content content, int nthDuration) {
+    public ProgressInfo(long nthNo, LectureInfo lecture, Content content, String nthDuration) {
         this.nthNo = nthNo;
         this.lecture = lecture;
         this.content = content;
@@ -40,7 +40,7 @@ public class ProgressInfo { // 강의 차시 정보 테이블
     }
 
     // 수정
-    public void update(long nthNo, int nthDuration) {
+    public void update(long nthNo, String nthDuration) {
         this.nthNo = nthNo;
         this.nthDuration = nthDuration;
     }

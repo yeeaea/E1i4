@@ -1,3 +1,5 @@
+
+
 // 강의 추가 또는 수정 요청
 function sendProgressRequest(data, endpoint, successMessage) {
     fetch(endpoint, {
