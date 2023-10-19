@@ -3,6 +3,7 @@ package org.online.lms.video.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.online.lms.lecture.domain.LectureApply;
+import org.online.lms.security.domain.Members;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Table(name="progress")
@@ -31,11 +32,11 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
             /*insertable = false, updatable = false*/)
     private LectureApply lectureNo; // 강의 번호 (외래키 연결)
 
-    //@OneToOne
-    // @JoinColumn(name = "member_no", referencedColumnName = "member_no"
+    @OneToOne
+    @JoinColumn(name = "member_no", referencedColumnName = "member_no")
             /*insertable = false, updatable = false*/
-    @Column(name = "member_no")
-    private Long memberNo; // 회원 번호 (외래키 연결)
+    //@Column(name = "member_no")
+    private Members memberNo; // 회원 번호 (외래키 연결)
 
     @Column(name = "start_tm")
     private String startTm; // 접속 시작 시간
@@ -56,7 +57,7 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
     public Progress(Long progressNo,
                     Long nthNo,
                     LectureApply lectureNo,
-                    Long memberNo,
+                    Members memberNo,
                     String startTm,
                     String endTm,
                     String finalTm,
