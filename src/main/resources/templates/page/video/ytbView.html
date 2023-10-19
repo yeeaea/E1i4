@@ -48,11 +48,11 @@
         </div>
     </div>
 
-<!--    <div>-->
-<!--        <div data-memberNo="[[${memberNo}]]"-->
-<!--             th:attr="data-memberNo=${memberNo}">-->
-<!--        </div>-->
-<!--    </div>-->
+    <div>
+        <div data-memberNo="[[${memberNo}]]"
+             th:attr="data-memberNo=${memberNo}">
+        </div>
+    </div>
 
     <div style="display: flex;" th:each="progressInfo : ${progressInfos}">
         <input data-nthNo="[[${progressInfo}]]" type="hidden"

@@ -136,7 +136,7 @@ function updatePosition() {
     const memberNo =
         document.querySelector('[data-memberNo]')
             .getAttribute('data-memberNo');
-    console.log(memberNo + "왜 안나와?");
+    console.log(nthNo + "왜 안나와?");
     finalTm = player.getCurrentTime();
     // maxTm - 뒤로 영상 이동해도 finalTm값이 실행될 수 있도록 하기
     maxTm = maxTm > finalTm ? maxTm : finalTm;
