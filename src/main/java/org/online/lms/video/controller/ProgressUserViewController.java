@@ -1,14 +1,11 @@
 package org.online.lms.video.controller;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.service.MemberService;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.ProgressInfo;
-import org.online.lms.video.dto.ProgressTmRequest;
 import org.online.lms.video.service.ProgressTmService;
-import org.online.lms.video.service.VideoInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,23 +44,20 @@ public class ProgressUserViewController {
     }
 
     @GetMapping("/view/{contentNo}")
-    public String ytbPlay(@PathVariable Long contentNo, Model model, HttpSession session) {
+    public String ytbPlay(@PathVariable Long contentNo, Model model) {
         // 온라인 강의 콘텐츠 리스트에서 재생버튼 누르면 나오는 영상 플레이 창
 
-        //Long nthNo = (Long) session.getAttribute(sessionKey);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String loginId = authentication.getName();         // loginId를 사용하여 회원 정보를 데이터베이스에서 조회
+        String loginId = authentication.getName();
         Optional<Members> userOptional = memberService.findByLoginId(loginId);
         Members member = userOptional.get();
         Long memberNo = member.getMemberNo();
         model.addAttribute("memberNo", memberNo);
 
 
-        Long finalTmValue = progressTmService.findFiinalTmByContentNoAndMemberNo(contentNo, memberNo);
-        log.info(finalTmValue + "값 나와주라 제발");
-        if(finalTmValue != null) {
-            model.addAttribute("finalTmValue", finalTmValue);
-        }
+        String finalTmValue = progressTmService.findFinalTmByContentNoAndMemberNo(contentNo, memberNo);
+
+        model.addAttribute("finalTmValue", finalTmValue);
 
         List<Content> contentList =
                 progressTmService.findContentByContentNo(contentNo);
@@ -73,9 +67,6 @@ public class ProgressUserViewController {
                 progressTmService.findProgressInfosByContentNo(contentNo);
         model.addAttribute("progressInfos", progressInfos);
 
-//        List<ProgressTmRequest> requests =
-//                progressTmService.findProgressTmRequestByContentNo(contentNo);
-//        model.addAttribute("requests", requests);
         return "/page/video/ytbView";
     }
 

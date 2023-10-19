@@ -37,7 +37,7 @@ public class Content { // 콘텐츠 관리 정보 테이블
     private String contentUrl; // 콘텐츠 호출 URL
 
     @Column(name = "run_tm")
-    private int runTm; // 차시학습시간
+    private String runTm; // 차시학습시간
 
     @Builder
     public Content(long contentNo,
@@ -47,7 +47,7 @@ public class Content { // 콘텐츠 관리 정보 테이블
                    int contentFileNo,
                    String ytbUrl,
                    String contentUrl,
-                   int runTm) {
+                   String runTm) {
         this.contentNo = contentNo;
         this.contentNo2 = contentNo2;
         this.contentName = contentName;
