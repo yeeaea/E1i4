@@ -16,6 +16,7 @@
 </th:block>
 
 <th:block layout:fragment="script">
+    <script src="https://www.youtube.com/iframe_api"></script>
     <script th:src="@{/js/video/ytbControl.js}"></script>
 </th:block>
 
@@ -41,26 +42,32 @@
         <div id="player"></div>
     </div>
 
-    <div style="display: flex;" th:each="content : ${contentList}">
+    <div style="display: flex;" >
         <div data-ytb-url="[[${content.ytbUrl}]]"
-             th:attr="data-ytb-url=${content.ytbUrl}">
+             th:attr="data-ytb-url=${contentList.get(0).ytbUrl}">
+        </div>
+    </div>
+
+    <div>
+        <div data-memberNo="[[${memberNo}]]"
+             th:attr="data-memberNo=${memberNo}">
         </div>
     </div>
 
     <div style="display: flex;" th:each="progressInfo : ${progressInfos}">
-        <input data-ytb-url="[[${progressInfo}]]" type="hidden"
-             th:attr="data-ytb-url=${progressInfo.getNthNo()}">
-        <input data-ytb-url="[[${progressInfo}]]" type="hidden"
-               th:attr="data-ytb-url=${progressInfo.getContent()}">
-        <input data-ytb-url="[[${progressInfo}]]" type="hidden"
-               th:attr="data-ytb-url=${progressInfo.getLecture()}">
+        <input data-nthNo="[[${progressInfo}]]" type="hidden"
+             th:attr="data-nthNo=${progressInfo.nthNo}">
+        <input data-content="[[${progressInfo}]]" type="hidden"
+               th:attr="data-content=${progressInfo.content}">
+        <input data-lecture="[[${progressInfo}]]" type="hidden"
+               th:attr="data-lecture=${progressInfo.lecture}">
     </div>
 
-    <div style="display: flex;" th:each="req : ${requests}">
-        <div data-ytb-url="[[${req}]]"
-             th:attr="data-ytb-url=${req.setMemberNo()}">
-        </div>
-    </div>
+<!--    <div style="display: flex;" th:each="req : ${requests}">-->
+<!--        <div data-ytb-url="[[${req}]]" th:if="${req.setMemberNo()} != 0"-->
+<!--             th:attr="data-ytb-url=${req.setMemberNo()}">-->
+<!--        </div>-->
+<!--    </div>-->
 </th:block>
 </body>
 </html>

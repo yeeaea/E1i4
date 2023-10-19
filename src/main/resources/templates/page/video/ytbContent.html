@@ -15,12 +15,6 @@
 </th:block>
 <th:block layout:fragment="content">
 
-    <!-- uri로 던져진 lectureNo 통해서 progressInfo 차시 테이블의 강의에 연결된 차시들을 each문으로 데리고 오기
-    다시 말하면, query로 차시 테이블 조인해서 content목록 가져오기 -->
-
-    <!-- 이쪽에 썸네일, 강의명, 설명, 재생버튼 나와야함
-         재생버튼은 각 영상에 맞게 유튜브링크 던져줘야 함 -->
-
     <div style="display: flex;" th:each="content : ${contentList}">
 
         <div data-ytb-url="[[${content.ytbUrl}]]"
@@ -34,40 +28,15 @@
         </div>
 
         <!-- 재생 버튼 -->
-        <!-- 던져주는 값이 어떤 값이어야 할까? progressNO-->
-        <button class="playBtn" style="border: none; background-color: white;">-->
+        <button class="playBtn" style="border: none; background-color: white;">
             <i class="fa-regular fa-circle-play"
                th:attr="data-content-no=${content.contentNo}"
-               onclick="window.location.href='/admin/lms/online/view'
+               onclick="window.location.href='/lms/online/view/'
                + this.getAttribute('data-content-no')"
                style=" font-size: 60px; color: black;
                width: 200px; height: 150px; padding-top: 50px;"></i>
         </button>
-
-                </div>
-
-            <!--    <button class="playBtn" th:attr="data-ytb-id=${content.ytbUrl}" style="border: none; background-color: white;"-->
-<!--            onclick="window.location.href='https://www.youtube.com/embed/' + this.getAttribute('data-ytb-id');">-->
-<!--        <i class="fa-regular fa-circle-play" style="font-size: 60px; color: black; width: 200px; height: 150px; padding-top: 50px;"></i>-->
-<!--    </button>-->
-
-<!--    &lt;!&ndash; 재생 버튼 &ndash;&gt;-->
-<!--    &lt;!&ndash; 던져주는 값이 어떤 값이어야 할까? progressNO&ndash;&gt;-->
-<!--    <button class="playBtn" style="border: none; background-color: white;">-->
-<!--        <i class="fa-regular fa-circle-play"-->
-<!--           th:attr="data-ytburl=${progressNo}"-->
-<!--           onclick="window.location.href='/admin/lms/online/view'-->
-<!--               + this.getAttribute('data-ytburl')"-->
-<!--           style=" font-size: 60px; color: black;-->
-<!--                           width: 200px; height: 150px; padding-top: 50px;"></i>-->
-<!--    </button>
-<button class="playBtn" data-ytb-id="VIDEO_ID_HERE" style="border: none; background-color: white;">
-            <i class="fa-regular fa-circle-play"
-               onclick="window.location.href='/admin/lms/online/view'"
-               style=" font-size: 60px; color: black;
-                           width: 200px; height: 150px; padding-top: 50px;"></i>
-        </button>
--->
+    </div>
 
 </th:block>
 </body>

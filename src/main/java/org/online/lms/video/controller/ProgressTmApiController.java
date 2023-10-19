@@ -1,18 +1,26 @@
 package org.online.lms.video.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.online.lms.lecture.repository.LectureApplyRepository;
 import org.online.lms.lecture.service.LectureApplyService;
 import org.online.lms.security.service.MemberService;
 import org.online.lms.video.domain.Progress;
+import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.dto.ProgressTmRequest;
 import org.online.lms.video.service.ProgressInfoService;
 import org.online.lms.video.service.ProgressTmService;
 import org.online.lms.video.service.VideoInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -39,29 +47,99 @@ public class ProgressTmApiController {
         this.videoInfoService = videoInfoService;
     }
 
-//    @PostMapping("/api/admin/saveYoutubeTm")
-//    public Progress progressTm(@RequestBody ProgressTmRequest dto, Model model) {
-//        // 재생 시간 저장
-//        Progress videoData = Progress.progressTm();
-//        videoData.setProgressNo(dto.getProgressNo());
-//        //videoData.setVideoId(videoId);
-//        videoData.setFinalTm(dto.getFinalTm());
-//        videoData.setMaxTm(dto.getMaxTm());
-//
-//        model.addAttribute("videoData", videoData);
-//        return progressTmService.saveTmData(videoData);
-//    }
+
+
+    private Map<String, Progress> progressMap = new HashMap<>();
 
     @PostMapping("/api/admin/saveYoutubeTm")
-    public Progress saveOrUpdateProgress(
-            @RequestBody ProgressTmRequest req) {
-        System.out.println("======="+ req.getProgressNo() );
-        Progress newProgress = Progress.progressTm();
-        newProgress.setProgressNo(9L);
-        newProgress.setFinalTm(req.getFinalTm());
-        newProgress.setMaxTm(req.getMaxTm());
-        return progressTmService.saveTmData(newProgress);
+    public Progress saveOrUpdateProgress(@RequestBody ProgressTmRequest req,
+                                         HttpSession session, Principal principal,
+                                         Model model) {
+
+        if (principal != null) {
+            String loginId = principal.getName();
+            String sessionID = session.getId();
+
+            // 세션에서 nthNo 가져오기
+            String sessionKey = "nthNo_" + sessionID;
+            Long savedNthNo = (Long) session.getAttribute(sessionKey);
+
+            Progress progress;
+
+            // 세션에 저장된 키가 있을 때, 세션에 있는 nthNo 있을 때 progressNo에 중복 저장하기
+            if (savedNthNo != null && savedNthNo == req.getNthNo()) {
+                // 동일한 nthNo를 가진 세션의 경우
+                // progress를 찾아 업데이트
+                progress = progressMap.get(savedNthNo.toString());
+                // finalTm와 maxTm 업데이트
+                //progress.setMemberNo(loginId);
+                //progress.setMemberNo(req.getMemberNo());
+                progress.setFinalTm(req.getFinalTm());
+                progress.setMaxTm(req.getMaxTm());
+                progressTmService.saveTmData(progress);
+            } else {
+                // 새로운 nthNo를 세션에 저장
+                session.setAttribute(sessionKey, req.getNthNo());
+
+                // progress를 생성하고 맵에 추가
+                progress = Progress.progressTm();
+                progress.setNthNo(req.getNthNo());
+                progress.setFinalTm(req.getFinalTm());
+                progress.setMaxTm(req.getMaxTm());
+                progressMap.put(req.getNthNo().toString(), progress);
+               return progressTmService.saveTmData(progress);
+            }
+
+            return progress;
+        }
+        return null;
     }
+//////////////////////////////////////////////////////////////
+    // 이거를 사용!!!!!!!!
+//    @PostMapping("/api/admin/saveYoutubeTm")
+//    public Progress saveOrUpdateProgress(
+//            @RequestBody ProgressTmRequest req,
+//            HttpSession session, Principal principal) {
+//
+//        String sessionID = session.getId();
+//        log.info("세션 아이디" + sessionID);
+//
+//        if (principal != null) {
+//            // 로그인 아이디 받아오기
+//            String loginId = principal.getName();
+//
+//
+//            System.out.println("=======" + req.getNthNo());  // 나옴 - 이거를 통해서 if문?
+//            Progress newProgress = Progress.progressTm();
+//            //newProgress.setProgressNo(9L);
+//            newProgress.setNthNo(req.getNthNo());  // 반환값 객체로 해보고 아니면 테이블 Long 변환했음^^
+//            newProgress.setMemberNo(loginId);
+//            newProgress.setFinalTm(req.getFinalTm());
+//            newProgress.setMaxTm(req.getMaxTm());
+//            return progressTmService.saveTmData(newProgress);
+//        }
+//        return null;
+//    }
+////////////////////////////////////////////////////
+//    @PostMapping("/api/admin/saveYoutubeTm")
+//    public Progress updateProgress(
+//             Long progressNo,
+//            HttpSession session,
+//            @RequestBody ProgressTmRequest req
+//    ) {
+//
+//        // ProgressService의 progressNoSave 메서드를 호출하여 처리
+//        Progress progress = progressTmService.progressNoSave(progressNo, session, req);
+//
+//        if (progress != null) {
+//            return progress;
+//        } else {
+//            // 해당 progressNo에 해당하는 Progress가 없는 경우에 대한 처리
+//            // 여기에서는 null을 반환했으므로 클라이언트는 이 상황을 처리해야합니다.
+//            // 예를 들어, 404 Not Found 또는 다른 오류 응답을 보낼 수 있습니다.
+//            return null;
+//        }
+//    }
 }
 
 //    public Progress saveOrUpdateProgress(

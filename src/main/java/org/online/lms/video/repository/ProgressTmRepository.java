@@ -61,12 +61,12 @@ public interface ProgressTmRepository extends JpaRepository<Progress, Long> {
 
     // 콘텐츠 번호 통해 Progress 전체 가져오기 (필요하면 나중에 progressNo하나만)
     // 아니면 반환값 List<Progress> findProgressByContentNo
-    @Query("""
-        SELECT p
-        FROM Progress p
-        WHERE p.nthNo.content.contentNo = :contentNo
-    """)
-    List<ProgressTmRequest> findProgressTmRequestByContentNo(@Param("contentNo") Long contentNo);
+//    @Query("""
+//        SELECT p
+//        FROM Progress p
+//        WHERE p.nthNo.content.contentNo = :contentNo
+//    """)
+//    List<ProgressTmRequest> findProgressTmRequestByContentNo(@Param("contentNo") Long contentNo);
 
 
     // 로그인 아이디가 있으면 중복 저장하는 업데이트

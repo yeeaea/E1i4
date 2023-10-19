@@ -1,12 +1,27 @@
+///// 영상 제어
+document.addEventListener("DOMContentLoaded", function () {
+    onYouTubeIframeAPIReady();
+
+    const content =
+    document.querySelector('[data-content]')
+        .getAttribute('data-content');
+    const lecture =
+    document.querySelector('[data-lecture]')
+        .getAttribute('data-lecture');
+
+    console.log("content 나오나 : " + content);
+    console.log("lecture 나오나 : " + lecture);
+});
+
+
+
 
 // YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
-let tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-let firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// let tag = document.createElement('script');
+// tag.src = "https://www.youtube.com/iframe_api";
+// let firstScriptTag = document.getElementsByTagName('script')[0];
+// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-//const ytbUrl = document.querySelector("[data-ytb-url]").getAttribute("data-ytb-url");
-const ytbUrl = 'wjLwmWyItWI';
 // let finalTm = document.getElementById('finalTm');
 // let maxTm = document.getElementById('maxTm');
 //let progRt = document.getElementById('progRt');
@@ -16,10 +31,12 @@ let maxTm;
 // player라는 id를 가진 div에 플레이어 호출
 // 아이디 값은 ytbUrl컬럼에 있는 값을 통해서 영상 가져오기 -> 이거만 하면 ok!
 function onYouTubeIframeAPIReady() {
+    console.log("onYouTubeIframeAPIReady 실행1?");
+    const ytbUrl =
+        document.querySelector('[data-ytb-url]')
+            .getAttribute('data-ytb-url');
+
     player = new YT.Player('player', {
-        width: '900',
-        height: '506',
-        //videoId: 'wjLwmWyItWI',
         videoId: ytbUrl,
         playerVars: {
             disablekb: 1,  //키보드 입력 제한
@@ -36,6 +53,10 @@ function onYouTubeIframeAPIReady() {
 // 마지막에 보고 있던 시간으로 이동 후 재생
 // 로딩된 후에 실행될 동작을 작성하는 곳(소리 크기, 동영상 속도 등)
 function onPlayerReady(event) {
+    console.log("onPlayerReady 실행2?");
+    const ytbUrl =
+        document.querySelector('[data-ytb-url]')
+            .getAttribute('data-ytb-url');
     // event.target.loadVideoById(videoId, 특정시간에서 시작할 변수);
     event.target.loadVideoById(ytbUrl, finalTm);
     //event.target.playVideo(); // 동영상 재생 시작 -> uri경로 들어가자마자 바로 영상 재생됨
@@ -53,7 +74,9 @@ function onPlayerReady(event) {
 // 시간마다 반복할 함수 저장용 -> 재생 중일 때 값을 받아서 인터벌(반복!) 저장
 // 재생 중일 때 작성한 동작 실행하는 곳
 let recordInterval;
+
 function onPlayerStateChange(event) {
+    console.log("onPlayerStateChange 실행3?");
     if (event.data == YT.PlayerState.PLAYING) {
 
         runTm = event.target.getDuration() - 5;
@@ -86,6 +109,7 @@ function onPlayerStateChange(event) {
     // 일시 정지 중에는 반복을 멈추기
     // 일시 정지한 시간을 기록
     if (event.data == YT.PlayerState.PAUSED) {
+
         clearInterval(recordInterval);
         // 현재 재생 시간이 maxTm에서 5초 이내에 있는 경우 updatePosition()함수 실행
         if (event.target.getCurrentTime() <= maxTm + 5) {
@@ -95,16 +119,24 @@ function onPlayerStateChange(event) {
 
     // 영상이 끝나더라도 이전으로 되돌려서 일시 정지
     // 사용자가 영상의 끝으로 이동하는것을 따로 막기위해 필요함
-    if(event.data == YT.PlayerState.ENDED) {
+    if (event.data == YT.PlayerState.ENDED) {
         event.target.seekTo(event.target.getDuration() - 1);
         event.target.pauseVideo();
     }
 }
 
 let progressNo;
+
 // 시간 기록
 function updatePosition() {
-
+    console.log("updatePosition 실행4?");
+    const nthNo =
+        document.querySelector('[data-nthNo]')
+            .getAttribute('data-nthNo');
+    const memberNo =
+        document.querySelector('[data-memberNo]')
+            .getAttribute('data-memberNo');
+    console.log(memberNo + "왜 안나와?");
     finalTm = player.getCurrentTime();
     // maxTm - 뒤로 영상 이동해도 finalTm값이 실행될 수 있도록 하기
     maxTm = maxTm > finalTm ? maxTm : finalTm;
@@ -113,6 +145,8 @@ function updatePosition() {
 
     // data 객체 생성
     const data = {
+        nthNo: nthNo,
+        memberNo: memberNo,
         progressNo: progressNo,
         finalTm: finalTm,
         maxTm: maxTm
@@ -137,9 +171,10 @@ function updatePosition() {
 }
 
 //재생속도가 변경될 때 1을 초과하면 1로 변경
-function onPlayerPlaybackRateChange(event){
+function onPlayerPlaybackRateChange(event) {
+    console.log("onPlayerPlaybackRateChange 실행5?");
     // 현재 재생 속도 가져오기
-    if (event.target.getPlaybackRate() > 1){
+    if (event.target.getPlaybackRate() > 1) {
         event.target.setPlaybackRate(1);
     }
 }
