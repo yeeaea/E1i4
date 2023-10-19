@@ -54,11 +54,18 @@ public interface ProgressTmRepository extends JpaRepository<Progress, Long> {
     @Query("""
         SELECT pi
         FROM ProgressInfo pi
-        WHERE pi.content.contentNo = :contentNo
+        WHERE pi.content.contentNo = :contentNo 
     """)
     List<ProgressInfo> findProgressInfosByContentNo(@Param("contentNo") Long contentNo);
 
 
+    // 회원번호와 콘텐츠번호를 통해서 마지막 재생시간 가져오기
+    @Query("""
+        SELECT p.finalTm
+        FROM Progress p
+        WHERE p.contentNo = :contentNo and p.memberNo = :memberNo
+    """)
+    Long findFiinalTmByContentNoAndMemberNo(@Param("contentNo") Long contentNo, Long memberNo);
     // 콘텐츠 번호 통해 Progress 전체 가져오기 (필요하면 나중에 progressNo하나만)
     // 아니면 반환값 List<Progress> findProgressByContentNo
 //    @Query("""

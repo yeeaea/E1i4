@@ -53,8 +53,7 @@ public class ProgressTmApiController {
 
     @PostMapping("/api/admin/saveYoutubeTm")
     public Progress saveOrUpdateProgress(@RequestBody ProgressTmRequest req,
-                                         HttpSession session, Principal principal,
-                                         Model model) {
+                                         HttpSession session, Principal principal) {
 
         if (principal != null) {
             String loginId = principal.getName();
@@ -63,6 +62,7 @@ public class ProgressTmApiController {
             // 세션에서 nthNo 가져오기
             String sessionKey = "nthNo_" + sessionID;
             Long savedNthNo = (Long) session.getAttribute(sessionKey);
+            log.info(savedNthNo + "뭐됩니까?");
 
             Progress progress;
 
@@ -84,6 +84,9 @@ public class ProgressTmApiController {
                 // progress를 생성하고 맵에 추가
                 progress = Progress.progressTm();
                 //progress.setNthNo(req.getNthNo());
+                progress.setContentNo(req.getContentNo());
+                progress.setLectureNo(req.getLectureNo());
+                progress.setMemberNo(req.getMemberNo());
                 progress.setFinalTm(req.getFinalTm());
                 progress.setMaxTm(req.getMaxTm());
                 progressMap.put(req.getNthNo().toString(), progress);

@@ -58,6 +58,13 @@ public class ProgressUserViewController {
         Long memberNo = member.getMemberNo();
         model.addAttribute("memberNo", memberNo);
 
+
+        Long finalTmValue = progressTmService.findFiinalTmByContentNoAndMemberNo(contentNo, memberNo);
+        log.info(finalTmValue + "값 나와주라 제발");
+        if(finalTmValue != null) {
+            model.addAttribute("finalTmValue", finalTmValue);
+        }
+
         List<Content> contentList =
                 progressTmService.findContentByContentNo(contentNo);
         model.addAttribute("contentList", contentList);

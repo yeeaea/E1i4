@@ -1,19 +1,7 @@
 ///// 영상 제어
 document.addEventListener("DOMContentLoaded", function () {
     onYouTubeIframeAPIReady();
-
-    const content =
-    document.querySelector('[data-content]')
-        .getAttribute('data-content');
-    const lecture =
-    document.querySelector('[data-lecture]')
-        .getAttribute('data-lecture');
-
-    console.log("content 나오나 : " + content);
-    console.log("lecture 나오나 : " + lecture);
 });
-
-
 
 
 // YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
@@ -57,8 +45,17 @@ function onPlayerReady(event) {
     const ytbUrl =
         document.querySelector('[data-ytb-url]')
             .getAttribute('data-ytb-url');
+
+    let finalTmValue =
+        document.querySelector('[data-finalTmValue]')
+            .getAttribute('data-finalTmValue');
+
+    // if (finalTmValue !== null) {
+    //     finalTmValue = parseFloat(finalTmValue); // 숫자로 변환
+    // }
+    console.log(finalTmValue + "아 설마 int처리 해줘야 되나");
     // event.target.loadVideoById(videoId, 특정시간에서 시작할 변수);
-    event.target.loadVideoById(ytbUrl, finalTm);
+    event.target.loadVideoById(ytbUrl, finalTmValue);
     //event.target.playVideo(); // 동영상 재생 시작 -> uri경로 들어가자마자 바로 영상 재생됨
 
     // 재생시간 중에서 5초를 뺀 값을 통해서 새로운 시간값 얻기
@@ -136,7 +133,15 @@ function updatePosition() {
     const memberNo =
         document.querySelector('[data-memberNo]')
             .getAttribute('data-memberNo');
-    console.log(nthNo + "왜 안나와?");
+    const contentNo =
+        document.querySelector('[data-contentNo]')
+            .getAttribute('data-contentNo');
+    const lectureNo =
+        document.querySelector('[data-lectureNo]')
+            .getAttribute('data-lectureNo');
+    console.log(nthNo + "왜 안 나오?")
+    console.log(contentNo + "왜 안나와?");
+    console.log(lectureNo + "왜 안나와?");
     finalTm = player.getCurrentTime();
     // maxTm - 뒤로 영상 이동해도 finalTm값이 실행될 수 있도록 하기
     maxTm = maxTm > finalTm ? maxTm : finalTm;
@@ -147,6 +152,8 @@ function updatePosition() {
     const data = {
         nthNo: nthNo,
         memberNo: memberNo,
+        contentNo: contentNo,
+        lectureNo: lectureNo,
         progressNo: progressNo,
         finalTm: finalTm,
         maxTm: maxTm
@@ -162,7 +169,6 @@ function updatePosition() {
     })
         .then(response => response.json())
         .then(result => {
-            console.log(data.toString() + '값이 들어가나');
         })
         .catch(error => {
             console.error('Error:', error);
