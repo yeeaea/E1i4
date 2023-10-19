@@ -2,6 +2,7 @@ package org.online.lms.video.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.online.lms.lecture.domain.LectureApply;
 import org.online.lms.security.domain.Members;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -39,13 +40,14 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
     @Column(name = "member_no")
     private Long memberNo; // 회원 번호 (외래키 연결)
 
-    @Column(name = "start_tm")
-    private String startTm; // 접속 시작 시간
+    @Column(name = "content_no")
+    private Long contentNo; // 접속 시작 시간
 
     @Column(name = "end_tm")
     private String endTm; // 접속 종료 시간
 
     @Column(name = "final_tm")
+    @ColumnDefault("'0'")
     private String finalTm; // 강의 최종 재생 위치
 
     @Column(name = "max_tm")
@@ -59,7 +61,7 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
                     ProgressInfo nthNo,
                     Long lectureNo,
                     Long memberNo,
-                    String startTm,
+                    Long contentNo,
                     String endTm,
                     String finalTm,
                     String maxTm,
@@ -68,7 +70,7 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
         this.nthNo = nthNo;
         this.lectureNo = lectureNo;
         this.memberNo = memberNo;
-        this.startTm = startTm;
+        this.contentNo = contentNo;
         this.endTm = endTm;
         this.finalTm = finalTm;
         this.maxTm = maxTm;
