@@ -3,7 +3,9 @@ package org.online.lms.security.service;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.online.lms.lecture.dto.MyLectureInfoDto;
 import org.online.lms.lecture.repository.LectureApplyRepository;
+import org.online.lms.lecture.repository.LectureInfoRepository;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
@@ -27,12 +29,14 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final LectureApplyRepository lectureApplyRepository;
+    private final LectureInfoRepository lectureInfoRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired  // 생성자 의존성 주입
-    public MemberService(MemberRepository memberRepository, LectureApplyRepository lectureApplyRepository,PasswordEncoder passwordEncoder){
+    public MemberService(MemberRepository memberRepository, LectureApplyRepository lectureApplyRepository, LectureInfoRepository lectureInfoRepository, PasswordEncoder passwordEncoder){
         this.memberRepository = memberRepository;
         this.lectureApplyRepository = lectureApplyRepository;
+        this.lectureInfoRepository = lectureInfoRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -200,5 +204,10 @@ public class MemberService {
     ///////// 회원 아이디로 수강 중인 강의 과정(Java, C) 가져오기 -> 구글 차트
     public List<String> findLetureCourseByMemberLoginId(String loginId){
         return lectureApplyRepository.findLectureCourseByLoginId(loginId);
+    }
+
+    // 회원번호로 강의과정, 강의제목, 강의 시작일, 강의 종료일, 수료여부 가져오기
+    public List<MyLectureInfoDto> findMyLectureInfoByMemberNo(Long memberNo) {
+        return lectureInfoRepository.findMyLectureInfoByMemberNo(memberNo);
     }
 }

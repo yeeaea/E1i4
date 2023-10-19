@@ -4,6 +4,10 @@ package org.online.lms.security.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.online.lms.lecture.domain.LectureInfo;
+import org.online.lms.lecture.dto.MyLectureInfoDto;
+import org.online.lms.lecture.service.LectureApplyService;
+import org.online.lms.lecture.service.LectureInfoService;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.dto.MemberPwChangeDTO;
 import org.online.lms.security.dto.MemberSignupDTO;
@@ -19,15 +23,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.security.core.Authentication;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MemberViewController {
     private final MemberService memberService;
+    private final LectureApplyService lectureApplyService;
+    private final LectureInfoService lectureInfoService;
 
     // 메인 페이지로 이동
     @GetMapping("/")
@@ -35,9 +40,9 @@ public class MemberViewController {
         return "/page/security/login";
     }
 
-    // 마이페이지로 이동
+    // 마이 페이지로 이동
     @GetMapping("/lms/mypage")
-    public String showMypage(Model model){
+    public String showMypage(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String loginId = authentication.getName();
@@ -47,9 +52,17 @@ public class MemberViewController {
         Members member = userOptional.get();
         log.info("사용자 권한(컨트롤러에서 확인) : " + String.valueOf(member.getMemberRole()));
         String memberName = member.getMemberName();
+        log.info("컨트롤러에서 서비스 진입 전");
+        log.info("회원번호 : " + member.getMemberNo());
 
+        // MemberService에서 데이터를 가져오기
+        List<MyLectureInfoDto> myLectureList = memberService.findMyLectureInfoByMemberNo(member.getMemberNo());
+        log.info("나의 수강 리스트 : " + myLectureList);
+
+        log.info("나의 수강 리스트 : " + myLectureList.toString());
         model.addAttribute("loginId", loginId);
         model.addAttribute("memberName", memberName);
+        model.addAttribute("myLectureList", myLectureList);
 
         return "/page/security/mypage";
     }
