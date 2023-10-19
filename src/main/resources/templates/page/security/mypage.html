@@ -17,8 +17,8 @@
 
 <body>
   <!-- content start -->
-  <section layout:fragment="content">
-    <div class="container">
+  <th:block layout:fragment="content">
+    <div class="container border">
       <!-- 마이페이지 -->
       <h1 class="my-5 text-center formTitle">My Page</h1>
       <div class="formBox shawdow-sm row">
@@ -33,11 +33,38 @@
       <a href="/admin/online/lecture-all">
         <button>관리자페이지 이동</button>
       </a>
-      <!-- 구글 차트 나오는 영역 -->
-      <div id="donutchart" style="width: 600px; height: 500px;" class="border">
+      <div class="d-flex">
+        <!-- 구글 차트 나오는 영역 -->
+        <div id="donutchart" style="width: 600px; height: 500px;" class="border">
+        </div>
+        <!-- 나의 강의 리스트 -->
+        <div id="myLectureList">
+          <table>
+            <thead>
+            <tr>
+              <th>강의 과정명</th>
+              <th>강의명</th>
+              <th>강의 시작일</th>
+              <th>강의 종료일</th>
+              <th>수료 여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="lectureItem : ${myLectureList}">
+              <td th:text="${lectureItem.lectureCourse}"></td>
+              <td th:text="${lectureItem.lectureTitle}"></td>
+              <td th:text="${#temporals.format(lectureItem.lectureStartAt, 'yyyy-MM-dd')}"></td>
+              <td th:text="${#temporals.format(lectureItem.lectureEndAt, 'yyyy-MM-dd')}"></td>
+              <td th:text="${lectureItem.completionYn} ? '수료' : '수료 전'"></td>
+              <!-- <td th:text="${isLectureCompleted} ? '수료' : '수료 전'"></td>-->
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </section>
+  </th:block>
   <!-- content end -->
 </body>
 </html>
