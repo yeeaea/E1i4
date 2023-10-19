@@ -1,0 +1,179 @@
+.centered {
+    text-align: center;
+}
+
+.table thead {
+    border: 0.6px #777;
+}
+
+/*.table thead tr th {*/
+/*    background-color: #6499E9;*/
+/*    color: white;*/
+/*}*/
+/*.table thead tr th:first-child {*/
+/*    border-top-left-radius: 15px;*/
+/*}*/
+
+/*.table thead tr th:last-child {*/
+/*    border-top-right-radius: 15px;*/
+/*}*/
+
+.container1 {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    font-size: 24px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    text-align: center;
+
+}
+
+th, td {
+    padding: 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+
+.custom-button-primary {
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    background-color: #6499E9;
+}
+
+.custom-button-secondary {
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    background-color: #6c757d;
+}
+
+/* 폼 스타일링 */
+#addContentForm {
+    width: 93%;
+    margin-left: auto;
+    text-align: left;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#addContentForm div {
+    margin: 10px;
+}
+
+#addContentForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#addContentForm input[type="text"],
+#addContentForm input[type="date"],
+#addContentForm select,
+#addContentForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#addContentForm textarea {
+    resize: vertical;
+}
+
+#addContentForm select {
+    width: 100%;
+}
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-link {
+        transition: none
+    }
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6
+}
+
+.page-link:focus {
+    z-index: 3;
+    color: #6c757d;
+    background-color: #fff;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(185, 0, 0, 0.25)
+}
+
+.page-item:not(:first-child) .page-link {
+    margin-left: -1px
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #6499E9 !important;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6
+}
+
+.page-link {
+    padding: .375rem .75rem
+}
+
+.page-item:first-child .page-link {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px
+}
+
+.page-item:last-child .page-link {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px
+}
+
+td {
+    line-height: 35px;
+}

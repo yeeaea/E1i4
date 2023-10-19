@@ -7,119 +7,132 @@
     <meta charset="UTF-8">
     <title>콘텐츠 목록 전체 조회</title>
 </head>
-<body>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/video/content.css}">
+</th:block>
 
 <th:block layout:fragment="script">
     <script th:src="@{/js/video/content.js}"></script>
 </th:block>
 
-<th:block layout:fragment="content">
+<!-- content start -->
+<section layout:fragment="content" style="width: 85%; display: flex; flex-direction: row; align-items: flex-start;">
 
-    <h3 style="">콘텐츠 관리</h3>
-    <!-- 전체 강의 리스트 -->
-    <div class="container" style="display: flex;">
 
-        <div style="flex: 6; padding-right: 100px;">
+    <div style="width: 60%;">
 
-<!--        콘텐츠 파일번호, 재생 시간을 유튜브에서 제공해주지 않아 값이 없어서 우선 제외했습니다-->
-            <table class = "table table-hover">
-                <thead>
-                <tr>
-                    <th>콘텐츠 관리 번호</th>
-                    <th>콘텐츠 명</th>
-                    <th>콘텐츠 설명</th>
-<!--                    <th>콘텐츠 파일번호</th>-->
-                    <th>Youtube 연동번호</th>
-                    <th>콘텐츠 호출 URL</th>
-                    <th>재생 시간</th>
-                </tr>
-                </thead>
+        <!-- 전체 강의 리스트 -->
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 class="mt-4 mb-2">콘텐츠 관리</h3>
 
-                <tbody class="row-7" th:each="content : ${contentInfo}">
-                <tr>
-                    <!-- 콘텐츠 리스트 출력 -->
-                    <td th:text="${content.contentNo}"></td>
-                    <td th:text="${content.contentName}"></td>
-                    <td th:text="${content.contentDesc}"></td>
-<!--                    <td th:text="${content.contentFileNo}"></td>-->
-                    <td th:text="${content.ytbUrl}"></td>
-                    <td th:text="${content.contentUrl}"></td>
-                    <td th:text="${content.runTm}"></td>
-                </tr>
-                </tbody>
-            </table>
-
-            <nav aria-label="Page navigation example">
-                <ul class="pagination justify-content-center">
-                    <!-- 이전 페이지 링크 -->
-                    <!-- 이전 페이지 링크 -->
-                    <li class="page-item"
-                        th:classappend="${startPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber - 1})}"
-                           tabindex="-1"> < </a>
-                    </li>
-                    <!-- 페이지 번호 링크 -->
-                    <li class="page-item"
-                        th:each="num : ${#numbers.sequence(startPage, endPage)}"
-                        th:if="${contentInfo.totalElements > 0}">
-                        <a class="page-link"
-                           th:href="@{/admin/content(page=${num - 1})}"
-                           th:text="${num}"
-                           th:classappend="${num == (contentInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
-                    </li>
-                    <!-- 다음 페이지 링크 -->
-                    <li class="page-item"
-                        th:classappend="${endPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
-                        <a class="page-link"
-                           th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber + 1})}"> >
-                        </a>
-                    </li>
-
-                </ul>
-            </nav>
         </div>
 
-        <div style="flex: 4;">
-            <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT">
-                <div>
-                    <label for="contentNo">콘텐츠 관리 번호 : </label>
-                    <input type="text" id="contentNo" name="contentNo" />
-                </div>
-                <div>
-                    <label for="contentName">콘텐츠 명<b style="color: red"> *</b> : </label>
-                    <input type="text" id="contentName" name="contentName" />
-                </div>
-<!--                <div>-->
-<!--                    <label for="contentFileNo">콘텐츠 파일번호 : </label>-->
-<!--                    <input type="text" id="contentFileNo" name="contentFileNo"/>-->
-<!--                </div>-->
-                <div>
-                    <label for="ytbUrl">Youtube 연동 번호<b style="color: red"> *</b> : </label>
-                    <div style="display: flex">
-                        <input type="text" id="ytbUrl" name="ytbUrl"  style="width: 65%; margin-right: 5%"/>
-                        <button id="ytbLinkBtn" style="width: 30%">연동 확인</button>
-                    </div>
-                </div>
-                <div>
-                    <label for="contentDesc">콘텐츠 설명 : </label>
-                    <textarea id="contentDesc" name="contentDesc" rows="4"></textarea>
-                </div>
-                <div>
-                    <label for="contentUrl">콘텐츠 호출 URL : </label>
-                    <input type="text" id="contentUrl" name="contentUrl" />
-                </div>
-                <div>
-                    <label for="runTm">재생 시간 : </label>
-                    <input type="text" id="runTm" name="runTm" />
-                </div>
-                <button id="registerBtn" type="button">등록</button>
-                <button id="updateBtn"  type="button">수정</button>
-                <button id="deleteBtn"  type="button">삭제</button>
-            </form>
-        </div>
+        <!--콘텐츠 파일번호, 재생 시간을 유튜브에서 제공해주지 않아 값이 없어서 우선 제외했습니다-->
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>콘텐츠 관리 번호</th>
+                <th>콘텐츠 명</th>
+                <th>콘텐츠 설명</th>
+                <!--<th>콘텐츠 파일번호</th>-->
+                <th>Youtube 연동번호</th>
+                <th>콘텐츠 호출 URL</th>
+                <th>재생 시간</th>
+            </tr>
+            </thead>
+
+            <tbody class="row-7" th:each="content : ${contentInfo}">
+            <tr>
+                <!-- 콘텐츠 리스트 출력 -->
+                <td th:text="${content.contentNo}"></td>
+                <td th:text="${content.contentName}"></td>
+                <td th:text="${content.contentDesc}"></td>
+                <!--<td th:text="${content.contentFileNo}"></td>-->
+                <td th:text="${content.ytbUrl}"></td>
+                <td th:text="${content.contentUrl}"></td>
+                <td th:text="${content.runTm}"></td>
+            </tr>
+            </tbody>
+
+        </table>
+
+        <nav aria-label="Page navigation example" class="mt-1">
+            <ul class="pagination justify-content-center">
+
+                <!-- 이전 페이지 링크 -->
+                <li class="page-item"
+                    th:classappend="${startPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber - 1})}"
+                       tabindex="-1"> < </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                    th:if="${contentInfo.totalElements > 0}">
+                    <a class="page-link"
+                       th:href="@{/admin/content(page=${num - 1})}"
+                       th:text="${num}"
+                       th:classappend="${num == (contentInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li class="page-item"
+                    th:classappend="${endPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber + 1})}"> >
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
     </div>
 
-</th:block>
-</body>
+    <!-- 공백 추가 -->
+    <div style="width: 2%"></div>
+
+    <!-- 폼 부분 (40%) -->
+    <div style="width: 38%;">
+        <div style="display: flex;justify-content: flex-end; align-items: center; "class="mt-3">
+            <button id="registerBtn" class="custom-button-primary" style="margin-right: 3px;">등록</button>
+            <button id="updateBtn" class="custom-button-secondary" style="margin-right: 3px;">수정</button>
+            <button id="deleteBtn" class="custom-button-secondary">삭제</button>
+        </div>
+        <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT" style="width: 100%;" class="mt-3 mb-3">
+            <div>
+                <label for="contentNo">관리 번호 : </label>
+                <input type="text" id="contentNo" name="contentNo"/>
+            </div>
+            <div>
+                <label for="contentName">콘텐츠 명<b style="color: red"> *</b> : </label>
+                <input type="text" id="contentName" name="contentName"/>
+            </div>
+            <!--                <div>-->
+            <!--                    <label for="contentFileNo">콘텐츠 파일번호 : </label>-->
+            <!--                    <input type="text" id="contentFileNo" name="contentFileNo"/>-->
+            <!--                </div>
+            -->
+            <div>
+                <label for="ytbUrl">Youtube 연동 번호<b style="color: red"> *</b> : </label>
+                <div style="display: flex">
+                    <input type="text" id="ytbUrl" name="ytbUrl" style="width: 65%; margin-right: 5%"/>
+                    <button id="ytbLinkBtn" class="custom-button-secondary"style="width: 30%">연동 확인</button>
+                </div>
+            </div>
+            <div>
+                <label for="contentDesc">콘텐츠 설명 : </label>
+                <textarea id="contentDesc" name="contentDesc" rows="4"></textarea>
+            </div>
+            <div>
+                <label for="contentUrl">콘텐츠 호출 URL : </label>
+                <input type="text" id="contentUrl" name="contentUrl"/>
+            </div>
+            <div>
+                <label for="runTm">재생 시간 : </label>
+                <input type="text" id="runTm" name="runTm"/>
+            </div>
+  </form>
+    </div>
+
+</section>
 </html>

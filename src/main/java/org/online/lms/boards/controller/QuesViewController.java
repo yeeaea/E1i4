@@ -35,7 +35,7 @@ public class QuesViewController {
 
     // 게시글 목록 조회 (멤버)
     @GetMapping("/lms/questions")
-    public String getQuestions(@PageableDefault(size = 5) Pageable pageable,
+    public String getQuestions(@PageableDefault(size = 10) Pageable pageable,
                                Model model,
                                @RequestParam(required = false) String keyword,
                                @RequestParam(required = false) String sortBy) {
