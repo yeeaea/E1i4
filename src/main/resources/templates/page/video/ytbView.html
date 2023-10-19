@@ -48,19 +48,19 @@
         </div>
     </div>
 
-    <div>
-        <div data-memberNo="[[${memberNo}]]"
-             th:attr="data-memberNo=${memberNo}">
-        </div>
-    </div>
+<!--    <div>-->
+<!--        <div data-memberNo="[[${memberNo}]]"-->
+<!--             th:attr="data-memberNo=${memberNo}">-->
+<!--        </div>-->
+<!--    </div>-->
 
     <div style="display: flex;" th:each="progressInfo : ${progressInfos}">
         <input data-nthNo="[[${progressInfo}]]" type="hidden"
              th:attr="data-nthNo=${progressInfo.nthNo}">
         <input data-content="[[${progressInfo}]]" type="hidden"
-               th:attr="data-content=${progressInfo.content}">
+               th:attr="data-content=${progressInfo.content.contentNo}">
         <input data-lecture="[[${progressInfo}]]" type="hidden"
-               th:attr="data-lecture=${progressInfo.lecture}">
+               th:attr="data-lecture=${progressInfo.lecture.lectureNo}">
     </div>
 
 <!--    <div style="display: flex;" th:each="req : ${requests}">-->
