@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org">
-    <nav th:fragment="sidebar_mem" style="width: 13%">
+    <nav th:fragment="sidebar_mem" style="width: 12%">
         <div class="flex-shrink-0 p-4 h-100" style="background-color: #BFEAF5;">
             <ul class="list-unstyled ps-0">
-                <li class="mt-4 mb-3" style="margin-left: 10px;">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed mb-2"
-                            data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true" style="font-size: 23px;">
+                <li class="mt-3 mb-3">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 mb-2 fs-5" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
                         나의 정보
                     </button>
-                    <div class="collapse px-5"  id="home-collapse" style="font-size: 19px;">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" >
+                    <div class="collapse px-5"  id="home-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="/lms/mypage/edit-info"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded mb-2">개인정보수정</a></li>
                             <li><a href="#"
@@ -18,15 +17,14 @@
                         </ul>
                     </div>
                 </li>
-                <li class="mb-3" style="margin-left: 10px;">
-                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed mb-2"
-                            data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false" style="font-size: 23px;">
+                <li class="mb-3">
+                    <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 mb-2 fs-5" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="true">
                         수업 정보
                     </button>
-                    <div class="collapse px-5 " id="dashboard-collapse" style="font-size: 19px;">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small" >
+                    <div class="collapse px-5 " id="dashboard-collapse">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="/lms/mypage/lecture-all"
-                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded mb-2">나의 강의실</a></li>
+                                   class="link-body-emphasis d-inline-flex text-decoration-none rounded mb-2">수강 강의 목록</a></li>
                             <li><a href="/lms/online/lecture-all"
                                    class="link-body-emphasis d-inline-flex text-decoration-none rounded mb-2">수강신청</a></li>
                             <li><a href="/lms/survey/lecture-all"

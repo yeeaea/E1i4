@@ -1,8 +1,5 @@
 // 모달창 열기
 function openModal() {
-    // 여기서 타임리프를 사용하여 데이터베이스에서 데이터를 가져옵니다.
-    // 실제 데이터베이스에서 데이터를 가져오는 로직을 여기에 추가해주세요.
-
     let modalElement = document.getElementById("myModal");
     let modal = new bootstrap.Modal(modalElement);
     modal.show();
