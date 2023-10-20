@@ -2,13 +2,13 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout_mem.html}">
+      layout:decorate="~{layouts/layout_admin.html}">
 <head>
     <title>Content page</title>
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{css/css.css}">
+    <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
 </th:block>
 
 <!-- page 고유 javascript -->
@@ -17,97 +17,99 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content">
-    <div class="container">
-        <h3>강의평가 문항 관리</h3>
-        <button class="btn btn-primary" id="surveyQuesAdd">등록</button>
-        <button class="btn btn-warning" id="surveyQuesEdit">수정</button>
-        <button class="btn btn-danger" id="surveyQuesDelete">삭제</button>
-        <div style="display: flex">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <!-- 체크박스 열 추가 -->
-                    <th></th>
-                    <th>문항레벨</th>
-                    <th>문항분류</th>
-                    <th>문항명</th>
-                    <th>답변유형</th>
-                    <th>순서</th>
-                    <th>사용</th>
-                </tr>
-                </thead>
+<section layout:fragment="content" style="width: 85%">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 class="mt-4 mb-3">강의평가 문항 관리</h3>
+        <div class="mt-3">
+            <button class="custom-button-primary" id="surveyQuesAdd">등록</button>
+            <button class="custom-button-secondary" id="surveyQuesEdit">수정</button>
+            <button class="custom-button-secondary" id="surveyQuesDelete">삭제</button>
+        </div>
+    </div>
+    <div style="display: flex">
+        <table class="table table-hover" style="width: 60%;">
+            <thead>
+            <tr>
+                <!-- 체크박스 열 추가 -->
+                <th></th>
+                <th>문항레벨</th>
+                <th>문항분류</th>
+                <th>문항명</th>
+                <th>답변유형</th>
+                <th>순서</th>
+                <th>사용</th>
+            </tr>
+            </thead>
 
-                <tbody class="row-6" th:each="questions : ${surveyQuesInfoList}">
-                <tr class="surveyQuestionList" th:attr="data-question-no=${questions.surveyQuesNo}">
-                    <!-- 체크박스 추가 -->
-                    <td>
-                        <input type="checkbox" th:attr="value=${questions.surveyQuesNo}" class="surveyQues-checkbox" />
-                    </td>
-                    <td>
-                        <span th:if="${questions.parentQues != null}">문항</span>
-                        <span th:unless="${questions.parentQues != null}">분류</span>
-                    </td>
-                    <td th:text="${questions.parentQues != null ? questions.parentQues.surveyQuesName : ''}"></td>
-                    <td th:text="${questions.surveyQuesName}"></td>
-                    <td th:switch="${questions.surveyQuesType}">
-                        <span th:case="1">5문항선택</span>
-                        <span th:case="2">직접입력</span>
-                    </td>
-                    <td th:text="${questions.surveyQuesViewNo}"></td>
-                    <!-- 체크박스 -->
-                    <td>
-                        <input type="checkbox" class="survey-checkbox"
-                               th:attr="checked=${questions.surveyQuesYn} ? 'checked' : null" onclick="return false;"/>
-                    </td>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <tbody class="row-6" th:each="questions : ${surveyQuesInfoList}">
+            <tr class="surveyQuestionList" th:attr="data-question-no=${questions.surveyQuesNo}">
+                <!-- 체크박스 추가 -->
+                <td>
+                    <input type="checkbox" th:attr="value=${questions.surveyQuesNo}" class="surveyQues-checkbox"/>
+                </td>
+                <td>
+                    <span th:if="${questions.parentQues != null}">문항</span>
+                    <span th:unless="${questions.parentQues != null}">분류</span>
+                </td>
+                <td th:text="${questions.parentQues != null ? questions.parentQues.surveyQuesName : ''}"></td>
+                <td th:text="${questions.surveyQuesName}"></td>
+                <td th:switch="${questions.surveyQuesType}">
+                    <span th:case="1">5문항선택</span>
+                    <span th:case="2">직접입력</span>
+                </td>
+                <td th:text="${questions.surveyQuesViewNo}"></td>
+                <!-- 체크박스 -->
+                <td>
+                    <input type="checkbox" class="survey-checkbox"
+                           th:attr="checked=${questions.surveyQuesYn} ? 'checked' : null" onclick="return false;"/>
+                </td>
 
-            <!-- 강의 평가 문항 section -->
-            <div>
-                <form id="surveyQuestionForm" autocomplete="off">
-                    <div>
-                        <label for="quesLevel">문항레벨</label>
-                        <select id="quesLevel" name="quesLevel">
-                            <option value="" disabled selected style="display: none;"></option>
-                            <option value="1">분류</option>
-                            <option value="2">문항</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="parentQuesNo">문항분류</label>
-                        <select id="parentQuesNo" name="parentQuesNo">
-                            <option value="" disabled selected style="display: none;"></option>
-                            <option th:each="quesInfo : ${surveyQuesInfoList}"
-                                    th:if="${quesInfo.parentQues == null}"
-                                    th:value="${quesInfo.surveyQuesNo}"
-                                    th:text="${quesInfo.surveyQuesName}"></option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="surveyQuesName">문항명</label>
-                        <input type="text" id="surveyQuesName" name="surveyQuesName">
-                    </div>
-                    <div>
-                        <label for="surveyQuesType">답변유형</label>
-                        <select id="surveyQuesType" name="surveyQuesType">
-                            <option value="" disabled selected style="display: none;"></option>
-                            <option value="1">5문항선택</option>
-                            <option value="2">직접입력</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="surveyQuesViewNo">정렬순서</label>
-                        <input type="number" id="surveyQuesViewNo" name="surveyQuesViewNo">
-                    </div>
-                    <div>
-                        <label for="surveyQuesYn">사용여부</label>
-                        <input type="checkbox" id="surveyQuesYn" name="surveyQuesYn" value="true" checked>
-                    </div>
-                </form>
-            </div>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 강의 평가 문항 section -->
+        <div style="width: 40%; display: flex; justify-content: center; align-items: center;">
+            <form id="surveyQuestionForm" autocomplete="off" class="mt-3 mb-3">
+                <div>
+                    <label for="quesLevel">문항레벨</label>
+                    <select id="quesLevel" name="quesLevel">
+                        <option value="" disabled selected style="display: none;"></option>
+                        <option value="1">분류</option>
+                        <option value="2">문항</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="parentQuesNo">문항분류</label>
+                    <select id="parentQuesNo" name="parentQuesNo">
+                        <option value="" disabled selected style="display: none;"></option>
+                        <option th:each="quesInfo : ${surveyQuesInfoList}"
+                                th:if="${quesInfo.parentQues == null}"
+                                th:value="${quesInfo.surveyQuesNo}"
+                                th:text="${quesInfo.surveyQuesName}"></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="surveyQuesName">문항명</label>
+                    <input type="text" id="surveyQuesName" name="surveyQuesName">
+                </div>
+                <div>
+                    <label for="surveyQuesType">답변유형</label>
+                    <select id="surveyQuesType" name="surveyQuesType">
+                        <option value="" disabled selected style="display: none;"></option>
+                        <option value="1">5문항선택</option>
+                        <option value="2">직접입력</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="surveyQuesViewNo">정렬순서</label>
+                    <input type="number" id="surveyQuesViewNo" name="surveyQuesViewNo">
+                </div>
+                <div>
+                    <label for="surveyQuesYn">사용여부</label>
+                    <input type="checkbox" id="surveyQuesYn" name="surveyQuesYn" value="true" checked>
+                </div>
+            </form>
         </div>
     </div>
 </section>
