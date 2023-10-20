@@ -177,3 +177,7 @@ th, td {
 td {
     line-height: 35px;
 }
+
+.small-font {
+    font-size: 14px; /* Adjust the font size as needed */
+}
