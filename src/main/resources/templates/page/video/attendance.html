@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_mem.html}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>youtube</title>
+</head>
+<body>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/video/ytbPlaylist.js}"></script>
+</th:block>
+<th:block layout:fragment="content">
+
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 강의실</p>
+            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 출결 조회</p>
+        </div>
+    </div>
+
+    <!-- 출석 조회 -->
+    <div class="container">
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>차시</th>
+<!--                <th style="display: none">차시 번호</th>-->
+                <th>강의명</th>
+                <th>출석</th>
+            </tr>
+            </thead>
+
+            <tbody class="row-2" >
+            <tr th:each="content, iterStat : ${contentList}">
+                <td>[[${iterStat.count}]]차시</td>
+                <td th:text="${content.contentName}" ></td>
+                <!-- 출석 - progress의 진도율이 80이상일 때 라디오 버튼 체크 -->
+                <td></td>
+<!--                <td th:text="${attd.memberAttendance}">-->
+<!--                    <input type="radio"-->
+<!--                           th:disabled="${!attd.memberAttendance}"-->
+<!--                           th:checked="${attd.memberAttendance}" />-->
+<!--                </td>-->
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</th:block>
+</body>
+</html>

@@ -12,8 +12,8 @@ import org.online.lms.video.repository.VideoInfoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,7 +26,9 @@ public class ProgressInfoService {
     // 강의 차시 전체 조회
     @Transactional
     public List<ProgressInfo> findAll() {
-        return progressInfoRepository.findAll();
+        List<ProgressInfo> progressInfoList = progressInfoRepository.findAll();
+        progressInfoList.sort(Comparator.comparing(ProgressInfo::getNthDuration));
+        return progressInfoList;
     }
 
     // 차시 정보 조회
@@ -34,17 +36,6 @@ public class ProgressInfoService {
     public ProgressInfo findById(long nthNo) {
         return progressInfoRepository.findById(nthNo)
                 .orElseThrow(() -> new IllegalArgumentException("not found" + nthNo));
-    }
-
-    // 차시 번호로 차시 정보 얻기
-    public ProgressInfo getProgressInfoByNthNo(long nthNo) {
-        Optional<ProgressInfo> optionalProgressInfo = progressInfoRepository.findById(nthNo);
-
-        if (optionalProgressInfo.isPresent()) {
-            return optionalProgressInfo.get();
-        } else {
-            throw new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다.");
-        }
     }
 
     // 강의 정보 조회
@@ -62,12 +53,21 @@ public class ProgressInfoService {
     // 차시 정보 추가
     @Transactional
     public ProgressInfo addProgress(AddProgressInfoRequest request) {
+        LectureInfo lecture = lectureInfoRepository.findByLectureNo(request.getLectureNo());
+        if (lecture == null) {
+            throw new IllegalArgumentException("Invalid lectureNo");
+        }
+
+        Content content = videoInfoRepository.findByContentNo(request.getContentNo());
+        if (content == null) {
+            throw new IllegalArgumentException("Invalid contentNo");
+        }
+
         ProgressInfo progressInfo = ProgressInfo.builder()
                 .nthNo(request.getNthNo())
-                .lecture(lectureInfoRepository.findById(request.getLectureNo())
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid lectureNo")))
-                .content(videoInfoRepository.findById(request.getContentNo())
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid contentNo")))
+                .lecture(lecture)
+                .content(content)
+                .nthDuration(request.getNthDuration())
                 .build();
 
         return progressInfoRepository.save(progressInfo);
@@ -75,20 +75,17 @@ public class ProgressInfoService {
 
     // 차시 정보 수정
     @Transactional
-    public ProgressInfo updateProgress(long nthNo, String nthDuration, UpdateProgressInfoRequest request) {
-        ProgressInfo progressInfo = progressInfoRepository.findById(nthNo).orElseThrow(
-                () -> new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다."));
+    public ProgressInfo updateProgress(long nthNo, UpdateProgressInfoRequest request) {
+        ProgressInfo progressInfo = progressInfoRepository.findById(nthNo)
+                .orElseThrow(() -> new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다."));
 
-        // 업데이트된 차시 정보 설정
-        progressInfo.update(nthNo, nthDuration);
+        progressInfo.update(request.getLecture(),
+                            request.getContent(),
+                            request.getNthDuration());
 
-        Content content = progressInfo.getContent();
-        content.setContentNo(request.getContent());
+        progressInfoRepository.save(progressInfo);
 
-        LectureInfo lecture = progressInfo.getLecture();
-        lecture.setLectureNo(request.getLecture());
-
-        return progressInfoRepository.save(progressInfo);
+        return progressInfo;
     }
 
     // 차시 정보 삭제

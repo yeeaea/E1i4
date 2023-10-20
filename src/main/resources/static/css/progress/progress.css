@@ -1,3 +1,51 @@
+.box {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.box::-webkit-scrollbar {
+    display: none;
+}
+
+table thead {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    height: 100%;
+}
+
+.custom-button-primary {
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    background-color: #6499E9;
+}
+
+.custom-button-secondary {
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    background-color: #6c757d;
+}
+
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -52,4 +100,42 @@ tr:hover {
 
 .buttonDiv {
     display: flex;
+}
+
+#progressForm {
+    width: 93%;
+    margin-left: auto;
+    text-align: left;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#progressForm div {
+    margin: 10px;
+}
+
+#progressForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#progressForm input[type="text"],
+#progressForm input[type="date"],
+#progressForm select,
+#progressForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#progressForm textarea {
+    resize: vertical;
+}
+
+#progressForm select {
+    width: 100%;
 }

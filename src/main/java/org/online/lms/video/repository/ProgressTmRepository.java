@@ -70,16 +70,12 @@ public interface ProgressTmRepository extends JpaRepository<Progress, Long> {
 
 
     // 출석
-    @Query("""
-    SELECT pi.nthNo, 
-    CASE 
-        WHEN (CAST(pi.content.runTm AS LONG) >= 0.8 * CAST(p.finalTm AS LONG))
-        THEN '1'
-        ELSE '0'
-    END AS result
-    FROM ProgressInfo pi
-    LEFT JOIN Progress p ON pi.content.contentNo = p.contentNo
-    WHERE pi.content.contentNo = :contentNo
-    """)
-    List<Object[]> findResult(@Param("contentNo") Long contentNo);
+    // 차시 진도율[b/T*100]
+//    @Query("""
+//    SELECT p.progRt
+//    FROM ProgressInfo p
+//    LEFT JOIN Content c ON c.content.contentNo = p.contentNo
+//    WHERE pi.content.contentNo = :contentNo
+//    """)
+//    List<Object[]> findResult(@Param("contentNo") Long contentNo);
 }

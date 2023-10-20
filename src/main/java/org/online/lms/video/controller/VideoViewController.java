@@ -49,7 +49,7 @@ public class VideoViewController {
 
     @GetMapping("/content")
     public String contentListForm(@PageableDefault(size = 10) Pageable pageable, Model model) {
-        // 콘텐츠 리스트 + 등록창
+        // 콘텐츠 리스트 + 등록 + 수정 + 삭제
         // 여기 템플릿만 보여주면 됨
 
         Page<Content> contentInfo;

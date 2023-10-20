@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('loadButton').addEventListener('click', loadLectureInfo);
 });
 
+
+////////////////////// 차시 순서 및 콘텐츠 받아오기 /////////////////////
 function loadProgressDataFromLectureTable() {
     let lectureTableRows = document.querySelectorAll("#lectureTable tbody tr");
     let progressTable = document.getElementById("progressTable");
@@ -86,9 +88,6 @@ function loadProgressDataFromLectureTable() {
                 if (progressLectureNo === lectureNo) {
                     // 해당 데이터 행을 찾았을 때
                     let contentCheckbox = progressRow.querySelector(".contentCheckbox");
-
-                    // contentCheckbox 선택 상태로 변경
-                    contentCheckbox.checked = true;
 
                     // hidden-row 클래스를 제거하여 행을 보이게 만듭니다.
                     progressRow.classList.remove("hidden-row");

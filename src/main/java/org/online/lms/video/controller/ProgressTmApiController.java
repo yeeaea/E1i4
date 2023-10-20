@@ -38,7 +38,6 @@ public class ProgressTmApiController {
             // 세션에서 nthNo 가져오기
             String sessionKey = "nthNo_" + sessionID;
             Long savedNthNo = (Long) session.getAttribute(sessionKey);
-            log.info(savedNthNo + "뭐됩니까?");
 
             Progress progress;
 
@@ -60,6 +59,7 @@ public class ProgressTmApiController {
                 // progress를 생성하고 맵에 추가
                 progress = Progress.progressTm();
                 //progress.setNthNo(req.getNthNo());
+                //progress
                 progress.setContentNo(req.getContentNo());
                 progress.setLectureNo(req.getLectureNo());
                 progress.setMemberNo(req.getMemberNo());
