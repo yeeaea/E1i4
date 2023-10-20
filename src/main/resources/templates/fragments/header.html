@@ -40,6 +40,7 @@
             fetch('/lms/api/members/current-memberName')
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data.memberName);
                     if (data.memberName) {
                         const welcomeMessage = document.getElementById("welcome-message");
                         welcomeMessage.textContent = "안녕하세요, " + data.memberName + "님!";
@@ -50,7 +51,6 @@
                 .catch(error => {
                     console.error("Error:", error);
                 });
-
         </script>
     </header>
 </html>
