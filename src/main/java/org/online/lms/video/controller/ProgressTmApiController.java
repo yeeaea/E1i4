@@ -59,7 +59,7 @@ public class ProgressTmApiController {
                 // progress를 생성하고 맵에 추가
                 progress = Progress.progressTm();
                 //progress.setNthNo(req.getNthNo());
-                //progress
+                progress.setProgRt(req.getProgRt());
                 progress.setContentNo(req.getContentNo());
                 progress.setLectureNo(req.getLectureNo());
                 progress.setMemberNo(req.getMemberNo());

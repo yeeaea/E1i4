@@ -58,7 +58,7 @@ public interface ProgressTmRepository extends JpaRepository<Progress, Long> {
     List<ProgressInfo> findProgressInfosByContentNo(@Param("contentNo") Long contentNo);
 
 
-    // 회원번호와 콘텐츠번호를 통해서 마지막 재생시간 가져오기
+    // '회원번호 + 콘텐츠번호 = 고유번호'를 통해서 finalTm 가져오기
     @Query("""
         SELECT p.finalTm
         FROM Progress p
@@ -68,7 +68,15 @@ public interface ProgressTmRepository extends JpaRepository<Progress, Long> {
     """)
     String findFinalTmByContentNoAndMemberNo(@Param("contentNo") Long contentNo, Long memberNo);
 
-
+    // '회원번호 + 콘텐츠번호 = 고유번호'를 통해서 maxTm 가져오기
+    @Query("""
+        SELECT p.maxTm
+        FROM Progress p
+        WHERE p.contentNo = :contentNo and p.memberNo = :memberNo
+        ORDER BY p.progressNo DESC
+        LIMIT 1
+    """)
+    String findMaxTmByContentNoAndMemberNo(@Param("contentNo") Long contentNo, Long memberNo);
     // 출석
     // 차시 진도율[b/T*100]
 //    @Query("""

@@ -54,9 +54,14 @@ public class ProgressTmService {
         return progressTmRepository.findProgressInfosByContentNo(contentNo);
     }
 
-    // 회원번호와 콘텐츠번호를 통해서 마지막 재생시간 가져오기
+    // '회원번호 + 콘텐츠번호 = 고유번호'를 통해서 finalTm 가져오기
     public String findFinalTmByContentNoAndMemberNo(Long contentNo, Long memberNo) {
         return progressTmRepository.findFinalTmByContentNoAndMemberNo(contentNo, memberNo);
+    }
+
+    // '회원번호 + 콘텐츠번호 = 고유번호'를 통해서 maxTm 가져오기
+    public String findMaxTmByContentNoAndMemberNo(Long contentNo, Long memberNo) {
+        return progressTmRepository.findMaxTmByContentNoAndMemberNo(contentNo, memberNo);
     }
 
     // 콘텐츠 번호 통해 Progress 전체 가져오기

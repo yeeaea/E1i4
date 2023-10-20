@@ -44,6 +44,12 @@
         </div>
     </div>
 
+    <div >
+        <div data-maxTmValue="[[${maxTmValue}]]"
+             th:attr="data-maxTmValue=${maxTmValue}">
+        </div>
+    </div>
+
     <div style="display: flex;" th:each="progressInfo : ${progressInfos}">
         <input data-nthNo="[[${progressInfo}]]" type="hidden"
              th:attr="data-nthNo=${progressInfo.nthNo}">
@@ -51,7 +57,8 @@
                th:attr="data-contentNo=${progressInfo.content.contentNo}">
         <input data-lectureNo="[[${progressInfo.lecture.lectureNo}]]" type="hidden"
                th:attr="data-lectureNo=${progressInfo.lecture.lectureNo}">
-        <input type="hidden" th:text="${progressInfo.content.runTm}" id="runTm">
+        <input data-runTm="[[${progressInfo.lecture.lectureNo}]]" type="hidden"
+               th:attr="data-runTm=${progressInfo.content.runTm}">
     </div>
 
 </th:block>

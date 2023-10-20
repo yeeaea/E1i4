@@ -17,5 +17,5 @@ public class ProgressTmRequest {
     private Long memberNo; // 로그인 아이디의 멤버 번호
     private String finalTm; // 5초에 한번씩 업데이트될 컬럼이자 시작 위치
     private String maxTm; // 최종 위치로 저장될 컬럼
-    private String progRt;  // 진행률을 통해 출석 처리함(80% 이상일 때 자동 출석)
+    private Integer progRt;  // 진행률을 통해 출석 처리함(80% 이상일 때 자동 출석)
 }
