@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 let finalTm;
-let maxTm;
 
 // player라는 id를 가진 div에 플레이어 호출
 // 아이디 값은 ytbUrl컬럼에 있는 값을 통해서 영상 가져오기 -> 이거만 하면 ok!
@@ -60,10 +59,29 @@ function onPlayerReady(event) {
 
     // 재생시간 중에서 5초를 뺀 값을 통해서 새로운 시간 값 얻기
     // 비디오의 마지막 부분에서 일정한 시간 간격으로 작업을 수행하기 위한 변수
-    runTm = event.target.getDuration() - 5;
+    const runTm =
+        document.querySelector('[data-runTm]')
+            .getAttribute('data-runTm');
+    console.log(runTm + "재생 시간");
+
+    let MaxValue = document.querySelector('[data-maxTmValue]');
+    let maxTm;
+    try{
+
+        maxTm = MaxValue.getAttribute('data-maxTmValue');
+        if (maxTm !== null) {
+            maxTm = parseFloat(maxTm); // 숫자로 변환
+        }else {
+            maxTm = 0;
+        }
+    }catch (error) {
+        console.error("에러 발생: " + error.message);
+    }
+
     // 재생 진행율
     progRt = (maxTm / runTm) * 100;
 
+    console.log(progRt + "이값은뭐여ㅑ");
     // 시간기록하는 함수 실행(저장해야 되는 값)
     updatePosition()
 }
@@ -74,12 +92,30 @@ let recordInterval;
 
 function onPlayerStateChange(event) {
     console.log("onPlayerStateChange 실행3?");
+
     if (event.data == YT.PlayerState.PLAYING) {
 
+        let MaxTmValue = document.querySelector('[data-maxTmValue]');
+        let maxTm;
+        try{
+
+            maxTm = MaxTmValue.getAttribute('data-maxTmValue');
+            if (maxTm !== null) {
+                maxTm = parseFloat(maxTm); // 숫자로 변환
+            }else {
+                maxTm = 0;
+            }
+        }catch (error) {
+            console.error("에러 발생: " + error.message);
+        }
         runTm = event.target.getDuration() - 5;
+        console.log(runTm + "3번 runtm?ok")
+        console.log(maxTm + "얘를 못뽑아오나?ok")
+
         progRt = (maxTm / runTm) * 100;
+        console.log("progRt를 변수 정의해주기?"+progRt)
         // maxTm null 처리
-        maxTm = maxTm === null ? 0 : maxTm;
+        //maxTm = maxTm === null ? 0 : maxTm;
 
         // getCurrentTime(): 현재 재생 위치(초)를 반환
         // Number : 주어진 값을 숫자로 변환
@@ -148,17 +184,32 @@ function updatePosition() {
             .getAttribute('data-lectureNo');
     console.log(lectureNo + "강의 번호");
 
-    const runTm =
-        document.querySelector('[data-runTm]')
-            .getAttribute('data-runTm');
-    console.log(runTm + "재생 시간");
+    let MaxTmValues = document.querySelector('[data-maxTmValue]');
+    let maxTm;
+    try{
+
+        maxTm = MaxTmValues.getAttribute('data-maxTmValue');
+        if (maxTm !== null) {
+            maxTm = parseFloat(maxTm); // 숫자로 변환
+        }else {
+            maxTm = 0;
+        }
+    }catch (error) {
+        console.error("에러 발생: " + error.message);
+    }
+    console.log(runTm + "4번 runtm?거의다옴")
+    console.log(maxTm + "얘를 못뽑아오나?maxTm거의다옴")
+
+    //progRt = (maxTm / runTm) * 100;
 
     finalTm = player.getCurrentTime();
     // maxTm - 뒤로 영상 이동해도 finalTm값이 실행될 수 있도록 하기
     maxTm = maxTm > finalTm ? maxTm : finalTm;
+    console.log("여기까지와야최종maxTm" + maxTm);
+    console.log("여기까지와야최종runTm" + runTm);
     // toFixed(4) : 소수점이하 네자리까지 반올림
-    progRt = runTm >= maxTm ? (maxTm / runTm).toFixed(4) * 100 : 100;
-
+    progRtt = runTm >= maxTm ? (maxTm / runTm).toFixed(1) * 100 : 100;
+console.log(progRtt + "진행률 ㄴ오세요");
     // data 객체 생성
     const data = {
         nthNo: nthNo,
@@ -168,7 +219,7 @@ function updatePosition() {
         progressNo: progressNo,
         finalTm: finalTm,
         maxTm: maxTm,
-        progRt: progRt
+        progRt: progRtt
     };
 
     // 서버로 데이터를 보내는 fetch 요청

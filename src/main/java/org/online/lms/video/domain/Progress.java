@@ -49,7 +49,7 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
     private String maxTm; // 강의 수강 종료 위치
 
     @Column(name = "prog_rt")
-    private Integer progRt; // 차시 진도율
+    private Long progRt; // 차시 진도율
 
     @Builder
     public Progress(Long progressNo,
@@ -59,7 +59,7 @@ public class Progress { // 강의 학습자별 차시 진도 테이블
                     Long contentNo,
                     String finalTm,
                     String maxTm,
-                    Integer progRt) {
+                    Long progRt) {
         this.progressNo = progressNo;
         this.nthNo = nthNo;
         this.lectureNo = lectureNo;

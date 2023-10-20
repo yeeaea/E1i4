@@ -37,7 +37,7 @@
 
             <tbody class="row-2" >
             <tr th:each="content, iterStat : ${contentList}">
-                <td>[[${iterStat.count}]]차시</td>
+                <td>[[${iterStat.count}]]</td>
                 <td th:text="${content.contentName}" ></td>
                 <!-- 출석 - progress의 진도율이 80이상일 때 라디오 버튼 체크 -->
                 <td></td>
