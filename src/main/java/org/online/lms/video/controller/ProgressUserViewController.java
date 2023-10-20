@@ -55,15 +55,20 @@ public class ProgressUserViewController {
         Long memberNo = member.getMemberNo();
         model.addAttribute("memberNo", memberNo);
 
-
+        // finalTm 값 가져오기
         String finalTmValue = progressTmService.findFinalTmByContentNoAndMemberNo(contentNo, memberNo);
-
         model.addAttribute("finalTmValue", finalTmValue);
 
+        // MaxTme 값 가져오기
+        String maxTmValue = progressTmService.findMaxTmByContentNoAndMemberNo(contentNo, memberNo);
+        model.addAttribute("maxTmValue", maxTmValue);
+
+        // ytbUrl 값 가져오기
         List<Content> contentList =
                 progressTmService.findContentByContentNo(contentNo);
         model.addAttribute("contentList", contentList);
 
+        // nthNo, contentNo, runTm 값 가져오기
         List<ProgressInfo> progressInfos =
                 progressTmService.findProgressInfosByContentNo(contentNo);
         model.addAttribute("progressInfos", progressInfos);
