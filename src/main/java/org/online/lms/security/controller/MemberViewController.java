@@ -4,7 +4,6 @@ package org.online.lms.security.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.lecture.dto.MyLectureInfoDto;
 import org.online.lms.lecture.service.LectureApplyService;
 import org.online.lms.lecture.service.LectureInfoService;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 import org.springframework.security.core.Authentication;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -211,5 +209,4 @@ public class MemberViewController {
         return "redirect:/lms/mypage/edit-info";  // 정보 업데이트시킨 후, 마이페이지로 이동
 
     }
-
 }
