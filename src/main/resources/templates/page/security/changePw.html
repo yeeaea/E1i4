@@ -12,117 +12,133 @@
     <link rel="stylesheet" th:href="@{/css/security/changePw.css}">
 </th:block>
 
-<section layout:fragment="content">
-    비밀번호 변경하기
-    <h6>비밀번호 변경에 성공하시면, 로그아웃 후 로그인 페이지로 이동합니다.
-        <br>다시 로그인해주세요.</h6>
-    <!-- 비밀번호 변경 폼 -->
-    <form action="/lms/mypage/change-pw" method="post"
-          th:if="${dto == null}">
-        <!-- 기존 비밀번호 입력란 -->
-        <div>
-            <label for="currentPw">기존 비밀번호</label>
-            <input type="password" name="currentPw" id="currentPw"
-                   th:value="${dto != null}? ${dto.getCurrentPw()} : ''" >
+<!-- content start -->
+<th:block layout:fragment="content">
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 정보 &nbsp; > &nbsp; 개인정보 수정 &nbsp; > &nbsp; 비밀번호 변경</p>
+            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">비밀번호 변경</p>
         </div>
-        <!-- 새로운 비밀번호 입력란 -->
-        <div>
-            <label for="newPw">새로운 비밀번호</label>
-            <input type="password" name="newPw" id="newPw"
-                   th:value="${dto != null}? ${dto.getNewPw()} : ''" >
-            <!-- 유효성 검사 -->
-            <span th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"></span>
-        </div>
+    </div>
 
-        <div>
-            <label for="confirmPw">비밀번호 확인</label>
-            <input type="password" name="confirmPw" id="confirmPw"
-                   th:value="${dto != null}? ${dto.getConfirmPw()} : ''" >
-            <!-- 유효성 검사 -->
-            <span th:if="${valid_comfirmPw}" id="valid"  th:text="${valid_comfirmPw}"></span>
-        </div>
-
-        <div class="alert alert-danger" id="error-message"
-             th:if="${param.fail}">
-            <!-- 오류 시 나오는 내용 -->
-            <!-- 현재 비밀번호와 입력한 비밀번호가 일치하지 않은 경우-->
-            <div th:if="${wrongPassword}"></div>
-            <!-- 새로 입력한 비밀번호와 일치하지 않은 경우 -->
-            <div class="mt-5" th:if="${differentPassword}"></div>
-        </div>
-        <button type="submit">변경하기</button>
-    </form>
-
-
-    <!-- 에러 페이지 -->
-    <form action="/lms/mypage/change-pw" method="post"
-          th:unless="${dto == null}">
-        <div class="form-group">
-
-            <th:block th:if="${wrongPassword == null}">
-                <div class="form-floating mb-3">
-                    <label for="currentPw">기존 비밀번호</label>
-                    <input type="password" name="currentPw" class="form-control"
-                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''">
-                    <!-- 유효성 검사  -->
-                    <span
-                            th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
-                            th:style="${valid_currentPw !=null? 'color: red;' : ''}"></span>
+    <div class="container" >
+        <h6>비밀번호 변경에 성공하시면, 로그아웃 후 로그인 페이지로 이동합니다.
+            <br>다시 로그인해주세요.</h6>
+        <!-- 비밀번호 변경 폼 -->
+        <div class="row justify-content-start container">
+            <form action="/lms/mypage/change-pw" method="post"
+                  th:if="${dto == null}">
+                <!-- 기존 비밀번호 입력란 -->
+                <div class="form-group mb-3 w-75 m-auto">
+                    <label for="currentPw" class="form-label fs-5 mt-3">기존 비밀번호</label>
+                    <input type="password" name="currentPw" id="currentPw"
+                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''"
+                           style="margin-left: 70px;">
                 </div>
-            </th:block>
-
-            <th:block th:unless="${wrongPassword == null}">
-                <div class="form-floating mb-3 has-danger">
-                    <label for="currentPw">기존 비밀번호</label>
-                    <input type="password" name="currentPwd" id="currentPw"
-                           class="form-control is-invalid"
-                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''" >
+                <!-- 새로운 비밀번호 입력란 -->
+                <div class="form-group mb-3 w-75 m-auto">
+                    <label for="newPw" class="form-label fs-5 mt-3">새로운 비밀번호</label>
+                    <input type="password" name="newPw" id="newPw"
+                           th:value="${dto != null}? ${dto.getNewPw()} : ''"
+                           style="margin-left: 50px;">
                     <!-- 유효성 검사 -->
-                    <span
-                            th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
-                            th:style="${valid_currentPw !=null? 'color: red;' : ''}"></span>
-                    <div class="invalid-feedback" th:text="${wrongPassword}"></div>
+                    <span th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"></span>
                 </div>
-            </th:block>
 
-            <div class="form-floating mb-3">
-                <label for="newPw">새로운 비밀번호</label>
-                <input type="password" name="newPw" id="newPw "
-                       th:value="${dto != null}? ${dto.getNewPw()} : ''"
-                       required>
-                <!-- 유효성 검사 -->
-                <span
-                        th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"
-                        th:style="${valid_newPw !=null? 'color: red;' : ''}"></span>
-            </div>
-
-            <th:block th:if="${differentPassword == null}">
-                <div class="form-floating mb-3">
-                    <label class="fs-5">비밀번호 확인</label>
-                    <input type="password" name="confirmPw"
-                           th:value="${dto != null}? ${dto.getConfirmPw()} : ''">
-                    <!-- 유효성 검사 -->
-                    <span
-                            th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
-                            th:style="${valid_comfirmPw !=null? 'color: red;' : ''}"></span>
-                </div>
-            </th:block>
-
-            <th:block th:unless="${differentPassword == null}">
-                <div class="form-floating mb-3 has-danger">
-                    <label for="confirmPw">비밀번호 확인</label>
+                <div class="form-group mb-3 w-75 m-auto">
+                    <label for="confirmPw" class="form-label fs-5 mt-3">비밀번호 확인</label>
                     <input type="password" name="confirmPw" id="confirmPw"
-                           class="form-control is-invalid"
-                           th:value="${dto != null}? ${dto.getConfirmPw()} : ''" >
+                           th:value="${dto != null}? ${dto.getConfirmPw()} : ''"
+                           style="margin-left: 70px;">
                     <!-- 유효성 검사 -->
-                    <span
-                            th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
-                            th:style="${valid_comfirmPw !=null? 'color: red;' : ''}"></span>
-                    <div class="invalid-feedback" th:text="${differentPassword}"></div>
+                    <span th:if="${valid_comfirmPw}" id="valid"  th:text="${valid_comfirmPw}"></span>
                 </div>
-            </th:block>
+
+                <div class="alert alert-danger" id="error-message"
+                     th:if="${param.fail}">
+                    <!-- 오류 시 나오는 내용 -->
+                    <!-- 현재 비밀번호와 입력한 비밀번호가 일치하지 않은 경우-->
+                    <div th:if="${wrongPassword}"></div>
+                    <!-- 새로 입력한 비밀번호와 일치하지 않은 경우 -->
+                    <div class="mt-5" th:if="${differentPassword}"></div>
+                </div>
+                <div style="margin-bottom: 50px;">
+                    <button type="submit" class="btn btn-primary mt-3" style="margin-left: 60%;">변경하기</button>
+                </div>
+            </form>
+
+
+            <!-- 에러 페이지 -->
+            <form action="/lms/mypage/change-pw" method="post"
+                  th:unless="${dto == null}">
+                <div class="form-group">
+
+                    <th:block th:if="${wrongPassword == null}">
+                        <div class="form-floating mb-3">
+                            <label for="currentPw">기존 비밀번호</label>
+                            <input type="password" name="currentPw" class="form-control"
+                                   th:value="${dto != null}? ${dto.getCurrentPw()} : ''">
+                            <!-- 유효성 검사  -->
+                            <span
+                                    th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
+                                    th:style="${valid_currentPw !=null? 'color: red;' : ''}"></span>
+                        </div>
+                    </th:block>
+
+                    <th:block th:unless="${wrongPassword == null}">
+                        <div class="form-floating mb-3 has-danger">
+                            <label for="currentPw">기존 비밀번호</label>
+                            <input type="password" name="currentPwd" id="currentPw"
+                                   class="form-control is-invalid"
+                                   th:value="${dto != null}? ${dto.getCurrentPw()} : ''" >
+                            <!-- 유효성 검사 -->
+                            <span
+                                    th:if="${valid_currentPw}" id="valid" th:text="${valid_currentPw}"
+                                    th:style="${valid_currentPw !=null? 'color: red;' : ''}"></span>
+                            <div class="invalid-feedback" th:text="${wrongPassword}"></div>
+                        </div>
+                    </th:block>
+
+                    <div class="form-floating mb-3">
+                        <label for="newPw">새로운 비밀번호</label>
+                        <input type="password" name="newPw" id="newPw "
+                               th:value="${dto != null}? ${dto.getNewPw()} : ''"
+                               required>
+                        <!-- 유효성 검사 -->
+                        <span
+                                th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"
+                                th:style="${valid_newPw !=null? 'color: red;' : ''}"></span>
+                    </div>
+
+                    <th:block th:if="${differentPassword == null}">
+                        <div class="form-floating mb-3">
+                            <label class="fs-5">비밀번호 확인</label>
+                            <input type="password" name="confirmPw"
+                                   th:value="${dto != null}? ${dto.getConfirmPw()} : ''">
+                            <!-- 유효성 검사 -->
+                            <span
+                                    th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
+                                    th:style="${valid_comfirmPw !=null? 'color: red;' : ''}"></span>
+                        </div>
+                    </th:block>
+
+                    <th:block th:unless="${differentPassword == null}">
+                        <div class="form-floating mb-3 has-danger">
+                            <label for="confirmPw">비밀번호 확인</label>
+                            <input type="password" name="confirmPw" id="confirmPw"
+                                   class="form-control is-invalid"
+                                   th:value="${dto != null}? ${dto.getConfirmPw()} : ''" >
+                            <!-- 유효성 검사 -->
+                            <span
+                                    th:if="${valid_comfirmPw}" id="valid" th:text="${valid_comfirmPw}"
+                                    th:style="${valid_comfirmPw !=null? 'color: red;' : ''}"></span>
+                            <div class="invalid-feedback" th:text="${differentPassword}"></div>
+                        </div>
+                    </th:block>
+                </div>
+                <button type="submit">변경하기</button>
+            </form>
         </div>
-        <button type="submit">변경하기</button>
-    </form>
-</section>
+    </div>
+</th:block>
 </html>
