@@ -43,25 +43,19 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => {
             console.error('Error processing videos:', error);
         });
+
+
 });
 
+// 재생 시간 초 -> 분+초 형태로 변환
+document.addEventListener("DOMContentLoaded", function() {
+    const runTmElements = document.querySelectorAll("[data-runTm]");
+    runTmElements.forEach(function(element) {
+        const runTmString = element.getAttribute("data-runTm");
+        const runTmArray = runTmString.split(','); // 콤마로 문자열 분리
 
-// 재생 시간 초 -> 분:초 변환
-let runTm  =
-    document.querySelector('[data-runTm]')
-        .getAttribute('data-runTm');
-
-let formattedTime = formatSecondsToMinutesAndSeconds(runTm);
-console.log(formattedTime)
-function formatSecondsToMinutesAndSeconds(seconds) {
-
-    let minutes = Math.floor(seconds / 60);
-    let remainingSeconds = seconds % 60;
-
-    // 문자열로 포맷하기 (0을 붙여서 두 자리로 만들기)
-    let formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    let formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
-
-    // 분과 초를 반환
-    return formattedMinutes + ':' + formattedSeconds;
-}
+        const minutes = Math.floor(runTmArray / 60);
+        const seconds = runTmArray % 60;
+        element.textContent = minutes + " 분 " + seconds + " 초";
+    });
+});
