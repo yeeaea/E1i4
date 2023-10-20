@@ -17,7 +17,7 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content" style="width: 85%; display: flex; flex-direction: row; align-items: flex-start;">
+<section layout:fragment="content" style="width: 90%; display: flex; flex-direction: row; align-items: flex-start;">
 
 
     <div style="width: 60%;">
@@ -34,10 +34,10 @@
             <tr>
                 <th>콘텐츠 관리 번호</th>
                 <th>콘텐츠 명</th>
-                <th>콘텐츠 설명</th>
+<!--                <th>콘텐츠 설명</th>-->
                 <!--<th>콘텐츠 파일번호</th>-->
                 <th>Youtube 연동번호</th>
-                <th>콘텐츠 호출 URL</th>
+<!--                <th>콘텐츠 호출 URL</th>-->
                 <th>재생 시간</th>
             </tr>
             </thead>
@@ -47,10 +47,10 @@
                 <!-- 콘텐츠 리스트 출력 -->
                 <td th:text="${content.contentNo}"></td>
                 <td th:text="${content.contentName}"></td>
-                <td th:text="${content.contentDesc}"></td>
+<!--                <td th:text="${content.contentDesc}"></td>-->
                 <!--<td th:text="${content.contentFileNo}"></td>-->
                 <td th:text="${content.ytbUrl}"></td>
-                <td th:text="${content.contentUrl}"></td>
+<!--                <td th:text="${content.contentUrl}"></td>-->
                 <td th:text="${content.runTm}"></td>
             </tr>
             </tbody>
