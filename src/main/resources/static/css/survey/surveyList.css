@@ -1,0 +1,16 @@
+/* 모달 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 70%; /* 화면 상단에서 중앙에 위치 */
+    left: 50%; /* 화면 중앙에 위치 (가로 방향) */
+    width: 80%;
+}
+
+.modal-header h3 {
+    margin-top: 13px;
+}
+
+.modal-content{
+    margin-top: 50%;
+}

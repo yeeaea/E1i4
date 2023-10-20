@@ -8,7 +8,7 @@
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{css/css.css}">
+    <link rel="stylesheet" th:href="@{/css/survey/surveyList.css}">
 </th:block>
 
 <!-- page 고유 javascript -->
@@ -17,9 +17,14 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content">
+<th:block layout:fragment="content">
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 &nbsp; >  &nbsp; 강의평가 </p>
+            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 강의 평가 </p>
+        </div>
+    </div>
     <div class="container">
-        <h3>강의평가</h3>
         <div th:if="${not #lists.isEmpty(lectures)}">
             <table class="table table-hover">
                 <thead>
@@ -61,43 +66,54 @@
                 <button>수강신청 페이지로 이동</button>
             </a>
         </div>
+
         <div id="myModal" class="modal">
-            <div class="modal-content">
-                <h3>강의평가 페이지</h3>
-
-                <form>
-                    <!-- 각 문항에 대한 순서대로 루프를 실행 -->
-                    <div name="questions"th:each="surveyQuestion, questionIndex : ${surveyQuesInfoList}">
-                        <!-- 현재 문항의 번호 -->
-                        <input type="hidden" name="surveyQuesNo" th:value="${surveyQuestion.surveyQuesNo}">
-
-                        <!-- 평가 문항 표시 -->
-                        <p th:text="${surveyQuestion.surveyQuesName}">강의평가문항명: {평가 문항 내용}</p>
-
-                        <!-- 다중 선택의 경우 5개의 라디오 버튼 -->
-                        <div th:if="${surveyQuestion.surveyQuesType eq '1'}">
-                            <label>답변 선택:</label><br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇다" required> 매우 그렇다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇다" required> 그렇다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="보통이다" required> 보통이다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇지 않다" required> 그렇지 않다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇지 않다" required> 매우 그렇지 않다<br>
-                        </div><br>
-
-                        <!-- 직접 입력의 경우 입력 필드 -->
-                        <div th:if="${surveyQuestion.surveyQuesType eq '2'}">
-                            <label for="directInputAnswer">답변:</label>
-                            <input type="text" th:id="__${'directInputAnswer' + questionIndex.index}__" th:name="__${'directInputAnswer' + questionIndex.index}__" required>
-                        </div><br>
+            <div class="modal-dialog">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header">
+                        <h3>강의평가 페이지</h3>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <button id="surveySubmit">제출</button>
-                </form>
+                    <div class="modal-body">
+                        <form>
+                            <!-- 각 문항에 대한 순서대로 루프를 실행 -->
+                            <div name="questions"th:each="surveyQuestion, questionIndex : ${surveyQuesInfoList}">
+                                <!-- 현재 문항의 번호 -->
+                                <input type="hidden" name="surveyQuesNo" th:value="${surveyQuestion.surveyQuesNo}">
+
+                                <!-- 평가 문항 표시 -->
+                                <p th:text="${surveyQuestion.surveyQuesName}" class="fs-5">강의평가문항명: {평가 문항 내용}</p>
+
+                                <!-- 다중 선택의 경우 5개의 라디오 버튼 -->
+                                <div th:if="${surveyQuestion.surveyQuesType eq '1'}">
+                                    <label class="fs-5">답변 선택:</label><br>
+                                    <div class="mb-2 fs-6">
+                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇다" required> 매우 그렇다<br>
+                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇다" required> 그렇다<br>
+                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="보통이다" required> 보통이다<br>
+                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇지 않다" required> 그렇지 않다<br>
+                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇지 않다" required> 매우 그렇지 않다<br>
+                                    </div>
+                                </div><br>
+
+                                <!-- 직접 입력의 경우 입력 필드 -->
+                                <div th:if="${surveyQuestion.surveyQuesType eq '2'}">
+                                    <label for="directInputAnswer" class="fs-5">답변:</label>
+                                    <input type="text" th:id="__${'directInputAnswer' + questionIndex.index}__" th:name="__${'directInputAnswer' + questionIndex.index}__" required>
+                                </div><br>
+                            </div>
+                            <div style="margin-left: 400px;">
+                                <button id="surveySubmit" class="btn btn-secondary">제출</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
 
 
-</section>
+</th:block>
 <!-- content end -->
 </html>

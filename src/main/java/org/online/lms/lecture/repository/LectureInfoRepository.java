@@ -5,7 +5,6 @@ import org.online.lms.lecture.dto.MyLectureInfoDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -21,5 +20,5 @@ public interface LectureInfoRepository extends JpaRepository<LectureInfo, Long> 
             "WHERE la.memberNo = :memberNo")
     List<MyLectureInfoDto> findMyLectureInfoByMemberNo(@Param("memberNo") Long memberNo);
 
-
+    LectureInfo findByLectureNo(long lectureNo);
 }
