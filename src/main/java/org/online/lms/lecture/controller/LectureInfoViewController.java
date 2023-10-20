@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class LectureInfoViewController {
 
     // 회원 : 개설 강의 목록 조회
     @GetMapping("/lecture-all")
-    public String lectureInfoList(Model model, Principal principal) {
+    public String lectureInfoList(Model model) {
         // 개설 강의 정보 목록
         List<LectureInfoViewResponse> lectureInfo = lectureInfoService.findAll().stream()
                 .map(LectureInfoViewResponse::new)

@@ -77,17 +77,17 @@
                         <!-- 다중 선택의 경우 5개의 라디오 버튼 -->
                         <div th:if="${surveyQuestion.surveyQuesType eq '1'}">
                             <label>답변 선택:</label><br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇다"> 매우 그렇다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇다"> 그렇다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="보통이다"> 보통이다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇지 않다"> 그렇지 않다<br>
-                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇지 않다"> 매우 그렇지 않다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇다" required> 매우 그렇다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇다" required> 그렇다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="보통이다" required> 보통이다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇지 않다" required> 그렇지 않다<br>
+                            <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇지 않다" required> 매우 그렇지 않다<br>
                         </div><br>
 
                         <!-- 직접 입력의 경우 입력 필드 -->
                         <div th:if="${surveyQuestion.surveyQuesType eq '2'}">
                             <label for="directInputAnswer">답변:</label>
-                            <input type="text" th:id="__${'directInputAnswer' + questionIndex.index}__" th:name="__${'directInputAnswer' + questionIndex.index}__">
+                            <input type="text" th:id="__${'directInputAnswer' + questionIndex.index}__" th:name="__${'directInputAnswer' + questionIndex.index}__" required>
                         </div><br>
                     </div>
                     <button id="surveySubmit">제출</button>
