@@ -67,6 +67,7 @@ public class MemberApiController {
                 Members member = userOptional.get();
                 String memberName = member.getMemberName();
                 response.put("memberName", memberName);
+                log.info("memberName : " + memberName);
             }
         } else {
             response.put("memberName", "Guest");
