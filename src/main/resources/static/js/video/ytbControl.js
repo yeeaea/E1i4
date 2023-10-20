@@ -148,6 +148,9 @@ function updatePosition() {
             .getAttribute('data-lectureNo');
     console.log(lectureNo + "강의 번호");
 
+    const runTm = document.getElementById('runTm').innerText;
+    console.log(runTm + "재생 시간 나오나");
+
     finalTm = player.getCurrentTime();
     // maxTm - 뒤로 영상 이동해도 finalTm값이 실행될 수 있도록 하기
     maxTm = maxTm > finalTm ? maxTm : finalTm;

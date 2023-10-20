@@ -46,6 +46,7 @@ public class ProgressUserViewController {
     @GetMapping("/view/{contentNo}")
     public String ytbPlay(@PathVariable Long contentNo, Model model) {
         // 온라인 강의 콘텐츠 리스트에서 재생버튼 누르면 나오는 영상 플레이 창
+        // memberNo + contentNo = 고유
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String loginId = authentication.getName();
@@ -70,5 +71,14 @@ public class ProgressUserViewController {
         return "/page/video/ytbView";
     }
 
+    @GetMapping("/attendance/{lectureNo}")
+    public String attendance(@PathVariable Long lectureNo, Model model) {
+        // 강의에 대한 모든 차시(주차) 출결
+
+        List<Content> contentList = progressTmService.findContentByLectureNo(lectureNo);
+        model.addAttribute("contentList", contentList);
+
+        return "/page/video/attendance";
+    }
 }
 
