@@ -12,43 +12,76 @@
     <link rel="stylesheet" th:href="@{/css/security/adminLectureList.css}">
 </th:block>
 <body>
-    <!-- content start -->
-    <th:block layout:fragment="content">
-        <div class="col-md-5" style="width: 100%; margin-left: 150px;">
-            <div style="margin-top: 30px;">
-                <p class="mb-5" style="font-size: 17px; color: dimgrey;">학생 관리페이지</p>
-                <p style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">전체 강의 목록 </p>
-            </div>
+<!-- content start -->
+<th:block layout:fragment="content">
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">학생 관리페이지</p>
+            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">전체 강의 목록 </p>
         </div>
-        <div class="container">
-            <table class = "table table-hover">
-                <thead>
-                <tr class="fs-5">
-                    <th scope="col">강의년도</th>
-                    <th scope="col">강의 과정</th>
-                    <th scope="col">강의명</th>
-                    <th scope="col">강의 시작일</th>
-                    <th scope="col">강의 종료일</th>
-                    <th scope="col">수강생 조회</th>
-                </tr>
-                </thead>
-                <tbody class="row-6" th:each="lecture : ${lectureInfo}">
-                <tr>
-                    <div class="td-row">
-                        <td th:text="${lecture.lectureYear}" style="margin-left: 12px;"></td>
-                        <td th:text="${lecture.lectureCourse}" style="margin-left: 12px;"></td>
-                        <td th:text="${lecture.lectureTitle}" style="margin-left: 12px;"></td>
-                        <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-                        <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-                        <td> <button id="lookupStudentBtn" th:attr="data-lecture-no=${lecture.lectureNo}"
-                            onclick="window.location.href='/admin/memberInfo/lectureNo/' + this.getAttribute('data-lecture-no')"
-                            type="button" class="btn btn-primary" style="margin-left: 12px;">&nbsp조&nbsp &nbsp회&nbsp</button></td>
-                    </div>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </th:block>
-    <!-- content end -->
+    </div>
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr class="fs-5">
+                <th scope="col">강의년도</th>
+                <th scope="col">강의 과정</th>
+                <th scope="col">강의명</th>
+                <th scope="col">강의 시작일</th>
+                <th scope="col">강의 종료일</th>
+                <th scope="col">수강생 조회</th>
+            </tr>
+            </thead>
+            <tbody class="row-6" th:each="lecture : ${lectureInfo}">
+            <tr>
+                <div class="td-row">
+                    <td th:text="${lecture.lectureYear}" style="margin-left: 12px;"></td>
+                    <td th:text="${lecture.lectureCourse}" style="margin-left: 12px;"></td>
+                    <td th:text="${lecture.lectureTitle}" style="margin-left: 12px;"></td>
+                    <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+                    <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                    <td>
+                        <button id="lookupStudentBtn" th:attr="data-lecture-no=${lecture.lectureNo}"
+                                onclick="window.location.href='/admin/memberInfo/lectureNo/' + this.getAttribute('data-lecture-no')"
+                                type="button" class="btn btn-primary" style="margin-left: 12px;">&nbsp조&nbsp &nbsp회&nbsp
+                        </button>
+                    </td>
+                </div>
+            </tr>
+            </tbody>
+        </table>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+
+                <!-- 이전 페이지 링크 -->
+                <li class="page-item"
+                    th:classappend="${startPage == lectureInfo.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/memberInfo/lectures(page=${lectureInfo.pageable.pageNumber - 1})}"
+                       tabindex="-1"> < </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                    th:if="${lectureInfo.totalElements > 0}">
+                    <a class="page-link"
+                       th:href="@{/admin/memberInfo/lectures(page=${num-1})}"
+                       th:text="${num}"
+                       th:classappend="${num == (lectureInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li class="page-item"
+                    th:classappend="${endPage == lectureInfo.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/memberInfo/lectures(page=${lectureInfo.pageable.pageNumber + 1})}">
+               >     </a>
+
+                </li>
+
+            </ul>
+        </nav>
+    </div>
+</th:block>
+<!-- content end -->
 </body>
 </html>

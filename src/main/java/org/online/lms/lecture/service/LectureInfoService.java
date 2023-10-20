@@ -9,6 +9,10 @@ import org.online.lms.lecture.repository.LectureInfoRepository;
 import org.online.lms.survey.repository.SurveyAnsRepository;
 import org.online.lms.survey.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,10 +37,19 @@ public class LectureInfoService {
         this.surveyAnsRepository = surveyAnsRepository;
         this.surveyRepository = surveyRepository;
     }
+
     // 강의 목록 조회
     @Transactional(readOnly = true)
     public List<LectureInfo> findAll() {
         return lectureInfoRepository.findAll();
+    }
+
+    public Page<LectureInfo> findAll(Pageable pageable) {
+        Pageable Pageable =
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                        Sort.by(Sort.Direction.DESC, "lectureNo"));
+
+        return lectureInfoRepository.findAll(Pageable);
     }
 
 
@@ -72,15 +85,15 @@ public class LectureInfoService {
     public LectureInfo updateLectures(Long lectureNo,
                                       UpdateLectureInfoRequest request) {
         LectureInfo lectureInfo = lectureInfoRepository.findById(lectureNo).orElseThrow(
-                ()-> new IllegalArgumentException(lectureNo + "번 강의가 존재하지 않습니다."));
+                () -> new IllegalArgumentException(lectureNo + "번 강의가 존재하지 않습니다."));
 
         lectureInfo.update(request.getLectureYear(),
-                           request.getLectureTitle(),
-                           request.getLectureDesc(),
-                           request.getLectureStartAt(),
-                           request.getLectureEndAt(),
-                           request.getLectureCourse(),
-                           request.getLectureDuration());
+                request.getLectureTitle(),
+                request.getLectureDesc(),
+                request.getLectureStartAt(),
+                request.getLectureEndAt(),
+                request.getLectureCourse(),
+                request.getLectureDuration());
 
         return lectureInfo;
     }
