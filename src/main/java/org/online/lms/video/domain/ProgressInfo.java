@@ -40,8 +40,9 @@ public class ProgressInfo { // 강의 차시 정보 테이블
     }
 
     // 수정
-    public void update(long nthNo, String nthDuration) {
-        this.nthNo = nthNo;
+    public void update(LectureInfo lecture, Content content, String nthDuration) {
+        this.lecture = lecture;
+        this.content = content;
         this.nthDuration = nthDuration;
     }
 }
