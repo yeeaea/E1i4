@@ -35,7 +35,9 @@ public class SpringSecurityConfig {
         http.csrf((csrf) -> csrf.disable()).cors((cors) -> cors.disable())
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/**").permitAll() // /** : 전체 페이지 접근 허용
+                        .requestMatchers("/**").permitAll() // 나중에 주석처리!!!!
+                        //.requestMatchers("/", "/css/**", "/files/**", "/img/**", "/js/**", "/lms/signup"
+                        //        ,"/lms/find-id","/lms/find-pw", "/lms/api/members/current-memberName").permitAll()
                         //.requestMatchers("/admin/**").hasAuthority(MemberRole.ADMIN.getRoleName())
                         .anyRequest().permitAll()       // 어떠한 요청이라도 모두 허용
                         //.anyRequest().authenticated() // 어떠한 요청이라도 인증 필요
