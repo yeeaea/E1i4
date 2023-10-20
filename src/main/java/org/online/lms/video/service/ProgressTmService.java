@@ -1,8 +1,6 @@
 package org.online.lms.video.service;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.online.lms.boards.domain.Post;
 import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.Progress;
 import org.online.lms.video.domain.ProgressInfo;
@@ -56,33 +54,38 @@ public class ProgressTmService {
         return progressTmRepository.findProgressInfosByContentNo(contentNo);
     }
 
+    // 회원번호와 콘텐츠번호를 통해서 마지막 재생시간 가져오기
+    public String findFinalTmByContentNoAndMemberNo(Long contentNo, Long memberNo) {
+        return progressTmRepository.findFinalTmByContentNoAndMemberNo(contentNo, memberNo);
+    }
+
     // 콘텐츠 번호 통해 Progress 전체 가져오기
 //    public List<ProgressTmRequest> findProgressTmRequestByContentNo(Long contentNo) {
 //        return progressTmRepository.findProgressTmRequestByContentNo(contentNo);
 //    }
 
     // 세션을 통해 저장 progressNo 저장
-    public Progress progressNoSave(Long progressNo, HttpSession session, ProgressTmRequest req) {
-
-        // progressNo 있는지 확인하기 위해 번호 찾기
-        Optional<Progress> progNo = progressTmRepository.findById(progressNo);
-        // Progress 번호 추출해 progress 변수에 할당
-        Progress progress = progNo.get();
-
-        // 중복 저장 방지 위한 progressNo 마다 고유한 세션 키 생성
-        String showKey = "show_video_" + progressNo;
-        // 세션 키가 있는지 없는지에 대한 여부를 나타내는 boolean 값
-        Boolean hasShow = (Boolean) session.getAttribute(showKey);
-        // 세션 키가 없거나 예전의 기록이 있는 경우
-        if(hasShow == null || hasShow) {
-            progress.setNthNo(req.getNthNo());
-            progress.setFinalTm(req.getFinalTm());
-            progress.setMaxTm(req.getMaxTm());
-            progressTmRepository.save(progress);
-            // 세션에 해당 키를 저장해 중복 저장이 가능하게???
-            session.setAttribute(showKey, true);
-        }
-
-        return progress;
-    }
+//    public Progress progressNoSave(Long progressNo, HttpSession session, ProgressTmRequest req) {
+//
+//        // progressNo 있는지 확인하기 위해 번호 찾기
+//        Optional<Progress> progNo = progressTmRepository.findById(progressNo);
+//        // Progress 번호 추출해 progress 변수에 할당
+//        Progress progress = progNo.get();
+//
+//        // 중복 저장 방지 위한 progressNo 마다 고유한 세션 키 생성
+//        String showKey = "show_video_" + progressNo;
+//        // 세션 키가 있는지 없는지에 대한 여부를 나타내는 boolean 값
+//        Boolean hasShow = (Boolean) session.getAttribute(showKey);
+//        // 세션 키가 없거나 예전의 기록이 있는 경우
+//        if(hasShow == null || hasShow) {
+//            progress.setNthNo(req.getNthNo());
+//            progress.setFinalTm(req.getFinalTm());
+//            progress.setMaxTm(req.getMaxTm());
+//            progressTmRepository.save(progress);
+//            // 세션에 해당 키를 저장해 중복 저장이 가능하게???
+//            session.setAttribute(showKey, true);
+//        }
+//
+//        return progress;
+//    }
 }

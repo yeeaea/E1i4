@@ -44,3 +44,24 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error('Error processing videos:', error);
         });
 });
+
+
+// 재생 시간 초 -> 분:초 변환
+let runTm  =
+    document.querySelector('[data-runTm]')
+        .getAttribute('data-runTm');
+
+let formattedTime = formatSecondsToMinutesAndSeconds(runTm);
+console.log(formattedTime)
+function formatSecondsToMinutesAndSeconds(seconds) {
+
+    let minutes = Math.floor(seconds / 60);
+    let remainingSeconds = seconds % 60;
+
+    // 문자열로 포맷하기 (0을 붙여서 두 자리로 만들기)
+    let formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+    let formattedSeconds = remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds;
+
+    // 분과 초를 반환
+    return formattedMinutes + ':' + formattedSeconds;
+}

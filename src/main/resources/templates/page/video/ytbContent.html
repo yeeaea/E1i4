@@ -16,15 +16,26 @@
 <th:block layout:fragment="content">
 
     <div style="display: flex;" th:each="content : ${contentList}">
+        <!-- 사이트 참고해서 뷰 만들기!!! -->
 
+        <!-- 주차도 나오면 좋을 거 같은데... -->
+        <div>
+            <h4 th:text="${content.contentName}"></h4>
+            <!-- if문으로 시간들 배열로 담아서 전부 변환 (컨트롤러에서 가능?스크립트?)-->
+            <div data-runTm="[[${content.runTm}]]"
+                 th:attr="data-runTm=${content.runTm}">
+            </div>
+            <p th:text="${content.runTm}"></p>
+        </div>
+
+        <!-- 썸네일 나오는 곳 -->
         <div data-ytb-url="[[${content.ytbUrl}]]"
              th:attr="data-ytb-url=${content.ytbUrl}">
         </div>
 
         <!-- 콘텐츠 명, 설명 -->
         <div style="display: initial;  margin-bottom: 50px;">
-            <h4 th:text="${content.contentName}"></h4>
-            <p style="padding-top: 20px;" th:text="${content.contentDesc}"></p>
+            <p th:text="${content.contentDesc}"></p>
         </div>
 
         <!-- 재생 버튼 -->

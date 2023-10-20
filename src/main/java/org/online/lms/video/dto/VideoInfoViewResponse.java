@@ -15,7 +15,7 @@ public class VideoInfoViewResponse {
     private int contentFileNo; // 콘텐츠 파일번호
     private String ytbUrl; // Youtube 연동번호
     private String contentUrl; // 콘텐츠 호출 URL
-    private int runTm; // 차시학습시간
+    private String runTm; // 차시학습시간
 
     public VideoInfoViewResponse(Content content) {
 

@@ -202,3 +202,43 @@ input[type="button"] {
 .icon i {
     font-size: 1.2em;
 }
+
+
+/* 폼 스타일링 */
+#surveyQuestionForm {
+    width: 93%;
+    margin-left: auto;
+    text-align: left;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#surveyQuestionForm div {
+    margin: 10px;
+}
+
+#surveyQuestionForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#surveyQuestionForm input[type="text"],
+#surveyQuestionForm input[type="date"],
+#surveyQuestionForm select,
+#surveyQuestionForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#surveyQuestionForm textarea {
+    resize: vertical;
+}
+
+#surveyQuestionForm select {
+    width: 100%;
+}

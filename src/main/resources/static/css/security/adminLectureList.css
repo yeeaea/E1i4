@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'KoddiUDOnGothic-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/KoddiUDOnGothic-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 제목 행을 제외한 나머지 행에 대한 스타일 */
+table.table tbody tr{
+    font-family: 'KoddiUDOnGothic-Regular';
+}

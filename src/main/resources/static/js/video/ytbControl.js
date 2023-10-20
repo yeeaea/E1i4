@@ -1,30 +1,12 @@
 ///// 영상 제어
+// 처음 영상 시작 하고 5초를 무조건 들어야 됨
+// 시간이 지나면? 어떤 이유로 다른 키로 재 생성돼 값이 동일한 행이 또 생기는 이슈
+// 처음 새로 고침 하고 영상 멈춘 상태 인지 확인 하기
+// 알림 띄우는 거는 시간 되면 코드 보기
 document.addEventListener("DOMContentLoaded", function () {
     onYouTubeIframeAPIReady();
-
-    const content =
-    document.querySelector('[data-content]')
-        .getAttribute('data-content');
-    const lecture =
-    document.querySelector('[data-lecture]')
-        .getAttribute('data-lecture');
-
-    console.log("content 나오나 : " + content);
-    console.log("lecture 나오나 : " + lecture);
 });
 
-
-
-
-// YouTube IFrame Player API 링크 스크립트 만들어서 가져오기
-// let tag = document.createElement('script');
-// tag.src = "https://www.youtube.com/iframe_api";
-// let firstScriptTag = document.getElementsByTagName('script')[0];
-// firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-// let finalTm = document.getElementById('finalTm');
-// let maxTm = document.getElementById('maxTm');
-//let progRt = document.getElementById('progRt');
 let finalTm;
 let maxTm;
 
@@ -57,12 +39,27 @@ function onPlayerReady(event) {
     const ytbUrl =
         document.querySelector('[data-ytb-url]')
             .getAttribute('data-ytb-url');
-    // event.target.loadVideoById(videoId, 특정시간에서 시작할 변수);
-    event.target.loadVideoById(ytbUrl, finalTm);
+
+    let dataValue = document.querySelector('[data-finalTmValue]');
+    let finalTmValue;
+    try{
+
+     finalTmValue = dataValue.getAttribute('data-finalTmValue');
+        if (finalTmValue !== null) {
+            finalTmValue = parseFloat(finalTmValue); // 숫자로 변환
+        }else {
+            finalTmValue = 0;
+        }
+    }catch (error) {
+        console.error("에러 발생: " + error.message);
+    }
+
+    event.target.pauseVideo();
+    event.target.loadVideoById(ytbUrl, finalTmValue);
     //event.target.playVideo(); // 동영상 재생 시작 -> uri경로 들어가자마자 바로 영상 재생됨
 
-    // 재생시간 중에서 5초를 뺀 값을 통해서 새로운 시간값 얻기
-    // 비디오의 마지막 부분에서 일정한 시간 간격으로 작업을 수행하기위한 변수
+    // 재생시간 중에서 5초를 뺀 값을 통해서 새로운 시간 값 얻기
+    // 비디오의 마지막 부분에서 일정한 시간 간격으로 작업을 수행하기 위한 변수
     runTm = event.target.getDuration() - 5;
     // 재생 진행율
     progRt = (maxTm / runTm) * 100;
@@ -130,13 +127,27 @@ let progressNo;
 // 시간 기록
 function updatePosition() {
     console.log("updatePosition 실행4?");
+
     const nthNo =
         document.querySelector('[data-nthNo]')
             .getAttribute('data-nthNo');
+    console.log(nthNo + "차시 번호");
+
     const memberNo =
         document.querySelector('[data-memberNo]')
             .getAttribute('data-memberNo');
-    console.log(memberNo + "왜 안나와?");
+    console.log(memberNo + "회원 번호");
+
+    const contentNo =
+        document.querySelector('[data-contentNo]')
+            .getAttribute('data-contentNo');
+    console.log(contentNo + "콘텐츠 번호");
+
+    const lectureNo =
+        document.querySelector('[data-lectureNo]')
+            .getAttribute('data-lectureNo');
+    console.log(lectureNo + "강의 번호");
+
     finalTm = player.getCurrentTime();
     // maxTm - 뒤로 영상 이동해도 finalTm값이 실행될 수 있도록 하기
     maxTm = maxTm > finalTm ? maxTm : finalTm;
@@ -147,6 +158,8 @@ function updatePosition() {
     const data = {
         nthNo: nthNo,
         memberNo: memberNo,
+        contentNo: contentNo,
+        lectureNo: lectureNo,
         progressNo: progressNo,
         finalTm: finalTm,
         maxTm: maxTm
@@ -162,7 +175,6 @@ function updatePosition() {
     })
         .then(response => response.json())
         .then(result => {
-            console.log(data.toString() + '값이 들어가나');
         })
         .catch(error => {
             console.error('Error:', error);
