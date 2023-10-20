@@ -71,6 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 });
+
 function surveyForLecture(button) {
     // 현재 로그인한 회원의 회원번호를 서버로 요청
     fetch('/lms/api/members/current-memberNo', {
@@ -110,80 +111,98 @@ function surveyForLecture(button) {
                             let h3 = modalContent.querySelector("h3");
                             h3.innerText = "강의평가 페이지 - 강의명: " + lectureTitle;
 
-                            document.getElementById("surveySubmit").addEventListener("click", function(event) {
+                            document.getElementById("surveySubmit").addEventListener("click", function (event) {
                                 event.preventDefault(); // 폼 제출 방지
 
-                                // 데이터를 수집할 객체를 초기화
-                                let formData = {};
+// 필드 이름을 매핑하는 객체
+                                // 필수 입력 필드 체크
+                                const requiredFields = document.querySelectorAll('[required]');
+                                let hasEmptyField = false;
+                                let emptyFieldNames = [];
 
-                                document.querySelectorAll("div[name='questions']").forEach(function(question) {
-                                    let surveyQuesNo = question.querySelector("input[name='surveyQuesNo']").value;
-                                    let choice = question.querySelector("input[type='radio']:checked");
-                                    let directInputAnswer = question.querySelector("input[type='text']");
-
-                                    if (choice) {
-                                        choice = choice.value;
+                                requiredFields.forEach(function(field) {
+                                    if (!field.value) {
+                                        hasEmptyField = true;
                                     }
-
-                                    if (directInputAnswer) {
-                                        directInputAnswer = directInputAnswer.value;
-                                    }
-
-                                    formData[surveyQuesNo] = {
-                                        lectureNo: lectureNo,
-                                        memberNo: memberNo,
-                                        choice: choice,
-                                        directInputAnswer: directInputAnswer
-                                    };
                                 });
 
-                                // 데이터를 JSON 문자열로 변환
-                                let jsonData = JSON.stringify(formData);
+                                if (hasEmptyField) {
+                                    const emptyFieldNamesString = emptyFieldNames.join(", ");
+                                    alert("답변을 입력해주세요");
+                                    return;
+                                } else {
+                                    // 데이터를 수집할 객체를 초기화
+                                    let formData = {};
 
-                                // 서버에 POST 요청 보내기
-                                fetch(`/lms/api/survey/submit-answer?lectureNo=${lectureNo}&memberNo=${memberNo}`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: jsonData
-                                })
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        // 서버 응답을 처리하는 로직
-                                        alert("강의평가가 완료되었습니다.");
+                                    document.querySelectorAll("div[name='questions']").forEach(function (question) {
+                                        let surveyQuesNo = question.querySelector("input[name='surveyQuesNo']").value;
+                                        let choice = question.querySelector("input[type='radio']:checked");
+                                        let directInputAnswer = question.querySelector("input[type='text']");
 
-                                        const surveyData = {
-                                            lectureNo: lectureNo, // 강의 번호
-                                            memberNo: memberNo, // 회원 번호 (사용자 식별 정보)
-                                            surveyAt: new Date().toISOString() // 현재 날짜 및 시간
+                                        if (choice) {
+                                            choice = choice.value;
+                                        }
+
+                                        if (directInputAnswer) {
+                                            directInputAnswer = directInputAnswer.value;
+                                        }
+
+                                        formData[surveyQuesNo] = {
+                                            lectureNo: lectureNo,
+                                            memberNo: memberNo,
+                                            choice: choice,
+                                            directInputAnswer: directInputAnswer
                                         };
-
-                                        fetch('/lms/api/survey', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/json'
-                                            },
-                                            body: JSON.stringify(surveyData)
-                                        })
-                                            .then(response => {
-                                                if (response.ok) {
-                                                    alert('강의평가가 성공적으로 저장되었습니다.');
-                                                    location.reload();
-                                                } else {
-                                                    alert('강의평가 저장 중 오류가 발생했습니다.');
-                                                }
-                                            })
-                                            .catch(error => {
-                                                console.error('Error:', error);
-                                            });
-                                        location.reload();
-                                    })
-                                    .catch(error => {
-                                        alert("error");
-
-
                                     });
+
+                                    // 데이터를 JSON 문자열로 변환
+                                    let jsonData = JSON.stringify(formData);
+
+                                    // 서버에 POST 요청 보내기
+                                    fetch(`/lms/api/survey/submit-answer?lectureNo=${lectureNo}&memberNo=${memberNo}`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json'
+                                        },
+                                        body: jsonData
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            // 서버 응답을 처리하는 로직
+                                            alert("강의평가가 완료되었습니다.");
+
+                                            const surveyData = {
+                                                lectureNo: lectureNo, // 강의 번호
+                                                memberNo: memberNo, // 회원 번호 (사용자 식별 정보)
+                                                surveyAt: new Date().toISOString() // 현재 날짜 및 시간
+                                            };
+
+                                            fetch('/lms/api/survey', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json'
+                                                },
+                                                body: JSON.stringify(surveyData)
+                                            })
+                                                .then(response => {
+                                                    if (response.ok) {
+                                                        alert('강의평가가 성공적으로 저장되었습니다.');
+                                                        location.reload();
+                                                    } else {
+                                                        alert('강의평가 저장 중 오류가 발생했습니다.');
+                                                    }
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error:', error);
+                                                });
+                                            location.reload();
+                                        })
+                                        .catch(error => {
+                                            alert("error");
+
+
+                                        });
+                                }
                             });
 
 
