@@ -1,7 +1,26 @@
-.userImgBox img{
-    width: 200px; height: 200px;
+.formBox {
+    width: 300px;
+    margin-left: 110px;
 }
 
-.formBox .userInfoBox {
-    margin-top: 80px;
+.userImgBox{
+    margin-right: 70px;
+    width: 300px;
+}
+
+.userImgBox img{
+    width: 180px; height: 180px;
+}
+
+.userInfoBox {
+    width: 500px;
+    margin-top: 53px;
+}
+
+.userInfoBox div {
+    width: 600px;
+}
+
+.myLectureList {
+    margin-right: 20px;
 }

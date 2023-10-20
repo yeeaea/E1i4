@@ -15,38 +15,61 @@
 </th:block>
 <th:block layout:fragment="content">
 
-    <div style="display: flex;" th:each="content : ${contentList}">
-        <!-- 사이트 참고해서 뷰 만들기!!! -->
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 강의실</p>
+            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 온라인 강의</p>
+        </div>
+    </div>
 
-        <!-- 주차도 나오면 좋을 거 같은데... -->
-        <div>
-            <h4 th:text="${content.contentName}"></h4>
-            <!-- if문으로 시간들 배열로 담아서 전부 변환 (컨트롤러에서 가능?스크립트?)-->
-            <div data-runTm="[[${content.runTm}]]"
-                 th:attr="data-runTm=${content.runTm}">
+    <div class="container">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm" th:each="content : ${contentList}">
+                <!-- 카드 헤더 -->
+                <div class="card-header py-3"
+                     style="display: flex; position: relative; background-color: #5A92AF; color: #EAFDFC;">
+                    <!-- 주차도 나오면 좋을 거 같은데... -->
+                    <div style="margin-top: 10px;">
+                        <h5 th:text="${content.contentName}"></h5>
+                    </div>
+                    <!-- 재생 버튼 -->
+                    <button class="playBtn"
+                            style="border: none; background-color: #5A92AF;
+                            position: absolute; right: 2%; margin-top: 5px;">
+                        <i class="fa-regular fa-circle-play"
+                           th:attr="data-content-no=${content.contentNo}"
+                           onclick="window.location.href='/lms/online/view/'
+                   + this.getAttribute('data-content-no')"
+                           style=" font-size: 35px; color: #EAFDFC; "></i>
+                    </button>
+                </div>
+
+                <!-- 카드 바디 -->
+                <div class="card-body" >
+                    <div style="display: flex;" >
+                        <!-- 썸네일 나오는 곳 -->
+                        <div data-ytb-url="[[${content.ytbUrl}]]"
+                             th:attr="data-ytb-url=${content.ytbUrl}"
+                             style="border: 0px solid red; width: 30%; height: 70%;">
+                        </div>
+                        <!-- 콘텐츠 설명 -->
+                        <div style="display: initial;
+                        border: 0px solid yellow; width: 58%; height: 70%; margin-right: 50px; color: dimgrey;">
+                            <p th:text="${content.contentDesc}"></p>
+                        </div>
+                        <!-- 학습 시간 -->
+                        <div style="border: 0px solid red; padding-top: 50px">
+                            <!-- if문으로 시간들 배열로 담아서 전부 변환 (컨트롤러에서 가능?스크립트?)-->
+                            <p style="padding-left: 7px;">학습 시간</p>
+                            <div style="color: dimgrey;" data-runTm="[[${content.runTm}]]"
+                                 th:attr="data-runTm=${content.runTm}">
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p th:text="${content.runTm}"></p>
         </div>
-
-        <!-- 썸네일 나오는 곳 -->
-        <div data-ytb-url="[[${content.ytbUrl}]]"
-             th:attr="data-ytb-url=${content.ytbUrl}">
-        </div>
-
-        <!-- 콘텐츠 명, 설명 -->
-        <div style="display: initial;  margin-bottom: 50px;">
-            <p th:text="${content.contentDesc}"></p>
-        </div>
-
-        <!-- 재생 버튼 -->
-        <button class="playBtn" style="border: none; background-color: white;">
-            <i class="fa-regular fa-circle-play"
-               th:attr="data-content-no=${content.contentNo}"
-               onclick="window.location.href='/lms/online/view/'
-               + this.getAttribute('data-content-no')"
-               style=" font-size: 60px; color: black;
-               width: 200px; height: 150px; padding-top: 50px;"></i>
-        </button>
     </div>
 
 </th:block>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class SurveyAnswerService {
@@ -58,5 +59,15 @@ public class SurveyAnswerService {
             default:
                 throw new IllegalArgumentException("Invalid choice");
         }
+    }
+
+    // 강의 번호로 강의평가 결과 조회
+    public List<SurveyAnswer> getSurveyAnswersByLectureNo(Long lectureNo) {
+        return surveyAnsRepository.findByLectureNo(lectureNo);
+    }
+
+    // 강의 번호로 저장된 강의평가 데이터가 있는지 확인
+    public boolean surveyResultExistsForLecture(Long lectureNo) {
+        return surveyAnsRepository.existsByLectureNo(lectureNo);
     }
 }

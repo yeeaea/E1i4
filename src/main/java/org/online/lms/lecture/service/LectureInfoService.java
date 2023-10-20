@@ -6,7 +6,13 @@ import org.online.lms.lecture.dto.AddLectureInfoRequest;
 import org.online.lms.lecture.dto.UpdateLectureInfoRequest;
 import org.online.lms.lecture.repository.LectureApplyRepository;
 import org.online.lms.lecture.repository.LectureInfoRepository;
+import org.online.lms.survey.repository.SurveyAnsRepository;
+import org.online.lms.survey.repository.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +24,32 @@ public class LectureInfoService {
 
     private final LectureInfoRepository lectureInfoRepository;
     private final LectureApplyRepository lectureApplyRepository;
+    private final SurveyAnsRepository surveyAnsRepository;
+    private final SurveyRepository surveyRepository;
 
     @Autowired
     public LectureInfoService(LectureInfoRepository lectureInfoRepository,
-                              LectureApplyRepository lectureApplyRepository) {
+                              LectureApplyRepository lectureApplyRepository,
+                              SurveyAnsRepository surveyAnsRepository,
+                              SurveyRepository surveyRepository) {
         this.lectureInfoRepository = lectureInfoRepository;
         this.lectureApplyRepository = lectureApplyRepository;
+        this.surveyAnsRepository = surveyAnsRepository;
+        this.surveyRepository = surveyRepository;
     }
+
     // 강의 목록 조회
     @Transactional(readOnly = true)
     public List<LectureInfo> findAll() {
         return lectureInfoRepository.findAll();
+    }
+
+    public Page<LectureInfo> findAll(Pageable pageable) {
+        Pageable Pageable =
+                PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
+                        Sort.by(Sort.Direction.DESC, "lectureNo"));
+
+        return lectureInfoRepository.findAll(Pageable);
     }
 
 
@@ -64,15 +85,15 @@ public class LectureInfoService {
     public LectureInfo updateLectures(Long lectureNo,
                                       UpdateLectureInfoRequest request) {
         LectureInfo lectureInfo = lectureInfoRepository.findById(lectureNo).orElseThrow(
-                ()-> new IllegalArgumentException(lectureNo + "번 강의가 존재하지 않습니다."));
+                () -> new IllegalArgumentException(lectureNo + "번 강의가 존재하지 않습니다."));
 
         lectureInfo.update(request.getLectureYear(),
-                           request.getLectureTitle(),
-                           request.getLectureDesc(),
-                           request.getLectureStartAt(),
-                           request.getLectureEndAt(),
-                           request.getLectureCourse(),
-                           request.getLectureDuration());
+                request.getLectureTitle(),
+                request.getLectureDesc(),
+                request.getLectureStartAt(),
+                request.getLectureEndAt(),
+                request.getLectureCourse(),
+                request.getLectureDuration());
 
         return lectureInfo;
     }
@@ -87,6 +108,12 @@ public class LectureInfoService {
 
             // 수강신청 데이터 삭제
             lectureApplyRepository.deleteAll(lectureApplies);
+
+            // 강의평가 답변항목 데이터 삭제
+            surveyAnsRepository.deleteByLectureNoIn(lectureNos);
+
+            // 강의평가 데이터 삭제
+            surveyRepository.deleteByLectureNoIn(lectureNos);
 
             // lectureNos 목록에 포함된 강의 삭제
             lectureInfoRepository.deleteByLectureNoIn(lectureNos);

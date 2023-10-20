@@ -51,7 +51,7 @@ function drawChart(lectureData) {
             title: '수강 과정별 강의 정보 통계',
             titleTextStyle: {
                 color: 'black', // 글자 색상
-                fontSize: 30,  // 글자 크기 (픽셀)
+                fontSize: 23,  // 글자 크기 (픽셀)
             },
             legend: {
                 position: 'end',
