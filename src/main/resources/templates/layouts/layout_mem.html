@@ -6,23 +6,23 @@
     <title>thymeleaf layout</title>
 </head>
 <body>
-    <!-- header start -->
-    <header th:replace="fragments/header_mem :: header_mem"></header>
-    <!-- header end -->
+<!-- header start -->
+<header th:replace="fragments/header_mem :: header_mem"></header>
+<!-- header end -->
 
-    <div class="container-fluid p-0 m-0 d-flex">
-        <!-- nav start -->
-        <nav th:replace="fragments/sidebar_mem :: sidebar_mem"></nav>
-        <!-- nav end -->
-        <div class="d-flex flex-column justify-content-center align-items-center col">
-            <!-- content start -->
-            <section layout:fragment="content"></section>
-            <!-- content end -->
-        </div>
+<div class="container-fluid p-0 m-0 d-flex">
+    <!-- nav start -->
+    <nav th:replace="fragments/sidebar_mem :: sidebar_mem"></nav>
+    <!-- nav end -->
+    <div class="d-flex flex-column justify-content-center align-items-center col">
+        <!-- content start -->
+        <section layout:fragment="content"></section>
+        <!-- content end -->
     </div>
+</div>
 
-    <!-- footer start -->
-    <footer th:replace="fragments/footer :: footer"></footer>
-    <!-- footer end -->
+<!-- footer start -->
+<footer th:replace="fragments/footer :: footer"></footer>
+<!-- footer end -->
 </body>
 </html>
