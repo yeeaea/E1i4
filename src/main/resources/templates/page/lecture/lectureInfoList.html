@@ -17,24 +17,29 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content" style="width: 85%;">
-    <div class="container1" style=" height:870px">
-        <h3 class="mt-2 mb-4">개설 강의 목록</h3>
+<th:block layout:fragment="content" >
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-4" style="font-size: 17px; color: dimgrey;">학생 관리페이지</p>
+            <p class="title mb-5" style="font-size: 25px; margin-left: 115px;">| &nbsp; 개설 강의 목록 </p>
+        </div>
+    </div>
+    <div class="container rounded shadow mb-5">
+        <div class="box" style="height:800px; overflow: auto;">
         <table class="table table-hover">
             <thead>
             <tr>
-                <th class="text-center">강의년도</th>
-                <th class="text-center">강의 과정</th>
-                <th class="text-center">강의명</th>
-                <th class="text-center">강의 시작일</th>
-                <th class="text-center">강의 종료일</th>
-                <th class="text-center">수강신청</th>
+                <th class="title text-center">강의년도</th>
+                <th class="title text-center">강의 과정</th>
+                <th class="title text-center">강의명</th>
+                <th class="title text-center">강의 시작일</th>
+                <th class="title text-center">강의 종료일</th>
+                <th class="title text-center">수강신청</th>
             </tr>
             </thead>
 
             <tbody class="row-6" th:each="lecture : ${lectureInfo}">
             <tr th:attr="data-lecture-no=${lecture.lectureNo}">
-                <div>
                     <td class="text-center" style="width:12%" th:text="${lecture.lectureYear}"></td>
                     <td class="text-left" style="width:15%" th:text="${lecture.lectureCourse}"></td>
                     <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
@@ -48,11 +53,11 @@
                                 onclick="applyForLecture(this)">수강신청
                         </button>
                     </td>
-                </div>
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
-</section>
+</th:block>
 <!-- content end -->
 </html>
