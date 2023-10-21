@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -64,6 +65,16 @@ public class SpringSecurityConfig {
                                 } else {
                                     response.sendRedirect("/lms/mypage");
                                 }
+                            }
+                        })
+                        .failureHandler(new AuthenticationFailureHandler() {
+                            @Override
+                            public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception) throws IOException, ServletException {
+
+                                String errorMessage = "아이디나 비밀번호가 맞지 않습니다!";
+
+                                req.setAttribute("errorMessage", errorMessage);
+                                res.sendRedirect("/?error=true");
                             }
                         })
                         .permitAll()

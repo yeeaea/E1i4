@@ -34,7 +34,11 @@ public class MemberViewController {
 
     // 메인 페이지로 이동
     @GetMapping("/")
-    public String login(){  // 커스텀 로그인 페이지 지정
+    public String login(@RequestParam(value = "error", required = false) String error, Model model,
+                        @AuthenticationPrincipal Members member){  // 커스텀 로그인 페이지 지정
+        if( error != null ){
+            model.addAttribute("errorMessage", "아이디나 비밀번호가 맞지 않습니다.");
+        }
         return "/page/security/login";
     }
 
