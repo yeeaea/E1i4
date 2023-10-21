@@ -24,7 +24,10 @@
             <p class="title mb-5" style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 수강이력</p>
         </div>
     </div>
-    <div class="container rounded shadow mb-5 mx-auto title" style="display: flex; flex-direction: column; align-items: center; text-align: center;">            <!-- 나의 강의 리스트 -->
+    <!-- 수강이력이 있는 경우 -->
+    <div class="container rounded shadow mb-5 mx-auto title"
+         th:if="${not #lists.isEmpty(myLectureList)}"
+         style="display: flex; flex-direction: column; align-items: center; text-align: center;">            <!-- 나의 강의 리스트 -->
         <div class="box" style="position: relative; height:735px; overflow: auto; width: 80%;">
             <div id="myLectureList" class="w-100" style="margin-top: 80px;">
                 <table class = "table table-hover">
@@ -50,6 +53,17 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+    <!-- 수강 이력이 없는 경우 -->
+    <div class="container rounded shadow mb-5 mx-auto title"
+         th:if="${#lists.isEmpty(myLectureList)}"
+         style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="box" style="position: relative; height:550px; overflow: auto; width: 80%;">
+            <p style="margin-top: 200px; margin-bottom: 30px; font-size: 30px;">수강 중인 강의가 없습니다.</p>
+            <a th:href="@{/lms/online/lecture-all}">
+                <button class="apply-button" style="font-size: 20px;">수강신청 페이지로 이동</button>
+            </a>
         </div>
     </div>
 </th:block>
