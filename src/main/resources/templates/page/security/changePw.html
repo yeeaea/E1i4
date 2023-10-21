@@ -16,40 +16,42 @@
 <th:block layout:fragment="content">
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
-            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 정보 &nbsp; > &nbsp; 개인정보 수정 &nbsp; > &nbsp; 비밀번호 변경</p>
-            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 비밀번호 변경</p>
+            <p class="mb-4" style="font-size: 17px; color: dimgrey;">나의 정보 &nbsp; > &nbsp; 개인정보 수정 &nbsp; > &nbsp; 비밀번호 변경</p>
+            <p class="title mb-5" style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 비밀번호 변경</p>
         </div>
     </div>
 
-    <div class="container" >
-        <h6>비밀번호 변경에 성공하시면, 로그아웃 후 로그인 페이지로 이동합니다.
-            <br>다시 로그인해주세요.</h6>
+    <div class="container rounded shadow mb-5 mx-auto title" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="container title" style="margin-top: 70px;">
+            <h5>비밀번호 변경에 성공하시면, <br> 로그아웃 후 로그인 페이지로 이동합니다.
+                <br><br><br>다시 로그인해주세요.</h5>
+        </div>
         <!-- 비밀번호 변경 폼 -->
-        <div class="row justify-content-start container">
-            <form action="/lms/mypage/change-pw" method="post"
+        <div class="row justify-content-start container mt-4 w-75" >
+            <form action="/lms/mypage/change-pw" method="post" autocomplete="off"
                   th:if="${dto == null}">
                 <!-- 기존 비밀번호 입력란 -->
-                <div class="form-group mb-3 w-75 m-auto">
-                    <label for="currentPw" class="form-label fs-5 mt-3">기존 비밀번호</label>
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="currentPw" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">기존 비밀번호</label>
                     <input type="password" name="currentPw" id="currentPw"
-                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''"
-                           style="margin-left: 70px;">
+                           class="form-control-lg mt-2 border" style="flex-basis: 70%;"
+                           th:value="${dto != null}? ${dto.getCurrentPw()} : ''">
                 </div>
                 <!-- 새로운 비밀번호 입력란 -->
-                <div class="form-group mb-3 w-75 m-auto">
-                    <label for="newPw" class="form-label fs-5 mt-3">새로운 비밀번호</label>
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="newPw" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">새로운 비밀번호</label>
                     <input type="password" name="newPw" id="newPw"
-                           th:value="${dto != null}? ${dto.getNewPw()} : ''"
-                           style="margin-left: 50px;">
+                           class="form-control-lg mt-2 border" style="flex-basis: 70%;"
+                           th:value="${dto != null}? ${dto.getNewPw()} : ''">
                     <!-- 유효성 검사 -->
                     <span th:if="${valid_newPw}" id="valid" th:text="${valid_newPw}"></span>
                 </div>
 
-                <div class="form-group mb-3 w-75 m-auto">
-                    <label for="confirmPw" class="form-label fs-5 mt-3">비밀번호 확인</label>
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="confirmPw" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">비밀번호 확인</label>
                     <input type="password" name="confirmPw" id="confirmPw"
-                           th:value="${dto != null}? ${dto.getConfirmPw()} : ''"
-                           style="margin-left: 70px;">
+                           class="form-control-lg mt-2 border" style="flex-basis: 70%;"
+                           th:value="${dto != null}? ${dto.getConfirmPw()} : ''">
                     <!-- 유효성 검사 -->
                     <span th:if="${valid_comfirmPw}" id="valid"  th:text="${valid_comfirmPw}"></span>
                 </div>
@@ -62,8 +64,8 @@
                     <!-- 새로 입력한 비밀번호와 일치하지 않은 경우 -->
                     <div class="mt-5" th:if="${differentPassword}"></div>
                 </div>
-                <div style="margin-bottom: 50px;">
-                    <button type="submit" class="btn btn-primary mt-3" style="margin-left: 60%;">변경하기</button>
+                <div style="margin-left: 600px; margin-bottom: 20px;">
+                    <button type="submit" class="btn btn-primary mt-3 mb-3">변경하기</button>
                 </div>
             </form>
 
