@@ -102,18 +102,6 @@ window.onload = function () {
     loadProgressDataFromLectureTable();
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-// 숫자 데이터 값
-    let rawData = document.getElementById("runTm").value;
-// 시간, 분, 초 계산
-    let hours = Math.floor(rawData / 3600);
-    let minutes = Math.floor((rawData % 3600) / 60);
-    let seconds = rawData % 60;
-
-// 결과를 텍스트로 표시
-    let timeDisplay = document.getElementById("timeDisplay");
-    timeDisplay.innerText = hours + "시간 " + minutes + "분 " + seconds + "초";
-});
 
 /////////////////////////// 등록된 차시 정보 조회 ///////////////////////////
 // 체크박스 전체 선택

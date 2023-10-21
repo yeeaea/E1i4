@@ -1,13 +1,25 @@
 @font-face {
-    font-family: 'Happiness-Sans-Title';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Title.woff2') format('woff2');
-    font-weight: normal;
+    font-family: 'Happiness-Sans-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2205@1.0/Happiness-Sans-Bold.woff2') format('woff2');
+    font-weight: 700;
     font-style: normal;
 }
+
 @import url('https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap');
 
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+
 * {
-    font-family: 'Happiness-Sans-Title';
+    font-family: 'Pretendard-Regular';
+}
+
+.title {
+    font-family: 'Happiness-Sans-Bold';
 }
 
 .eng {

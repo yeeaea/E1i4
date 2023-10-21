@@ -1,8 +1,16 @@
-.container1 {
-    margin: 20px;
-    padding: 20px;
+.box {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.box::-webkit-scrollbar {
+    display: none;
+}
+
+table thead {
+    position: sticky;
+    top: 0;
     background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 h3 {
