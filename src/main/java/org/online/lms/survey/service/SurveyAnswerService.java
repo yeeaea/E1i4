@@ -67,8 +67,13 @@ public class SurveyAnswerService {
         return surveyAnsRepository.existsByLectureNo(lectureNo);
     }
 
-    // 강의 평가 답변 항목 리스트
-    public List<SurveyAnswer> findAll() {
-        return surveyAnsRepository.findAll();
+    // 강의 번호로 강의평가 답변항목 리스트 불러오기
+    public List<SurveyAnswer> findByLectureNo(Long lectureNo) {
+        return surveyAnsRepository.findByLectureNo(lectureNo);
+    }
+
+
+    public List<String> getSurveyAnswersWithScoresByLectureAndQuestion(Long lectureNo, Long surveyQuesNo) {
+        return surveyAnsRepository.findSurveyAnsNameByLectureAndQuestion(lectureNo, surveyQuesNo);
     }
 }

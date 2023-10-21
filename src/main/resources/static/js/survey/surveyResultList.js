@@ -1,61 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 처음에 모든 행을 숨기기
-    let rows = document.querySelectorAll("table tbody tr");
-    rows.forEach(function(row) {
-        row.style.display = "none";
-    });
+    const resultButtons = document.querySelectorAll('.survey-result-button');
+    resultButtons.forEach(resultButton => {
+        const lectureNoString = resultButton.getAttribute('data-lecture-no');
+        const lectureNo = parseInt(lectureNoString);
+        console.log(lectureNo)
 
-    document.getElementById("lectureInfo").addEventListener("change", function() {
-        let selectedLectureNo = this.value;
-        let rows = document.querySelectorAll("table tbody tr");
-
-        rows.forEach(function(row) {
-            let lectureNo = row.querySelector("td:nth-child(1)").textContent;
-            if (selectedLectureNo === lectureNo) {
-                row.style.display = "table-row";
-            } else {
-                row.style.display = "none";
-            }
-        });
-    });
+        // 강의번호로 강의평가 결과 데이터가 있는지 조회
+        fetch(`/admin/api/survey/result/check?lectureNo=${lectureNo}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data)
+                if (data === "ResultExists") {
+                } else {
+                    // 결과가 없으면 버튼 비활성화
+                    resultButton.disabled = true;
+                    resultButton.innerText = "준비중";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    })
 });
 
+function viewSurveyResult(button) {
+    const lectureNo = button.getAttribute('data-lecture-no');
 
-
-
-
-// document.addEventListener("DOMContentLoaded", function () {
-//     const resultButtons = document.querySelectorAll('.survey-result-button');
-//     resultButtons.forEach(resultButton => {
-//         const lectureNoString = resultButton.getAttribute('data-lecture-no');
-//         const lectureNo = parseInt(lectureNoString);
-//         console.log(lectureNo)
-//
-//         // 강의번호로 강의평가 결과 데이터가 있는지 조회
-//         fetch(`/admin/api/survey/result/check?lectureNo=${lectureNo}`, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//         })
-//             .then(response => response.text())
-//             .then(data => {
-//                 console.log(data)
-//                 if (data === "ResultExists") {
-//                 } else {
-//                     // 결과가 없으면 버튼 비활성화
-//                     resultButton.disabled = true;
-//                     resultButton.innerText = "준비중";
-//                 }
-//             })
-//             .catch(error => {
-//                 console.error('Error:', error);
-//             });
-//     })
-// });
-//
-// function viewSurveyResult(button) {
-//     const lectureNo = button.getAttribute('data-lecture-no');
-//
-//     window.location.href = `/survey-result/${lectureNo}`;
-// }
+    window.location.href = `/admin/survey/result/${lectureNo}`;
+}

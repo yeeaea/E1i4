@@ -1,5 +1,6 @@
 package org.online.lms.survey.controller;
 
+import org.online.lms.lecture.domain.LectureInfo;
 import org.online.lms.lecture.dto.LectureInfoViewResponse;
 import org.online.lms.lecture.service.LectureInfoService;
 import org.online.lms.survey.domain.SurveyAnswer;
@@ -39,19 +40,26 @@ public class SurveyResultViewController {
                 .map(LectureInfoViewResponse::new)
                 .toList();
 
-        // 강의평가 문항 목록
-        List<SurveyQuesInfo> surveyQuesInfoList = surveyQuesInfoService.findAll();
-
-        // 강의평가 답변항목 목록
-        List<SurveyAnswer> surveyAnswerList = surveyAnswerService.findAll();
-
         model.addAttribute("lectureInfo", lectureInfo);
-        model.addAttribute("surveyQuesInfoList", surveyQuesInfoList);
-        model.addAttribute("surveyAnswerList", surveyAnswerList);
 
         return "/page/survey/surveyResultList";
     }
 
+    @GetMapping("/{lectureNo}")
+    public String surveyResultByLecture(@PathVariable Long lectureNo, Model model) {
+        // 강의 번호로 강의정보 데이터 가져오기
+        LectureInfo lectureInfo = lectureInfoService.getLectureInfoByLectureNo(lectureNo);
+
+        // 강의 평가문항 데이터 가져오기
+        List<SurveyQuesInfo> surveyQuesInfoList = surveyQuesInfoService.findAll();
+        // 강의 번호로 강의평가 답변항목 리스트 불러오기
+        List<SurveyAnswer> surveyAnswerList = surveyAnswerService.findByLectureNo(lectureNo);
+
+        model.addAttribute("lectureInfo", lectureInfo);
+        model.addAttribute("surveyQuesInfoList", surveyQuesInfoList);
+        model.addAttribute("surveyAnswerList", surveyAnswerList);
+        return"/page/survey/surveyResult";
+    }
 
 
 }
