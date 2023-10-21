@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         return jsonObject;
     }
+
     // 필수 입력 필드가 비어있는지 확인
     function checkRequiredFields(requiredFields) {
         const emptyFieldNames = [];
@@ -51,45 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    document.getElementById("editContent").addEventListener("click", function () {
-        let nthNo = document.getElementById("nthNo").value;
-
-        // updateProgressRequest 객체 초기화
-        const updateProgressRequest = {
-            lecture: {
-                lectureNo: "",
-                lectureCourse: ""
-            },
-            content: {
-                contentNo: "",
-                contentName: "",
-                runTm: "",
-                ytbUrl: "",
-                contentUrl: ""
-            },
-            nthDuration: ""
-        };
-
-        // updateProgressRequest 객체 필드에 값 설정
-        updateProgressRequest.lecture.lectureNo = document.getElementById("lectureNo").value;
-        updateProgressRequest.lecture.lectureCourse = document.getElementById("lectureCourse").value;
-
-        updateProgressRequest.content.contentNo = document.getElementById("contentNo").value;
-        updateProgressRequest.content.contentName = document.getElementById("contentName").value;
-        updateProgressRequest.content.runTm = document.getElementById("runTm").value;
-        updateProgressRequest.content.ytbUrl = document.getElementById("ytbUrl").value;
-        updateProgressRequest.content.contentUrl = document.getElementById("contentUrl").value;
-        updateProgressRequest.nthDuration = document.getElementById("nthDuration").value;
-
-        // 서버로 보낼 데이터 객체를 생성
-        const data = {
-            nthNo: nthNo,
-            updateProgressRequest: updateProgressRequest
-        };
-
-        sendProgressRequest(data, `/admin/api/progress/update/${nthNo}`, '차시 정보가 성공적으로 수정되었습니다.');
-    });
-
     function sendProgressRequest(data, endpoint, successMessage) {
         fetch(endpoint, {
             method: 'POST',
@@ -113,65 +75,87 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             })
             .catch(error => {
-                alert('작업 실패');
+                alert('다른 강의에서 사용중인 영상입니다.');
                 console.error('Error:', error);
             });
     }
 });
 
-// document.addEventListener("DOMContentLoaded", function () {
-//     document.getElementById("editContent").addEventListener("click", function () {
-//         // Thymeleaf 생성한 데이터를 JavaScript 객체로 변환
-//         const updateProgressRequest = {
-//             lecture: {
-//                 lectureNo: document.getElementById("lectureNo").value,
-//                 lectureCourse: document.getElementById("lectureCourse").value
-//             },
-//             content: {
-//                 contentNo: document.getElementById("contentNo").value,
-//                 contentName: document.getElementById("contentName").value,
-//                 runTm: document.getElementById("runTm").value,
-//                 ytbUrl: document.getElementById("ytbUrl").value,
-//                 contentUrl: document.getElementById("contentUrl").value
-//             },
-//             nthDuration: document.getElementById("nthDuration").value
-//         };
-//
-//         // JavaScript 객체를 JSON 문자열로 변환
-//         const data = JSON.stringify(updateProgressRequest);
-//
-//         // nthNo 값을 가져오는 코드
-//         const nthNo = document.getElementById("nthNo").value;
-//
-//         // 서버로 데이터 전송
-//         fetch(`/admin/api/progress/update/${nthNo}`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: data
-//         })
-//             .then(response => {
-//                 if (!response.ok) {
-//                     throw new Error('Network response was not ok');
-//                 }
-//                 return response.json();
-//             })
-//             .then(data => {
-//                 if (data.success) {
-//                     alert('저장 실패');
-//                 } else {
-//                     alert('차시 정보가 성공적으로 수정되었습니다.');
-//                     location.reload();
-//                 }
-//             })
-//             .catch(error => {
-//                 alert('작업 실패');
-//                 console.error('Error:', error);
-//             });
-//     });
-// });
+document.addEventListener("DOMContentLoaded", function () {
+    const fieldNamesMap = {
+        "lectureNo": "강의 번호",
+        "lectureCourse": "과정구분",
+        "contentNo": "콘텐츠 관리 번호",
+        "nthDuration": "차시순서",
+        "contentName": "콘텐츠명",
+        "runTm": "차시 학습 시간",
+        "ytbUrl": "Youtube 연동 번호",
+        "contentUrl": "콘텐츠 호출 URL"
+    };
 
+    // 폼 데이터를 JSON으로 변환
+    function formDataToJson(formData) {
+        const jsonObject = {};
+        formData.forEach((value, key) => {
+            jsonObject[key] = value;
+        });
+        return jsonObject;
+    }
+
+    // 필수 입력 필드가 비어있는지 확인
+    function checkRequiredFields(requiredFields) {
+        const emptyFieldNames = [];
+        for (const fieldName of requiredFields) {
+            const field = document.getElementById(fieldName);
+            if (!field.value) {
+                emptyFieldNames.push(fieldNamesMap[fieldName]);
+            }
+        }
+        return emptyFieldNames;
+    }
+
+    document.getElementById("editContent").addEventListener("click", function () {
+        const nthNo = document.getElementById("nthNo").value;
+        const requiredFields = ["lectureCourse", "contentNo", "nthDuration"];
+        const emptyFieldNames = checkRequiredFields(requiredFields);
+
+        if (emptyFieldNames.length > 0) {
+            alert(`${emptyFieldNames.join(', ')} 항목은 필수 입력값입니다.`);
+        } else {
+            const progressForm = document.getElementById("progressForm");
+            const formData = new FormData(progressForm);
+            const data = formDataToJson(formData);
+
+            sendProgressRequest(data, `/admin/api/progress/update/${nthNo}`, '차시 정보가 성공적으로 수정되었습니다.');
+        }
+    });
+
+    function sendProgressRequest(data, endpoint, successMessage) {
+        fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(successMessage);
+                    location.reload();
+                }
+            })
+            .catch(error => {
+                alert('수정 실패');
+                console.error('Error:', error);
+            });
+    }
+});
 
 /// 수정 대기...
 // function checkDuplicateNthNo() {
