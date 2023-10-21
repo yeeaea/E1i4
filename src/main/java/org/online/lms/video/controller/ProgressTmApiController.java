@@ -32,7 +32,6 @@ public class ProgressTmApiController {
                                          HttpSession session, Principal principal) {
 
         if (principal != null) {
-            String loginId = principal.getName();
             String sessionID = session.getId();
 
             // 세션에서 nthNo 가져오기
