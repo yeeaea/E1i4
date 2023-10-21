@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout_admin.html}">
+<head>
+    <title>Content page</title>
+</head>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
+</th:block>
+
+<!-- page 고유 javascript -->
+<th:block layout:fragment="script">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:src="@{/js/survey/surveyResult.js}"></script>
+</th:block>
+
+<!-- content start -->
+<th:block layout:fragment="content">
+    <div class="container1" style=" height:870px">
+        <h3 class="mt-2 mb-4">강의평가 결과</h3>
+        <h4 th:text="|강의 : ${lectureInfo.lectureTitle}|"></h4>
+
+        <label for="surveyQuestionNo">5지선다 문항 : </label>
+        <select id="surveyQuestionNo">
+            <option value="" disabled selected style="display: none;"></option>
+            <option th:each="quesInfo : ${surveyQuesInfoList}"
+                    th:if="${quesInfo.parentQues != null and quesInfo.surveyQuesType eq '1'}"
+                    th:value="${quesInfo.surveyQuesNo}"
+                    th:text="${quesInfo.surveyQuesName}"></option>
+        </select>
+
+
+        <!-- 여러 평가 문항 차트를 표시할 div 추가 -->
+        <div id="chart_div" style="width: 100%; height: 400px; ">
+            객관식 답변 비율 그래프가 이곳에 나타납니다....
+        </div>
+
+
+        <!-- 주관식 -->
+        <label for="surveyQuesNo">직접입력: </label>
+        <select id="surveyQuesNo">
+            <option value="" disabled selected style="display: none;"></option>
+            <option th:each="quesInfo : ${surveyQuesInfoList}"
+                    th:if="${quesInfo.parentQues != null and quesInfo.surveyQuesType eq '2'}"
+                    th:value="${quesInfo.surveyQuesNo}"
+                    th:text="${quesInfo.surveyQuesName}"></option>
+        </select>
+
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th style="display:none;">평가문항번호</th>
+                <th>답변</th>
+            </tr>
+            </thead>
+
+            <tbody class="row-6" th:each="answer : ${surveyAnswerList}" th:if="${answer.surveyAnsScore} == null">
+            <tr th:attr="data-survey-question-no=${answer.surveyQuesNo}">
+                <td th:text="${answer.surveyQuesNo}" style="display: none"></td>
+                <td th:text="${answer.surveyAnsName}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+    </div>
+</th:block>
+<!-- content end -->
+</html>
