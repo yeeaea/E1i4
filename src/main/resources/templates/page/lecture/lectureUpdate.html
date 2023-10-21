@@ -52,7 +52,7 @@
                 <td th:text="${lecture.lectureYear}"></td>
                 <td th:text="${lecture.lectureCourse}"></td>
                 <td th:text="${lecture.lectureTitle}"></td>
-                <td th:text="${lecture.lectureDesc}"></td>
+                <td th:text="${lecture.lectureDesc}" style="white-space: pre-line"></td>
                 <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
                 <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
                 <td th:text="|${lecture.lectureDuration}주차|"></td>
@@ -76,11 +76,20 @@
                     <label for="lectureCourse">강의 과정:</label>
                     <select id="lectureCourse" name="lectureCourse" th:field="*{lectureCourse}">
                         <option value="" disabled selected style="display: none;"></option>
-                        <option value="java">java</option>
-                        <option value="C++">C++</option>
+                        <option value="Java">Java</option>
+                        <option value="C">C</option>
                         <option value="C#">C#</option>
-                        <option value="python">python</option>
-                        <option value="javascript">javascript</option>
+                        <option value="Python">Python</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="React">React</option>
+                        <option value="MySQL">MySQL</option>
+                        <option value="R">R</option>
+                        <option value="자료구조">자료구조</option>
+                        <option value="알고리즘">알고리즘</option>
+                        <option value="딥러닝+머신러닝">딥러닝+머신러닝</option>
+                        <option value="인공지능">인공지능</option>
+                        <option value="Ajax">Ajax</option>
+                        <option value="HTML">HTML</option>
                     </select>
                 </div>
                 <div>
