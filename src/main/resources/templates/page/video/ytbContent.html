@@ -55,7 +55,9 @@
                         <!-- 콘텐츠 설명 -->
                         <div style="display: initial;
                         border: 0px solid yellow; width: 58%; height: 70%; margin-right: 50px; color: dimgrey;">
-                            <p th:text="${content.contentDesc}"></p>
+<!--                            <p th:utext="${content.contentDesc}"></p>-->
+                            <p th:text="${content.contentDesc}" style="white-space: pre-line;"></p>
+
                         </div>
                         <!-- 학습 시간 -->
                         <div style="border: 0px solid red; padding-top: 50px">
