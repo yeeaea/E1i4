@@ -66,6 +66,7 @@
                 <div>
                     <label for="lectureYear">강의 년도:</label>
                     <select id="lectureYear" name="lectureYear" th:field="*{lectureYear}">
+                        <option value="" disabled selected style="display: none;"></option>
                         <option value="2022">2022년</option>
                         <option value="2023">2023년</option>
                         <option value="2024">2024년</option>
@@ -73,7 +74,14 @@
                 </div>
                 <div>
                     <label for="lectureCourse">강의 과정:</label>
-                    <input type="text" id="lectureCourse" name="lectureCourse" th:field="*{lectureCourse}" />
+                    <select id="lectureCourse" name="lectureCourse" th:field="*{lectureCourse}">
+                        <option value="" disabled selected style="display: none;"></option>
+                        <option value="java">java</option>
+                        <option value="C++">C++</option>
+                        <option value="C#">C#</option>
+                        <option value="python">python</option>
+                        <option value="javascript">javascript</option>
+                    </select>
                 </div>
                 <div>
                     <label for="lectureTitle">강의 제목:</label>
