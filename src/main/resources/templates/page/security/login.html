@@ -45,6 +45,19 @@
             <img src="/img/come_img.png">
         </div>
     </div>
+    <!-- 로그인 실패 시 알림창 -->
+    <div id="error-message" th:if="${param.error}">
+        <script>
+            alert("아이디나 비밀번호가 일치하지 않습니다.");
+        </script>
+<!--        <p th:style="'text-align: center; height: 10px;'" th:text="${errorMessage}"></p>-->
+    </div>
+    <!-- 회원가입 성공 시 알림! -->
+    <div th:if="${param.success}">
+        <script defer>
+            alert("회원가입이 성공적으로 완료되었습니다.");
+        </script>
+    </div>
 
 </body>
 </html>

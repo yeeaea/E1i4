@@ -102,6 +102,19 @@ window.onload = function () {
     loadProgressDataFromLectureTable();
 };
 
+document.addEventListener('DOMContentLoaded', function () {
+// 숫자 데이터 값
+    let rawData = document.getElementById("runTm").value;
+// 시간, 분, 초 계산
+    let hours = Math.floor(rawData / 3600);
+    let minutes = Math.floor((rawData % 3600) / 60);
+    let seconds = rawData % 60;
+
+// 결과를 텍스트로 표시
+    let timeDisplay = document.getElementById("timeDisplay");
+    timeDisplay.innerText = hours + "시간 " + minutes + "분 " + seconds + "초";
+});
+
 /////////////////////////// 등록된 차시 정보 조회 ///////////////////////////
 // 체크박스 전체 선택
 function selectAllCheckboxes(checkbox) {
@@ -115,6 +128,7 @@ function selectAllCheckboxes(checkbox) {
 function updateContentDetails(event) {
     const checkbox = event.target;
 
+    let nthNoValue = checkbox.getAttribute('data-nthNo');
     let lectureNoValue = checkbox.getAttribute('data-lectureNo');
     let lectureCourseValue = checkbox.getAttribute('data-lectureCourse');
     let contentNoValue = checkbox.getAttribute('data-contentNo');
@@ -125,6 +139,7 @@ function updateContentDetails(event) {
     let contentUrlValue = checkbox.getAttribute('data-contentUrl');
 
     // 강의 차시별 콘텐츠 상세 정보 표시
+    document.getElementById('nthNo').value = nthNoValue;
     document.getElementById('lectureNo').value = lectureNoValue;
     document.getElementById('lectureCourse').value = lectureCourseValue;
     document.getElementById('contentNo').value = contentNoValue;

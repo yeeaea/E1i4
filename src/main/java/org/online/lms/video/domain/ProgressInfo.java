@@ -1,16 +1,14 @@
 package org.online.lms.video.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.online.lms.lecture.domain.LectureInfo;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Table(name="progress_info")
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProgressInfo { // 강의 차시 정보 테이블

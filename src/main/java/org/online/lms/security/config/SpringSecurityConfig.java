@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.io.IOException;
@@ -39,12 +40,13 @@ public class SpringSecurityConfig {
         http.csrf((csrf) -> csrf.disable()).cors((cors) -> cors.disable())
                 .authorizeHttpRequests(request -> request
                         .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                        .requestMatchers("/**").permitAll() // 나중에 주석처리!!!!
-                        //.requestMatchers("/", "/css/**", "/files/**", "/img/**", "/js/**", "/lms/signup"
-                        //        ,"/lms/find-id","/lms/find-pw", "/lms/api/members/current-memberName").permitAll()
-                        //.requestMatchers("/admin/**").hasAuthority(MemberRole.ADMIN.getRoleName())
-                        .anyRequest().permitAll()       // 어떠한 요청이라도 모두 허용
-                        //.anyRequest().authenticated() // 어떠한 요청이라도 인증 필요
+                        //.requestMatchers("/**").permitAll() // 나중에 주석처리!!!!
+                        .requestMatchers("/", "/css/**", "/files/**", "/img/**", "/js/**", "/lms/signup"
+                                ,"/lms/find-id","/lms/find-pw", "/lms/api/members/current-memberName").permitAll()
+                        .requestMatchers("/lms/**").hasAuthority(MemberRole.USER.getRoleName())     // 사용자 권한 페이지
+                        .requestMatchers("/admin/**").hasAuthority(MemberRole.ADMIN.getRoleName())  // 관리자 권한 페이지
+                        //.anyRequest().permitAll()       // 어떠한 요청이라도 모두 허용
+                        .anyRequest().authenticated() // 어떠한 요청이라도 인증 필요
                 )
                 .formLogin(login -> login
                         .loginPage("/page/security/login")
@@ -63,6 +65,16 @@ public class SpringSecurityConfig {
                                 } else {
                                     response.sendRedirect("/lms/mypage");
                                 }
+                            }
+                        })
+                        .failureHandler(new AuthenticationFailureHandler() {
+                            @Override
+                            public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException exception) throws IOException, ServletException {
+
+                                String errorMessage = "아이디나 비밀번호가 맞지 않습니다!";
+
+                                req.setAttribute("errorMessage", errorMessage);
+                                res.sendRedirect("/?error=true");
                             }
                         })
                         .permitAll()
