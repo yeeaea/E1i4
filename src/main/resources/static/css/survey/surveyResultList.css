@@ -1,0 +1,316 @@
+.container1 {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h3 {
+    font-size: 24px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    text-align: center;
+
+}
+
+th, td {
+    padding: 10px;
+    vertical-align: middle;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+
+.survey-result-button {
+    background-color: #6499E9;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.survey-result-button:hover {
+    background-color: #6499E9;
+}
+
+.custom-link {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+}
+.text-center, .text-left {
+    font-size: 18px;
+}
+
+.custom-button-primary {
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    background-color: #6499E9;
+}
+
+.custom-button-secondary {
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    background-color: #6c757d;
+}
+
+/* 폼 스타일링 */
+#lectureForm {
+    width: 93%;
+    margin-left: auto;
+    text-align: left;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#lectureForm div {
+    margin: 10px;
+}
+
+#lectureForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#lectureForm input[type="text"],
+#lectureForm input[type="date"],
+#lectureForm select,
+#lectureForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#lectureForm textarea {
+    resize: vertical;
+}
+
+#lectureForm select {
+    width: 100%;
+}
+
+article {
+    background-color: #faf4f4;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px; /* 조금 더 패딩 추가 */
+}
+
+/* 뒤로가기 버튼 스타일링 */
+input[type="button"] {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+.content-label {
+    background-color: #f0f0f0;
+    padding: 10px 15px;
+    width: 20%;
+    text-align: center;
+}
+
+.content-value {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    width: 60%;
+    text-align: left;
+    margin-left: 20px; /* 좌우 간격 추가 */
+}
+
+.content-item {
+    display: flex;
+    align-items: center;
+    margin: 15px 0; /* 위아래 여백 설정 */
+}
+
+.content-item:last-child .content-label, .content-item:last-child .content-value {
+    height: 200px; /* 마지막 요소의 높이를 300px로 설정 */
+}
+
+
+/* 스타일링 레이블 및 값 */
+.accordion-title {
+    font-size: 18px;
+}
+
+.accordion-content button {
+    background-color: #f0f0f0;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-size: 16px;
+}
+
+/* 수강 중인 강의 목록이 없는 경우 스타일 */
+#no-lectures-msg {
+    text-align: center;
+    margin-top: 100px;
+}
+
+#no-lectures-msg p {
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+#no-lectures-msg button.apply-button {
+    font-size: 20px;
+}
+
+/* CSS to style the button and move the icon to the right */
+.accordion-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.icon {
+    order: 2; /* Move the icon to the end (right side) of the flex container */
+}
+
+/* Additional CSS for Font Awesome icons */
+.icon i {
+    font-size: 1.2em;
+}
+
+
+/* 폼 스타일링 */
+#surveyQuestionForm {
+    width: 93%;
+    margin-left: auto;
+    text-align: left;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#surveyQuestionForm div {
+    margin: 10px;
+}
+
+#surveyQuestionForm label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#surveyQuestionForm input[type="text"],
+#surveyQuestionForm input[type="date"],
+#surveyQuestionForm select,
+#surveyQuestionForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#surveyQuestionForm textarea {
+    resize: vertical;
+}
+
+#surveyQuestionForm select {
+    width: 100%;
+}
+
+
+td {
+    line-height: 35px;
+}
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-link {
+        transition: none
+    }
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6
+}
+
+.page-link:focus {
+    z-index: 3;
+    color: #6c757d;
+    background-color: #fff;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(185, 0, 0, 0.25)
+}
+
+.page-item:not(:first-child) .page-link {
+    margin-left: -1px
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #6499E9 !important;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6
+}
+
+.page-link {
+    padding: .375rem .75rem
+}
+
+.page-item:first-child .page-link {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px
+}
+
+.page-item:last-child .page-link {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px
+}
