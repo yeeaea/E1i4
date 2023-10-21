@@ -13,18 +13,29 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/video/ytbPlaylist.js}"></script>
 </th:block>
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
+</th:block>
 <th:block layout:fragment="content">
 
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
-            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 강의실</p>
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 > 나의 강의실</p>
             <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 온라인 강의</p>
         </div>
     </div>
 
-    <div class="container">
-        <div class="col">
-            <div class="card mb-4 rounded-3 shadow-sm" th:each="content : ${contentList}">
+    <div class="container rounded shadow mb-5">
+
+        <div style="position: relative;">
+            <!-- 뒤로가기 -->
+            <input type="button" value="BACK" onClick="history.go(-1)"
+                   style="position: absolute; right: 17%;  background-color: #0056b3">
+        </div>
+
+        <div class="col"  style="padding-left: 30px; padding-right: 30px;">
+            <div class="card mb-5 rounded-3 shadow-sm" style="margin-top: 100px;" th:each="content : ${contentList}">
                 <!-- 카드 헤더 -->
                 <div class="card-header py-3"
                      style="display: flex; position: relative; background-color: #5A92AF; color: #EAFDFC;">
