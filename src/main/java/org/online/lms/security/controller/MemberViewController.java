@@ -190,7 +190,7 @@ public class MemberViewController {
                 model.addAttribute("member", currentMember.get());
                 return "/page/security/memberInfo";
             } else {
-                return "/page/error";
+                return "/error";
             }
         } else {
             // 로그인되지 않은 경우 처리
