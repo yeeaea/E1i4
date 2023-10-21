@@ -118,18 +118,24 @@ function surveyForLecture(button) {
                                 // 필수 입력 필드 체크
                                 const requiredFields = document.querySelectorAll('[required]');
                                 let hasEmptyField = false;
-                                let emptyFieldNames = [];
 
                                 requiredFields.forEach(function(field) {
-                                    if (!field.value) {
-                                        hasEmptyField = true;
+                                    if (field.type === "radio") {
+                                        const radioName = field.name;
+                                        const radios = document.querySelectorAll(`input[type=radio][name="${radioName}"]`);
+                                        if (![...radios].some(radio => radio.checked)) {
+                                            hasEmptyField = true;
+                                        }
+                                    } else {
+                                        if (!field.value) {
+                                            hasEmptyField = true;
+                                        }
                                     }
                                 });
 
                                 if (hasEmptyField) {
-                                    const emptyFieldNamesString = emptyFieldNames.join(", ");
-                                    alert("답변을 입력해주세요");
-                                    return;
+                                    alert("모든 질문에 답변해주세요.");
+                                    return false; // 폼 제출 중지
                                 } else {
                                     // 데이터를 수집할 객체를 초기화
                                     let formData = {};

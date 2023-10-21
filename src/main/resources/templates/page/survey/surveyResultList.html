@@ -34,65 +34,65 @@
         <div>
             <div th:each="question : ${surveyQuesInfoList}"
                  th:if="${question.surveyQuesType == '1'}">
-                <div th:text="${question.surveyQuesNo}" style="display: none"></div>
-                <div th:text="${question.surveyQuesName}"></div>
+                <div>객관식 답변
+                    <div>
+                        <div th:text="${question.surveyQuesNo}" style="display: none"></div>
+                        <div th:text="${question.surveyQuesName}"></div>
 
-                <table>
-                    <thead>
-                    <tr>
-                        <th>강의 번호</th>
-                        <th>문항 번호</th>
-                        <th>답변 명</th>
-                        <th>점수</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="answer : ${surveyAnswerList}"
-                        th:if="${answer.surveyQuesNo} == ${question.surveyQuesNo}">
-                        <td th:text="${answer.lectureNo}"></td>
-                        <td th:text="${answer.surveyQuesNo}"></td>
-                        <td th:text="${answer.surveyAnsName}"></td>
-                        <td th:text="${answer.surveyAnsScore}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <table>
+                            <thead>
+                            <tr style="display: none">
+                                <th>강의 번호</th>
+                                <th>문항 번호</th>
+                                <th>답변 명</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="answer : ${surveyAnswerList}"
+                                th:if="${answer.surveyQuesNo} == ${question.surveyQuesNo}">
+                                <td th:text="${answer.lectureNo}" style="display: none"></td>
+                                <td th:text="${answer.surveyQuesNo}" style="display: none"></td>
+                                <td th:text="${answer.surveyAnsName}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <!--        <table class="table table-hover">-->
+                <!--            <thead>-->
+                <!--            <tr>-->
+                <!--                <th class="text-center">강의년도</th>-->
+                <!--                <th class="text-center">강의 과정</th>-->
+                <!--                <th class="text-center">강의명</th>-->
+                <!--                <th class="text-center">강의 시작일</th>-->
+                <!--                <th class="text-center">강의 종료일</th>-->
+                <!--                <th class="text-center">강의평가결과</th>-->
+                <!--            </tr>-->
+                <!--            </thead>-->
+
+                <!--            <tbody class="row-6" th:each="lecture : ${lectureInfo}">-->
+                <!--            <tr th:attr="data-lecture-no=${lecture.lectureNo}">-->
+                <!--                <div>-->
+                <!--                    <td class="text-center" style="width:12%" th:text="${lecture.lectureYear}"></td>-->
+                <!--                    <td class="text-left" style="width:15%" th:text="${lecture.lectureCourse}"></td>-->
+                <!--                    <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"-->
+                <!--                           th:text="${lecture.lectureTitle}" class="custom-link" style="width:22%"></a></td>-->
+                <!--                    <td class="text-center" style="width:17%"-->
+                <!--                        th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}"></td>-->
+                <!--                    <td class="text-center" style="width:17%"-->
+                <!--                        th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>-->
+                <!--                    <td class="text-center" style="width:17%">-->
+                <!--                        <button onclick="viewSurveyResult(this)" class="survey-result-button"-->
+                <!--                                th:attr="data-lecture-no=${lecture.lectureNo}">강의평가결과</button>-->
+                <!--                    </td>-->
+                <!--                </div>-->
+                <!--            </tr>-->
+                <!--            </tbody>-->
+                <!--        </table>-->
             </div>
-
-        </div>
-
-
-        <!--        <table class="table table-hover">-->
-        <!--            <thead>-->
-        <!--            <tr>-->
-        <!--                <th class="text-center">강의년도</th>-->
-        <!--                <th class="text-center">강의 과정</th>-->
-        <!--                <th class="text-center">강의명</th>-->
-        <!--                <th class="text-center">강의 시작일</th>-->
-        <!--                <th class="text-center">강의 종료일</th>-->
-        <!--                <th class="text-center">강의평가결과</th>-->
-        <!--            </tr>-->
-        <!--            </thead>-->
-
-        <!--            <tbody class="row-6" th:each="lecture : ${lectureInfo}">-->
-        <!--            <tr th:attr="data-lecture-no=${lecture.lectureNo}">-->
-        <!--                <div>-->
-        <!--                    <td class="text-center" style="width:12%" th:text="${lecture.lectureYear}"></td>-->
-        <!--                    <td class="text-left" style="width:15%" th:text="${lecture.lectureCourse}"></td>-->
-        <!--                    <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"-->
-        <!--                           th:text="${lecture.lectureTitle}" class="custom-link" style="width:22%"></a></td>-->
-        <!--                    <td class="text-center" style="width:17%"-->
-        <!--                        th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}"></td>-->
-        <!--                    <td class="text-center" style="width:17%"-->
-        <!--                        th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>-->
-        <!--                    <td class="text-center" style="width:17%">-->
-        <!--                        <button onclick="viewSurveyResult(this)" class="survey-result-button"-->
-        <!--                                th:attr="data-lecture-no=${lecture.lectureNo}">강의평가결과</button>-->
-        <!--                    </td>-->
-        <!--                </div>-->
-        <!--            </tr>-->
-        <!--            </tbody>-->
-        <!--        </table>-->
-    </div>
 </section>
 <!-- content end -->
 </html>
