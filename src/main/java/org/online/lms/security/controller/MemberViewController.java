@@ -213,4 +213,28 @@ public class MemberViewController {
         return "redirect:/lms/mypage/edit-info";  // 정보 업데이트시킨 후, 마이페이지로 이동
 
     }
+
+    @GetMapping("/lms/mypage/myLectureList")
+    public String showMyLectureList(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String loginId = authentication.getName();
+        // loginId를 사용하여 회원 정보를 데이터베이스에서 조회
+        Optional<Members> userOptional = memberService.findByLoginId(loginId);
+
+        Members member = userOptional.get();
+        log.info("사용자 권한(컨트롤러에서 확인) : " + String.valueOf(member.getMemberRole()));
+        String memberName = member.getMemberName();
+        log.info("컨트롤러에서 서비스 진입 전");
+        log.info("회원번호 : " + member.getMemberNo());
+
+        // MemberService에서 데이터를 가져오기
+        List<MyLectureInfoDto> myLectureList = memberService.findMyLectureInfoByMemberNo(member.getMemberNo());
+        log.info("나의 수강 리스트 : " + myLectureList);
+
+        log.info("나의 수강 리스트 : " + myLectureList.toString());
+        model.addAttribute("myLectureList", myLectureList);
+
+        return "/page/security/mypageLectureList";
+    }
 }
