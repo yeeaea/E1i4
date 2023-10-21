@@ -72,7 +72,7 @@
                 <div class="modal-content shadow-lg">
                     <div class="modal-header">
                         <h3>강의평가 페이지</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" onclick="closeModal()"></button>
                     </div>
                     <div class="modal-body">
                         <form>
@@ -86,7 +86,6 @@
 
                                 <!-- 다중 선택의 경우 5개의 라디오 버튼 -->
                                 <div th:if="${surveyQuestion.surveyQuesType eq '1'}">
-                                    <label class="fs-5">답변 선택:</label><br>
                                     <div class="mb-2 fs-6">
                                         <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇다" required> 매우 그렇다<br>
                                         <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇다" required> 그렇다<br>
