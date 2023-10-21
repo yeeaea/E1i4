@@ -44,7 +44,7 @@
             <!-- 개설 강의 목록 -->
             <div class="box" style="height:300px; overflow: auto; margin-bottom: 20px;">
             <table class="table table-hover" id="lectureTable">
-                <thead>
+                <thead style="text-align: center;">
                 <tr>
                     <th>개설강의번호</th>
                     <th>강의년도</th>
@@ -80,16 +80,16 @@
                 <h5 style="justify-content: flex-start;" class="col-6">강의 차시 목록</h5>
                 <div class="box" style="height:500px; overflow: auto;">
                 <table class="table table-hover" id="progressTable">
-                    <thead>
+                    <thead style="text-align: center;">
                     <tr>
                         <th>
                             <label for="selectAllCheckbox"></label>
                             <input type="checkbox" id="selectAllCheckbox" autocomplete="off"
                                    onchange="selectAllCheckboxes(this)">
                         </th>
-                        <th class="sortable" id="arr-nthDuration">차시 순서</th><!-- 차시 관리 번호 -->
-                        <th>차시명</th>
-                        <th>차시학습시간</th>
+                        <th class="sortable col-2" id="arr-nthDuration">차시 순서</th><!-- 차시 관리 번호 -->
+                        <th class="col-7">차시명</th>
+                        <th class="col-3">차시학습시간</th>
                     </tr>
                     </thead>
                     <tbody>
