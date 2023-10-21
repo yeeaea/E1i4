@@ -98,4 +98,9 @@ public class SurveyQuesInfoService {
 
         return surveyQuesInfoList;
     }
+
+    // 강의평가 문항 리스트
+    public List<SurveyQuesInfo> findAll() {
+        return surveyQuesInfoRepository.findAll();
+    }
 }

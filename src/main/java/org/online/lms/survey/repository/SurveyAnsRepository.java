@@ -17,4 +17,5 @@ public interface SurveyAnsRepository extends JpaRepository<SurveyAnswer, Long> {
     // 여러 강의 번호에 대한 데이터 삭제
     @Transactional
     void deleteByLectureNoIn(List<Long> lectureNos);
+
 }

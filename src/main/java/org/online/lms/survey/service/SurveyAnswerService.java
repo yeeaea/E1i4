@@ -61,13 +61,14 @@ public class SurveyAnswerService {
         }
     }
 
-    // 강의 번호로 강의평가 결과 조회
-    public List<SurveyAnswer> getSurveyAnswersByLectureNo(Long lectureNo) {
-        return surveyAnsRepository.findByLectureNo(lectureNo);
-    }
 
     // 강의 번호로 저장된 강의평가 데이터가 있는지 확인
     public boolean surveyResultExistsForLecture(Long lectureNo) {
         return surveyAnsRepository.existsByLectureNo(lectureNo);
+    }
+
+    // 강의 평가 답변 항목 리스트
+    public List<SurveyAnswer> findAll() {
+        return surveyAnsRepository.findAll();
     }
 }

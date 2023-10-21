@@ -13,4 +13,6 @@ public interface SurveyQuesInfoRepository extends JpaRepository<SurveyQuesInfo, 
     // 답변 유형 필드가 존재하는 문항을 찾는 쿼리
     List<SurveyQuesInfo> findBySurveyQuesTypeIsNotNull();
 
+
+
 }
