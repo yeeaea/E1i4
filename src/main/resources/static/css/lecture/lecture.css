@@ -1,16 +1,8 @@
-.box {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-.box::-webkit-scrollbar {
-    display: none;
-}
-
-table thead {
-    position: sticky;
-    top: 0;
+.container1 {
+    margin: 20px;
+    padding: 20px;
     background-color: #fff;
-    z-index: 1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h3 {
@@ -249,4 +241,76 @@ input[type="button"] {
 
 #surveyQuestionForm select {
     width: 100%;
+}
+
+
+td {
+    line-height: 35px;
+}
+
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none
+}
+
+.page-link {
+    position: relative;
+    display: block;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-link {
+        transition: none
+    }
+}
+
+.page-link:hover {
+    z-index: 2;
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #dee2e6
+}
+
+.page-link:focus {
+    z-index: 3;
+    color: #6c757d;
+    background-color: #fff;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(185, 0, 0, 0.25)
+}
+
+.page-item:not(:first-child) .page-link {
+    margin-left: -1px
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #6c757d;
+    background-color: #fff;
+    border-color: #6499E9 !important;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6
+}
+
+.page-link {
+    padding: .375rem .75rem
+}
+
+.page-item:first-child .page-link {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px
+}
+
+.page-item:last-child .page-link {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px
 }

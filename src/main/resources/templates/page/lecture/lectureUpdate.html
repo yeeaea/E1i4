@@ -17,18 +17,19 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content" style="width: 85%">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 class="mt-4 mb-3">개설 강의 목록</h3>
-        <div class="mt-3">
-            <button class="custom-button-primary"  id="lectureAdd">등록</button>
-            <button class="custom-button-secondary"  id="lectureEdit">수정</button>
-            <button class="custom-button-secondary"  id="deleteSelected">삭제</button>
-        </div>
-    </div>
-    <div style="display: flex">
+<section layout:fragment="content" style="width: 90%; display: flex; flex-direction: row; align-items: flex-start;">
+    <div style="width: 60%;">
 
-        <table class="table table-hover" style="width: 60%;">
+    <!-- 전체 강의 리스트 -->
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 관리</p>
+            <h3 class="mt-4 mb-3">개설 강의 목록</h3>
+        </div>
+
+    </div>
+
+    <table class="table table-hover">
             <thead>
             <tr>
                 <!-- 체크박스 열 추가 -->
@@ -60,8 +61,47 @@
             </tbody>
         </table>
 
-        <!-- 강의 등록 section -->
-        <div style="width: 40%; display: flex; justify-content: center; align-items: center;">
+        <nav aria-label="Page navigation example" class="mt-5">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 페이지 링크 -->
+                <li class="page-item"
+                    th:classappend="${startPage == lectureInfo.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/online/lecture-all(page=${lectureInfo.pageable.pageNumber - 1})}"
+                       tabindex="-1"> < </a>
+                </li>
+                <!-- 페이지 번호 링크 -->
+                <li class="page-item"
+                    th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                    th:if="${lectureInfo.totalElements > 0}">
+                    <a class="page-link"
+                       th:href="@{/admin/online/lecture-all(page=${num-1})}"
+                       th:text="${num}"
+                       th:classappend="${num == (lectureInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                </li>
+                <!-- 다음 페이지 링크 -->
+                <li class="page-item"
+                    th:classappend="${endPage == lectureInfo.pageable.pageNumber + 1} ? 'disabled'">
+                    <a class="page-link"
+                       th:href="@{/admin/online/lecture-all(page=${lectureInfo.pageable.pageNumber + 1})}">
+                        > </a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div>
+        <!-- 폼 부분 (40%) -->
+        <div style="width: 38%; margin-top: 100px;">
+
+        <div style="display: flex;justify-content: flex-end; align-items: center; "class="mt-3">
+                <button class="custom-button-primary"  id="lectureAdd" style="margin-right: 3px;">등록</button>
+                <button class="custom-button-secondary"  id="lectureEdit" style="margin-right: 3px;">수정</button>
+                <button class="custom-button-secondary"  id="deleteSelected">삭제</button>
+            </div>
+
+
+
             <form id="lectureForm" th:object="${lectureInfoRequest}" autocomplete="off" class="mt-3 mb-3">
                 <div>
                     <label for="lectureYear">강의 년도:</label>
@@ -128,7 +168,7 @@
                 </select>
             </form>
         </div>
-    </div>
+
 </section>
 <!-- content end -->
 </html>
