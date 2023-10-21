@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/css/security/error.css">
 </head>
 <body>
 <div style="position: absolute; top: 25%; left: 33%; text-align: center;">
@@ -12,8 +13,9 @@
             <h1 style="margin-top: 50px; color: #12486B">해당 페이지를 찾지 못했습니다.</h1>
             <h4>원하시는 결과를 찾을 수 없습니다.</h4>
             <h4>올바른 URL을 입력하였는지 확인하세요. 자세한 내용은 관리자에게 문의하시기 바랍니다.</h4>
-            <div class="fs-3">
-                <a th:href="@{/}" style="text-decoration: none;">로그인 페이지로 이동</a>
+            <!-- 뒤로 가기 -->
+            <div style="margin-top: 20px;">
+                <input type="button" value="BACK" onClick="history.go(-1)" class="custom-button">
             </div>
         </div>
     </div>
