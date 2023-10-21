@@ -31,7 +31,7 @@
                 <tr>
                     <!-- 체크박스 열 추가 -->
                     <th></th>
-                    <th>강의년도</th>
+                    <th>연도</th>
                     <th>강의 과정</th>
                     <th>강의명</th>
                     <th>강의 설명</th>
@@ -50,7 +50,10 @@
                     <td th:text="${lecture.lectureYear}"></td>
                     <td th:text="${lecture.lectureCourse}"></td>
                     <td th:text="${lecture.lectureTitle}"></td>
-                    <td th:text="${lecture.lectureDesc}" style="white-space: pre-line"></td>
+                    <td>
+                        <span class="truncate-text" th:text="${lecture.lectureDesc}" style="white-space: pre-line"></span>
+                    </td>
+
                     <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}">></td>
                     <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
                     <td th:text="|${lecture.lectureDuration}주차|"></td>
