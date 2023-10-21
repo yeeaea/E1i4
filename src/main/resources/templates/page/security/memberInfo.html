@@ -19,85 +19,84 @@
 <th:block layout:fragment="content">
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
-            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 정보 &nbsp; > &nbsp; 개인정보 수정 </p>
-            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 개인정보</p>
+            <p class="mb-4" style="font-size: 17px; color: dimgrey;">나의 정보 &nbsp; > &nbsp; 개인정보 수정 </p>
+            <p class="title mb-5" style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 개인정보</p>
         </div>
     </div>
 
-    <div class="container">
-        <div>
-            <div class="row justify-content-start container">
-                <!-- 초기 페이지 : 수정 전 정보 조회 -->
-                <form action="/lms/mypage/edit-info" method="post" id="originForm">
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="loginId" class="form-label fs-5 mt-3">아이디</label>
-                        <span class="form-control-lg mt-2" id="loginId" th:text="${member.loginId}"
-                              style="margin-left: 50px;">
-						</span>
-                    </div>
+    <div class="container rounded shadow mb-5 mx-auto title" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
 
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="memberName" class="form-label fs-5 mt-3">이 &nbsp; 름</label>
-                        <span class="form-control-lg mt-2" id="memberName"
-                              th:text="${member.memberName}"
-                              style="margin-left: 55px;"> </span>
-                    </div>
-
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="memberTel" class="form-label fs-5 mt-3">전화번호</label>
-                        <span class="form-control-lg mt-2" id="memberTel" th:text="${member.memberTel}"
-                              style="margin-left: 35px;"></span>
-                    </div>
-
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="memberEmail" class="form-label fs-5 mt-3">이메일</label>
-                        <span class="form-control-lg mt-2" id="memberEmail" th:text="${member.memberEmail}"
-                              style="margin-left: 55px;"> </span>
-                    </div>
-                    <div>
-                        <button type="button" id="modifyInfoBtn" class="btn btn-primary mt-5" style="margin-left: 60%;">개인정보 변경</button>
-                    </div>
-
-                </form>
-
-                <!-- 수정 페이지 : 전화번호와 이메일 주소만 수정 가능 -->
-                <form action="/lms/mypage/edit-info" method="post" id="modifyForm" th:object="${member}" style="display: none;">
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="loginId" class="form-label fs-5 mt-3">아이디</label>
-                        <input type="text" id="loginId" name="loginId" th:field="*{loginId}"
-                               th:value="${member != null} ? ${member.getLoginId()} : ''" readonly
-                               style="margin-left: 70px;">
-                    </div>
-
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="memberName" class="form-label fs-5 mt-3">이 &nbsp; 름</label>
-                        <input type="text" id="memberName" name="loginId" th:field="*{memberName}"
-                               th:value="${member != null} ? ${member.getMemberName()} : ''" readonly
-                               style="margin-left: 75px;">
-                    </div>
-
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="memberTel" class="form-label fs-5 mt-3">핸드폰 번호</label>
-                        <input type="text" id="memberTel" name="loginId" th:field="*{memberTel}"
-                               th:value="${member != null} ? ${member.getMemberTel()} : ''"
-                               style="margin-left: 30px;">
-                    </div>
-
-                    <div class="form-group mb-3 w-75 m-auto">
-                        <label for="memberEmail" class="form-label fs-5 mt-3">이메일</label>
-                        <input type="text" id="memberEmail" name="loginId" th:field="*{memberEmail}"
-                               th:value="${member != null} ? ${member.getMemberEmail()} : ''"
-                               style="margin-left: 72px;">
-                    </div>
-                    <button type="submit" id="saveInfoBtn" class="btn btn-primary mt-3" style="margin-left: 60%;">변경 완료</button>
-                </form>
-                <!-- 비밀번호 변경 -->
-                <div style="margin-bottom: 50px;">
-                    <a href="/lms/mypage/change-pw">
-                        <button id="modifyPwBtn" class="btn btn-primary mt-3" style="margin-left: 60%;">비밀번호 변경</button>
-                    </a>
+        <div class="container title" style="margin-top: 70px;" id="infoText">
+            <h5>가입하신 COME 회원 정보 입니다.
+                <br><br>수정을 원하시면, 아래 버튼을 클릭해주세요.</h5>
+        </div>
+        <!-- 초기 페이지 : 수정 전 정보 조회 -->
+        <div class="row justify-content-start container mt-4 w-75" >
+            <form action="/lms/mypage/edit-info" method="post" id="originForm" autocomplete="off">
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="loginId" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">아이디</label>
+                    <span class="form-control-lg mt-2 border" id="loginId" th:text="${member.loginId}" style="flex-basis: 70%;"></span>
                 </div>
+
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="memberName" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">이 &nbsp; 름</label>
+                    <span class="form-control-lg mt-2 border" id="memberName" th:text="${member.memberName}" style="flex-basis: 70%;"> </span>
+                </div>
+
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="memberTel" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">전화번호</label>
+                    <span class="form-control-lg mt-2 border" id="memberTel" th:text="${member.memberTel}" style="flex-basis: 70%;"></span>
+                </div>
+
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="memberEmail" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">이메일</label>
+                    <span class="form-control-lg mt-2 border" id="memberEmail" th:text="${member.memberEmail}" style="flex-basis: 70%;"> </span>
+                </div>
+            </form>
+            <div style="display: flex; justify-content: center; align-items: center; margin-left: 225px;" class="mt-3 mb-3">
+                <button type="submit" id="modifyInfoBtn" class="btn btn-primary">개인정보 변경</button>
+                <div></div>
+                <a href="/lms/mypage/change-pw" style="margin-left: 10px;">
+                    <button id="modifyPwBtn" class="btn btn-primary">비밀번호 변경</button>
+                </a>
             </div>
+        </div>
+
+        <!-- 수정 페이지 : 전화번호와 이메일 주소만 수정 가능 -->
+        <div class="container" style="display: none;" id="modifyInfoText">
+            <h5>개인 정보 수정 후, 변경 완료 버튼을 클릭해주세요.</h5>
+        </div>
+        <div class="row justify-content-start container mt-4 w-75" >
+            <form action="/lms/mypage/edit-info" method="post" id="modifyForm" th:object="${member}" style="display: none;" autocomplete="off">
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="loginId" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">아이디</label>
+                    <input type="text" id="loginId" name="loginId" th:field="*{loginId}"
+                           class="form-control-lg mt-2 border" style="flex-basis: 70%;"
+                           th:value="${member != null} ? ${member.getLoginId()} : ''" readonly>
+                </div>
+
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="memberName" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">이 &nbsp; 름</label>
+                    <input type="text" id="memberName" name="memberName" th:field="*{memberName}"
+                           class="form-control-lg mt-2 border" style="flex-basis: 70%;"
+                           th:value="${member != null} ? ${member.getMemberName()} : ''" readonly>
+                </div>
+
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="memberTel" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">핸드폰 번호</label>
+                    <input type="text" id="memberTel" name="memberTel" th:field="*{memberTel}"
+                           class="form-control-lg mt-2" style="flex-basis: 70%;"
+                           th:value="${member != null} ? ${member.getMemberTel()} : ''">
+                </div>
+
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
+                    <label for="memberEmail" class="title form-label fs-5 mt-3" style="flex-basis: 30%;">이메일</label>
+                    <input type="text" id="memberEmail" name="memberEmail" th:field="*{memberEmail}"
+                           class="form-control-lg mt-2" style="flex-basis: 70%;"
+                           th:value="${member != null} ? ${member.getMemberEmail()} : ''">
+                </div>
+                <button type="submit" id="saveInfoBtn" class="btn btn-primary mt-3 mb-3" style="margin-left: 600px;">변경 완료</button>
+            </form>
         </div>
     </div>
 </th:block>
