@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // 결과가 없으면 버튼 비활성화
                     resultButton.disabled = true;
                     resultButton.innerText = "준비중";
+                    resultButton.style.backgroundColor= "#6c757d"; // 회색으로 변경
                 }
             })
             .catch(error => {

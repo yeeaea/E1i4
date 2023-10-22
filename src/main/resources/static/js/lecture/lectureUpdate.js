@@ -1,5 +1,16 @@
 // 페이지가 로드될 때 실행할 함수
 document.addEventListener("DOMContentLoaded", function () {
+    const elements = document.querySelectorAll(".truncate-text");
+
+    elements.forEach(function (element) {
+        const maxLength = 10; // 최대 글자 수를 원하는 길이로 설정합니다.
+        const text = element.textContent;
+
+        if (text.length > maxLength) {
+            const truncatedText = text.slice(0, maxLength) + "..."; // 글자 수를 제한하고 "..."을 추가
+            element.textContent = truncatedText;
+        }
+    });
     // ******** 강의 추가 기능 ********
     // 필드 이름을 매핑하는 객체
     const fieldNamesMap = {
@@ -120,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const lectureYear = row.cells[1].textContent;
         const lectureCourse = row.cells[2].textContent;
         const lectureTitle = row.cells[3].textContent;
-        const lectureDesc = row.cells[4].textContent;
+        const lectureDesc = row.cells[4].textContent.trim();
         const lectureStartAt = row.cells[5].textContent;
         const lectureEndAt = row.cells[6].textContent;
         const lectureDurationStr = row.cells[7].textContent;

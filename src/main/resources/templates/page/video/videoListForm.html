@@ -20,123 +20,123 @@
 <!-- content start -->
 <th:block layout:fragment="content">
 
-        <!-- 전체 강의 리스트 -->
+    <!-- 전체 강의 리스트 -->
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
             <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 관리 > 콘텐츠 관리</p>
-            <p class="title mb-5" style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 콘텐츠 관리</p>
+            <div class="title" style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 콘텐츠 관리</div>
         </div>
     </div>
-    <div class="container rounded shadow mb-5">
-        <div class="box" style="height:735px; overflow: auto; display: flex;">
-    <div style="width: 60%;">
+    <div class="container rounded shadow py-3 mb-5">
+        <div class="box" style="height:735px; display: flex;">
+            <div style="width: 60%;">
+                <!-- 콘텐츠 파일번호 값이 없어서 우선 제외했습니다 -->
+                <table class="table table-hover mt-3">
+                    <thead>
+                    <tr>
+                        <th class="title">콘텐츠<br>관리 번호</th>
+                        <th class="title">콘텐츠 명</th>
+                        <th class="title" style="display: none;">콘텐츠 설명</th>
+                        <!--<th>콘텐츠 파일번호</th>-->
+                        <th class="title">Youtube 연동번호</th>
+                        <th class="title" style="display: none;">콘텐츠 호출 URL</th>
+                        <th class="title">재생 시간</th>
+                    </tr>
+                    </thead>
 
+                    <tbody class="row-7" th:each="content : ${contentInfo}">
+                    <tr>
+                        <!-- 콘텐츠 리스트 출력 -->
+                        <td th:text="${content.contentNo}"></td>
+                        <td th:text="${content.contentName}" style="width: 55%;"></td>
+                        <td th:text="${content.contentDesc}" style="display: none;"></td>
+                        <!--<td th:text="${content.contentFileNo}"></td>-->
+                        <td th:text="${content.ytbUrl}"></td>
+                        <td th:text="${content.contentUrl}" style="display: none;"></td>
+                        <td th:text="${content.runTm}"></td>
+                    </tr>
+                    </tbody>
 
-        <!-- 콘텐츠 파일번호 값이 없어서 우선 제외했습니다 -->
-        <table class="table table-hover" style="margin-top: 60px;">
-            <thead>
-            <tr>
-                <th class="title">콘텐츠<br>관리 번호</th>
-                <th class="title">콘텐츠 명</th>
-                <th style="display: none;">콘텐츠 설명</th>
-                <!--<th>콘텐츠 파일번호</th>-->
-                <th class="title">Youtube 연동번호</th>
-                <th class="title" style="display: none;">콘텐츠 호출 URL</th>
-                <th class="title">재생 시간</th>
-            </tr>
-            </thead>
+                </table>
 
-            <tbody class="row-7" th:each="content : ${contentInfo}">
-            <tr>
-                <!-- 콘텐츠 리스트 출력 -->
-                <td th:text="${content.contentNo}"></td>
-                <td th:text="${content.contentName}" style="width: 55%;"></td>
-                <td th:text="${content.contentDesc}" style="display: none;" ></td>
-                <!--<td th:text="${content.contentFileNo}"></td>-->
-                <td th:text="${content.ytbUrl}"></td>
-                <td th:text="${content.contentUrl}" style="display: none;"></td>
-                <td th:text="${content.runTm}"></td>
-            </tr>
-            </tbody>
+                <nav aria-label="Page navigation example" class="mt-1">
+                    <ul class="pagination justify-content-center">
 
-        </table>
+                        <!-- 이전 페이지 링크 -->
+                        <li class="page-item"
+                            th:classappend="${startPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber - 1})}"
+                               tabindex="-1"> < </a>
+                        </li>
+                        <!-- 페이지 번호 링크 -->
+                        <li class="page-item"
+                            th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                            th:if="${contentInfo.totalElements > 0}">
+                            <a class="page-link"
+                               th:href="@{/admin/content(page=${num - 1})}"
+                               th:text="${num}"
+                               th:classappend="${num == (contentInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                        </li>
+                        <!-- 다음 페이지 링크 -->
+                        <li class="page-item"
+                            th:classappend="${endPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber + 1})}"> >
+                            </a>
+                        </li>
 
-        <nav aria-label="Page navigation example" class="mt-1">
-            <ul class="pagination justify-content-center">
-
-                <!-- 이전 페이지 링크 -->
-                <li class="page-item"
-                    th:classappend="${startPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber - 1})}"
-                       tabindex="-1"> < </a>
-                </li>
-                <!-- 페이지 번호 링크 -->
-                <li class="page-item"
-                    th:each="num : ${#numbers.sequence(startPage, endPage)}"
-                    th:if="${contentInfo.totalElements > 0}">
-                    <a class="page-link"
-                       th:href="@{/admin/content(page=${num - 1})}"
-                       th:text="${num}"
-                       th:classappend="${num == (contentInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
-                </li>
-                <!-- 다음 페이지 링크 -->
-                <li class="page-item"
-                    th:classappend="${endPage == contentInfo.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{/admin/content(page=${contentInfo.pageable.pageNumber + 1})}"> >
-                    </a>
-                </li>
-
-            </ul>
-        </nav>
-    </div>
-
-    <!-- 공백 추가 -->
-    <div style="width: 2%"></div>
-
-    <!-- 폼 부분 (40%) -->
-    <div style="width: 38%;">
-        <div style="display: flex;justify-content: flex-end; align-items: center; "class="mt-3">
-            <button id="registerBtn" class="custom-button-primary" style="margin-right: 3px;">등록</button>
-            <button id="updateBtn" class="custom-button-secondary" style="margin-right: 3px;">수정</button>
-            <button id="deleteBtn" class="custom-button-secondary">삭제</button>
-        </div>
-        <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT" style="width: 100%;" class="mt-3 mb-3">
-            <div>
-                <label for="contentNo" class="title">관리 번호 : </label>
-                <input type="text" id="contentNo" name="contentNo"/>
+                    </ul>
+                </nav>
             </div>
-            <div>
-                <label for="contentName" class="title">콘텐츠 명<b style="color: red"> *</b> : </label>
-                <input type="text" id="contentName" name="contentName"/>
-            </div>
-            <!--                <div>-->
-            <!--                    <label for="contentFileNo">콘텐츠 파일번호 : </label>-->
-            <!--                    <input type="text" id="contentFileNo" name="contentFileNo"/>-->
-            <!--                </div>
-            -->
-            <div>
-                <label for="ytbUrl" class="title">Youtube 연동 번호<b style="color: red"> *</b> : </label>
-                <div style="display: flex">
-                    <input type="text" id="ytbUrl" name="ytbUrl" style="width: 70%; margin-right: 5%; margin-left: -9px;" />
-                    <button id="ytbLinkBtn" class="custom-button-secondary" style="width: 30%;">연동 확인</button>
+
+            <!-- 공백 추가 -->
+            <div style="width: 2%"></div>
+
+            <!-- 폼 부분 (40%) -->
+            <div style="width: 38%;">
+                <div style="display: flex;justify-content: flex-end; align-items: center; " class="mt-3">
+                    <button id="registerBtn" class="custom-button-primary" style="margin-right: 3px;">등록</button>
+                    <button id="updateBtn" class="custom-button-secondary" style="margin-right: 3px;">수정</button>
+                    <button id="deleteBtn" class="custom-button-secondary">삭제</button>
                 </div>
+                <form th:action="@{/api/admin/content-edit}" id="addContentForm" method="PUT" style="width: 100%;"
+                      class="mt-3 mb-3">
+                    <div>
+                        <label for="contentNo" class="title">관리 번호 : </label>
+                        <input type="text" id="contentNo" name="contentNo"/>
+                    </div>
+                    <div>
+                        <label for="contentName" class="title">콘텐츠 명<b style="color: red"> *</b> : </label>
+                        <input type="text" id="contentName" name="contentName"/>
+                    </div>
+                    <!--                <div>-->
+                    <!--                    <label for="contentFileNo">콘텐츠 파일번호 : </label>-->
+                    <!--                    <input type="text" id="contentFileNo" name="contentFileNo"/>-->
+                    <!--                </div>
+                    -->
+                    <div>
+                        <label for="ytbUrl" class="title">Youtube 연동 번호<b style="color: red"> *</b> : </label>
+                        <div style="display: flex">
+                            <input type="text" id="ytbUrl" name="ytbUrl"
+                                   style="width: 70%; margin-right: 5%; margin-left: -9px;"/>
+                            <button id="ytbLinkBtn" class="custom-button-secondary" style="width: 30%;">연동 확인</button>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="contentDesc" class="title">콘텐츠 설명 : </label>
+                        <textarea id="contentDesc" name="contentDesc" rows="4"></textarea>
+                    </div>
+                    <div>
+                        <label for="contentUrl" class="title">콘텐츠 호출 URL : </label>
+                        <input type="text" id="contentUrl" name="contentUrl"/>
+                    </div>
+                    <div>
+                        <label for="runTm" class="title">재생 시간 : </label>
+                        <input type="text" id="runTm" name="runTm"/>
+                    </div>
+                </form>
             </div>
-            <div>
-                <label for="contentDesc" class="title">콘텐츠 설명 : </label>
-                <textarea id="contentDesc" name="contentDesc" rows="4"></textarea>
-            </div>
-            <div>
-                <label for="contentUrl" class="title">콘텐츠 호출 URL : </label>
-                <input type="text" id="contentUrl" name="contentUrl"/>
-            </div>
-            <div>
-                <label for="runTm" class="title">재생 시간 : </label>
-                <input type="text" id="runTm" name="runTm"/>
-            </div>
-  </form>
-    </div>
         </div>
     </div>
 </th:block>
