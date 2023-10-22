@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.online.lms.security.domain.Members;
 import org.online.lms.security.service.MemberService;
 import org.online.lms.video.domain.Content;
+import org.online.lms.video.domain.Progress;
 import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.service.ProgressTmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,8 +82,23 @@ public class ProgressUserViewController {
     public String attendance(@PathVariable Long lectureNo, Model model) {
         // 강의에 대한 모든 차시(주차) 출결
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String loginId = auth.getName();
+        Optional<Members> userOptional = memberService.findByLoginId(loginId);
+        Members member = userOptional.get();
+        Long memberNo = member.getMemberNo();
+
+
         List<Content> contentList = progressTmService.findContentByLectureNo(lectureNo);
-        model.addAttribute("contentList", contentList);
+        List<Progress> progressList = new ArrayList<>();
+
+        for (Content content : contentList) {
+            Long contentNo = content.getContentNo();
+            List<Progress> progress = progressTmService.findProgressByContentNoAndMemberNo(contentNo, memberNo);
+            progressList.addAll(progress);
+        }
+
+        model.addAttribute("progressList", progressList);
 
         return "/page/video/attendance";
     }
