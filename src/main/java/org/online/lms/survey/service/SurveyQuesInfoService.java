@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.online.lms.survey.domain.SurveyQuesInfo;
 import org.online.lms.survey.repository.SurveyQuesInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +23,11 @@ public class SurveyQuesInfoService {
         this.surveyQuesInfoRepository = surveyQuesInfoRepository;
     }
 
-    // 강의 평가 문항 전체 조회
-    public List<SurveyQuesInfo> getAllSurveyQuesInfo() {
-
-        List<SurveyQuesInfo> surveyQuesInfoList = surveyQuesInfoRepository.findAll();
-
-        // 강의 평가 문항 표시 번호 순으로 정렬
-        Collections.sort(surveyQuesInfoList, (q1, q2) -> Long.compare(q1.getSurveyQuesViewNo(), q2.getSurveyQuesViewNo()));
-
-        return surveyQuesInfoList;
+    public Page<SurveyQuesInfo> getAllSurveyQuesInfoSortedByViewNoWithPaging(Pageable pageable) {
+        // Pageable을 사용하여 정렬 및 페이징을 설정하여 데이터 가져오기
+        return surveyQuesInfoRepository.findAllByOrderBySurveyQuesViewNo(pageable);
     }
+
 
     // 강의 평가 문항 번호로 강의 평가 문항 데이터 찾기
     public SurveyQuesInfo getSurveyQuesInfoBySurveyQuesNo(Long surveyQuesNo) {

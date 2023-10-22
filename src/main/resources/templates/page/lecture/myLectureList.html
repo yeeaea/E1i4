@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div class="container rounded shadow mb-5">
+    <div class="container rounded shadow mb-5" style="position: relative;">
         <div class="box" style="height:735px; overflow: auto;">
 
             <div th:if="${not #lists.isEmpty(lectures)}" style="margin-top: 70px; width: 70%; margin-left: 180px;">
@@ -38,7 +38,7 @@
 
                         <button class="class_info accordion-button mt-4 mb-4 ">
                             <i class="fa-solid fa-computer" style="color: #0056b3; margin-right: 20px;"></i>
-                            <span class="accordion-title grid1_lect_info title" th:text="|강의 명 &nbsp : &nbsp &nbsp ${lecture.lectureTitle}|"
+                            <span class="accordion-title grid1_lect_info title" th:text="|강의명 &nbsp : &nbsp &nbsp ${lecture.lectureTitle}|"
                                   style="border-bottom: 2px dashed black; width: 840px; height: 40px;"></span>
                             <span class="icon" aria-hidden="true"><i class="fas fa-caret-down" style="color: #0056b3;"></i></span> <!-- Font Awesome down arrow icon initially -->
                         </button>
@@ -65,15 +65,16 @@
                 </div>
             </div>
         </div>
+        <!-- 수강 중인 강의 목록이 없는 경우 -->
+        <div th:if="${#lists.isEmpty(lectures)}" style="text-align: center; position: absolute;
+             bottom: 40%; left: 50%; transform: translate(-50%, -50%);">
+            <p style="margin-bottom: 30px; font-size: 30px;">수강 중인 강의가 없습니다.</p>
+            <a th:href="@{/lms/online/lecture-all}">
+                <button class="apply-button" style="font-size: 20px;">수강신청 페이지로 이동</button>
+            </a>
+        </div>
     </div>
 
-    <!-- 수강 중인 강의 목록이 없는 경우 -->
-    <div th:if="${#lists.isEmpty(lectures)}" style="text-align: center; margin-top: 100px;">
-        <p style="margin-bottom: 30px; font-size: 30px;">수강 중인 강의가 없습니다.</p>
-        <a th:href="@{/lms/online/lecture-all}">
-            <button class="apply-button" style="font-size: 20px;">수강신청 페이지로 이동</button>
-        </a>
-    </div>
 </th:block>
 <!-- content end -->
 
