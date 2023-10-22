@@ -72,6 +72,36 @@
                     </tbody>
                 </table>
 
+                <!-- 페이지네이션 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <!-- 이전 페이지 링크 -->
+                        <li class="page-item"
+                            th:classappend="${startPage == surveyQuesInfoList.pageable.pageNumber + 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/admin/survey/ques-info(page=${surveyQuesInfoList.pageable.pageNumber - 1}, sortBy=${sortBy})}"
+                               tabindex="-1"> < </a>
+                        </li>
+                        <!-- 페이지 번호 링크 -->
+                        <li class="page-item"
+                            th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                            th:if="${surveyQuesInfoList.totalElements > 0}">
+                            <a class="page-link"
+                               th:href="@{/admin/survey/ques-info(page=${num - 1}, sortBy=${sortBy})}"
+                               th:text="${num}"
+                               th:classappend="${num == (surveyQuesInfoList.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                        </li>
+
+                        <!-- 다음 페이지 링크 -->
+                        <li class="page-item"
+                            th:classappend="${endPage == surveyQuesInfoList.pageable.pageNumber + 1} ? 'disabled'">
+                            <a class="page-link"
+                               th:href="@{/admin/survey/ques-info(page=${surveyQuesInfoList.pageable.pageNumber + 1}, sortBy=${sortBy})}">>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
             <!-- 공백 추가 -->
             <div style="width: 2%"></div>
