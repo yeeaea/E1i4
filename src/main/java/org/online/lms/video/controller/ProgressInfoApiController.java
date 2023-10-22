@@ -1,13 +1,20 @@
 package org.online.lms.video.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.online.lms.video.domain.Content;
 import org.online.lms.video.domain.ProgressInfo;
 import org.online.lms.video.dto.AddProgressInfoRequest;
 import org.online.lms.video.dto.UpdateProgressInfoRequest;
 import org.online.lms.video.service.ProgressInfoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -45,5 +52,20 @@ public class ProgressInfoApiController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body("삭제 오류 : " + e.getMessage());
         }
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity<Page<Content>> getProgressData(
+            @RequestParam("page") int page,
+            @RequestParam("pageSize") int pageSize) {
+
+        // 페이지 및 페이지 크기로 Pageable 객체 생성
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "contentNo"));
+
+        // 페이지별로 데이터를 조회
+        Page<Content> pageOfContent = progressInfoService.getAllContent(pageable);
+
+        // 조회된 페이지 데이터를 클라이언트에 반환
+        return ResponseEntity.ok(pageOfContent);
     }
 }

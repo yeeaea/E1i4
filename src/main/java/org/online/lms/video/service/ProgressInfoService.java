@@ -9,6 +9,10 @@ import org.online.lms.video.dto.AddProgressInfoRequest;
 import org.online.lms.video.dto.UpdateProgressInfoRequest;
 import org.online.lms.video.repository.ProgressInfoRepository;
 import org.online.lms.video.repository.VideoInfoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,8 +84,8 @@ public class ProgressInfoService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 차시 정보가 존재하지 않습니다."));
 
         progressInfo.update(request.getLecture(),
-                            request.getContent(),
-                            request.getNthDuration());
+                request.getContent(),
+                request.getNthDuration());
 
         progressInfoRepository.save(progressInfo);
 
@@ -92,5 +96,11 @@ public class ProgressInfoService {
     @Transactional
     public void deleteProgress(long nthNo) {
         progressInfoRepository.deleteById(nthNo);
+    }
+
+    // 콘텐츠 정보 조회
+    @Transactional
+    public Page<Content> getAllContent(Pageable pageable) {
+        return videoInfoRepository.findAll(pageable);
     }
 }

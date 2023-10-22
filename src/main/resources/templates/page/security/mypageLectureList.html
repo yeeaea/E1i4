@@ -32,24 +32,24 @@
             <div id="myLectureList" class="w-100" style="margin-top: 80px;">
                 <table class = "table table-hover">
                     <thead>
-                    <tr class="title" style="font-size: 20px;">
-                        <th style="background-color: #ECF2FF; border-top-left-radius: 10px;">강의 과정명</th>
-                        <th style="background-color: #ECF2FF;">강의명</th>
-                        <th style="background-color: #ECF2FF;">강의 시작일</th>
-                        <th style="background-color: #ECF2FF;">강의 종료일</th>
-                        <th style="background-color: #ECF2FF; border-top-right-radius: 10px;">수료 여부</th>
-                    </tr>
+                        <tr class="title" style="font-size: 20px;">
+                            <th style="background-color: #ECF2FF;">강의 과정명</th>
+                            <th style="background-color: #ECF2FF;">강의명</th>
+                            <th style="background-color: #ECF2FF;">강의 시작일</th>
+                            <th style="background-color: #ECF2FF;">강의 종료일</th>
+                            <th style="background-color: #ECF2FF;">수료 여부</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="lectureItem : ${myLectureList}">
-                        <div class="td-row">
-                            <td th:text="${lectureItem.lectureCourse}"></td>
-                            <td th:text="${lectureItem.lectureTitle}"></td>
-                            <td th:text="${#temporals.format(lectureItem.lectureStartAt, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${#temporals.format(lectureItem.lectureEndAt, 'yyyy-MM-dd')}"></td>
-                            <td th:text="${lectureItem.completionYn} ? '수료' : '수료 전'"></td>
-                        </div>
-                    </tr>
+                        <tr th:each="lectureItem : ${myLectureList}">
+                            <div class="td-row">
+                                <td th:text="${lectureItem.lectureCourse}"></td>
+                                <td th:text="${lectureItem.lectureTitle}"></td>
+                                <td th:text="${#temporals.format(lectureItem.lectureStartAt, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${#temporals.format(lectureItem.lectureEndAt, 'yyyy-MM-dd')}"></td>
+                                <td th:text="${lectureItem.completionYn} ? '수료' : '수료 전'"></td>
+                            </div>
+                        </tr>
                     </tbody>
                 </table>
             </div>

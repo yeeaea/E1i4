@@ -10,46 +10,63 @@
     <title>youtube</title>
 </head>
 <body>
+
 <th:block layout:fragment="script">
     <script th:src="@{/js/video/ytbPlaylist.js}"></script>
 </th:block>
+
+<!-- page 고유 css -->
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
+</th:block>
+
 <th:block layout:fragment="content">
 
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
-            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 강의실</p>
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 > 나의 강의실 > 출결 조회</p>
             <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 출결 조회</p>
         </div>
     </div>
 
-    <!-- 출석 조회 -->
-    <div class="container">
+    <!-- 출결 조회 -->
+    <div class="container rounded shadow mb-5">
+        <div class="box" style="height:735px; overflow: auto;">
 
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>차시</th>
-<!--                <th style="display: none">차시 번호</th>-->
-                <th>강의명</th>
-                <th>출석</th>
-            </tr>
-            </thead>
+            <div style="position: relative;">
+                <!-- 뒤로가기 -->
+                <input type="button" value="BACK" onClick="history.go(-1)"
+                       style="position: absolute; right: 7%; margin-top: 30px; background-color: #0056b3">
+            </div>
 
-            <tbody class="row-2" >
-            <tr th:each="content, iterStat : ${contentList}">
-                <td>[[${iterStat.count}]]</td>
-                <td th:text="${content.contentName}" ></td>
-                <!-- 출석 - progress의 진도율이 80이상일 때 라디오 버튼 체크 -->
-                <td></td>
-<!--                <td th:text="${attd.memberAttendance}">-->
-<!--                    <input type="radio"-->
-<!--                           th:disabled="${!attd.memberAttendance}"-->
-<!--                           th:checked="${attd.memberAttendance}" />-->
-<!--                </td>-->
-            </tr>
-            </tbody>
+            <div class="col"  style="padding-left: 60px; padding-right: 60px;">
+                <table class="table table-hover" style="margin-top: 100px;">
+                    <thead >
+                    <tr style="margin-right: 20px;">
+                        <th class="title" style="background-color: #ECF2FF; border-top-left-radius: 10px; padding-left: 20px; padding-right: 20px;" >차시</th>
+        <!--                <th style="display: none">차시 번호</th>-->
+                        <th class="title" style="background-color: #ECF2FF; padding-left: 20px; padding-right: 20px;">강의명</th>
+                        <th class="title" style="background-color: #ECF2FF; border-top-right-radius: 10px; padding-left: 20px; padding-right: 20px;">출석</th>
+                    </tr>
+                    </thead>
 
-        </table>
+                    <tbody class="row-2" >
+                    <tr th:each="content, iterStat : ${contentList}">
+                        <td>[[${iterStat.count}]]</td>
+                        <td th:text="${content.contentName}" ></td>
+                        <!-- 출석 - progress의 진도율이 80이상일 때 라디오 버튼 체크 -->
+                        <td></td>
+        <!--                <td th:text="${attd.memberAttendance}">-->
+        <!--                    <input type="radio"-->
+        <!--                           th:disabled="${!attd.memberAttendance}"-->
+        <!--                           th:checked="${attd.memberAttendance}" />-->
+        <!--                </td>-->
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
     </div>
 
 </th:block>
