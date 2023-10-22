@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function () {
     populateSelectOptions('yearSelect', yearOptions);
 
     // 과정구분 옵션
-    const lectureOptions = ['java', 'C++', 'C#', 'python', 'javascript'];
+    const lectureOptions = ['java', 'C', 'C#', 'Python', 'JavaScript', 'React',
+        'MySQL', 'R', '자료구조', '알고리즘', '딥러닝+머신러닝', '인공지능', 'Ajax', 'HTML'];
     populateSelectOptions('lectureSelect', lectureOptions);
 });
 
