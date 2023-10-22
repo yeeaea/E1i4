@@ -5,7 +5,6 @@ const PLAYLIST_IDS = [
     'PLz2iXe7EqJONQSW20v2vtd6wGDQDtjj2S',
     'PLz2iXe7EqJOOAo_79II0pnV4-mhQz_Sp-',
     'PLVsNizTWUw7GuNAksmGAp-6XgyfUPgGaY',
-    'PLVsNizTWUw7GN8wPRhclbKuQa9aI9Cj2V',
     'PLz2iXe7EqJOOTNTK27a4-WsgZU5NVfguh',
     'PLz2iXe7EqJOOt1r8Io-BFAV-SHFWFKYtN',
     'PLZKTXPmaJk8JZ2NAC538UzhY_UNqMdZB4',
@@ -18,7 +17,6 @@ const PLAYLIST_IDS = [
     'PLqpIWUSJxdDn9X17lI-WO56i6WAwx0VzS',
     'PLuHgQVnccGMA9-1PvblBehoGg7Pu1lg6q',
     'PLE8CE1CEC45631D51'];// 여러 개의 재생목록 ID를 배열로 정의
-
 const fetchPlaylistData = async (playlistId) => {
     const API_URL = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=40&playlistId=${playlistId}&key=${API_KEY}`;
 

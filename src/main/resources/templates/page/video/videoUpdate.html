@@ -17,15 +17,19 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content" style="width: 85%; display: flex; flex-direction: row; align-items: flex-start;">
+<th:block layout:fragment="content">
+
+    <!-- 전체 강의 리스트 -->
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 관리 > 콘텐츠 관리</p>
+            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 콘텐츠 관리</p>
+        </div>
+    </div>
+    <div class="container rounded shadow mb-5">
+        <div class="box" style="height:735px; overflow: auto; display: flex;">
 
     <div style="width: 60%;">
-
-        <!-- 전체 강의 리스트 -->
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 class="mt-4 mb-2">콘텐츠 관리</h3>
-
-        </div>
 
         <table class = "table table-hover">
             <thead>
@@ -97,8 +101,9 @@
 
             </form>
         </div>
+        </div>
+    </div>
 
-
-</section>
+</th:block>
 
 </html>
