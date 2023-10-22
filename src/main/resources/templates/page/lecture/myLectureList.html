@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <div class="container rounded shadow mb-5">
+    <div class="container rounded shadow mb-5" style="position: relative;">
         <div class="box" style="height:735px; overflow: auto;">
 
             <div th:if="${not #lists.isEmpty(lectures)}" style="margin-top: 70px; width: 70%; margin-left: 180px;">
@@ -65,15 +65,16 @@
                 </div>
             </div>
         </div>
+        <!-- 수강 중인 강의 목록이 없는 경우 -->
+        <div th:if="${#lists.isEmpty(lectures)}" style="text-align: center; position: absolute;
+             bottom: 40%; left: 50%; transform: translate(-50%, -50%);">
+            <p style="margin-bottom: 30px; font-size: 30px;">수강 중인 강의가 없습니다.</p>
+            <a th:href="@{/lms/online/lecture-all}">
+                <button class="apply-button" style="font-size: 20px;">수강신청 페이지로 이동</button>
+            </a>
+        </div>
     </div>
 
-    <!-- 수강 중인 강의 목록이 없는 경우 -->
-    <div th:if="${#lists.isEmpty(lectures)}" style="text-align: center; margin-top: 100px;">
-        <p style="margin-bottom: 30px; font-size: 30px;">수강 중인 강의가 없습니다.</p>
-        <a th:href="@{/lms/online/lecture-all}">
-            <button class="apply-button" style="font-size: 20px;">수강신청 페이지로 이동</button>
-        </a>
-    </div>
 </th:block>
 <!-- content end -->
 
