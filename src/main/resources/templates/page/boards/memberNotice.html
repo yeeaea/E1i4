@@ -126,7 +126,9 @@
 
                 <!-- 게시글 목록으로 돌아가는 버튼 -->
                 <div class="back-button mt-2 d-flex justify-content-end">
-                    <button id="back-button" class="btn btn-sm btn-secondary">목록으로 돌아가기</button>
+                    <a th:href="@{/lms/notice}" style="text-decoration: none; color: black;">
+                        <button id="back-button" class="btn btn-sm btn-secondary">목록으로 돌아가기</button>
+                    </a>
                 </div>
             </div>
         </div>

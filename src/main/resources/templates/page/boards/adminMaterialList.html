@@ -27,110 +27,117 @@
 <th:block layout:fragment="script">
     <script th:src="@{/js/boards/material.js}"></script>
 </th:block>
-
 <!-- content start -->
-<section layout:fragment="content" style="width: 80%;height: 850px ">
-    <div class="container">
-        <br> <br>
-        <a href="/admin/materials" class="fs-3 fw-bold fc mt-4 custom-link">강의자료</a>
-        <!-- 최신순과 조회순 버튼 추가 -->
-        <form id="sortByForm" method="get">
-            <input type="hidden" name="sortBy" id="sortByInput" th:value="${sortBy}"/>
-        </form>
-
-        <div class="d-flex justify-content-between mb-2 mt-4">
-            <a href="/admin/new-material" class="btn btn-primary">
-                <i class="far fa-pen-to-square"></i> 글 작성
-            </a>
-            <div>
-                <!-- 최신순 정렬 버튼 -->
-                <button type="button" class="btn custom-button" onclick="changeSort('latest')">최신순</button>
-
-                <!-- 조회순 정렬 버튼 -->
-                <button type="button" class="btn custom-button" onclick="changeSort('most-visited')">조회순</button>
-            </div>
+<th:block layout:fragment="content">
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-4" style="font-size: 17px; color: dimgrey;">수업 정보 > 강의자료 </p>
+            <p class="title mb-5" style="font-size: 25px; margin-left: 115px;">| &nbsp; 강의자료 </p>
         </div>
-
-        <table class="table table-hover mt-2">
-            <thead>
-            <tr>
-                <th style="text-align: center;">게시판 유형</th>
-                <th style="text-align: center;">게시글 제목</th>
-                <th style="text-align: center;">등록시간</th>
-                <th style="text-align: center;">작성자</th>
-                <th style="text-align: center;">조회수</th>
-                <th style="text-align: center;">댓글수</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <!-- 게시글 목록을 반복해서 출력 -->
-            <tr th:each="post : ${material}">
-                <td th:text="${post.boardType}" style="width: 15%; text-align: center;"></td>
-
-                <td>
-                    <a th:href="@{/admin/materials/{postNo}(postNo=${post.postNo})}" th:text="${post.postTitle}"
-                       class="custom-link"
-                       style="width:25%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;"></a>
-                </td>
-
-                <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"
-                    style="width: 27%; text-align: center;"></td>
-                <td th:text="${post.loginId}" style="width: 13%; text-align: center;"></td>
-                <td th:text="${post.postView}" style="width: 10%; text-align: center;"></td>
-                <td th:text="${#lists.size(post.comments)}" style="width: 10%; text-align: center;"></td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <div th:if="${noResults}" class="text-center mt-3">
-            <p>게시글이 없습니다.</p>
-        </div>
-        <br>
-        <!-- 페이지네이션 -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <!-- 이전 페이지 링크 -->
-                <li class="page-item"
-                    th:classappend="${startPage == material.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{/admin/materials(page=${material.pageable.pageNumber - 1}, sortBy=${sortBy})}"
-                       tabindex="-1"> < </a>
-                </li>
-                <!-- 페이지 번호 링크 -->
-                <li class="page-item"
-                    th:each="num : ${#numbers.sequence(startPage, endPage)}"
-                    th:if="${material.totalElements > 0}">
-                    <a class="page-link"
-                       th:href="@{/admin/materials(page=${num-1}, sortBy=${sortBy})}"
-                       th:text="${num}"
-                       th:classappend="${num == (material.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
-                </li>
-
-
-                <!-- 다음 페이지 링크 -->
-                <li class="page-item"
-                    th:classappend="${endPage == material.pageable.pageNumber + 1} ? 'disabled'">
-                    <a class="page-link"
-                       th:href="@{/admin/materials(page=${material.pageable.pageNumber + 1}, sortBy=${sortBy})}">
-                        > </a>
-                </li>
-            </ul>
-        </nav>
-        <form class="my-5 d-flex justify-content-center" action="/admin/materials" method="GET">
-
-            <label for="keyword" hidden>검색어</label> <input
-                class="form-control" id="keyword" type="search"
-                placeholder="검색어를 입력해주세요" name="keyword"
-                style="width: 280px; padding-left: 15px; padding-right: 10px; height: 40px;"
-                th:value="${param.keyword}">
-
-            <button class="btn btn-primary" type="submit">검색
-            </button>
-        </form>
     </div>
-</section>
+    <div class="container rounded shadow mb-5">
+        <div class="box" style="height:735px; overflow: auto;">
+            <div style="height:451px;">
+                <!-- 최신순과 조회순 버튼 추가 -->
+                <form id="sortByForm" method="get">
+                    <input type="hidden" name="sortBy" id="sortByInput" th:value="${sortBy}"/>
+                </form>
+
+                <div class="d-flex justify-content-between mb-2 mt-4">
+                    <div>
+                        <!-- 최신순 정렬 버튼 -->
+                        <button type="button" class="btn custom-button" onclick="changeSort('latest')">최신순</button>
+
+                        <!-- 조회순 정렬 버튼 -->
+                        <button type="button" class="btn custom-button" onclick="changeSort('most-visited')">조회순
+                        </button>
+                    </div>
+                    <a href="/admin/new-material" class="btn btn-primary">
+                        <i class="far fa-pen-to-square"></i> 글 작성
+                    </a>
+
+                </div>
+
+                <table class="table table-hover mt-2" style="height:451px;">
+                    <thead>
+                    <tr>
+                        <th class="title" style="text-align: center;">게시판 유형</th>
+                        <th class="title" style="text-align: center;">게시글 제목</th>
+                        <th class="title" style="text-align: center;">등록시간</th>
+                        <th class="title" style="text-align: center;">작성자</th>
+                        <th class="title" style="text-align: center;">조회수</th>
+                        <th class="title" style="text-align: center;">댓글수</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <!-- 게시글 목록을 반복해서 출력 -->
+                    <tr th:each="post : ${material}">
+                        <td th:text="${post.boardType}" style="width: 15%; text-align: center;"></td>
+
+                        <td>
+                            <a th:href="@{/admin/materials/{postNo}(postNo=${post.postNo})}" th:text="${post.postTitle}"
+                               class="custom-link"
+                               style="width:25%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;"></a>
+                        </td>
+
+                        <td th:text="${#temporals.format(post.postRtm, 'yyyy-MM-dd HH:mm')}"
+                            style="width: 27%; text-align: center;"></td>
+                        <td th:text="${post.loginId}" style="width: 13%; text-align: center;"></td>
+                        <td th:text="${post.postView}" style="width: 10%; text-align: center;"></td>
+                        <td th:text="${#lists.size(post.comments)}" style="width: 10%; text-align: center;"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div th:if="${noResults}" class="text-center mt-3">
+                    <p>게시글이 없습니다.</p>
+                </div>
+            </div>
+            <br><br><br>
+            <!-- 페이지네이션 -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!-- 이전 페이지 링크 -->
+                    <li class="page-item"
+                        th:classappend="${startPage == material.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/admin/materials(page=${material.pageable.pageNumber - 1}, sortBy=${sortBy})}"
+                           tabindex="-1"> < </a>
+                    </li>
+                    <!-- 페이지 번호 링크 -->
+                    <li class="page-item"
+                        th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                        th:if="${material.totalElements > 0}">
+                        <a class="page-link"
+                           th:href="@{/admin/materials(page=${num-1}, sortBy=${sortBy})}"
+                           th:text="${num}"
+                           th:classappend="${num == (material.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
+                    </li>
+
+                    <!-- 다음 페이지 링크 -->
+                    <li class="page-item"
+                        th:classappend="${endPage == material.pageable.pageNumber + 1} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/admin/materials(page=${material.pageable.pageNumber + 1}, sortBy=${sortBy})}">
+                            > </a>
+                    </li>
+                </ul>
+            </nav>
+            <form class="my-5 d-flex justify-content-center" action="/admin/materials" method="GET">
+
+                <label for="keyword" hidden>검색어</label> <input
+                    class="form-control" id="keyword" type="search"
+                    placeholder="검색어를 입력해주세요" name="keyword"
+                    style="width: 280px; padding-left: 15px; padding-right: 10px; height: 40px;"
+                    th:value="${param.keyword}">
+
+                <button class="btn btn-primary" type="submit">검색
+                </button>
+            </form>
+        </div>
+    </div>
+</th:block>
 <!-- content end -->
 
 </html>
