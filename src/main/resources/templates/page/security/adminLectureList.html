@@ -17,45 +17,45 @@
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
             <p class="mb-5" style="font-size: 17px; color: dimgrey;">회원 관리 &nbsp; > &nbsp; 수강생 정보 조회 </p>
-            <p class="title mb-5" style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 전체 강의 목록 </p>
+            <div class="title" style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| &nbsp; 전체 강의 목록</div>
         </div>
     </div>
-    <div class="container rounded shadow mb-5 mx-auto title" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-        <div class="box" style="height:735px; overflow: auto; width: 80%; padding-top: 50px;">
+    <div class="container rounded shadow py-3 mb-5"
+         style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="box mt-3" style="height:735px; overflow: auto; width: 80%;">
             <div style="height: 451px;">
-                <table class="table table-hover mt-2">
+                <table class="table table-hover">
                     <thead>
-                    <tr class="title" style="font-size: 20px;">
-                        <th scope="col">강의년도</th>
-                        <th scope="col">강의 과정</th>
-                        <th scope="col">강의명</th>
-                        <th scope="col">강의 시작일</th>
-                        <th scope="col">강의 종료일</th>
-                        <th scope="col">수강생 조회</th>
+                    <tr style="font-size: 20px;">
+                        <th class="title" scope="col">강의년도</th>
+                        <th class="title" scope="col">강의 과정</th>
+                        <th class="title" scope="col">강의명</th>
+                        <th class="title" scope="col">강의 시작일</th>
+                        <th class="title" scope="col">강의 종료일</th>
+                        <th class="title" scope="col">수강생 조회</th>
                     </tr>
                     </thead>
                     <tbody class="row-6" th:each="lecture : ${lectureInfo}">
                     <tr>
-                        <div class="td-row">
-                            <td th:text="${lecture.lectureYear}" style="margin-left: 12px;"></td>
-                            <td th:text="${lecture.lectureCourse}" style="margin-left: 12px;"></td>
-                            <td th:text="${lecture.lectureTitle}" style="margin-left: 12px;"></td>
-                            <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-                            <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-                            <td>
-                                <button id="lookupStudentBtn" th:attr="data-lecture-no=${lecture.lectureNo}"
-                                        onclick="window.location.href='/admin/memberInfo/lectureNo/' + this.getAttribute('data-lecture-no')"
-                                        type="button" class="btn btn-primary btn-sm" style="margin-left: 12px;">&nbsp조&nbsp &nbsp회&nbsp
-                                </button>
-                            </td>
-                        </div>
+                        <td th:text="${lecture.lectureYear}" style="margin-left: 12px;"></td>
+                        <td th:text="${lecture.lectureCourse}" style="margin-left: 12px;"></td>
+                        <td th:text="${lecture.lectureTitle}" style="margin-left: 12px;"></td>
+                        <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
+                        <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
+                        <td>
+                            <button id="lookupStudentBtn" th:attr="data-lecture-no=${lecture.lectureNo}"
+                                    onclick="window.location.href='/admin/memberInfo/lectureNo/' + this.getAttribute('data-lecture-no')"
+                                    type="button" class="custom-button-primary" style="margin-left: 12px;">&nbsp조&nbsp
+                                &nbsp회&nbsp
+                            </button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <!-- 페이지네이션 -->
-            <div style="background-color: white; margin-top: 130px;">
-                <nav aria-label="Page navigation example" class="mt-5" style="background-color: white;">
+            <div style="background-color: white;">
+                <nav aria-label="Page navigation example" style="background-color: white;">
                     <ul class="pagination justify-content-center">
 
                         <!-- 이전 페이지 링크 -->
@@ -70,7 +70,7 @@
                             th:each="num : ${#numbers.sequence(startPage, endPage)}"
                             th:if="${lectureInfo.totalElements > 0}">
                             <a class="page-link"
-                               th:href="@{/admin/memberInfo/lectures(page=${num-1})}"
+                               th:href="@{/admin/memberInfo/lectures(page=${num - 1})}"
                                th:text="${num}"
                                th:classappend="${num == (lectureInfo.pageable.pageNumber ?: 0) + 1} ? 'active' : ''"></a>
                         </li>
@@ -79,7 +79,7 @@
                             th:classappend="${endPage == lectureInfo.pageable.pageNumber + 1} ? 'disabled'">
                             <a class="page-link"
                                th:href="@{/admin/memberInfo/lectures(page=${lectureInfo.pageable.pageNumber + 1})}">
-                            > </a>
+                                > </a>
                         </li>
                     </ul>
                 </nav>

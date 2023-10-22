@@ -23,12 +23,13 @@
 
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
-            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 > 나의 강의실</p>
-            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 나의 강의실</p>
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 &nbsp; > &nbsp; 나의 강의실</p>
+            <div class="title" style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| &nbsp; 나의 강의실</p>
+            </div>
         </div>
     </div>
 
-    <div class="container rounded shadow mb-5" style="position: relative;">
+    <div class="container rounded shadow py-3 mb-5" style="position: relative;">
         <div class="box" style="height:735px; overflow: auto;">
 
             <div th:if="${not #lists.isEmpty(lectures)}" style="margin-top: 70px; width: 70%; margin-left: 180px;">
@@ -38,14 +39,18 @@
 
                         <button class="class_info accordion-button mt-4 mb-4 ">
                             <i class="fa-solid fa-computer" style="color: #0056b3; margin-right: 20px;"></i>
-                            <span class="accordion-title grid1_lect_info title" th:text="|강의명 &nbsp : &nbsp &nbsp ${lecture.lectureTitle}|"
+                            <span class="accordion-title grid1_lect_info title"
+                                  th:text="|강의명 &nbsp : &nbsp &nbsp ${lecture.lectureTitle}|"
                                   style="border-bottom: 2px dashed black; width: 840px; height: 40px;"></span>
-                            <span class="icon" aria-hidden="true"><i class="fas fa-caret-down" style="color: #0056b3;"></i></span> <!-- Font Awesome down arrow icon initially -->
+                            <span class="icon" aria-hidden="true"><i class="fas fa-caret-down"
+                                                                     style="color: #0056b3;"></i></span>
+                            <!-- Font Awesome down arrow icon initially -->
                         </button>
 
                         <div class="accordion-content" style="display: none;">
                             <input type="hidden" th:value="${lecture.lectureNo}">
-                            <a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}" style="text-decoration: none; margin-left: 40px;">
+                            <a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
+                               style="text-decoration: none; margin-left: 40px;">
 
                                 <button>강의 계획서</button>
                             </a>
