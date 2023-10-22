@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="container rounded shadow mb-5 mx-auto title" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <div class="box" style="position: relative; height:735px; overflow: auto; width: 80%; padding-top: 50px;">
+            <div class="box" style="position: relative; height:735px; overflow: auto; width: 80%; padding-top: 50px; position: relative;">
                 <table class = "table table-hover">
                     <thead>
                     <tr class="title" style="font-size: 20px;">
@@ -38,13 +38,12 @@
                                 <td th:text="${memberItem.memberName}"></td>
                                 <td th:text="${memberItem.memberTel}"></td>
                                 <td th:text="${memberItem.memberEmail}"></td>
-    <!--                            <td th:text="${memberItem.memberAttendance}"></td>-->
                             </tr>
                         </div>
                     </tbody>
                 </table>
 
-                <div style="text-align: right;">
+                <div style="position: absolute; bottom: 50px; right: 0;">
                     <button type="button" onclick="window.location.href='/admin/memberInfo/lectures'"
                             class="btn btn-primary btn-sm">&nbsp뒤로 가기&nbsp</button>
                 </div>
