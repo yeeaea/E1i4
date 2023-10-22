@@ -23,23 +23,23 @@
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
             <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 관리 > 강의 평가 문항 관리</p>
-            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 강의 평가 문항 관리</p>
+            <div class="title" style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 강의 평가 문항 관리</div>
         </div>
     </div>
-    <div class="container rounded shadow mb-5">
-        <div class="box" style="height:735px; overflow: auto; display: flex;">
-            <div style="width: 60%; margin-top: 60px">
+    <div class="container rounded shadow py-3 mb-5">
+        <div class="box justify-content-center" style="height:600px; display: flex;">
+            <div style="width: 60%;">
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <!-- 체크박스 열 추가 -->
-                        <th></th>
-                        <th>문항레벨</th>
-                        <th>문항분류</th>
-                        <th>문항명</th>
-                        <th>답변유형</th>
-                        <th>순서</th>
-                        <th>사용</th>
+                        <th class="title"></th>
+                        <th class="title">문항레벨</th>
+                        <th class="title">문항분류</th>
+                        <th class="title">문항명</th>
+                        <th class="title">답변유형</th>
+                        <th class="title">순서</th>
+                        <th class="title">사용</th>
                     </tr>
                     </thead>
 
@@ -86,7 +86,7 @@
                 </div>
                 <form id="surveyQuestionForm" autocomplete="off" class="mt-3 mb-3">
                     <div>
-                        <label for="quesLevel">문항레벨</label>
+                        <label class="title" for="quesLevel">문항레벨</label>
                         <select id="quesLevel" name="quesLevel">
                             <option value="" disabled selected style="display: none;"></option>
                             <option value="1">분류</option>
@@ -94,7 +94,7 @@
                         </select>
                     </div>
                     <div>
-                        <label for="parentQuesNo">문항분류</label>
+                        <label class="title" for="parentQuesNo">문항분류</label>
                         <select id="parentQuesNo" name="parentQuesNo">
                             <option value="" disabled selected style="display: none;"></option>
                             <option th:each="quesInfo : ${surveyQuesInfoList}"
@@ -104,11 +104,11 @@
                         </select>
                     </div>
                     <div>
-                        <label for="surveyQuesName">문항명</label>
+                        <label class="title" for="surveyQuesName">문항명</label>
                         <input type="text" id="surveyQuesName" name="surveyQuesName">
                     </div>
                     <div>
-                        <label for="surveyQuesType">답변유형</label>
+                        <label class="title" for="surveyQuesType">답변유형</label>
                         <select id="surveyQuesType" name="surveyQuesType">
                             <option value="" disabled selected style="display: none;"></option>
                             <option value="1">5문항선택</option>
@@ -116,11 +116,11 @@
                         </select>
                     </div>
                     <div>
-                        <label for="surveyQuesViewNo">정렬순서</label>
+                        <label class="title" for="surveyQuesViewNo">정렬순서</label>
                         <input type="number" id="surveyQuesViewNo" name="surveyQuesViewNo">
                     </div>
                     <div>
-                        <label for="surveyQuesYn">사용여부</label>
+                        <label class="title" for="surveyQuesYn">사용여부</label>
                         <input type="checkbox" id="surveyQuesYn" name="surveyQuesYn" value="true" checked>
                     </div>
                 </form>
