@@ -73,10 +73,10 @@
             <!-- 에러 페이지 -->
             <form action="/lms/mypage/change-pw" method="post"
                   th:unless="${dto == null}">
-                <div class="form-group">
+                <div class="form-group mb-3 w-75 m-auto" style="display: flex; align-items: center;">
 
                     <th:block th:if="${wrongPassword == null}">
-                        <div class="form-floating mb-3">
+                        <div class="form-floating">
                             <label for="currentPw">기존 비밀번호</label>
                             <input type="password" name="currentPw" class="form-control"
                                    th:value="${dto != null}? ${dto.getCurrentPw()} : ''">
