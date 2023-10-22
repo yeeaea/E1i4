@@ -101,7 +101,7 @@
 
                 <form id="lectureForm" th:object="${lectureInfoRequest}" autocomplete="off" class="mt-3 mb-3">
                     <div>
-                        <label class="title" for="lectureYear">강의 년도:</label>
+                        <label class="title" for="lectureYear">강의 년도</label>
                         <select id="lectureYear" name="lectureYear" th:field="*{lectureYear}">
                             <option value="" disabled selected style="display: none;"></option>
                             <option value="2022">2022년</option>
@@ -110,7 +110,7 @@
                         </select>
                     </div>
                     <div>
-                        <label class="title" for="lectureCourse">강의 과정:</label>
+                        <label class="title" for="lectureCourse">강의 과정</label>
                         <select id="lectureCourse" name="lectureCourse" th:field="*{lectureCourse}">
                             <option value="" disabled selected style="display: none;"></option>
                             <option value="Java">Java</option>
@@ -130,22 +130,22 @@
                         </select>
                     </div>
                     <div>
-                        <label class="title" for="lectureTitle">강의 제목:</label>
+                        <label class="title" for="lectureTitle">강의 제목</label>
                         <input type="text" id="lectureTitle" name="lectureTitle" th:field="*{lectureTitle}"/>
                     </div>
                     <div>
-                        <label class="title" for="lectureDesc">강의 설명:</label>
+                        <label class="title" for="lectureDesc">강의 설명</label>
                         <textarea id="lectureDesc" name="lectureDesc" th:field="*{lectureDesc}" rows="4"></textarea>
                     </div>
                     <div>
-                        <label class="title" for="lectureStartAt">강의 시작일:</label>
+                        <label class="title" for="lectureStartAt">강의 시작일</label>
                         <input type="date" id="lectureStartAt" name="lectureStartAt" th:field="*{lectureStartAt}"/>
                     </div>
                     <div>
-                        <label class="title" for="lectureEndAt">강의 종료일:</label>
+                        <label class="title" for="lectureEndAt">강의 종료일</label>
                         <input type="date" id="lectureEndAt" name="lectureEndAt" th:field="*{lectureEndAt}"/>
                     </div>
-                    <label class="title" for="lectureDuration">강의주차:</label>
+                    <label class="title" for="lectureDuration">강의주차</label>
                     <select id="lectureDuration" name="lectureDuration" th:field="*{lectureDuration}">
                         <option value="1">1주차</option>
                         <option value="2">2주차</option>
