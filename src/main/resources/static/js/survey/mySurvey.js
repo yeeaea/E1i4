@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 // 수료 여부가 'N'인 경우 [강의평가] 버튼을 비활성화합니다.
                                 surveyButton.disabled = true;
                                 surveyButton.textContent = "준비중";
+                                surveyButton.style.backgroundColor= "#6c757d"; // 회색으로 변경
                             } else {
                                 // 서버로부터 중복 강의평가 여부를 확인하는 요청
                                 fetch(`/lms/api/survey/check-duplicate-survey?lectureNo=${lectureNo}&memberNo=${memberNo}`, {
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                             // 이미 강의평가를 진행한 경우
                                             surveyButton.disabled = true;
                                             surveyButton.textContent = "강의평가 완료";
+                                            surveyButton.style.backgroundColor= "#6c757d"; // 회색으로 변경
                                         }
                                     })
                                     .catch(error => {
@@ -109,7 +111,7 @@ function surveyForLecture(button) {
                             // 강의 정보를 모달에 설정하는 예시
                             let modalContent = document.querySelector(".modal-content");
                             let h3 = modalContent.querySelector("h3");
-                            h3.innerText = "강의평가 페이지 - 강의명: " + lectureTitle;
+                            h3.innerText = "강의평가 : " + lectureTitle;
 
                             document.getElementById("surveySubmit").addEventListener("click", function (event) {
                                 event.preventDefault(); // 폼 제출 방지
