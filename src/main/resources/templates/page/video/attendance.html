@@ -18,7 +18,10 @@
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
+    <link rel="stylesheet" th:href="@{/css/video/video.css}">
 </th:block>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 
 <th:block layout:fragment="content">
 
@@ -36,31 +39,28 @@
             <div style="position: relative;">
                 <!-- 뒤로가기 -->
                 <input type="button" value="BACK" onClick="history.go(-1)"
-                       style="position: absolute; right: 7%; margin-top: 30px; background-color: #0056b3">
+                       style="position: absolute; right: 15%; margin-top: 30px; background-color: #0056b3">
             </div>
 
-            <div class="col"  style="padding-left: 60px; padding-right: 60px;">
-                <table class="table table-hover" style="margin-top: 100px;">
+            <div class="col"  style="padding-left: 160px; padding-right: 160px;">
+                <table class="table table-hover" style="margin-top: 110px;">
                     <thead >
                     <tr style="margin-right: 20px;">
                         <th class="title" style="background-color: #ECF2FF; border-top-left-radius: 10px; padding-left: 20px; padding-right: 20px;" >차시</th>
         <!--                <th style="display: none">차시 번호</th>-->
-                        <th class="title" style="background-color: #ECF2FF; padding-left: 20px; padding-right: 20px;">강의명</th>
                         <th class="title" style="background-color: #ECF2FF; border-top-right-radius: 10px; padding-left: 20px; padding-right: 20px;">출석</th>
                     </tr>
                     </thead>
 
                     <tbody class="row-2" >
-                    <tr th:each="content, iterStat : ${contentList}">
+                    <tr th:each="progress, iterStat : ${progressList}" >
                         <td>[[${iterStat.count}]]</td>
-                        <td th:text="${content.contentName}" ></td>
-                        <!-- 출석 - progress의 진도율이 80이상일 때 라디오 버튼 체크 -->
-                        <td></td>
-        <!--                <td th:text="${attd.memberAttendance}">-->
-        <!--                    <input type="radio"-->
-        <!--                           th:disabled="${!attd.memberAttendance}"-->
-        <!--                           th:checked="${attd.memberAttendance}" />-->
-        <!--                </td>-->
+                        <td th:if="${progress.progRt >= 80}">
+                            <i class="fa-regular fa-circle-dot"></i>
+                        </td>
+                        <td th:if="${progress.progRt < 80}">
+                            <i class="fa-regular fa-circle"></i>
+                        </td>
                     </tr>
                     </tbody>
 
