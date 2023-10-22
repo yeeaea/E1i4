@@ -11,7 +11,9 @@
 </head>
 <body>
 
+<!-- page 고유 css -->
 <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/lecture/lecture.css}">
     <link rel="stylesheet" th:href="@{/css/video/video.css}">
 </th:block>
 
@@ -22,43 +24,60 @@
 
 <th:block layout:fragment="content">
 
-    <div class="video-container">
-        <div id="player"></div>
-    </div>
-
-    <div style="display: flex;" >
-        <div data-ytb-url="[[${content.ytbUrl}]]"
-             th:attr="data-ytb-url=${contentList.get(0).ytbUrl}">
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 > 나의 강의실 > 온라인 강의 > 강의 영상</p>
+            <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;" th:text=" '|' + | &nbsp ${contentList.get(0).getContentName()}|"></p>
         </div>
     </div>
-
-    <div>
-        <div data-memberNo="[[${memberNo}]]"
-             th:attr="data-memberNo=${memberNo}">
-        </div>
+    <div style="position: relative;">
+        <!-- 뒤로가기 -->
+        <input type="button" value="BACK" onClick="history.go(-1)"
+               style="position: absolute; left: 550px; margin-top: -70px; background-color: #0056b3">
     </div>
+    <!-- 출결 조회 -->
+    <div class="container rounded shadow mb-5">
+        <div class="box" style="height:735px; overflow: auto;">
 
-    <div >
-        <div data-finalTmValue="[[${finalTmValue}]]"
-             th:attr="data-finalTmValue=${finalTmValue}">
+            <div class="video-container">
+                <div id="player"></div>
+            </div>
+
+            <div style="display: flex;" >
+                <div data-ytb-url="[[${content.ytbUrl}]]"
+                     th:attr="data-ytb-url=${contentList.get(0).ytbUrl}">
+                </div>
+            </div>
+
+            <div>
+                <div data-memberNo="[[${memberNo}]]"
+                     th:attr="data-memberNo=${memberNo}">
+                </div>
+            </div>
+
+            <div >
+                <div data-finalTmValue="[[${finalTmValue}]]"
+                     th:attr="data-finalTmValue=${finalTmValue}">
+                </div>
+            </div>
+
+            <div >
+                <div data-maxTmValue="[[${maxTmValue}]]"
+                     th:attr="data-maxTmValue=${maxTmValue}">
+                </div>
+            </div>
+
+            <div style="display: flex;" th:each="progressInfo : ${progressInfos}">
+                <input data-nthNo="[[${progressInfo}]]" type="hidden"
+                     th:attr="data-nthNo=${progressInfo.nthNo}">
+                <input data-contentNo="[[${progressInfo.content.contentNo}]]" type="hidden"
+                       th:attr="data-contentNo=${progressInfo.content.contentNo}">
+                <input data-lectureNo="[[${progressInfo.lecture.lectureNo}]]" type="hidden"
+                       th:attr="data-lectureNo=${progressInfo.lecture.lectureNo}">
+                <input data-runTm="[[${progressInfo.lecture.lectureNo}]]" type="hidden"
+                       th:attr="data-runTm=${progressInfo.content.runTm}">
+            </div>
         </div>
-    </div>
-
-    <div >
-        <div data-maxTmValue="[[${maxTmValue}]]"
-             th:attr="data-maxTmValue=${maxTmValue}">
-        </div>
-    </div>
-
-    <div style="display: flex;" th:each="progressInfo : ${progressInfos}">
-        <input data-nthNo="[[${progressInfo}]]" type="hidden"
-             th:attr="data-nthNo=${progressInfo.nthNo}">
-        <input data-contentNo="[[${progressInfo.content.contentNo}]]" type="hidden"
-               th:attr="data-contentNo=${progressInfo.content.contentNo}">
-        <input data-lectureNo="[[${progressInfo.lecture.lectureNo}]]" type="hidden"
-               th:attr="data-lectureNo=${progressInfo.lecture.lectureNo}">
-        <input data-runTm="[[${progressInfo.lecture.lectureNo}]]" type="hidden"
-               th:attr="data-runTm=${progressInfo.content.runTm}">
     </div>
 
 </th:block>

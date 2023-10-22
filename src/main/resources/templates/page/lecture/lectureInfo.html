@@ -21,18 +21,18 @@
 
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
-            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 > 나의 강의실</p>
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">수업 정보 > 나의 강의실 > 강의 계획서</p>
             <p style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| 강의 계획서</p>
         </div>
     </div>
     <div class="container rounded shadow mb-5">
-        <div style="position: relative;">
+        <div class="box" style="position: relative; height:735px; overflow: auto;">
             <!-- 뒤로가기 -->
             <input type="button" value="BACK" onClick="history.go(-1)"
-                   style="position: absolute; right: 17%; top: -15%; background-color: #0056b3">
+                   style="position: absolute; right: 18%; top: 8%; background-color: #0056b3">
 
             <input type="hidden" id="lectureInfo-lectureNo" th:value="${lectureInfo.lectureNo}">
-            <div style="border: 0px solid red; margin-top: 50px; padding-left: 150px;">
+            <div style="border: 0px solid red; margin-top: 130px; padding-left: 150px;">
                 <div class="content-item" style="margin-top: 100px;" >
                     <div class="content-label title rounded-2">강의 명</div>
                     <div class="content-value rounded-2" th:text="${lectureInfo.lectureTitle}"></div>
@@ -50,7 +50,7 @@
                     <div class="content-value rounded-2" th:text="${#temporals.format(lectureInfo.lectureEndAt, 'yyyy년 MM월 dd일')}"></div>
                 </div>
                 <div class="content-item mt-5 mb-5">
-                    <div class="content-label title rounded-2">강의 설명</div>
+                    <div class="content-label title rounded-2" style="line-height: 170px;">강의 설명</div>
                     <div class="content-value rounded-2" th:text="${lectureInfo.lectureDesc}" style="word-break: break-all; white-space: pre-line"></div>
                 </div>
             </div>
