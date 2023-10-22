@@ -12,44 +12,45 @@
     <link rel="stylesheet" th:href="@{/css/security/studentList.css}">
 </th:block>
 <body>
-    <!-- content start -->
-    <th:block layout:fragment="content">
-        <div class="col-md-5" style="width: 100%; margin-left: 150px;">
-            <div style="margin-top: 30px;">
-                <p class="mb-5" style="font-size: 17px; color: dimgrey;">회원 관리 &nbsp; > &nbsp; 수강생 정보 조회   </p>
-                <p class="title mb-5" style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 수강생 정보 조회</p>
-            </div>
+<!-- content start -->
+<th:block layout:fragment="content">
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">회원 관리 &nbsp; > &nbsp; 수강생 정보 조회 </p>
+            <div class="title" style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| &nbsp; 수강생 정보 조회</div>
         </div>
-        <div class="container rounded shadow mb-5 mx-auto title" style="display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <div class="box" style="position: relative; height:735px; overflow: auto; width: 80%; padding-top: 50px; position: relative;">
-                <table class = "table table-hover">
-                    <thead>
-                    <tr class="title" style="font-size: 20px;">
-                        <th scope="col">ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Tel</th>
-                        <th scope="col">Email</th>
-                    </tr>
-                    </thead>
-                    <tbody class="row-6">
-                        <div class="td-row">
-                            <tr th:each="memberItem : ${member}">
-                                <td th:text="${memberItem.loginId}"></td>
-                                <td th:text="${memberItem.memberName}"></td>
-                                <td th:text="${memberItem.memberTel}"></td>
-                                <td th:text="${memberItem.memberEmail}"></td>
-                            </tr>
-                        </div>
-                    </tbody>
-                </table>
+    </div>
+    <div class="container rounded shadow py-3 mb-5"
+         style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+        <div class="box"
+             style="position: relative; height:735px; overflow: auto; width: 80%; padding-top: 50px; position: relative;">
+            <table class="table table-hover">
+                <thead>
+                <tr style="font-size: 20px;">
+                    <th class="title" scope="col">ID</th>
+                    <th class="title" scope="col">Name</th>
+                    <th class="title" scope="col">Tel</th>
+                    <th class="title" scope="col">Email</th>
+                </tr>
+                </thead>
+                <tbody class="row-6">
+                <tr th:each="memberItem : ${member}">
+                    <td th:text="${memberItem.loginId}"></td>
+                    <td th:text="${memberItem.memberName}"></td>
+                    <td th:text="${memberItem.memberTel}"></td>
+                    <td th:text="${memberItem.memberEmail}"></td>
+                </tr>
+                </tbody>
+            </table>
 
-                <div style="position: absolute; bottom: 50px; right: 0;">
-                    <button type="button" onclick="window.location.href='/admin/memberInfo/lectures'"
-                            class="btn btn-primary btn-sm">&nbsp뒤로 가기&nbsp</button>
-                </div>
+            <div style="position: absolute; bottom: 50px; right: 0;">
+                <button type="button" onclick="window.location.href='/admin/memberInfo/lectures'"
+                        class="btn btn-primary btn-sm">&nbsp뒤로 가기&nbsp
+                </button>
             </div>
         </div>
-    </th:block>
-    <!-- content end -->
+    </div>
+</th:block>
+<!-- content end -->
 </body>
 </html>

@@ -20,12 +20,12 @@
 <th:block layout:fragment="content">
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
         <div style="margin-top: 30px;">
-            <p class="mb-3" style="font-size: 17px; color: dimgrey;">나의 정보&nbsp; > &nbsp; 수강 이력</p>
-            <p class="title mb-5" style="margin-bottom: 40px; font-size: 25px; margin-left: 115px;">| &nbsp; 수강이력</p>
+            <p class="mb-5" style="font-size: 17px; color: dimgrey;">나의 정보&nbsp; > &nbsp; 수강 이력</p>
+            <div class="title" style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;">| &nbsp; 수강이력</div>
         </div>
     </div>
     <!-- 수강이력이 있는 경우 -->
-    <div class="container rounded shadow mb-5 mx-auto title"
+    <div class="container rounded shadow py-3 mb-5"
          th:if="${not #lists.isEmpty(myLectureList)}"
          style="display: flex; flex-direction: column; align-items: center; text-align: center;">            <!-- 나의 강의 리스트 -->
         <div class="box" style="position: relative; height:735px; overflow: auto; width: 80%;">
@@ -33,11 +33,11 @@
                 <table class = "table table-hover">
                     <thead>
                         <tr class="title" style="font-size: 20px;">
-                            <th style="background-color: #ECF2FF;">강의 과정명</th>
-                            <th style="background-color: #ECF2FF;">강의명</th>
-                            <th style="background-color: #ECF2FF;">강의 시작일</th>
-                            <th style="background-color: #ECF2FF;">강의 종료일</th>
-                            <th style="background-color: #ECF2FF;">수료 여부</th>
+                            <th class="title" style="background-color: #ECF2FF;">강의 과정명</th>
+                            <th class="title" style="background-color: #ECF2FF;">강의명</th>
+                            <th class="title" style="background-color: #ECF2FF;">강의 시작일</th>
+                            <th class="title" style="background-color: #ECF2FF;">강의 종료일</th>
+                            <th class="title" style="background-color: #ECF2FF;">수료 여부</th>
                         </tr>
                     </thead>
                     <tbody>

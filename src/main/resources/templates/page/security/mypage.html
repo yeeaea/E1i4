@@ -7,67 +7,66 @@
 </head>
 <!-- page 고유 css -->
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{/css/security/mypage.css}">
+    <link rel="stylesheet" th:href="@{/css/security/mypage.css}">
 </th:block>
 <!-- page 고유 javascript -->
 <th:block layout:fragment="script">
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script th:src="@{/js/security/mypage.js}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:src="@{/js/security/mypage.js}"></script>
 </th:block>
 
 <body>
-  <!-- content start -->
-  <th:block layout:fragment="content">
+<!-- content start -->
+<th:block layout:fragment="content">
     <div class="col-md-5" style="width: 100%; margin-left: 150px;">
-      <div style="margin-top: 30px;">
-        <p class="mb-3" style="font-size: 17px; color: dimgrey;">나의 정보&nbsp; > &nbsp; My Page</p>
-      </div>
+        <div style="margin-top: 30px;">
+            <p class="mb-3" style="font-size: 17px; color: dimgrey;">나의 정보&nbsp; > &nbsp; My Page</p>
+            <div style="margin-bottom: 40px; font-size: 25px; margin-left: 85px;"></div>
+        </div>
     </div>
-    <div class="container border rounded shadow mb-3">
-      <!-- 마이페이지 -->
-      <h1 class="my-5 text-center formTitle">My Page</h1>
-      <div class="formBox shawdow-sm d-flex justify-content-between">
-        <div class="userImgBox ml-5">
-          <img src="/img/userImg.png" style="border: 10px solid #80B3FF; border-radius: 50%;">
+    <div class="container border rounded shadow py-3 mb-5">
+        <!-- 마이페이지 -->
+        <h1 class="eng my-5 text-center title">My Page</h1>
+        <div class="formBox shawdow-sm d-flex justify-content-between">
+            <div class="userImgBox ml-5">
+                <img src="/img/userImg.png" style="border: 10px solid #80B3FF; border-radius: 50%;">
+            </div>
+            <div class="userInfoBox">
+                <div class="fs-4" th:text="|Id : ${loginId}|"></div>
+                <div class="fs-4" th:text="|Name : ${memberName}|"></div>
+            </div>
         </div>
-        <div class="userInfoBox">
-          <div class="fs-4" th:text="|Id : ${loginId}|"></div>
-          <div class="fs-4" th:text="|Name : ${memberName}|"></div>
-        </div>
-      </div>
 
-      <div class="d-flex mt-5">
-        <!-- 구글 차트 나오는 영역 -->
-        <div id="donutchart" style="width: 530px; height: 450px;" class="col-3">
+        <div class="d-flex mt-5">
+            <!-- 구글 차트 나오는 영역 -->
+            <div id="donutchart" style="width: 530px; height: 450px;" class="col-3">
+            </div>
+            <!-- 나의 강의 리스트 -->
+            <div id="myLectureList" class="container col-7 py-3 mt-5">
+                <table class="table table-hover" style="align-items: center; text-align: center;">
+                    <thead>
+                    <tr style="font-size: 18px;">
+                        <th class="title" scope="col" style="background-color: #ECF2FF; border-top-left-radius: 10px;">과정</th>
+                        <th class="title" scope="col" style="background-color: #ECF2FF;">강의명</th>
+                        <th class="title" scope="col" style="background-color: #ECF2FF;">시작일</th>
+                        <th class="title" scope="col" style="background-color: #ECF2FF;">종료일</th>
+                        <th class="title" scope="col" style="background-color: #ECF2FF; border-top-right-radius: 10px;">수료 여부</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="lectureItem : ${myLectureList}">
+                        <td th:text="${lectureItem.lectureCourse}"></td>
+                        <td th:text="${lectureItem.lectureTitle}"></td>
+                        <td th:text="${#temporals.format(lectureItem.lectureStartAt, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${#temporals.format(lectureItem.lectureEndAt, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${lectureItem.completionYn} ? '수료' : '수료 전'"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <!-- 나의 강의 리스트 -->
-        <div id="myLectureList" class="container col-7 mt-4">
-          <table class = "table table-hover">
-            <thead>
-            <tr style="font-size: 20px;">
-              <th scope="col" style="background-color: #ECF2FF; border-top-left-radius: 10px;">강의 과정명</th>
-              <th scope="col" style="background-color: #ECF2FF;">강의명</th>
-              <th scope="col" style="background-color: #ECF2FF;">강의 시작일</th>
-              <th scope="col" style="background-color: #ECF2FF;">강의 종료일</th>
-              <th scope="col" style="background-color: #ECF2FF; border-top-right-radius: 10px;">수료 여부</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="lectureItem : ${myLectureList}">
-              <div class="td-row">
-                <td th:text="${lectureItem.lectureCourse}"></td>
-                <td th:text="${lectureItem.lectureTitle}"></td>
-                <td th:text="${#temporals.format(lectureItem.lectureStartAt, 'yyyy-MM-dd')}"></td>
-                <td th:text="${#temporals.format(lectureItem.lectureEndAt, 'yyyy-MM-dd')}"></td>
-                <td th:text="${lectureItem.completionYn} ? '수료' : '수료 전'"></td>
-              </div>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
     </div>
-  </th:block>
-  <!-- content end -->
+</th:block>
+<!-- content end -->
 </body>
 </html>
