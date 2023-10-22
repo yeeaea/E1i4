@@ -1,6 +1,8 @@
 package org.online.lms.survey.repository;
 
 import org.online.lms.survey.domain.SurveyQuesInfo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,6 +15,7 @@ public interface SurveyQuesInfoRepository extends JpaRepository<SurveyQuesInfo, 
     // 답변 유형 필드가 존재하는 문항을 찾는 쿼리
     List<SurveyQuesInfo> findBySurveyQuesTypeIsNotNull();
 
+    Page<SurveyQuesInfo> findAllByOrderBySurveyQuesViewNo(Pageable pageable);
 
 
 }
