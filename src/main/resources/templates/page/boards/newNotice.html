@@ -2,7 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout_mem.html}">
+      layout:decorate="~{layouts/layout_admin.html}">
 <head>
     <title>Content page</title>
 </head>
@@ -17,10 +17,15 @@
 </th:block>
 
 <!-- content start -->
-<section layout:fragment="content"style="width: 50%;">
+<th:block layout:fragment="content">
+    <div class="col-md-5" style="width: 100%; margin-left: 150px;">
+        <div style="margin-top: 30px;">
+            <p class="mb-4" style="font-size: 17px; color: dimgrey;">수업 정보 > 공지사항 </p>
+            <p class="title mb-5" style="font-size: 25px; margin-left: 115px;">| &nbsp; 공지사항 </p>
+        </div>
 
     <form id="question-form" action="/api/post" method="post"
-          enctype="multipart/form-data">
+          enctype="multipart/form-data" style="width:700px; margin-left: 350px;">
 
         <div class="container">
 
@@ -72,6 +77,7 @@
 
         </div>
     </form>
-</section>
+    </div>
+</th:block>
 
 </html>
