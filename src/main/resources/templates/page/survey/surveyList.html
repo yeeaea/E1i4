@@ -25,92 +25,103 @@
         </div>
     </div>
     <div class="container rounded shadow mb-5">
-        <div th:if="${not #lists.isEmpty(lectures)}">
-            <table class="table table-hover mt-3 mb-3">
-                <thead>
-                <tr>
-                    <th class="title">강의년도</th>
-                    <th class="title">강의 과정</th>
-                    <th class="title">강의명</th>
-                    <th class="title">강의 시작일</th>
-                    <th class="title">강의 종료일</th>
-                    <th class="title">강의평가</th>
-                </tr>
-                </thead>
+        <div class="box" style="height:735px; overflow: auto;">
+            <div th:if="${not #lists.isEmpty(lectures)}">
+                <table class="table table-hover mt-3 mb-3">
+                    <thead>
+                    <tr>
+                        <th class="title">강의년도</th>
+                        <th class="title">강의 과정</th>
+                        <th class="title">강의명</th>
+                        <th class="title">강의 시작일</th>
+                        <th class="title">강의 종료일</th>
+                        <th class="title">강의평가</th>
+                    </tr>
+                    </thead>
 
-                <tbody class="row-6" th:each="lecture : ${lectures}">
-                <tr>
-                    <div>
-                        <td th:text="${lecture.lectureYear}"></td>
-                        <td th:text="${lecture.lectureCourse}"></td>
-                        <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
-                               th:text="${lecture.lectureTitle}"></a></td>
-                        <td th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy년 MM월 dd일')}"></td>
-                        <td th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy년 MM월 dd일')}"></td>
-                        <td>
-                            <button class="survey-button" th:attr="data-lecture-no=${lecture.lectureNo},
+                    <tbody class="row-6" th:each="lecture : ${lectures}">
+                    <tr>
+                        <div>
+                            <td class="text-center" style="width:12%" th:text="${lecture.lectureYear}"></td>
+                            <td class="text-left" style="width:15%" th:text="${lecture.lectureCourse}"></td>
+                            <td><a th:href="@{/lms/online/lecture-info/{lectureNo}(lectureNo=${lecture.lectureNo})}"
+                                   th:text="${lecture.lectureTitle}" class="custom-link" style="width:22%"></a></td>
+                            <td class="text-center" style="width:17%"
+                                th:text="${#temporals.format(lecture.lectureStartAt, 'yyyy-MM-dd')}"></td>
+                            <td class="text-center" style="width:17%"
+                                th:text="${#temporals.format(lecture.lectureEndAt, 'yyyy-MM-dd')}"></td>
+                            <td class="text-center" style="width:17%">
+                                <button class="survey-button" th:attr="data-lecture-no=${lecture.lectureNo},
                                                                    data-lecture-title=${lecture.lectureTitle}"
-                                    onclick="surveyForLecture(this)">강의평가
-                            </button>
-                        </td>
-                    </div>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                                        onclick="surveyForLecture(this)">강의평가
+                                </button>
+                            </td>
+                        </div>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-        <div th:if="${#lists.isEmpty(lectures)}">
             <!-- 수강 중인 강의 목록이 없는 경우 -->
-            <P> 수강 중인 강의가 없습니다. </P>
-            <a th:href="@{/lms/online/lecture-all}">
-                <button>수강신청 페이지로 이동</button>
-            </a>
-        </div>
+            <div th:if="${#lists.isEmpty(lectures)}" style="text-align: center; margin-top: 100px;">
+                <p style="margin-bottom: 30px; font-size: 30px;">수강 중인 강의가 없습니다.</p>
+                <a th:href="@{/lms/online/lecture-all}">
+                    <button class="survey-button" style="font-size: 20px;">수강신청 페이지로 이동</button>
+                </a>
+            </div>
 
-        <div id="myModal" class="modal">
-            <div class="modal-dialog">
-                <div class="modal-content shadow-lg">
-                    <div class="modal-header">
-                        <h3>강의평가 페이지</h3>
-                        <button type="button" class="btn-close" onclick="closeModal()"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <!-- 각 문항에 대한 순서대로 루프를 실행 -->
-                            <div name="questions"th:each="surveyQuestion, questionIndex : ${surveyQuesInfoList}">
-                                <!-- 현재 문항의 번호 -->
-                                <input type="hidden" name="surveyQuesNo" th:value="${surveyQuestion.surveyQuesNo}">
+            <div id="myModal" class="modal">
+                <div class="modal-dialog">
+                    <div class="modal-content shadow-lg">
+                        <div class="modal-header">
+                            <h3></h3>
+                            <button type="button" class="btn-close" onclick="closeModal()"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <!-- 각 문항에 대한 순서대로 루프를 실행 -->
+                                <div name="questions" th:each="surveyQuestion, questionIndex : ${surveyQuesInfoList}">
+                                    <!-- 현재 문항의 번호 -->
+                                    <input type="hidden" name="surveyQuesNo" th:value="${surveyQuestion.surveyQuesNo}">
 
-                                <!-- 평가 문항 표시 -->
-                                <p th:text="${surveyQuestion.surveyQuesName}" class="fs-5">강의평가문항명: {평가 문항 내용}</p>
+                                    <!-- 평가 문항 표시 -->
+                                    <p th:text="${surveyQuestion.surveyQuesName}" class="fs-5">강의평가문항명: {평가 문항 내용}</p>
 
-                                <!-- 다중 선택의 경우 5개의 라디오 버튼 -->
-                                <div th:if="${surveyQuestion.surveyQuesType eq '1'}">
-                                    <div class="mb-2 fs-6">
-                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇다" required> 매우 그렇다<br>
-                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇다" required> 그렇다<br>
-                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="보통이다" required> 보통이다<br>
-                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="그렇지 않다" required> 그렇지 않다<br>
-                                        <input type="radio" th:name="__${'choice' + questionIndex.index}__" value="매우 그렇지 않다" required> 매우 그렇지 않다<br>
+                                    <!-- 다중 선택의 경우 5개의 라디오 버튼 -->
+                                    <div th:if="${surveyQuestion.surveyQuesType eq '1'}">
+                                        <div class="mb-2 fs-6">
+                                            <input type="radio" th:name="__${'choice' + questionIndex.index}__"
+                                                   value="매우 그렇다" required> 매우 그렇다<br>
+                                            <input type="radio" th:name="__${'choice' + questionIndex.index}__"
+                                                   value="그렇다" required> 그렇다<br>
+                                            <input type="radio" th:name="__${'choice' + questionIndex.index}__"
+                                                   value="보통이다" required> 보통이다<br>
+                                            <input type="radio" th:name="__${'choice' + questionIndex.index}__"
+                                                   value="그렇지 않다" required> 그렇지 않다<br>
+                                            <input type="radio" th:name="__${'choice' + questionIndex.index}__"
+                                                   value="매우 그렇지 않다" required> 매우 그렇지 않다<br>
+                                        </div>
                                     </div>
-                                </div><br>
+                                    <br>
 
-                                <!-- 직접 입력의 경우 입력 필드 -->
-                                <div th:if="${surveyQuestion.surveyQuesType eq '2'}">
-                                    <label for="directInputAnswer" class="fs-5">답변:</label>
-                                    <input type="text" th:id="__${'directInputAnswer' + questionIndex.index}__" th:name="__${'directInputAnswer' + questionIndex.index}__" required>
-                                </div><br>
-                            </div>
-                            <div style="margin-left: 400px;">
-                                <button id="surveySubmit" class="btn btn-secondary">제출</button>
-                            </div>
-                        </form>
+                                    <!-- 직접 입력의 경우 입력 필드 -->
+                                    <div th:if="${surveyQuestion.surveyQuesType eq '2'}">
+                                        <label for="directInputAnswer" class="fs-5">답변:</label>
+                                        <input type="text" th:id="__${'directInputAnswer' + questionIndex.index}__"
+                                               th:name="__${'directInputAnswer' + questionIndex.index}__" required>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div style="margin-left: 400px;">
+                                    <button id="surveySubmit" class="btn btn-secondary">제출</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 
 </th:block>
